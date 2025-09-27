@@ -48,19 +48,11 @@
                        <span>Dashboard</span>
                    </a>
                </li>
-               <li class="sidebar-item has-sub {{ request()->is('study-program*') ? 'active' : '' }}">
+               <li class="sidebar-item {{ request()->is('study-program*') ? 'active' : '' }}">
                    <a href="{{ route('study-program.index') }}" class='sidebar-link'>
                        <i class="bi bi-mortarboard"></i>
                        <span>Study Program</span>
                    </a>
-                   <ul class="submenu">
-                       <li class="submenu-item {{ request()->is('study-program') ? 'active' : '' }}">
-                           <a href="{{ route('study-program.index') }}" class="submenu-link">Lists</a>
-                       </li>
-                       <li class="submenu-item {{ request()->is('study-program/create') ? 'active' : '' }}">
-                           <a href="{{ route('study-program.create') }}" class="submenu-link">Create</a>
-                       </li>
-                   </ul>
                </li>
                <li class="sidebar-item">
                    <a href="index.html" class='sidebar-link'>
