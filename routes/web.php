@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RepositoryController;
 use App\Http\Controllers\StudyProgramController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +20,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::controller(AuthorController::class)->group(function () {
         Route::get('/authors', 'index')->name('author.index');
+    });
+
+    Route::controller(RepositoryController::class)->group(function () {
+        Route::get('/repositories', 'index')->name('repository.index');
     });
 });
 

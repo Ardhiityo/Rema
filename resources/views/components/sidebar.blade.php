@@ -51,20 +51,25 @@
                <li class="sidebar-item {{ request()->is('study-programs*') ? 'active' : '' }}">
                    <a href="{{ route('study-program.index') }}" class='sidebar-link'>
                        <i class="bi bi-mortarboard"></i>
-                       <span>Study Program</span>
+                       <span>Study Programs</span>
                    </a>
                </li>
                <li class="sidebar-item {{ request()->is('authors*') ? 'active' : '' }}">
                    <a href="{{ route('author.index') }}" class='sidebar-link'>
                        <i class="bi bi-person-lines-fill"></i>
-                       <span>Author</span>
+                       <span>Authors</span>
                    </a>
                </li>
-               <li class="sidebar-item">
+               <li class="sidebar-item has-sub {{ request()->is('repositories*') ? 'active' : '' }}">
                    <a href="index.html" class='sidebar-link'>
                        <i class="bi bi-journal-text"></i>
-                       <span>Repository</span>
+                       <span>Repositories</span>
                    </a>
+                   <ul class="submenu">
+                       <li class="submenu-item {{ request()->routeIs('repository.index') ? 'active' : '' }}">
+                           <a href="{{ route('repository.index') }}" class="submenu-link">Master Data</a>
+                       </li>
+                   </ul>
                </li>
            </ul>
        </div>

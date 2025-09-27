@@ -17,6 +17,6 @@
         </div>
     </div>
     <section class="section">
-        <livewire:author />
+        <livewire:repository-list />
     </section>
 </x-app>
