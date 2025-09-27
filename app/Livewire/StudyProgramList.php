@@ -15,6 +15,12 @@ class StudyProgramList extends Component
 
     public string $keyword = '';
 
+    public function resetInput()
+    {
+        $this->reset();
+        $this->resetPage();
+    }
+
     public function render()
     {
         $query = StudyProgram::query();

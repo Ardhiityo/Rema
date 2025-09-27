@@ -5,7 +5,7 @@
                 <label for="basicInput">Study Program</label>
                 <input type="text" required class="form-control" id="basicInput" wire:model='name'
                     placeholder="ex: Teknik Informatika">
-                @error('name')
+                @error('slug')
                     <span class="text-danger">
                         {{ $message }}
                     </span>

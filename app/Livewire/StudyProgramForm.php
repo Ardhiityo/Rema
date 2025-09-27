@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Data\StudyProgramData;
 use Livewire\Component;
 use App\Models\StudyProgram;
 
@@ -13,19 +14,26 @@ class StudyProgramForm extends Component
     protected function rules()
     {
         return [
-            'name' => ['required', 'min:3', 'max:50', 'unique:study_programs,name'],
+            'name' => ['required'],
+            'slug' => ['required', 'min:3', 'max:50', 'unique:study_programs,slug']
         ];
     }
 
     protected function validationAttributes()
     {
         return [
-            'name' => 'Study Program',
+            'slug' => 'Study Program'
         ];
     }
 
+    public function updatedName($value)
+    {
+        $study_program = StudyProgramData::from([
+            'name' => $value,
+        ]);
 
-    public function updatedName($value) {}
+        $this->slug = $study_program->getSlug();
+    }
 
     public function createStudyProgram()
     {

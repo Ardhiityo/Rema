@@ -15,6 +15,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::controller(StudyProgramController::class)->group(function () {
         Route::get('/study-program', 'index')->name('study-program.index');
         Route::get('/study-program/create', 'create')->name('study-program.create');
+        Route::get('/study-program/{}', 'create')->name('study-program.create');
     });
 });
 

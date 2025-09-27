@@ -1,7 +1,12 @@
   <div class="card">
       <div class="card-header">
-          <input type="text" wire:model.live.debounce.250ms='keyword' class="form-control w-50" id="basicInput"
-              placeholder="Search...">
+          <div class="gap-3 d-flex align-items-center">
+              <input type="text" wire:model.live.debounce.250ms='keyword' class="form-control" id="basicInput"
+                  placeholder="Search...">
+              <button class="btn btn-primary" wire:click='resetInput'>
+                  <i class="bi bi-arrow-clockwise"></i>
+              </button>
+          </div>
       </div>
       <div class="card-content">
           <div class="table-responsive">
@@ -15,7 +20,7 @@
                       </tr>
                   </thead>
                   <tbody>
-                      @foreach ($study_programs as $study_program)
+                      @forelse ($study_programs as $study_program)
                           <tr class="text-nowrap">
                               <td class="text-bold-500">{{ $loop->index + $study_programs->firstItem() }}</td>
                               <td class="text-bold-500">{{ $study_program->name }}</td>
@@ -31,13 +36,19 @@
                                   </form>
                               </td>
                           </tr>
-                      @endforeach
+                      @empty
+                          <tr>
+                              <td colspan="4" class="text-center">Data Not Found</td>
+                          </tr>
+                      @endforelse
                       <tr>
                   </tbody>
               </table>
           </div>
-          <div class="p-3 pt-4">
-              {{ $study_programs->links() }}
-          </div>
+          @if ($study_programs->isNotEmpty())
+              <div class="p-3 pt-4">
+                  {{ $study_programs->links() }}
+              </div>
+          @endif
       </div>
   </div>
