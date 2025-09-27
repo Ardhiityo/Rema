@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudyProgramController;
@@ -13,7 +14,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::controller(StudyProgramController::class)->group(function () {
-        Route::get('/study-program', 'index')->name('study-program.index');
+        Route::get('/study-programs', 'index')->name('study-program.index');
+    });
+
+    Route::controller(AuthorController::class)->group(function () {
+        Route::get('/authors', 'index')->name('author.index');
     });
 });
 

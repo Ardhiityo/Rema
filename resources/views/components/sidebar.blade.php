@@ -48,14 +48,14 @@
                        <span>Dashboard</span>
                    </a>
                </li>
-               <li class="sidebar-item {{ request()->is('study-program*') ? 'active' : '' }}">
+               <li class="sidebar-item {{ request()->is('study-programs*') ? 'active' : '' }}">
                    <a href="{{ route('study-program.index') }}" class='sidebar-link'>
                        <i class="bi bi-mortarboard"></i>
                        <span>Study Program</span>
                    </a>
                </li>
-               <li class="sidebar-item">
-                   <a href="index.html" class='sidebar-link'>
+               <li class="sidebar-item {{ request()->is('authors*') ? 'active' : '' }}">
+                   <a href="{{ route('author.index') }}" class='sidebar-link'>
                        <i class="bi bi-person-lines-fill"></i>
                        <span>Author</span>
                    </a>
@@ -66,17 +66,6 @@
                        <span>Repository</span>
                    </a>
                </li>
-               {{-- <li class="sidebar-item has-sub">
-                   <a href="#" class='sidebar-link'>
-                       <i class="bi bi-stack"></i>
-                       <span>Components</span>
-                   </a>
-                   <ul class="submenu ">
-                       <li class="submenu-item ">
-                           <a href="component-accordion.html" class="submenu-link">Accordion</a>
-                       </li>
-                   </ul>
-               </li> --}}
            </ul>
        </div>
    </div>

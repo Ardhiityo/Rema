@@ -30,7 +30,7 @@ class StudyProgram extends Component
     protected function validationAttributes()
     {
         return [
-            'slug' => 'Study Program'
+            'slug' => 'study program'
         ];
     }
 
@@ -65,9 +65,9 @@ class StudyProgram extends Component
 
     public function update()
     {
-        $study_program = \App\Models\StudyProgram::find($this->study_program_id);
-
         $validated = $this->validate();
+
+        $study_program = \App\Models\StudyProgram::find($this->study_program_id);
 
         $study_program->update($validated);
 
@@ -104,7 +104,7 @@ class StudyProgram extends Component
             $query->whereLike('name', "%$keyword%");
         }
 
-        $study_programs = StudyProgramData::collect($query->paginate(5));
+        $study_programs = StudyProgramData::collect($query->paginate(10));
 
         return view('livewire.study-program', compact('study_programs'));
     }
