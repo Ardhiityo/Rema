@@ -8,8 +8,6 @@ use App\Models\StudyProgram;
 use Livewire\WithPagination;
 use App\Data\StudyProgramData;
 use App\Rules\AuthorUpdateRule;
-use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Log;
 
 class Author extends Component
 {

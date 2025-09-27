@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('file_path');
             $table->enum('type', ['final_project', 'thesis', 'manual_book']);
             $table->foreignId('author_id')->constrained()->cascadeOnDelete();
-            $table->timestamp('published_at');
+            $table->dateTime('published_at');
             $table->year('year');
             $table->string('slug')->unique();
             $table->timestamps();

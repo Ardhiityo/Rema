@@ -24,6 +24,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::controller(RepositoryController::class)->group(function () {
         Route::get('/repositories', 'index')->name('repository.index');
+        Route::get('/repositories/create', 'create')->name('repository.create');
     });
 });
 
