@@ -10,14 +10,15 @@
                         <div class="mb-4 row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="basicInput">Study Program</label>
-                                    <input type="text" required class="form-control" id="basicInput" wire:model='name'
-                                        placeholder="ex: Teknik Informatika">
                                     @error('slug')
-                                        <span class="text-danger">
+                                        <div class="alert alert-dark">
+                                            <i class="bi bi-exclamation-triangle"></i>
                                             {{ $message }}
-                                        </span>
+                                        </div>
                                     @enderror
+                                    <label for="basicInput">Study Program</label>
+                                    <input type="text" required class="form-control" id="basicInput"
+                                        wire:model='name' placeholder="ex: Teknik Informatika">
                                 </div>
                             </div>
                         </div>
@@ -79,11 +80,11 @@
                                         wire:key='{{ $study_program->slug }}' class="btn btn-warning">
                                         <i class="bi bi-pencil-square"></i>
                                     </button>
-                                    <form action="" method="post">
-                                        <button class="btn btn-danger">
-                                            <i class="bi bi-trash3"></i>
-                                        </button>
-                                    </form>
+                                    <button type="button" wire:click="deleteConfirm('{{ $study_program->slug }}')"
+                                        class="block btn btn-danger" data-bs-toggle="modal"
+                                        data-bs-target="#border-less">
+                                        <i class="bi bi-trash3"></i>
+                                    </button>
                                 </td>
                             </tr>
                         @empty
@@ -100,6 +101,34 @@
                     {{ $study_programs->links() }}
                 </div>
             @endif
+        </div>
+    </div>
+
+    <!--BorderLess Modal Modal -->
+    <div wire:ignore.self class="text-left modal fade modal-borderless" id="border-less" tabindex="-1" role="dialog"
+        aria-labelledby="myModalLabel1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Border-Less</h5>
+                    <button type="button" class="close rounded-pill" data-bs-dismiss="modal" aria-label="Close">
+                        <i data-feather="x"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete the {{ $name }} data?</p>
+                </div>
+                <div class="gap-2 modal-footer d-flex">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+                        <i class="bx bx-x d-block d-sm-none"></i>
+                        <span class="d-none d-sm-block">Close</span>
+                    </button>
+                    <button type="button" class="btn btn-danger ms-1" wire:click='delete' data-bs-dismiss="modal">
+                        <i class="bx bx-check d-block d-sm-none"></i>
+                        <span class="d-none d-sm-block">Accept</span>
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </section>

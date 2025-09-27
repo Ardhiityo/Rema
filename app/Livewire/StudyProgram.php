@@ -16,6 +16,7 @@ class StudyProgram extends Component
     public string $keyword = '';
     public string $name = '';
     public string $slug = '';
+    public int|null $study_program_id = null;
     public bool $isUpdate = false;
 
     protected function rules()
@@ -57,19 +58,35 @@ class StudyProgram extends Component
 
         $this->name = $study_program->name;
         $this->slug = $study_program->slug;
+        $this->study_program_id = $study_program->id;
 
         $this->isUpdate = true;
     }
 
     public function update()
     {
-        $study_program = \App\Models\StudyProgram::where('slug', $this->slug)->first();
+        $study_program = \App\Models\StudyProgram::find($this->study_program_id);
 
         $validated = $this->validate();
 
         $study_program->update($validated);
 
         $this->isUpdate = false;
+
+        $this->resetInput();
+    }
+
+    public function deleteConfirm($study_program_slug)
+    {
+        $study_program = \App\Models\StudyProgram::where('slug', $study_program_slug)->first();
+
+        $this->study_program_id = $study_program->id;
+        $this->name = $study_program->name;
+    }
+
+    public function delete()
+    {
+        \App\Models\StudyProgram::find($this->study_program_id)->delete();
     }
 
     public function resetInput()
