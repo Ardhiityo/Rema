@@ -8,7 +8,7 @@ use Illuminate\Contracts\Validation\ValidationRule;
 
 class RepositoryUpdateRule implements ValidationRule
 {
-    public function __construct(public bool $is_update, public int $repository_id) {}
+    public function __construct(public bool $is_update, public int|null $repository_id) {}
 
     /**
      * Run the validation rule.

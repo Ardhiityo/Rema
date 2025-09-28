@@ -1,13 +1,13 @@
 <?php
 
-use App\Http\Controllers\AuthorController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\RepositoryController;
-use App\Http\Controllers\StudyProgramController;
-use App\Livewire\RepositoryDetail;
+use App\Livewire\Author;
+use App\Livewire\StudyProgram;
+use App\Livewire\RepositoryList;
 use App\Livewire\RepositoryForm;
+use App\Livewire\RepositoryDetail;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\DashboardController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -16,18 +16,9 @@ Route::get('/', function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::controller(StudyProgramController::class)->group(function () {
-        Route::get('/study-programs', 'index')->name('study-program.index');
-    });
-
-    Route::controller(AuthorController::class)->group(function () {
-        Route::get('/authors', 'index')->name('author.index');
-    });
-
-    Route::controller(RepositoryController::class)->group(function () {
-        Route::get('/repositories', 'index')->name('repository.index');
-    });
-
+    Route::get('/study-programs', StudyProgram::class)->name('study-program.index');
+    Route::get('/authors', Author::class)->name('author.index');
+    Route::get('/repositories', RepositoryList::class)->name('repository.index');
     Route::get('/repositories/create', RepositoryForm::class)->name('repository.create');
     Route::get('/repositories/{repository:slug}/show', RepositoryDetail::class)->name('repository.show');
     Route::get('/repositories/{repository_slug}/edit', RepositoryForm::class)->name('repository.edit');

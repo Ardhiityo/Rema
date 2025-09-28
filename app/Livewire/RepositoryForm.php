@@ -47,7 +47,6 @@ class RepositoryForm extends Component
     protected function validationAttributes()
     {
         return [
-            'slug' => 'title',
             'file_path' => 'file'
         ];
     }
@@ -113,6 +112,12 @@ class RepositoryForm extends Component
         $repository->update($validated);
 
         return redirect()->route('repository.index');
+    }
+
+    public function resetInput()
+    {
+        $this->reset();
+        $this->resetErrorBag();
     }
 
     public function render()
