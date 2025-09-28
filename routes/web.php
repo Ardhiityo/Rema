@@ -8,7 +8,6 @@ use App\Livewire\RepositoryForm;
 use App\Livewire\RepositoryDetail;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
-use App\Livewire\Dashboard;
 
 Route::get('/', function () {
     return view('welcome');
