@@ -6,6 +6,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RepositoryController;
 use App\Http\Controllers\StudyProgramController;
 use App\Livewire\RepositoryDetail;
+use App\Livewire\RepositoryForm;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -25,10 +26,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::controller(RepositoryController::class)->group(function () {
         Route::get('/repositories', 'index')->name('repository.index');
-        Route::get('/repositories/create', 'create')->name('repository.create');
     });
 
-    Route::get('/repositories/{repository:slug}', RepositoryDetail::class)->name('repository.show');
+    Route::get('/repositories/create', RepositoryForm::class)->name('repository.create');
+    Route::get('/repositories/{repository:slug}/show', RepositoryDetail::class)->name('repository.show');
+    Route::get('/repositories/{repository_slug}/edit', RepositoryForm::class)->name('repository.edit');
 });
 
 Route::middleware('auth')->group(function () {

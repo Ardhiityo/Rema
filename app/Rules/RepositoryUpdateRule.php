@@ -2,13 +2,13 @@
 
 namespace App\Rules;
 
+use App\Models\Repository;
 use Closure;
-use App\Models\Author;
 use Illuminate\Contracts\Validation\ValidationRule;
 
-class AuthorUpdateRule implements ValidationRule
+class RepositoryUpdateRule implements ValidationRule
 {
-    public function __construct(public bool $is_update, public int|null $author_id) {}
+    public function __construct(public bool $is_update, public int $repository_id) {}
 
     /**
      * Run the validation rule.
@@ -18,15 +18,15 @@ class AuthorUpdateRule implements ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         if ($this->is_update) {
-            $is_exists = Author::where('id', '!=', $this->author_id)
-                ->where('nim', $value)->exists();
+            $is_exists = Repository::where('id', '!=', $this->repository_id)
+                ->where('slug', $value)->exists();
             if ($is_exists) {
-                $fail('The nim has already been taken.');
+                $fail('The title has already been taken.');
             }
         } else {
-            $is_exists = Author::where('nim', $value)->exists();
+            $is_exists = Repository::where('slug', $value)->exists();
             if ($is_exists) {
-                $fail('The nim has already been taken.');
+                $fail('The title has already been taken.');
             }
         }
     }

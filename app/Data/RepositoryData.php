@@ -4,9 +4,18 @@ namespace App\Data;
 
 use App\Models\Repository;
 use Spatie\LaravelData\Data;
+use Illuminate\Support\Carbon;
+use Spatie\LaravelData\Attributes\Computed;
 
 class RepositoryData extends Data
 {
+    #[Computed]
+    public string $publised_at_to_ymd;
+    #[Computed]
+    public string $publised_at_to_dfy;
+    #[Computed]
+    public string $published_at_year;
+
     public function __construct(
         public int $id,
         public string $title,
@@ -20,7 +29,12 @@ class RepositoryData extends Data
         public string $year,
         public string $slug,
         public string $study_program,
-    ) {}
+    ) {
+        $date = Carbon::parse($this->published_at);
+        $this->publised_at_to_dfy = $date->format('d F Y');
+        $this->publised_at_to_ymd = $date->format('Y-m-d');
+        $this->published_at_year = $date->year;
+    }
 
     public static function fromModel(Repository $repository)
     {
@@ -33,7 +47,7 @@ class RepositoryData extends Data
             $repository->type,
             $repository->author->id,
             $repository->author->name,
-            $repository->published_at->format('d F Y'),
+            $repository->published_at,
             $repository->year,
             $repository->slug,
             $repository->author->studyProgram->name

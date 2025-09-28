@@ -24,18 +24,19 @@
                     </thead>
                     <tbody>
                         @forelse ($repositories as $repository)
-                            <tr class="text-nowrap">
+                            <tr class="text-nowrap" wire:key='{{ $repository->slug }}'>
                                 <td class="text-bold-500">{{ $loop->index + $repositories->firstItem() }}</td>
                                 <td class="text-bold-500">{{ $repository->title }}</td>
                                 <td class="text-bold-500">{{ $repository->author_name }}</td>
                                 <td class="text-bold-500">{{ $repository->type }}</td>
-                                <td class="text-bold-500">{{ $repository->published_at }}</td>
+                                <td class="text-bold-500">{{ $repository->publised_at_to_dfy }}</td>
                                 <td class="gap-3 d-flex justify-content-center align-items-center">
                                     <a href="{{ route('repository.show', ['repository' => $repository->slug]) }}"
-                                        wire:key="{{ $repository->slug }}" class="btn btn-info">
+                                        class="btn btn-info">
                                         <i class="bi bi-eye-fill"></i>
                                     </a>
-                                    <a href="" wire:key="" class="btn btn-warning">
+                                    <a href="{{ route('repository.edit', ['repository_slug' => $repository->slug]) }}"
+                                        class="btn btn-warning">
                                         <i class="bi bi-pencil-square"></i>
                                     </a>
                                     <button type="button" wire:click="deleteConfirm('{{ $repository->slug }}')"
