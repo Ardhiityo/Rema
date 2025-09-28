@@ -2,14 +2,15 @@
 
 namespace App\Livewire;
 
+use App\Models\Author;
 use Livewire\Component;
 use App\Models\StudyProgram;
 
 class MetricCard extends Component
 {
-    public function mount()
+    public function getAuthorsCountProperty()
     {
-        //
+        return Author::count();
     }
 
     public function getMetricsProperty()

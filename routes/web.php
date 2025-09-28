@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Livewire\Author;
 use App\Livewire\StudyProgram;
 use App\Livewire\RepositoryList;
@@ -14,7 +15,7 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/dashboard', Dashboard::class)->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/study-programs', StudyProgram::class)->name('study-program.index');
     Route::get('/authors', Author::class)->name('author.index');
     Route::get('/repositories', RepositoryList::class)->name('repository.index');

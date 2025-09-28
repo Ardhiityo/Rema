@@ -11,7 +11,7 @@
                     </div>
                     <div class="text-center text-md-start col-md-8 col-lg-12 col-xl-12 col-xxl-7">
                         <h6 class="font-semibold text-muted">Authors</h6>
-                        <h6 class="mb-0 font-extrabold">120.000</h6>
+                        <h6 class="mb-0 font-extrabold">{{ $this->authors_count }}</h6>
                     </div>
                 </div>
             </div>
