@@ -1,0 +1,34 @@
+<?php
+
+namespace App\Livewire;
+
+use Livewire\Component;
+use App\Models\StudyProgram;
+
+class MetricCard extends Component
+{
+    public function mount()
+    {
+        //
+    }
+
+    public function getMetricsProperty()
+    {
+        return StudyProgram::with(['authors.repositories'])
+            ->get()
+            ->map(function ($program) {
+                $total = $program->authors->sum(function ($author) {
+                    return $author->repositories->count();
+                });
+                return [
+                    'program' => $program->name,
+                    'total_repositories' => $total,
+                ];
+            });
+    }
+
+    public function render()
+    {
+        return view('livewire.metric-card');
+    }
+}
