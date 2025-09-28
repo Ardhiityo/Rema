@@ -17,7 +17,7 @@
                                   @enderror
                                   <label for="basicInput" class="form-label">Title</label>
                                   <input type="text" required class="form-control" id="basicInput" wire:model='title'
-                                      placeholder="ex: Sistem Informasi Management Sekolah" name="nim">
+                                      placeholder="ex: Sistem Informasi Management Sekolah">
                               </div>
 
                               <div class="mt-4">

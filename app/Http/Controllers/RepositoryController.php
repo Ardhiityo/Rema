@@ -36,7 +36,7 @@ class RepositoryController extends Controller
      */
     public function show(Repository $repository)
     {
-        //
+        return view('pages.repository.show');
     }
 
     /**

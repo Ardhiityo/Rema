@@ -31,9 +31,13 @@
                                 <td class="text-bold-500">{{ $repository->type }}</td>
                                 <td class="text-bold-500">{{ $repository->published_at }}</td>
                                 <td class="gap-3 d-flex justify-content-center align-items-center">
-                                    <button wire:click="" wire:key="" class="btn btn-warning">
+                                    <a href="{{ route('repository.show', ['repository' => $repository->slug]) }}"
+                                        wire:key="{{ $repository->slug }}" class="btn btn-info">
+                                        <i class="bi bi-eye-fill"></i>
+                                    </a>
+                                    <a href="" wire:key="" class="btn btn-warning">
                                         <i class="bi bi-pencil-square"></i>
-                                    </button>
+                                    </a>
                                     <button type="button" wire:click="" class="block btn btn-danger"
                                         data-bs-toggle="modal" data-bs-target="#border-less">
                                         <i class="bi bi-trash3"></i>

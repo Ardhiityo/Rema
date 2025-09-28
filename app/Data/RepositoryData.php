@@ -3,7 +3,6 @@
 namespace App\Data;
 
 use App\Models\Repository;
-use Illuminate\Support\Str;
 use Spatie\LaravelData\Data;
 
 class RepositoryData extends Data
@@ -19,6 +18,7 @@ class RepositoryData extends Data
         public string $published_at,
         public string $year,
         public string $slug,
+        public string $study_program,
     ) {}
 
     public static function fromModel(Repository $repository)
@@ -33,7 +33,8 @@ class RepositoryData extends Data
             $repository->author->name,
             $repository->published_at->format('d F Y'),
             $repository->year,
-            $repository->slug
+            $repository->slug,
+            $repository->author->studyProgram->name
         );
     }
 }

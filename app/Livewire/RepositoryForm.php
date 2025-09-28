@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Author;
+use App\Models\Repository;
 use Carbon\Carbon;
 use Livewire\Component;
 use Illuminate\Support\Str;
@@ -58,7 +59,9 @@ class RepositoryForm extends Component
     public function create()
     {
         $validated = $this->validate();
-        dd($validated);
+        $validated['file_path'] = $validated['file_path']->store('repositories', 'public');
+        Repository::create($validated);
+        return redirect()->route('repository.index');
     }
 
     public function render()
