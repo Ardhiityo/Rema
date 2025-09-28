@@ -23,7 +23,7 @@
                     <div class="pb-0 card-header">
                         <h4 class="card-title">{{ $title }}</h4>
                         <h6>
-                            <small>{{ $author }} | {{ $published_at }}</small>
+                            <small>{{ $author }} | {{ $nim }} | {{ $study_program }}</small>
                         </h6>
                     </div>
                     <div class="card-content">
@@ -33,7 +33,7 @@
                             </p>
                             <ul class="list-group">
                                 <li class="list-group-item">{{ $type }}</li>
-                                <li class="list-group-item">{{ $study_program }}</li>
+                                <li class="list-group-item">{{ $published_at }}</li>
                             </ul>
                         </div>
                     </div>

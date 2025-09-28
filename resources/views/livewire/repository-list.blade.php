@@ -38,8 +38,9 @@
                                     <a href="" wire:key="" class="btn btn-warning">
                                         <i class="bi bi-pencil-square"></i>
                                     </a>
-                                    <button type="button" wire:click="" class="block btn btn-danger"
-                                        data-bs-toggle="modal" data-bs-target="#border-less">
+                                    <button type="button" wire:click="deleteConfirm('{{ $repository->slug }}')"
+                                        class="block btn btn-danger" data-bs-toggle="modal"
+                                        data-bs-target="#border-less">
                                         <i class="bi bi-trash3"></i>
                                     </button>
                                 </td>
@@ -73,7 +74,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p>Are you sure you want to delete the ... data?</p>
+                    <p>Are you sure you want to delete the {{ $title }} data?</p>
                 </div>
                 <div class="gap-2 modal-footer d-flex">
                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal">

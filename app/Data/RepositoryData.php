@@ -10,6 +10,7 @@ class RepositoryData extends Data
     public function __construct(
         public int $id,
         public string $title,
+        public string $nim,
         public string $abstract,
         public string $file_path,
         public string $type,
@@ -26,6 +27,7 @@ class RepositoryData extends Data
         return new self(
             $repository->id,
             $repository->title,
+            $repository->author->nim,
             $repository->abstract,
             $repository->file_path,
             $repository->type,

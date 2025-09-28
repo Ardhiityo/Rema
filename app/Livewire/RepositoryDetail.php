@@ -12,6 +12,7 @@ class RepositoryDetail extends Component
     public string $abstract = '';
     public string $type = '';
     public string $author = '';
+    public string $nim = '';
     public string $published_at = '';
     public string $study_program = '';
 
@@ -25,6 +26,7 @@ class RepositoryDetail extends Component
         $this->abstract = $repository_data->abstract;
         $this->type = $repository_data->type;
         $this->author = $repository_data->author_name;
+        $this->nim = $repository_data->nim;
         $this->published_at = $repository_data->published_at;
         $this->study_program = $repository_data->study_program;
     }
