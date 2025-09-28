@@ -2,9 +2,10 @@
 
 namespace App\Livewire;
 
-use App\Data\RepositoryData;
-use App\Models\Repository;
 use Livewire\Component;
+use App\Models\Repository;
+use App\Data\RepositoryData;
+use Illuminate\Support\Facades\Storage;
 
 class RepositoryList extends Component
 {
@@ -22,7 +23,11 @@ class RepositoryList extends Component
 
     public function delete()
     {
-        Repository::find($this->repository_id)->delete();
+        $repository = Repository::find($this->repository_id);
+        if (Storage::disk('public')->exists($repository->file_path)) {
+            Storage::disk('public')->delete($repository->file_path);
+        };
+        $repository->delete();
     }
 
     public function render()

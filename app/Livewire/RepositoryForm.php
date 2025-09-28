@@ -10,7 +10,6 @@ use Illuminate\Support\Str;
 use App\Data\RepositoryData;
 use Livewire\WithFileUploads;
 use App\Rules\RepositoryUpdateRule;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class RepositoryForm extends Component
@@ -103,7 +102,9 @@ class RepositoryForm extends Component
         $repository = Repository::find($this->repository_id);
 
         if ($validated['file_path']) {
-            Storage::disk('public')->delete($repository->file_path);
+            if (Storage::disk('public')->exists($repository->file_path)) {
+                Storage::disk('public')->delete($repository->file_path);
+            };
             $validated['file_path'] = $validated['file_path']->store('repositories', 'public');
         } else {
             $validated['file_path'] = $repository->file_path;
