@@ -27,13 +27,6 @@
                         <div class="card-body">
                             <div class="form">
                                 <div class="row">
-                                    @if ($errors->any())
-                                        @foreach ($errors->all() as $error)
-                                            <li>
-                                                {{ $error }}
-                                            </li>
-                                        @endforeach
-                                    @endif
                                     <div class="col-12">
                                         <div class="form-group">
                                             @error('name')

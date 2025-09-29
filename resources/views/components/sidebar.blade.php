@@ -1,9 +1,10 @@
    <div class="sidebar-wrapper active">
        <div class="sidebar-header position-relative">
-           <div class="d-flex justify-content-between align-items-center">
+           <div class="gap-3 flex-column d-flex justify-content-between align-items-center">
                <div class="logo">
-                   <a href="index.html"><img src="{{ asset('assets/compiled/svg/logo.svg') }}" alt="Logo"
-                           srcset=""></a>
+                   <a href="{{ route('dashboard') }}" class="d-flex justify-content-center">
+                       <img src="{{ asset('assets/logo/unival.png') }}" class="h-50 w-50" alt="Logo" srcset="">
+                   </a>
                </div>
                <div class="gap-2 mt-2 theme-toggle d-flex align-items-center">
                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true"
@@ -80,26 +81,45 @@
                        <span>Profile</span>
                    </a>
                </li>
-               <li class="sidebar-item" id="btn-logout">
-                   <span class='sidebar-link'>
+               <li class="sidebar-item" data-bs-toggle="modal" data-bs-target="#logoutModal">
+                   <span class="sidebar-link" style="cursor: pointer;">
                        <i class="bi bi-puzzle"></i>
                        <span>Logout</span>
                    </span>
-                   <form id="form-logout" action="{{ route('logout') }}" method="post">
-                       @csrf
-                   </form>
                </li>
            </ul>
        </div>
-   </div>
 
-   @push('scripts')
-       <script>
-           const logout_btn = document.getElementById('btn-logout');
-           const form = document.getElementById('form-logout');
+       <!-- Hidden logout form -->
+       <form id="form-logout" class="d-none" action="{{ route('logout') }}" method="POST">
+           @csrf
+       </form>
 
-           logout_btn.addEventListener('click', function() {
-               form.submit();
-           });
-       </script>
-   @endpush
+       <div class="text-left modal fade modal-borderless" role="dialog" aria-labelledby="myModalLabel1"
+           aria-hidden="true" id="logoutModal" tabindex="-1" data-bs-backdrop="false" aria-hidden="true">
+           <div class="modal-dialog modal-dialog-scrollable" role="document">
+               <div class="modal-content">
+                   <div class="modal-header">
+                       <h5 class="modal-title">Confirm Logout</h5>
+                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                   </div>
+                   <div class="modal-body">
+                       <p>Are you sure you want to log out?</p>
+                   </div>
+                   <div class="gap-2 modal-footer d-flex">
+                       <div class="gap-3 modal-footer d-flex">
+                           <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancel</button>
+                           <button type="button" class="btn btn-danger" id="btn-logout">Logout</button>
+                       </div>
+                   </div>
+               </div>
+           </div>
+       </div>
+
+       @push('scripts')
+           <script>
+               document.getElementById('btn-logout')?.addEventListener('click', function() {
+                   document.getElementById('form-logout')?.submit();
+               });
+           </script>
+       @endpush
