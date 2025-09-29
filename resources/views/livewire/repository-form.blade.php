@@ -141,16 +141,18 @@
                     </div>
                     <div class="gap-3 d-flex">
                         @if ($is_update)
-                            <button wire:click='update' wire:loading.attr='disabled' class="btn btn-primary">
+                            <button wire:click='update' wire:loading.attr='disabled' class="btn btn-primary"
+                                wire:target='update'>
                                 Update
-                                <span wire:loading>
+                                <span wire:loading wire:target='update'>
                                     <span class="spinner-border spinner-border-sm text-light" role="status"></span>
                                 </span>
                             </button>
                         @else
-                            <button wire:click='create' wire:loading.attr='disabled' class="btn btn-primary">
+                            <button wire:click='create' wire:loading.attr='disabled' class="btn btn-primary"
+                                wire:target='create'>
                                 Add
-                                <span wire:loading>
+                                <span wire:loading wire:target='create'>
                                     <span class="spinner-border spinner-border-sm text-light" role="status"></span>
                                 </span>
                             </button>

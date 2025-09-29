@@ -89,8 +89,14 @@
                                         </div>
                                     </div>
                                     <div class="gap-3 mt-4 col-12 d-flex">
-                                        <button type="submit" wire:click='update'
-                                            class="mb-1 btn btn-primary">Update</button>
+                                        <button type="submit" wire:click='update' class="mb-1 btn btn-primary"
+                                            wire:loading.attr='disabled' wire:target='update'>
+                                            Update
+                                            <span wire:loading wire:target='update'>
+                                                <span class="spinner-border spinner-border-sm text-light"
+                                                    role="status"></span>
+                                            </span>
+                                        </button>
                                         <button type="reset" wire:click='resetInput'
                                             class="mb-1 btn btn-warning">Clear</button>
                                     </div>
