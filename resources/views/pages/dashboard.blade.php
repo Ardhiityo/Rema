@@ -19,47 +19,45 @@
                                     <img src="./assets/compiled/jpg/1.jpg" alt="Face 1">
                                 </div>
                                 <div class="ms-3 name">
-                                    <h5 class="font-bold">John Duck</h5>
-                                    <h6 class="mb-0 text-muted">@johnducky</h6>
+                                    <h5 class="font-bold">{{ $user_logged->name }}</h5>
+                                    <h6 class="mb-0 text-muted">{{ $user_logged->short_email }}</h6>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="card">
                         <div class="card-header">
-                            <h4>Recent Added</h4>
+                            <h4>Recently Add</h4>
                         </div>
                         <div class="pb-4 card-content">
-                            <div class="px-4 py-3 recent-message d-flex">
-                                <div class="avatar avatar-lg">
-                                    <img src="./assets/compiled/jpg/4.jpg">
+                            @forelse ($recently_adds as $recently_add)
+                                <a href="{{ route('repository.show', ['repository' => $recently_add->slug]) }}">
+                                    <div class="px-4 py-3 recent-message d-flex">
+                                        <div class="avatar avatar-lg">
+                                            <img src="{{ asset('assets/compiled/jpg/5.jpg') }}">
+                                        </div>
+                                        <div class="name ms-4">
+                                            <h5 class="mb-1">{{ $recently_add->author }}</h5>
+                                            <h6 class="mb-0 text-muted">{{ $recently_add->type }}</h6>
+                                        </div>
+                                    </div>
+                                </a>
+                            @empty
+                                <div class="px-4 py-3 recent-message d-flex">
+                                    <div class="avatar avatar-lg">
+                                        <img src="./assets/compiled/jpg/5.jpg">
+                                    </div>
+                                    <div class="name ms-4">
+                                        <h5 class="mb-1">Dean Winchester</h5>
+                                        <h6 class="mb-0 text-muted">@imdean</h6>
+                                    </div>
                                 </div>
-                                <div class="name ms-4">
-                                    <h5 class="mb-1">Hank Schrader</h5>
-                                    <h6 class="mb-0 text-muted">@johnducky</h6>
-                                </div>
-                            </div>
-                            <div class="px-4 py-3 recent-message d-flex">
-                                <div class="avatar avatar-lg">
-                                    <img src="./assets/compiled/jpg/5.jpg">
-                                </div>
-                                <div class="name ms-4">
-                                    <h5 class="mb-1">Dean Winchester</h5>
-                                    <h6 class="mb-0 text-muted">@imdean</h6>
-                                </div>
-                            </div>
-                            <div class="px-4 py-3 recent-message d-flex">
-                                <div class="avatar avatar-lg">
-                                    <img src="./assets/compiled/jpg/1.jpg">
-                                </div>
-                                <div class="name ms-4">
-                                    <h5 class="mb-1">John Dodol</h5>
-                                    <h6 class="mb-0 text-muted">@dodoljohn</h6>
-                                </div>
-                            </div>
+                            @endforelse
                             <div class="px-4">
-                                <button class='mt-3 font-bold btn btn-block btn-xl btn-outline-primary'>Start
-                                    Conversation</button>
+                                <a href="{{ route('repository.index') }}"
+                                    class='mt-3 font-bold btn btn-block btn-xl btn-outline-primary'>
+                                    See more
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -76,39 +74,27 @@
                                         <table class="table table-hover table-lg">
                                             <thead>
                                                 <tr>
-                                                    <th>Name</th>
-                                                    <th>Comment</th>
+                                                    <th>Author</th>
+                                                    <th>Title</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td class="col-3">
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="avatar avatar-md">
-                                                                <img src="./assets/compiled/jpg/5.jpg">
+                                                @foreach ($latest_repositories as $latest_repository)
+                                                    <tr>
+                                                        <td class="col-3">
+                                                            <div class="d-flex align-items-center">
+                                                                <div class="avatar avatar-md">
+                                                                    <img src="./assets/compiled/jpg/2.jpg">
+                                                                </div>
+                                                                <p class="mb-0 font-bold ms-3">
+                                                                    {{ $latest_repository->author }}</p>
                                                             </div>
-                                                            <p class="mb-0 font-bold ms-3">Si Cantik</p>
-                                                        </div>
-                                                    </td>
-                                                    <td class="col-auto">
-                                                        <p class="mb-0 ">Congratulations on your graduation!</p>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="col-3">
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="avatar avatar-md">
-                                                                <img src="./assets/compiled/jpg/2.jpg">
-                                                            </div>
-                                                            <p class="mb-0 font-bold ms-3">Si Ganteng</p>
-                                                        </div>
-                                                    </td>
-                                                    <td class="col-auto">
-                                                        <p class="mb-0 ">Wow amazing design! Can you make another
-                                                            tutorial for
-                                                            this design?</p>
-                                                    </td>
-                                                </tr>
+                                                        </td>
+                                                        <td class="col-auto">
+                                                            <p class="mb-0 ">{{ $latest_repository->title }}</p>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
                                             </tbody>
                                         </table>
                                     </div>

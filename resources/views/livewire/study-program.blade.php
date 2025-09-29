@@ -35,7 +35,7 @@
                                                     {{ $message }}
                                                 </div>
                                             @enderror
-                                            <label for="basicInput">Study Program</label>
+                                            <label for="basicInput" class="form-label">Study Program</label>
                                             <input type="text" required class="form-control" id="basicInput"
                                                 wire:model='name' placeholder="ex: Teknik Informatika">
                                         </div>

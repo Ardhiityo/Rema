@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Data\LatestRepositoriesData;
+use App\Data\UserData;
 use App\Models\Repository;
+use App\Data\RecentlyAddData;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -22,6 +26,26 @@ class DashboardController extends Controller
             $repository_totals[] = $repository->total_repositories;
         }
 
-        return view('pages.dashboard', compact('repository_years', 'repository_totals'));
+        $recently_adds = RecentlyAddData::collect(Repository::with('author')
+            ->limit(3)
+            ->orderByDesc('id')
+            ->get());
+
+        $user_logged = UserData::fromModel(Auth::user());
+
+        $latest_repositories = RecentlyAddData::collect(
+            Repository::with('author')
+                ->limit(5)
+                ->orderByDesc('id')
+                ->get()
+        );
+
+        return view('pages.dashboard', compact(
+            'repository_years',
+            'repository_totals',
+            'recently_adds',
+            'user_logged',
+            'latest_repositories'
+        ));
     }
 }

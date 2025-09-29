@@ -74,6 +74,12 @@
                        </li>
                    </ul>
                </li>
+               <li class="sidebar-item {{ request()->is('my-accounts*') ? 'active' : '' }}">
+                   <a href="{{ route('account.index') }}" class='sidebar-link'>
+                       <i class="bi bi-person-badge-fill"></i>
+                       <span>My Accounts</span>
+                   </a>
+               </li>
            </ul>
        </div>
    </div>

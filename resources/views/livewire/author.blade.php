@@ -34,7 +34,7 @@
                                                 {{ $message }}
                                             </div>
                                         @enderror
-                                        <label for="basicInput">NIM</label>
+                                        <label for="basicInput" class="form-label">NIM</label>
                                         <input type="text" required class="form-control" id="basicInput"
                                             wire:model='nim' placeholder="ex: 22040004" name="nim">
                                     </div>
@@ -46,7 +46,7 @@
                                                 {{ $message }}
                                             </div>
                                         @enderror
-                                        <label for="basicInput">Author</label>
+                                        <label for="basicInput" class="form-label">Author</label>
                                         <input type="text" required class="form-control" id="basicInput"
                                             wire:model='name' placeholder="ex: Arya Adhi Prasetyo" name="name">
                                     </div>
@@ -59,8 +59,9 @@
                                             </div>
                                         @enderror
                                         <div class="input-group">
-                                            <label class="input-group-text" for="inputGroupSelect01">Study
-                                                Program</label>
+                                            <label class="input-group-text" for="inputGroupSelect01" class="form-label">
+                                                Study Program
+                                            </label>
                                             <select class="form-select" id="inputGroupSelect01"
                                                 wire:model='study_program_id'>
                                                 <option selected>Choose...</option>
