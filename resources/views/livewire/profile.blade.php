@@ -50,7 +50,7 @@
                                     </div>
                                     <div class="col-12">
                                         <div class="form-group">
-                                            <label for="country-floating" class="form-label">Country</label>
+                                            <label for="country-floating" class="form-label">Avatar</label>
                                             <input type="text" id="country-floating" class="form-control"
                                                 name="country-floating" placeholder="Country">
                                         </div>

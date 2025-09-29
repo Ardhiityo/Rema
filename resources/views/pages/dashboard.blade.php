@@ -43,22 +43,18 @@
                                     </div>
                                 </a>
                             @empty
-                                <div class="px-4 py-3 recent-message d-flex">
-                                    <div class="avatar avatar-lg">
-                                        <img src="./assets/compiled/jpg/5.jpg">
-                                    </div>
-                                    <div class="name ms-4">
-                                        <h5 class="mb-1">Dean Winchester</h5>
-                                        <h6 class="mb-0 text-muted">@imdean</h6>
-                                    </div>
+                                <div class="px-4 py-3 recent-message d-flex justify-content-center">
+                                    <h6>Author Not Found</h5>
                                 </div>
                             @endforelse
-                            <div class="px-4">
-                                <a href="{{ route('repository.index') }}"
-                                    class='mt-3 font-bold btn btn-block btn-xl btn-outline-primary'>
-                                    See more
-                                </a>
-                            </div>
+                            @if ($recently_adds->isNotEmpty())
+                                <div class="px-4">
+                                    <a href="{{ route('repository.index') }}"
+                                        class='mt-3 font-bold btn btn-block btn-xl btn-outline-primary'>
+                                        See more
+                                    </a>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -73,16 +69,16 @@
                                     <div class="table-responsive">
                                         <table class="table table-hover table-lg">
                                             <thead>
-                                                <tr>
+                                                <tr class="text-center">
                                                     <th>Author</th>
                                                     <th>Title</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($latest_repositories as $latest_repository)
+                                                @forelse ($latest_repositories as $latest_repository)
                                                     <tr>
                                                         <td class="col-3">
-                                                            <div class="d-flex align-items-center">
+                                                            <div class="d-flex align-items-center justify-content-center">
                                                                 <div class="avatar avatar-md">
                                                                     <img src="./assets/compiled/jpg/2.jpg">
                                                                 </div>
@@ -91,10 +87,16 @@
                                                             </div>
                                                         </td>
                                                         <td class="col-auto">
-                                                            <p class="mb-0 ">{{ $latest_repository->title }}</p>
+                                                            <p class="mb-0 text-center">{{ $latest_repository->title }}</p>
                                                         </td>
                                                     </tr>
-                                                @endforeach
+                                                @empty
+                                                    <tr>
+                                                        <td colspan="2">
+                                                            <h6 class="text-center">Repositories Not Found</h6>
+                                                        </td>
+                                                    </tr>
+                                                @endforelse
                                             </tbody>
                                         </table>
                                     </div>

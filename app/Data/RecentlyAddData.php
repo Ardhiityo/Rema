@@ -21,7 +21,7 @@ class RecentlyAddData extends Data
             Str::limit($repository->author->name, 15, '...'),
             $repository->type == 'thesis' ? 'Skripsi' : ($repository->type == 'final_project' ? 'Tugas Akhir' : 'Manual Book'),
             $repository->slug,
-            Str::limit($repository->title, 100, '...')
+            Str::limit($repository->title, 15, '...')
         );
     }
 }
