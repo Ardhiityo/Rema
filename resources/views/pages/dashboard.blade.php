@@ -16,7 +16,7 @@
                         <div class="px-4 py-4 card-body">
                             <div class="d-flex align-items-center">
                                 <div class="avatar avatar-xl">
-                                    <img src="./assets/compiled/jpg/1.jpg" alt="Face 1">
+                                    <img src="{{ $user_logged->avatar }}" alt="{{ $user_logged->name }}">
                                 </div>
                                 <div class="ms-3 name">
                                     <h5 class="font-bold">{{ $user_logged->name }}</h5>

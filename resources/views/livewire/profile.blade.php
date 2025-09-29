@@ -25,42 +25,77 @@
                     </div>
                     <div class="card-content">
                         <div class="card-body">
-                            <form class="form">
+                            <div class="form">
                                 <div class="row">
+                                    @if ($errors->any())
+                                        @foreach ($errors->all() as $error)
+                                            <li>
+                                                {{ $error }}
+                                            </li>
+                                        @endforeach
+                                    @endif
                                     <div class="col-12">
                                         <div class="form-group">
+                                            @error('name')
+                                                <div class="alert alert-dark">
+                                                    <i class="bi bi-exclamation-triangle"></i>
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
                                             <label for="first-name-column" class="form-label">Name</label>
                                             <input type="text" id="first-name-column" class="form-control"
-                                                placeholder="First Name" name="fname-column">
+                                                placeholder="ex: Arya Adhi Prasetyo" name="name" wire:model='name'>
                                         </div>
                                     </div>
                                     <div class="col-12">
                                         <div class="form-group">
+                                            @error('email')
+                                                <div class="alert alert-dark">
+                                                    <i class="bi bi-exclamation-triangle"></i>
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
                                             <label for="last-name-column" class="form-label">Email</label>
-                                            <input type="text" id="last-name-column" class="form-control"
-                                                placeholder="Last Name" name="lname-column">
+                                            <input type="email" id="last-name-column" class="form-control"
+                                                placeholder="ex: ardhiityo229@gmail.com" name="email"
+                                                wire:model='email'>
                                         </div>
                                     </div>
                                     <div class="col-12">
                                         <div class="form-group">
+                                            @error('password')
+                                                <div class="alert alert-dark">
+                                                    <i class="bi bi-exclamation-triangle"></i>
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
                                             <label for="city-column" class="form-label">Password</label>
-                                            <input type="text" id="city-column" class="form-control"
-                                                placeholder="City" name="city-column">
+                                            <input type="password" id="city-column" class="form-control"
+                                                placeholder="min: 8 characters" name="city-column"
+                                                wire:model='password'>
                                         </div>
                                     </div>
                                     <div class="col-12">
                                         <div class="form-group">
+                                            @error('avatar')
+                                                <div class="alert alert-dark">
+                                                    <i class="bi bi-exclamation-triangle"></i>
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
                                             <label for="country-floating" class="form-label">Avatar</label>
-                                            <input type="text" id="country-floating" class="form-control"
-                                                name="country-floating" placeholder="Country">
+                                            <input class="form-control" type="file" id="formFile"
+                                                accept="application/jpg,application/png" wire:model='avatar'>
                                         </div>
                                     </div>
-                                    <div class="col-12 d-flex justify-content-end">
-                                        <button type="submit" class="mb-1 btn btn-primary me-1">Submit</button>
-                                        <button type="reset" class="mb-1 btn btn-light-secondary me-1">Reset</button>
+                                    <div class="gap-3 mt-4 col-12 d-flex">
+                                        <button type="submit" wire:click='update'
+                                            class="mb-1 btn btn-primary">Update</button>
+                                        <button type="reset" wire:click='resetInput'
+                                            class="mb-1 btn btn-warning">Clear</button>
                                     </div>
                                 </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>

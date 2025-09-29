@@ -22,7 +22,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/repositories/{repository:slug}/show', RepositoryDetail::class)->name('repository.show');
     Route::get('/repositories/{repository_slug}/edit', RepositoryForm::class)->name('repository.edit');
 
-    Route::get('/my-accounts', Profile::class)->name('account.index');
+    Route::get('/profile', Profile::class)->name('profile.index');
 });
 
 

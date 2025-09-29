@@ -74,12 +74,32 @@
                        </li>
                    </ul>
                </li>
-               <li class="sidebar-item {{ request()->is('my-accounts*') ? 'active' : '' }}">
-                   <a href="{{ route('account.index') }}" class='sidebar-link'>
+               <li class="sidebar-item {{ request()->is('profile*') ? 'active' : '' }}">
+                   <a href="{{ route('profile.index') }}" class='sidebar-link'>
                        <i class="bi bi-person-badge-fill"></i>
-                       <span>My Accounts</span>
+                       <span>Profile</span>
                    </a>
+               </li>
+               <li class="sidebar-item" id="btn-logout">
+                   <span class='sidebar-link'>
+                       <i class="bi bi-puzzle"></i>
+                       <span>Logout</span>
+                   </span>
+                   <form id="form-logout" action="{{ route('logout') }}" method="post">
+                       @csrf
+                   </form>
                </li>
            </ul>
        </div>
    </div>
+
+   @push('scripts')
+       <script>
+           const logout_btn = document.getElementById('btn-logout');
+           const form = document.getElementById('form-logout');
+
+           logout_btn.addEventListener('click', function() {
+               form.submit();
+           });
+       </script>
+   @endpush
