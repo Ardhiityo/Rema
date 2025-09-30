@@ -44,22 +44,35 @@
           <div class="row">
               @forelse ($repositories as $repository)
                   <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.2s">
-                      <div class="p-4 pt-0 border feature-item">
-                          <div class="p-4 mb-4 feature-icon">
-                              <i class="{{ $repository->icon_class }}"></i>
+                      <a href="{{ route('repository.read', ['repository' => $repository->slug]) }}" target="_blank">
+                          <div class="p-4 pt-0 border feature-item">
+                              <div class="p-4 mb-4 feature-icon">
+                                  <i class="{{ $repository->icon_class }}"></i>
+                              </div>
+                              <div class="mb-4">
+                                  <h4>
+                                      {{ $repository->short_author_name }}
+                                  </h4>
+                                  <p>
+                                      <small>{{ $repository->nim }} | {{ $repository->study_program }}</small>
+                                  </p>
+                              </div>
+                              <p class="mb-4">{{ $repository->short_title }}
+                              </p>
+                              <p> <small>
+                                      <i class="far fa-clock"></i>
+                                      {{ $repository->published_at_to_diff_for_humans }}
+                                  </small>
+                              </p>
+                              <span target="_blank" class="px-4 py-2 btn btn-primary rounded-pill">
+                                  View <i class="fas fa-eye ms-2"></i>
+                              </span>
                           </div>
-                          <h4 class="mb-4">{{ $repository->author }}</h4>
-                          <p class="mb-4">{{ $repository->title }}
-                          </p>
-                          <a href="{{ route('repository.read', ['repository' => $repository->slug]) }}" target="_blank"
-                              class="px-4 py-2 btn btn-primary rounded-pill">
-                              View <i class="fas fa-eye ms-2"></i>
-                          </a>
-                      </div>
+                      </a>
                   </div>
               @empty
               @endforelse
-              <div class="py-3 col-12">
+              <div class="py-3 col-12 d-flex justify-content-end">
                   {{ $repositories->Links() }}
               </div>
           </div>

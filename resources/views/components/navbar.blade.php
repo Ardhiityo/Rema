@@ -1,7 +1,7 @@
  <div class="px-0 container-fluid nav-bar px-lg-4 py-lg-0">
      <div class="container">
          <nav class="navbar navbar-expand-lg navbar-light">
-             <a href="#" class="p-0 navbar-brand">
+             <a href="{{ route('landing_page.index') }}" class="p-0 navbar-brand">
                  <h1 class="mb-0 text-primary">
                      <div class="d-flex flex-column">
                          <div class="d-flex flex-column align-items-center">
@@ -27,7 +27,7 @@
                  </div>
              </div>
              <div class="flex-shrink-0 d-none d-xl-flex ps-4">
-                 <a href="#" class="btn btn-light btn-lg-square rounded-circle position-relative wow tada"
+                 <a href="tel:02547877057" class="btn btn-light btn-lg-square rounded-circle position-relative wow tada"
                      data-wow-delay=".9s">
                      <i class="fa fa-phone-alt fa-2x"></i>
                      <div class="position-absolute" style="top: 7px; right: 12px;">
@@ -35,7 +35,7 @@
                      </div>
                  </a>
                  <div class="d-flex flex-column ms-3">
-                     <span>Call to Our Experts</span>
+                     <span>More Information</span>
                      <a href="tel:+02547877057"><span class="text-dark">Free: (0254) 7877057</span></a>
                  </div>
              </div>

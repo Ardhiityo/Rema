@@ -2,11 +2,12 @@
 
 namespace App\Livewire;
 
-use App\Data\SearchHeroData;
-use App\Models\Repository;
-use Livewire\Attributes\Layout;
 use Livewire\Component;
+use App\Models\Repository;
+use App\Data\SearchHeroData;
 use Livewire\WithPagination;
+use Livewire\Attributes\Layout;
+use Illuminate\Support\Facades\Log;
 
 class SearchHero extends Component
 {
@@ -53,7 +54,7 @@ class SearchHero extends Component
             $query->where('type', $type);
         }
 
-        $repositories = SearchHeroData::collect($query->with('author')
+        $repositories = SearchHeroData::collect($query->with(['author', 'author.studyProgram'])
             ->paginate(1));
 
         return view('livewire.search-hero', compact('repositories'));
