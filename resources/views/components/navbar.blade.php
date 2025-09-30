@@ -20,30 +20,10 @@
                  <span class="fa fa-bars"></span>
              </button>
              <div class="collapse navbar-collapse" id="navbarCollapse">
-                 <div class="mx-0 navbar-nav mx-lg-auto">
-                     <a href="index.html" class="nav-item nav-link active">Home</a>
-                     <a href="about.html" class="nav-item nav-link">About</a>
-                     <a href="service.html" class="nav-item nav-link">Services</a>
-                     <a href="blog.html" class="nav-item nav-link">Blog</a>
-                     <div class="nav-item dropdown">
-                         <a href="#" class="nav-link" data-bs-toggle="dropdown">
-                             <span class="dropdown-toggle">Pages</span>
-                         </a>
-                         <div class="dropdown-menu">
-                             <a href="feature.html" class="dropdown-item">Our Features</a>
-                             <a href="team.html" class="dropdown-item">Our team</a>
-                             <a href="testimonial.html" class="dropdown-item">Testimonial</a>
-                             <a href="FAQ.html" class="dropdown-item">FAQs</a>
-                             <a href="404.html" class="dropdown-item">404 Page</a>
-                         </div>
-                     </div>
-                     <a href="contact.html" class="nav-item nav-link">Contact</a>
-                     <div class="px-3 nav-btn">
-                         <button class="flex-shrink-0 btn-search btn btn-primary btn-md-square rounded-circle"
-                             data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search"></i></button>
-                         <a href="#" class="flex-shrink-0 px-4 py-2 btn btn-primary rounded-pill ms-3"> Get a
-                             Quote</a>
-                     </div>
+                 <div class="navbar-nav">
+                     <a href="#home" class="nav-item nav-link active">Home</a>
+                     <a href="#search-hero" class="nav-item nav-link active">Repositories</a>
+                     <a href="#contact" class="nav-item nav-link">Contact</a>
                  </div>
              </div>
              <div class="flex-shrink-0 d-none d-xl-flex ps-4">

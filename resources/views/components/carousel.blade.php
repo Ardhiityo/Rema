@@ -1,4 +1,4 @@
-  <div class="header-carousel owl-carousel">
+  <div class="header-carousel owl-carousel" id="home">
       <div class="header-carousel-item bg-primary">
           <div class="carousel-caption">
               <div class="container">
@@ -7,12 +7,13 @@
                           <div class="text-sm-center text-md-start">
                               <h4 class="mb-4 text-white text-uppercase fw-bold">Welcome To Rema</h4>
                               <h1 class="mb-4 text-white display-1">Satu Repository, Ribuan Inspirasi</h1>
-                              <p class="mb-5 fs-5">Rema adalah repository digital mahasiswa yang menyimpan skripsi, tugas
+                              <p class="mb-5 fs-5">Rema adalah repository digital mahasiswa yang menyimpan skripsi,
+                                  tugas
                                   akhir, dan manual book secara terstruktur dan mudah diakses.
                               </p>
                               <div class="flex-shrink-0 mb-4 d-flex justify-content-center justify-content-md-start">
                                   <a class="px-4 py-3 btn btn-light rounded-pill px-md-5 me-2" href="#search-hero">
-                                      <i class="fas fa-play-circle me-2"></i>
+                                      <i class="fas fa-search me-2"></i>
                                       Temukan Inspirasi
                                   </a>
                               </div>
@@ -45,7 +46,7 @@
                               </p>
                               <div class="flex-shrink-0 mb-4 d-flex justify-content-center justify-content-md-end">
                                   <a class="px-4 py-3 btn btn-light rounded-pill px-md-5 me-2" href="#search-hero">
-                                      <i class="fas fa-play-circle me-2"></i>
+                                      <i class="fas fa-search me-2"></i>
                                       Temukan Inspirasi
                                   </a>
                               </div>

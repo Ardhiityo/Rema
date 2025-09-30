@@ -10,10 +10,25 @@
           <div class="pb-3 row">
               <div class="col-12">
                   <div class="col-12">
-                      <div class="mb-3 input-group input-group-lg">
-                          <input type="text" class="form-control w-75" aria-label="Text input with dropdown button"
-                              placeholder="Mulai cari judul disini..." wire:model.live.debounce.250ms='title'>
-                          <select class="form-select" id="inputGroupSelect01" wire:model.live='type'>
+                      {{-- Display Large Only --}}
+                      <div class="mb-3 d-lg-flex d-none input-group input-group-lg">
+                          <input type="text" class="w-75 form-control" aria-label="Text input with dropdown button"
+                              placeholder="Cari judul disini..." wire:model.live.debounce.250ms='title'>
+                          <select class="w-auto form-select" id="inputGroupSelect01" wire:model.live='type'>
+                              <option selected value="">Type</option>
+                              <option value="thesis">Skripsi</option>
+                              <option value="final_project">Tugas Akhir</option>
+                              <option value="manual_book">Manual Book</option>
+                          </select>
+                          <button class="btn btn-primary" wire:click='resetInput'>
+                              <i class="bi bi-arrow-clockwise"></i>
+                          </button>
+                      </div>
+                      {{-- Display Small, Medium Only --}}
+                      <div class="mb-3 d-flex d-lg-none input-group">
+                          <input type="text" class="form-control w-50" aria-label="Text input with dropdown button"
+                              placeholder="Judul" wire:model.live.debounce.250ms='title'>
+                          <select class="form-select w-25" id="inputGroupSelect01" wire:model.live='type'>
                               <option selected value="">Type</option>
                               <option value="thesis">Skripsi</option>
                               <option value="final_project">Tugas Akhir</option>

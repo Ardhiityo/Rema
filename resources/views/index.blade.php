@@ -3,10 +3,6 @@
     <x-spinner />
     <!-- Spinner End -->
 
-    <!-- Topbar Start -->
-    <x-topbar />
-    <!-- Topbar End -->
-
     <!-- Navbar & Hero Start -->
     <x-navbar />
     <!-- Navbar & Hero End -->
@@ -25,7 +21,7 @@
     <!-- Feature End -->
 
     <!-- Footer Start -->
-    <div class="py-5 container-fluid footer wow fadeIn" data-wow-delay="0.2s">
+    <div class="py-5 container-fluid footer wow fadeIn" data-wow-delay="0.2s" id="contact">
         <div class="container py-5">
             <div class="row g-5">
                 <div class="col-xl-9">
