@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Repository;
 
 class LandingPageController extends Controller
 {
@@ -11,13 +11,12 @@ class LandingPageController extends Controller
         return view('index');
     }
 
-    public function read()
+    public function read(Repository $repository)
     {
-        //
-    }
+        $path = storage_path('app/public/' . $repository->file_path);
 
-    public function download()
-    {
-        //
+        return response()->file($path, [
+            'Content-Type' => 'application/pdf',
+        ]);
     }
 }

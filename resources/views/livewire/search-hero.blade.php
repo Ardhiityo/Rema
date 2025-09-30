@@ -51,13 +51,9 @@
                           <h4 class="mb-4">{{ $repository->author }}</h4>
                           <p class="mb-4">{{ $repository->title }}
                           </p>
-                          <a href="{{ route('repository.read', ['repository' => $repository->slug]) }}"
+                          <a href="{{ route('repository.read', ['repository' => $repository->slug]) }}" target="_blank"
                               class="px-4 py-2 btn btn-primary rounded-pill">
-                              <i class="fas fa-eye"></i>
-                          </a>
-                          <a href="{{ route('repository.download', ['repository' => $repository->slug]) }}"
-                              class="px-4 py-2 btn btn-primary rounded-pill">
-                              <i class="fas fa-download"></i>
+                              View <i class="fas fa-eye ms-2"></i>
                           </a>
                       </div>
                   </div>

@@ -1,7 +1,5 @@
 <?php
 
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\LandingPageController;
 use App\Livewire\Author;
 use App\Livewire\Profile;
 use App\Livewire\StudyProgram;
@@ -9,11 +7,12 @@ use App\Livewire\RepositoryList;
 use App\Livewire\RepositoryForm;
 use App\Livewire\RepositoryDetail;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LandingPageController;
 
 Route::controller(LandingPageController::class)->group(function () {
     Route::get('/', 'index')->name('landing_page.index');
     Route::get('/repositories/{repository:slug}/read', 'read')->name('repository.read');
-    Route::get('/repositories/{repository:slug}/download', 'read')->name('repository.download');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
