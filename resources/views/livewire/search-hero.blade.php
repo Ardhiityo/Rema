@@ -1,0 +1,49 @@
+  <div class="py-5 container-fluid feature bg-light" id="search-hero">
+      <div class="container py-5">
+          <div class="py-4 mx-auto text-center wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
+              <h4 class="text-primary">Solusi Akademik Digital</h4>
+              <h1 class="display-5">Temukan inspirasi akademikmu.</h1>
+              <p class="mb-0">Temukan inspirasi akademik dari ribuan karya mahasiswa. Dengan sistem pencarian cerdas
+                  dan tampilan yang ramah pengguna, Rema hadir untuk mendukung perjalanan belajarmu.
+              </p>
+          </div>
+          <div class="pb-3 row">
+              <div class="col-12">
+                  <div class="col-12">
+                      <div class="mb-3 input-group input-group-lg">
+                          <input type="text" class="form-control w-75" aria-label="Text input with dropdown button"
+                              placeholder="Mulai cari judul disini..." wire:model.live.debounce.250ms='title'>
+                          <select class="form-select" id="inputGroupSelect01" wire:model.live='type'>
+                              <option selected value="">Type</option>
+                              <option value="thesis">Skripsi</option>
+                              <option value="final_project">Tugas Akhir</option>
+                              <option value="manual_book">Manual Book</option>
+                          </select>
+                          <button class="btn btn-primary" wire:click='resetInput'>
+                              <i class="bi bi-arrow-clockwise"></i>
+                          </button>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="row">
+              @forelse ($repositories as $repository)
+                  <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.2s">
+                      <div class="p-4 pt-0 feature-item">
+                          <div class="p-4 mb-4 feature-icon">
+                              <i class="{{ $repository->icon_class }}"></i>
+                          </div>
+                          <h4 class="mb-4">{{ $repository->author }}</h4>
+                          <p class="mb-4">{{ $repository->title }}
+                          </p>
+                          <a class="px-4 py-2 btn btn-primary rounded-pill" href="#">Learn More</a>
+                      </div>
+                  </div>
+              @empty
+              @endforelse
+              <div class="py-3 col-12">
+                  {{ $repositories->Links() }}
+              </div>
+          </div>
+      </div>
+  </div>

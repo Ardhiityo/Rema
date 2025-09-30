@@ -2,8 +2,19 @@
      <div class="container">
          <nav class="navbar navbar-expand-lg navbar-light">
              <a href="#" class="p-0 navbar-brand">
-                 <h1 class="mb-0 text-primary"><i class="fab fa-slack me-2"></i> LifeSure</h1>
-                 <!-- <img src="img/logo.png" alt="Logo"> -->
+                 <h1 class="mb-0 text-primary">
+                     <div class="d-flex flex-column">
+                         <div class="d-flex flex-column align-items-center">
+                             <div class="gap-2 d-flex align-items-center">
+                                 <img src="{{ asset('assets/logo/unival.png') }}" class="img-fluid" alt="unival">
+                                 <span class="fw-bold">Rema</span>
+                             </div>
+                             <small class="fs-6">
+                                 <small>Repository Mahasiswa</small>
+                             </small>
+                         </div>
+                     </div>
+                 </h1>
              </a>
              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                  <span class="fa fa-bars"></span>
@@ -45,7 +56,7 @@
                  </a>
                  <div class="d-flex flex-column ms-3">
                      <span>Call to Our Experts</span>
-                     <a href="tel:+ 0123 456 7890"><span class="text-dark">Free: + 0123 456 7890</span></a>
+                     <a href="tel:+02547877057"><span class="text-dark">Free: (0254) 7877057</span></a>
                  </div>
              </div>
          </nav>

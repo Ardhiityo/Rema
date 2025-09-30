@@ -1,6 +1,4 @@
-@extends('layouts.welcome')
-
-@section('content')
+<x-welcome>
     <!-- Spinner Start -->
     <x-spinner />
     <!-- Spinner End -->
@@ -23,33 +21,8 @@
     <!-- Carousel End -->
 
     <!-- Feature Start -->
-    <x-feature />
+    <livewire:search-hero />
     <!-- Feature End -->
-
-    <!-- About Start -->
-    <x-about />
-    <!-- About End -->
-
-    <!-- Service Start -->
-    <x-service />
-    <!-- Service End -->
-
-    <!-- FAQs Start -->
-
-    <!-- FAQs End -->
-
-    <!-- Blog Start -->
-    <x-blog />
-    <!-- Blog End -->
-
-    <!-- Team Start -->
-    <x-team />
-    <!-- Team End -->
-
-    <!-- Testimonial Start -->
-    <x-testimonial />
-    <!-- Testimonial End -->
-
 
     <!-- Footer Start -->
     <div class="py-5 container-fluid footer wow fadeIn" data-wow-delay="0.2s">
@@ -64,7 +37,8 @@
                                         <h3 class="text-white"><i class="fab fa-slack me-3"></i> LifeSure</h3>
                                         <!-- <img src="img/logo.png" alt="Logo"> -->
                                     </a>
-                                    <p class="mb-4 text-white">Dolor amet sit justo amet elitr clita ipsum elitr est.Lorem
+                                    <p class="mb-4 text-white">Dolor amet sit justo amet elitr clita ipsum elitr
+                                        est.Lorem
                                         ipsum dolor sit amet, consectetur adipiscing...</p>
                                     <div class="footer-btn d-flex">
                                         <a class="btn btn-md-square rounded-circle me-3" href="#"><i
@@ -98,8 +72,9 @@
                                                 <img src="img/instagram-footer-1.jpg" class="img-fluid w-100"
                                                     alt="">
                                                 <div class="footer-search-icon">
-                                                    <a href="img/instagram-footer-1.jpg" data-lightbox="footerInstagram-1"
-                                                        class="my-auto"><i class="text-white fas fa-link"></i></a>
+                                                    <a href="img/instagram-footer-1.jpg"
+                                                        data-lightbox="footerInstagram-1" class="my-auto"><i
+                                                            class="text-white fas fa-link"></i></a>
                                                 </div>
                                             </div>
                                         </div>
@@ -108,8 +83,9 @@
                                                 <img src="img/instagram-footer-2.jpg" class="img-fluid w-100"
                                                     alt="">
                                                 <div class="footer-search-icon">
-                                                    <a href="img/instagram-footer-2.jpg" data-lightbox="footerInstagram-2"
-                                                        class="my-auto"><i class="text-white fas fa-link"></i></a>
+                                                    <a href="img/instagram-footer-2.jpg"
+                                                        data-lightbox="footerInstagram-2" class="my-auto"><i
+                                                            class="text-white fas fa-link"></i></a>
                                                 </div>
                                             </div>
                                         </div>
@@ -118,8 +94,9 @@
                                                 <img src="img/instagram-footer-3.jpg" class="img-fluid w-100"
                                                     alt="">
                                                 <div class="footer-search-icon">
-                                                    <a href="img/instagram-footer-3.jpg" data-lightbox="footerInstagram-3"
-                                                        class="my-auto"><i class="text-white fas fa-link"></i></a>
+                                                    <a href="img/instagram-footer-3.jpg"
+                                                        data-lightbox="footerInstagram-3" class="my-auto"><i
+                                                            class="text-white fas fa-link"></i></a>
                                                 </div>
                                             </div>
                                         </div>
@@ -128,8 +105,9 @@
                                                 <img src="img/instagram-footer-4.jpg" class="img-fluid w-100"
                                                     alt="">
                                                 <div class="footer-search-icon">
-                                                    <a href="img/instagram-footer-4.jpg" data-lightbox="footerInstagram-4"
-                                                        class="my-auto"><i class="text-white fas fa-link"></i></a>
+                                                    <a href="img/instagram-footer-4.jpg"
+                                                        data-lightbox="footerInstagram-4" class="my-auto"><i
+                                                            class="text-white fas fa-link"></i></a>
                                                 </div>
                                             </div>
                                         </div>
@@ -138,8 +116,9 @@
                                                 <img src="img/instagram-footer-5.jpg" class="img-fluid w-100"
                                                     alt="">
                                                 <div class="footer-search-icon">
-                                                    <a href="img/instagram-footer-5.jpg" data-lightbox="footerInstagram-5"
-                                                        class="my-auto"><i class="text-white fas fa-link"></i></a>
+                                                    <a href="img/instagram-footer-5.jpg"
+                                                        data-lightbox="footerInstagram-5" class="my-auto"><i
+                                                            class="text-white fas fa-link"></i></a>
                                                 </div>
                                             </div>
                                         </div>
@@ -148,8 +127,9 @@
                                                 <img src="img/instagram-footer-6.jpg" class="img-fluid w-100"
                                                     alt="">
                                                 <div class="footer-search-icon">
-                                                    <a href="img/instagram-footer-6.jpg" data-lightbox="footerInstagram-6"
-                                                        class="my-auto"><i class="text-white fas fa-link"></i></a>
+                                                    <a href="img/instagram-footer-6.jpg"
+                                                        data-lightbox="footerInstagram-6" class="my-auto"><i
+                                                            class="text-white fas fa-link"></i></a>
                                                 </div>
                                             </div>
                                         </div>
@@ -204,7 +184,8 @@
                 <div class="col-xl-3">
                     <div class="footer-item">
                         <h4 class="mb-4 text-white">Newsletter</h4>
-                        <p class="mb-3 text-white">Dolor amet sit justo amet elitr clita ipsum elitr est.Lorem ipsum dolor
+                        <p class="mb-3 text-white">Dolor amet sit justo amet elitr clita ipsum elitr est.Lorem ipsum
+                            dolor
                             sit amet, consectetur adipiscing elit.</p>
                         <div class="mb-4 position-relative rounded-pill">
                             <input class="py-3 form-control rounded-pill w-100 ps-4 pe-5" type="text"
@@ -224,7 +205,7 @@
                             </div>
                             <div class="flex-shrink-0 d-flex flex-column ms-3">
                                 <span>Call to Our Experts</span>
-                                <a href="tel:+ 0123 456 7890"><span class="text-white">Free: + 0123 456 7890</span></a>
+                                <a href="tel:02547877057"><span class="text-white">Free: (0254) 7877057</span></a>
                             </div>
                         </div>
                     </div>
@@ -241,4 +222,4 @@
 
     <!-- Back to Top -->
     <x-back-to-top />
-@endsection
+</x-welcome>

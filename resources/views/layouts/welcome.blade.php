@@ -29,11 +29,11 @@
 
     <!-- Template Stylesheet -->
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
-    @stack('styles')
 </head>
 
 <body>
-    @yield('content')
+
+    {{ $slot }}
 
     <!-- JavaScript Libraries -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
@@ -47,7 +47,18 @@
 
     <!-- Template Javascript -->
     <script src="{{ asset('js/main.js') }}"></script>
-    @stack('scripts')
+
+    <script>
+        window.addEventListener('scroll-to-search', () => {
+            const el = document.getElementById('search-hero');
+            if (el) {
+                el.scrollIntoView({
+                    behavior: 'instant',
+                    block: 'start'
+                });
+            }
+        });
+    </script>
 </body>
 
 </html>

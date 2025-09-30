@@ -21,16 +21,13 @@
                           <a class="p-0 btn text-primary me-3" href="#"><i class="fab fa-instagram"></i></a>
                           <a class="p-0 btn text-primary me-0" href="#"><i class="fab fa-linkedin-in"></i></a>
                       </div>
-                      <div class="dropdown ms-3">
-                          <a href="#" class="dropdown-toggle text-dark" data-bs-toggle="dropdown"><small><i
-                                      class="fas fa-globe-europe text-primary me-2"></i> English</small></a>
-                          <div class="rounded dropdown-menu">
-                              <a href="#" class="dropdown-item">English</a>
-                              <a href="#" class="dropdown-item">Bangla</a>
-                              <a href="#" class="dropdown-item">French</a>
-                              <a href="#" class="dropdown-item">Spanish</a>
-                              <a href="#" class="dropdown-item">Arabic</a>
-                          </div>
+                      <div class="gap-2 dropdown ms-3 d-flex">
+                          <a href="#" class="btn btn-primary btn-sm">
+                              Login
+                          </a>
+                          <a href="#" class="btn btn-outline-primary btn-sm">
+                              Register
+                          </a>
                       </div>
                   </div>
               </div>
