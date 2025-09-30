@@ -55,7 +55,7 @@ class SearchHero extends Component
         }
 
         $repositories = SearchHeroData::collect($query->with(['author', 'author.studyProgram'])
-            ->paginate(1));
+            ->paginate(12));
 
         return view('livewire.search-hero', compact('repositories'));
     }
