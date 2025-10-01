@@ -22,6 +22,15 @@
             </div>
             <div class="card-body">
                 <div>
+
+                    @if ($errors->any())
+                        <ul>
+                            @foreach ($errors as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    @endif
+
                     <div class="mb-4 row">
                         <div class="form-group">
                             <div>

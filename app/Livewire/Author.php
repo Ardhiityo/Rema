@@ -52,6 +52,8 @@ class Author extends Component
     {
         $validated = $this->validate();
 
+        $validated['status'] = 'approve';
+
         \App\Models\Author::create($validated);
 
         return redirect()->route('author.index');

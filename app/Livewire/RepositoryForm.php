@@ -11,6 +11,7 @@ use App\Data\RepositoryData;
 use Livewire\WithFileUploads;
 use Livewire\Attributes\Computed;
 use App\Rules\RepositoryUpdateRule;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class RepositoryForm extends Component
@@ -81,7 +82,9 @@ class RepositoryForm extends Component
             $this->year = $repository_data->published_at_year;
             $this->is_update = true;
         } else {
-            $this->published_at = Carbon::now()->format('Y-m-d');
+            $date =  Carbon::now();
+            $this->published_at = $date->format('Y-m-d');
+            $this->year = $date->year;
         }
     }
 
@@ -101,6 +104,7 @@ class RepositoryForm extends Component
     {
         $validated = $this->validate();
         $validated['file_path'] = $validated['file_path']->store('repositories', 'public');
+        $validated['status'] = 'approve';
         Repository::create($validated);
 
         return redirect()->route('repository.index');
