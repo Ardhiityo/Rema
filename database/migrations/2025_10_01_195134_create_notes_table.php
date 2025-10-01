@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('authors', function (Blueprint $table) {
+        Schema::create('notes', function (Blueprint $table) {
             $table->id();
-            $table->string('nim');
-            $table->string('name');
-            $table->foreignId('study_program_id')->constrained()->cascadeOnDelete();
-            $table->enum('status', ['pending', 'approve', 'reject']);
+            $table->foreignId('repository_id')->constrained()->cascadeOnDelete();
+            $table->longText('description');
             $table->timestamps();
         });
     }
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('authors');
+        Schema::dropIfExists('notes');
     }
 };

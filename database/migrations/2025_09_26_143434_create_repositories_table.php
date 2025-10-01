@@ -21,6 +21,7 @@ return new class extends Migration
             $table->dateTime('published_at');
             $table->year('year');
             $table->string('slug')->unique();
+            $table->enum('status', ['approve', 'reject', 'pending', 'revision']);
             $table->timestamps();
         });
     }

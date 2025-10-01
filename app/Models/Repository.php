@@ -10,4 +10,9 @@ class Repository extends Model
     {
         return $this->belongsTo(Author::class, 'author_id', 'id');
     }
+
+    public function notes()
+    {
+        return $this->hasMany(Note::class, 'repository_id', 'id');
+    }
 }
