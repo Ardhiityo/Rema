@@ -20,11 +20,18 @@
                 <div class="card">
                     <div class="card-header">
                         <h4 class="card-title">Edit Profile</h4>
+                        @if (session('message'))
+                            <div class="alert alert-warning">
+                                <i class="bi bi-exclamation-triangle-fill"></i>
+                                {{ session('message') }}
+                            </div>
+                        @endif
                     </div>
                     <div class="card-content">
                         <div class="card-body">
                             <div class="form">
                                 <div class="row">
+                                    {{-- Name --}}
                                     <div class="col-12">
                                         <div class="form-group">
                                             <label for="first-name-column" class="form-label">Name</label>
@@ -37,6 +44,52 @@
                                             @enderror
                                         </div>
                                     </div>
+                                    {{-- Name --}}
+
+                                    {{-- NIM --}}
+                                    @hasrole('contributor')
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label for="first-name-column" class="form-label">NIM</label>
+                                                <input type="text" id="first-name-column" class="form-control"
+                                                    placeholder="ex: 22040004" name="nim" wire:model='nim'>
+                                                @error('nim')
+                                                    <span class="badge bg-danger">
+                                                        {{ $message }}
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    @endhasrole
+                                    {{-- NIM --}}
+
+                                    {{-- Study Program --}}
+                                    @hasrole('contributor')
+                                        <div class="my-2 col-12">
+                                            <div class="input-group">
+                                                <label class="input-group-text" for="inputGroupSelect01" class="form-label">
+                                                    Study Program
+                                                </label>
+                                                <select class="form-select" id="inputGroupSelect01"
+                                                    wire:model='study_program_id'>
+                                                    <option selected>Choose...</option>
+                                                    @foreach ($study_programs as $study_program)
+                                                        <option value="{{ $study_program->id }}">
+                                                            {{ $study_program->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            @error('study_program_id')
+                                                <span class="badge bg-danger">
+                                                    {{ $message }}
+                                                </span>
+                                            @enderror
+                                        </div>
+                                    @endhasrole
+                                    {{-- Study Program --}}
+
+                                    {{-- Email --}}
                                     <div class="col-12">
                                         <div class="form-group">
                                             <label for="last-name-column" class="form-label">Email</label>
@@ -50,6 +103,9 @@
                                             @enderror
                                         </div>
                                     </div>
+                                    {{-- Email --}}
+
+                                    {{-- Password --}}
                                     <div class="col-12">
                                         <div class="form-group">
                                             <label for="city-column" class="form-label">Password</label>
@@ -63,6 +119,9 @@
                                             @enderror
                                         </div>
                                     </div>
+                                    {{-- Password --}}
+
+                                    {{-- Avatar --}}
                                     <div class="col-12">
                                         <div class="form-group">
                                             <label for="country-floating" class="form-label">Avatar</label>
@@ -75,6 +134,8 @@
                                             @enderror
                                         </div>
                                     </div>
+                                    {{-- Avatar --}}
+
                                     <div class="gap-3 mt-4 col-12 d-flex">
                                         <button type="submit" wire:click='update' class="mb-1 btn btn-primary"
                                             wire:loading.attr='disabled' wire:target='update'>

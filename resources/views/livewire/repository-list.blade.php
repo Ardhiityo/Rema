@@ -34,7 +34,7 @@
                                 <th>Title</th>
                                 <th>Author</th>
                                 <th>Type</th>
-                                <th>Published At</th>
+                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -45,7 +45,9 @@
                                     <td class="text-bold-500">{{ $repository->short_title }}</td>
                                     <td class="text-bold-500">{{ $repository->author_name }}</td>
                                     <td class="text-bold-500">{{ $repository->type }}</td>
-                                    <td class="text-bold-500">{{ $repository->publised_at_to_dfy }}</td>
+                                    <td class="text-bold-500">
+                                        <span class="{{ $repository->badge_status }}">{{ $repository->status }}</span>
+                                    </td>
                                     <td class="gap-3 d-flex justify-content-center align-items-center">
                                         <a href="{{ route('repository.show', ['repository' => $repository->slug]) }}"
                                             class="btn btn-info">
@@ -64,7 +66,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="7" class="text-center">Data Not Found</td>
+                                    <td colspan="6" class="text-center">Data Not Found</td>
                                 </tr>
                             @endforelse
                             <tr>

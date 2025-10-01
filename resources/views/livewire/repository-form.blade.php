@@ -22,17 +22,9 @@
             </div>
             <div class="card-body">
                 <div>
-
-                    @if ($errors->any())
-                        <ul>
-                            @foreach ($errors as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    @endif
-
                     <div class="mb-4 row">
                         <div class="form-group">
+                            {{-- Title --}}
                             <div>
                                 <label for="basicInput" class="form-label">Title</label>
                                 <input type="text" required class="form-control" id="basicInput" wire:model='title'
@@ -43,7 +35,9 @@
                                     </span>
                                 @enderror
                             </div>
+                            {{-- Title --}}
 
+                            {{-- Abstract --}}
                             <div class="mt-4">
                                 <div class="mb-3 form-group">
                                     <label for="exampleFormControlTextarea1" class="form-label">Abstract</label>
@@ -55,7 +49,9 @@
                                     @enderror
                                 </div>
                             </div>
+                            {{-- Abstract --}}
 
+                            {{-- File Path --}}
                             <div class="mt-4">
                                 <label for="formFile" class="form-label">
                                     File
@@ -68,28 +64,34 @@
                                     </span>
                                 @enderror
                             </div>
+                            {{-- File Path --}}
 
-                            <div class="mt-4">
-                                <div class="input-group">
-                                    <label class="input-group-text" for="inputGroupSelect01">
-                                        Author
-                                    </label>
-                                    <select class="form-select" id="inputGroupSelect01" wire:model='author_id'>
-                                        <option selected>Choose...</option>
-                                        @foreach ($authors as $author)
-                                            <option value="{{ $author->id }}">
-                                                {{ $author->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
+                            {{-- Author --}}
+                            @hasrole('admin')
+                                <div class="mt-4">
+                                    <div class="input-group">
+                                        <label class="input-group-text" for="inputGroupSelect01">
+                                            Author
+                                        </label>
+                                        <select class="form-select" id="inputGroupSelect01" wire:model='author_id'>
+                                            <option selected>Choose...</option>
+                                            @foreach ($authors as $author)
+                                                <option value="{{ $author->id }}">
+                                                    {{ $author->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    @error('author_id')
+                                        <span class="badge bg-danger">
+                                            {{ $message }}
+                                        </span>
+                                    @enderror
                                 </div>
-                                @error('author_id')
-                                    <span class="badge bg-danger">
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
+                            @endhasrole
+                            {{-- Author --}}
 
+                            {{-- Type --}}
                             <div class="mt-4">
                                 <div class="input-group">
                                     <label class="input-group-text" for="inputGroupSelect01">
@@ -114,17 +116,22 @@
                                     </span>
                                 @enderror
                             </div>
+                            {{-- Type --}}
 
-                            <div class="mt-4">
-                                <label for="published_at" class="form-label">Published At</label>
-                                <input type="date" class="form-control" placeholder="Select date.."
-                                    wire:model='published_at'>
-                                @error('published_at')
-                                    <span class="badge bg-danger">
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
+                            {{-- Published At --}}
+                            @hasrole('admin')
+                                <div class="mt-4">
+                                    <label for="published_at" class="form-label">Published At</label>
+                                    <input type="date" class="form-control" placeholder="Select date.."
+                                        wire:model='published_at'>
+                                    @error('published_at')
+                                        <span class="badge bg-danger">
+                                            {{ $message }}
+                                        </span>
+                                    @enderror
+                                </div>
+                            @endhasrole
+                            {{-- Published At --}}
                         </div>
 
                     </div>

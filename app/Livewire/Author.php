@@ -108,6 +108,8 @@ class Author extends Component
     {
         $query = \App\Models\Author::query();
 
+        $query->where('status', 'approve');
+
         if ($keyword = $this->keyword) {
             $query->whereLike('name', "%$keyword%")->orWhere('nim', $keyword);
         }

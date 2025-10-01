@@ -46,24 +46,39 @@
        <div class="sidebar-menu">
            <ul class="menu">
                <li class="sidebar-title">Menu</li>
+
+               {{-- Dashboard --}}
                <li class="sidebar-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
                    <a href="{{ route('dashboard') }}" class='sidebar-link'>
                        <i class="bi bi-grid-fill"></i>
                        <span>Dashboard</span>
                    </a>
                </li>
-               <li class="sidebar-item {{ request()->is('study-programs*') ? 'active' : '' }}">
-                   <a href="{{ route('study-program.index') }}" class='sidebar-link'>
-                       <i class="bi bi-mortarboard"></i>
-                       <span>Study Programs</span>
-                   </a>
-               </li>
-               <li class="sidebar-item {{ request()->is('authors*') ? 'active' : '' }}">
-                   <a href="{{ route('author.index') }}" class='sidebar-link'>
-                       <i class="bi bi-person-lines-fill"></i>
-                       <span>Authors</span>
-                   </a>
-               </li>
+               {{-- Dashboard --}}
+
+               {{-- Study Program --}}
+               @hasrole('admin')
+                   <li class="sidebar-item {{ request()->is('study-programs*') ? 'active' : '' }}">
+                       <a href="{{ route('study-program.index') }}" class='sidebar-link'>
+                           <i class="bi bi-mortarboard"></i>
+                           <span>Study Programs</span>
+                       </a>
+                   </li>
+               @endhasrole
+               {{-- Study Program --}}
+
+               {{-- Author --}}
+               @hasrole('admin')
+                   <li class="sidebar-item {{ request()->is('authors*') ? 'active' : '' }}">
+                       <a href="{{ route('author.index') }}" class='sidebar-link'>
+                           <i class="bi bi-person-lines-fill"></i>
+                           <span>Authors</span>
+                       </a>
+                   </li>
+               @endhasrole
+               {{-- Author --}}
+
+               {{-- Repositories --}}
                <li class="sidebar-item has-sub {{ request()->is('repositories*') ? 'active' : '' }}">
                    <a href="index.html" class='sidebar-link'>
                        <i class="bi bi-journal-text"></i>
@@ -78,18 +93,25 @@
                        </li>
                    </ul>
                </li>
+               {{-- Repositories --}}
+
+               {{-- Profile --}}
                <li class="sidebar-item {{ request()->is('profile*') ? 'active' : '' }}">
                    <a href="{{ route('profile.index') }}" class='sidebar-link'>
                        <i class="bi bi-person-badge-fill"></i>
                        <span>Profile</span>
                    </a>
                </li>
+               {{-- Profile --}}
+
+               {{-- Logout --}}
                <li class="sidebar-item" data-bs-toggle="modal" data-bs-target="#logoutModal">
                    <span class="sidebar-link" style="cursor: pointer;">
                        <i class="bi bi-puzzle"></i>
                        <span>Logout</span>
                    </span>
                </li>
+               {{-- Logout --}}
            </ul>
        </div>
 

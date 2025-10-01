@@ -34,6 +34,8 @@ class RepositoryList extends Component
     {
         $query = Repository::query();
 
+        $query->where('status', 'approve');
+
         if ($keyword = $this->keyword) {
             $query->whereLike('title', "%$keyword%");
         }

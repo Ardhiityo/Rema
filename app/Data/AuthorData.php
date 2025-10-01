@@ -9,9 +9,9 @@ class AuthorData extends Data
 {
     public function __construct(
         public int $id,
-        public int $nim,
+        public string $nim,
         public string $name,
-        public int $study_program,
+        public int $study_program_id,
         public string $study_program_name
     ) {}
 

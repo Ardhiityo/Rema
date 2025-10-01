@@ -12,6 +12,7 @@ use Livewire\WithFileUploads;
 use Livewire\Attributes\Computed;
 use App\Rules\RepositoryUpdateRule;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class RepositoryForm extends Component
@@ -61,7 +62,6 @@ class RepositoryForm extends Component
         return $this->is_update ? 'Edit Repository' : 'Create New Repository';
     }
 
-
     public function mount(string $repository_slug = '')
     {
         if ($repository_slug) {
@@ -102,9 +102,22 @@ class RepositoryForm extends Component
 
     public function create()
     {
+        $user = Auth::user();
+
+        if ($user->hasRole('contributor')) {
+            $this->author_id = $user->author->id;
+            $this->published_at = Carbon::now();
+            $this->year = Carbon::now()->year;
+        }
+
         $validated = $this->validate();
+
         $validated['file_path'] = $validated['file_path']->store('repositories', 'public');
-        $validated['status'] = 'approve';
+
+        if ($user->hasRole('admin')) {
+            $validated['status'] = 'approve';
+        }
+
         Repository::create($validated);
 
         return redirect()->route('repository.index');

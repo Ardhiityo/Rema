@@ -18,6 +18,7 @@ class RepositoryData extends Data
     public string $published_at_year;
     #[Computed]
     public string $short_title;
+    public string $badge_status;
 
     public function __construct(
         public int $id,
@@ -32,13 +33,15 @@ class RepositoryData extends Data
         public string $year,
         public string $slug,
         public string $study_program,
-        public string $original_type
+        public string $original_type,
+        public string $status
     ) {
         $date = Carbon::parse($this->published_at);
         $this->publised_at_to_dfy = $date->format('d F Y');
         $this->publised_at_to_ymd = $date->format('Y-m-d');
         $this->published_at_year = $date->year;
         $this->short_title = Str::limit($title, 30, '...');
+        $this->badge_status = $status === 'approve' ? 'badge bg-success' : 'badge bg-danger';
     }
 
     public static function fromModel(Repository $repository)
@@ -56,7 +59,8 @@ class RepositoryData extends Data
             $repository->year,
             $repository->slug,
             $repository->author->studyProgram->name,
-            $repository->type
+            $repository->type,
+            ucfirst($repository->status)
         );
     }
 }

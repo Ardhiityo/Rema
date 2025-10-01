@@ -13,7 +13,7 @@
                               </p>
                               <div class="flex-shrink-0 mb-4 d-flex justify-content-center justify-content-md-start">
                                   <a class="px-4 py-3 btn btn-light rounded-pill px-md-5 me-2"
-                                      href="#{{ route('login') }}">
+                                      href="{{ route('login') }}">
                                       Sign In
                                   </a>
                                   <a class="px-4 py-3 btn btn-dark rounded-pill px-md-5 me-2"
