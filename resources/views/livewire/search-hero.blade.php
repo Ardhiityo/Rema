@@ -23,8 +23,12 @@
                           <option value="final_project">Tugas Akhir</option>
                           <option value="manual_book">Manual Book</option>
                       </select>
-                      <button class="btn btn-primary" wire:click='resetInput'>
-                          <i class="bi bi-arrow-clockwise"></i>
+                      <button class="btn btn-primary d-flex align-items-center" wire:click='resetInput'
+                          wire:loading.attr='disabled' wire:target='resetInput'>
+                          <i class="bi bi-arrow-clockwise" wire:loading.class='d-none' wire:target='resetInput'></i>
+                          <span wire:loading wire:target='resetInput'>
+                              <span class="spinner-border spinner-border-sm text-light" role="status"></span>
+                          </span>
                       </button>
                   </div>
                   {{-- Display Medium Only --}}
@@ -41,8 +45,11 @@
                           <option value="final_project">Tugas Akhir</option>
                           <option value="manual_book">Manual Book</option>
                       </select>
-                      <button class="btn btn-primary" wire:click='resetInput'>
-                          <i class="bi bi-arrow-clockwise"></i>
+                      <button class="btn btn-primary" wire:click='resetInput' wire:target='resetInput'>
+                          <i class="bi bi-arrow-clockwise" wire:loading.class='d-none' wire:target='resetInput'></i>
+                          <span wire:loading wire:target='resetInput'>
+                              <span class="spinner-border spinner-border-sm text-light" role="status"></span>
+                          </span>
                       </button>
                   </div>
                   {{-- Display Small Only --}}
@@ -53,14 +60,20 @@
                           placeholder="Author" wire:model.live.debounce.250ms='author'>
                       <input type="number" class="form-control w-100" aria-label="Text input with dropdown button"
                           placeholder="Year" wire:model.live.debounce.250ms='year'>
-                      <select class="form-select w-100" id="inputGroupSelect01" wire:model.live='type'>
+                      <select class="form-select w-100" id="inputGroupSelect01" wire:model.live='type'
+                          wire:target='resetInput'>
                           <option selected value="">Type</option>
                           <option value="thesis">Skripsi</option>
                           <option value="final_project">Tugas Akhir</option>
                           <option value="manual_book">Manual Book</option>
                       </select>
-                      <button class="btn btn-primary w-100" wire:click='resetInput'>
-                          <i class="bi bi-arrow-clockwise"></i> <small>Reset</small>
+                      <button class="btn btn-primary w-100" wire:click='resetInput' wire:target='resetInput'>
+                          <span wire:loading.class='d-none' wire:target='resetInput'>
+                              <i class="bi bi-arrow-clockwise"></i> <small>Reset</small>
+                          </span>
+                          <span wire:loading wire:target='resetInput'>
+                              <span class="spinner-border spinner-border-sm text-light" role="status"></span>
+                          </span>
                       </button>
                   </div>
               </div>
@@ -92,8 +105,15 @@
                       </a>
                   </div>
               @empty
+                  <div class="col-12 d-flex justify-content-center">
+                      <div class="mt-4">
+                          <h5 class="text-muted">
+                              Ups, no repositories available
+                              <i class="far fa-frown-open"></i>
+                          </h5>
+                      </div>
+                  </div>
               @endforelse
-
               <div class="py-3 col-12 d-flex justify-content-end">
                   {{ $repositories->Links() }}
               </div>

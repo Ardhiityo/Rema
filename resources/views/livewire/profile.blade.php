@@ -3,9 +3,7 @@
         <div class="row">
             <div class="order-last col-12 col-md-6 order-md-1">
                 <h3>My Accounts</h3>
-                <p class="text-subtitle text-muted">Give textual form controls like input upgrade with
-                    custom styles,
-                    sizing, focus states, and more.</p>
+                <p class="text-subtitle text-muted">All data about your account.</p>
             </div>
             <div class="order-first col-12 col-md-6 order-md-2">
                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">

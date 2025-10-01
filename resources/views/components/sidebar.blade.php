@@ -3,7 +3,7 @@
            <div class="gap-3 flex-column d-flex justify-content-between align-items-center">
                <div class="logo">
                    <a href="{{ route('dashboard') }}" class="d-flex justify-content-center">
-                       <img src="{{ asset('assets/logo/unival.png') }}" class="h-50 w-50" alt="Logo" srcset="">
+                       <img src="{{ asset('assets/logo/favicon.jpg') }}" class="h-50 w-50" alt="Logo" srcset="">
                    </a>
                </div>
                <div class="gap-2 mt-2 theme-toggle d-flex align-items-center">

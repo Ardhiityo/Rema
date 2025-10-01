@@ -6,7 +6,7 @@
                      <div class="d-flex flex-column">
                          <div class="d-flex flex-column align-items-center">
                              <div class="gap-2 d-flex align-items-center">
-                                 <img src="{{ asset('assets/logo/unival.png') }}" class="img-fluid" alt="unival">
+                                 <img src="{{ asset('assets/logo/favicon.jpg') }}" class="img-fluid" alt="unival">
                                  <span class="fw-bold">Rema</span>
                              </div>
                              <small class="fs-6">

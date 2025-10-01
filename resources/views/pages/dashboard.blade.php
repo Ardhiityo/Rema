@@ -3,7 +3,7 @@
 @section('content')
     <main>
         <div class="page-heading">
-            <h3>Repository Statistics</h3>
+            <h4>Hello, {{ $user_logged->name }}</h4>
         </div>
         <div class="page-content">
             <section class="row">
