@@ -17,6 +17,8 @@ class SearchHero extends Component
 
     public string $title = '';
     public string $type = '';
+    public string $year = '';
+    public string $author = '';
 
     protected function queryString()
     {
@@ -25,6 +27,12 @@ class SearchHero extends Component
                 'except' => ''
             ],
             'title' => [
+                'except' => ''
+            ],
+            'year' => [
+                'except' => ''
+            ],
+            'author' => [
                 'except' => ''
             ]
         ];
@@ -52,6 +60,17 @@ class SearchHero extends Component
 
         if ($type = $this->type) {
             $query->where('type', $type);
+        }
+
+        if ($year = $this->year) {
+            $query->where('year', $year);
+        }
+
+        if ($author = $this->author) {
+            $query->whereHas(
+                'author',
+                fn($query) => $query->whereLike('name', "%$author%")
+            );
         }
 
         $repositories = SearchHeroData::collect($query->with(['author', 'author.studyProgram'])

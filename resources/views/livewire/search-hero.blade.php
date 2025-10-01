@@ -1,4 +1,4 @@
-  <div class="py-5 container-fluid feature bg-light" id="search-hero">
+  <div class="py-5 container-fluid feature bg-light" id="repositories">
       <div class="container py-5">
           <div class="py-4 mx-auto text-center wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
               <h4 class="text-primary">Solusi Akademik Digital</h4>
@@ -7,37 +7,61 @@
                   dan tampilan yang ramah pengguna, Rema hadir untuk mendukung perjalanan belajarmu.
               </p>
           </div>
-          <div class="pb-3 row">
+          <div class="pb-3 row" id="search-hero">
               <div class="col-12">
-                  <div class="col-12">
-                      {{-- Display Large Only --}}
-                      <div class="mb-3 d-lg-flex d-none input-group input-group-lg">
-                          <input type="text" class="w-75 form-control" aria-label="Text input with dropdown button"
-                              placeholder="Cari judul disini..." wire:model.live.debounce.250ms='title'>
-                          <select class="w-auto form-select" id="inputGroupSelect01" wire:model.live='type'>
-                              <option selected value="">Type</option>
-                              <option value="thesis">Skripsi</option>
-                              <option value="final_project">Tugas Akhir</option>
-                              <option value="manual_book">Manual Book</option>
-                          </select>
-                          <button class="btn btn-primary" wire:click='resetInput'>
-                              <i class="bi bi-arrow-clockwise"></i>
-                          </button>
-                      </div>
-                      {{-- Display Small, Medium Only --}}
-                      <div class="mb-3 d-flex d-lg-none input-group">
-                          <input type="text" class="form-control w-50" aria-label="Text input with dropdown button"
-                              placeholder="Judul" wire:model.live.debounce.250ms='title'>
-                          <select class="form-select w-25" id="inputGroupSelect01" wire:model.live='type'>
-                              <option selected value="">Type</option>
-                              <option value="thesis">Skripsi</option>
-                              <option value="final_project">Tugas Akhir</option>
-                              <option value="manual_book">Manual Book</option>
-                          </select>
-                          <button class="btn btn-primary" wire:click='resetInput'>
-                              <i class="bi bi-arrow-clockwise"></i>
-                          </button>
-                      </div>
+                  {{-- Display Large Only --}}
+                  <div class="mb-3 d-lg-flex d-none input-group input-group-lg">
+                      <input type="text" class="form-control" aria-label="Text input with dropdown button"
+                          placeholder="Title" wire:model.live.debounce.250ms='title'>
+                      <input type="text" class="form-control" aria-label="Text input with dropdown button"
+                          placeholder="Author" wire:model.live.debounce.250ms='author'>
+                      <input type="number" class="form-control" aria-label="Text input with dropdown button"
+                          placeholder="Year" wire:model.live.debounce.250ms='year'>
+                      <select class="form-select" id="inputGroupSelect01" wire:model.live='type'>
+                          <option selected value="">Type</option>
+                          <option value="thesis">Skripsi</option>
+                          <option value="final_project">Tugas Akhir</option>
+                          <option value="manual_book">Manual Book</option>
+                      </select>
+                      <button class="btn btn-primary" wire:click='resetInput'>
+                          <i class="bi bi-arrow-clockwise"></i>
+                      </button>
+                  </div>
+                  {{-- Display Medium Only --}}
+                  <div class="mb-3 d-md-flex d-none d-lg-none input-group">
+                      <input type="text" class="form-control" aria-label="Text input with dropdown button"
+                          placeholder="Title" wire:model.live.debounce.250ms='title'>
+                      <input type="text" class="form-control" aria-label="Text input with dropdown button"
+                          placeholder="Author" wire:model.live.debounce.250ms='author'>
+                      <input type="number" class="form-control" aria-label="Text input with dropdown button"
+                          placeholder="Year" wire:model.live.debounce.250ms='year'>
+                      <select class="form-select" id="inputGroupSelect01" wire:model.live='type'>
+                          <option selected value="">Type</option>
+                          <option value="thesis">Skripsi</option>
+                          <option value="final_project">Tugas Akhir</option>
+                          <option value="manual_book">Manual Book</option>
+                      </select>
+                      <button class="btn btn-primary" wire:click='resetInput'>
+                          <i class="bi bi-arrow-clockwise"></i>
+                      </button>
+                  </div>
+                  {{-- Display Small Only --}}
+                  <div class="flex-wrap gap-2 mb-3 d-md-none d-flex d-lg-none">
+                      <input type="text" class="form-control w-100" aria-label="Text input with dropdown button"
+                          placeholder="Title" wire:model.live.debounce.250ms='title'>
+                      <input type="text" class="form-control w-100" aria-label="Text input with dropdown button"
+                          placeholder="Author" wire:model.live.debounce.250ms='author'>
+                      <input type="number" class="form-control w-100" aria-label="Text input with dropdown button"
+                          placeholder="Year" wire:model.live.debounce.250ms='year'>
+                      <select class="form-select w-100" id="inputGroupSelect01" wire:model.live='type'>
+                          <option selected value="">Type</option>
+                          <option value="thesis">Skripsi</option>
+                          <option value="final_project">Tugas Akhir</option>
+                          <option value="manual_book">Manual Book</option>
+                      </select>
+                      <button class="btn btn-primary w-100" wire:click='resetInput'>
+                          <i class="bi bi-arrow-clockwise"></i> <small>Reset</small>
+                      </button>
                   </div>
               </div>
           </div>

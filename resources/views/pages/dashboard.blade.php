@@ -78,17 +78,26 @@
                                                 @forelse ($latest_repositories as $latest_repository)
                                                     <tr>
                                                         <td class="col-3">
-                                                            <div class="d-flex align-items-center justify-content-center">
-                                                                <div class="avatar avatar-md">
-                                                                    <img src="./assets/compiled/jpg/2.jpg">
+                                                            <a
+                                                                href="{{ route('repository.show', ['repository' => $latest_repository->slug]) }}">
+                                                                <div
+                                                                    class="d-flex align-items-center justify-content-center">
+                                                                    <div class="avatar avatar-md">
+                                                                        <img src="./assets/compiled/jpg/2.jpg">
+                                                                    </div>
+                                                                    <p class="mb-0 font-bold ms-3">
+                                                                        {{ $latest_repository->author }}</p>
                                                                 </div>
-                                                                <p class="mb-0 font-bold ms-3">
-                                                                    {{ $latest_repository->author }}</p>
-                                                            </div>
+                                                            </a>
                                                         </td>
                                                         <td class="col-auto">
-                                                            <p class="mb-0 text-center">{{ $latest_repository->title }}</p>
+                                                            <a
+                                                                href="{{ route('repository.show', ['repository' => $latest_repository->slug]) }}">
+                                                                <p class="mb-0 text-center">{{ $latest_repository->title }}
+                                                                </p>
+                                                            </a>
                                                         </td>
+
                                                     </tr>
                                                 @empty
                                                     <tr>

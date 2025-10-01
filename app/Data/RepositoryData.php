@@ -3,6 +3,7 @@
 namespace App\Data;
 
 use App\Models\Repository;
+use Illuminate\Support\Str;
 use Spatie\LaravelData\Data;
 use Illuminate\Support\Carbon;
 use Spatie\LaravelData\Attributes\Computed;
@@ -15,6 +16,8 @@ class RepositoryData extends Data
     public string $publised_at_to_dfy;
     #[Computed]
     public string $published_at_year;
+    #[Computed]
+    public string $short_title;
 
     public function __construct(
         public int $id,
@@ -34,6 +37,7 @@ class RepositoryData extends Data
         $this->publised_at_to_dfy = $date->format('d F Y');
         $this->publised_at_to_ymd = $date->format('Y-m-d');
         $this->published_at_year = $date->year;
+        $this->short_title = Str::limit($title, 30, '...');
     }
 
     public static function fromModel(Repository $repository)

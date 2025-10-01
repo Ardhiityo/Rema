@@ -12,7 +12,7 @@
                                   akhir, dan manual book secara terstruktur dan mudah diakses.
                               </p>
                               <div class="flex-shrink-0 mb-4 d-flex justify-content-center justify-content-md-start">
-                                  <a class="px-4 py-3 btn btn-light rounded-pill px-md-5 me-2" href="#search-hero">
+                                  <a class="px-4 py-3 btn btn-light rounded-pill px-md-5 me-2" href="#repositories">
                                       <i class="fas fa-search me-2"></i>
                                       Temukan Inspirasi
                                   </a>
@@ -45,7 +45,7 @@
                                   tugas akhir, dan manual book secara terstruktur dan mudah diakses.
                               </p>
                               <div class="flex-shrink-0 mb-4 d-flex justify-content-center justify-content-md-end">
-                                  <a class="px-4 py-3 btn btn-light rounded-pill px-md-5 me-2" href="#search-hero">
+                                  <a class="px-4 py-3 btn btn-light rounded-pill px-md-5 me-2" href="#repositories">
                                       <i class="fas fa-search me-2"></i>
                                       Temukan Inspirasi
                                   </a>

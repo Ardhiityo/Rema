@@ -44,7 +44,7 @@
                             @forelse ($repositories as $repository)
                                 <tr class="text-nowrap" wire:key='{{ $repository->slug }}'>
                                     <td class="text-bold-500">{{ $loop->index + $repositories->firstItem() }}</td>
-                                    <td class="text-bold-500">{{ $repository->title }}</td>
+                                    <td class="text-bold-500">{{ $repository->short_title }}</td>
                                     <td class="text-bold-500">{{ $repository->author_name }}</td>
                                     <td class="text-bold-500">{{ $repository->type }}</td>
                                     <td class="text-bold-500">{{ $repository->publised_at_to_dfy }}</td>

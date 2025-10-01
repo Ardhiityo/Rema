@@ -22,7 +22,7 @@
              <div class="collapse navbar-collapse" id="navbarCollapse">
                  <div class="navbar-nav">
                      <a href="#home" class="nav-item nav-link">Home</a>
-                     <a href="#search-hero" class="nav-item nav-link">Repositories</a>
+                     <a href="#repositories" class="nav-item nav-link">Repositories</a>
                      <a href="#contact" class="nav-item nav-link">Contact</a>
                  </div>
              </div>
