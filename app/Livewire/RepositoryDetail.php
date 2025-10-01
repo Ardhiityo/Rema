@@ -15,6 +15,7 @@ class RepositoryDetail extends Component
     public string $nim = '';
     public string $published_at = '';
     public string $study_program = '';
+    public string $slug = '';
 
     public function mount(Repository $repository)
     {
@@ -27,7 +28,8 @@ class RepositoryDetail extends Component
         $this->type = $repository_data->type;
         $this->author = $repository_data->author_name;
         $this->nim = $repository_data->nim;
-        $this->published_at = $repository_data->published_at;
+        $this->slug = $repository_data->slug;
+        $this->published_at = $repository_data->publised_at_to_ymd;
         $this->study_program = $repository_data->study_program;
     }
 

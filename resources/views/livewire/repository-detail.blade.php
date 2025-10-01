@@ -20,21 +20,28 @@
         <div>
             <section class="section">
                 <div class="card">
-                    <div class="pb-0 card-header">
-                        <h4 class="card-title">{{ $title }}</h4>
-                        <h6>
-                            <small>{{ $author }} | {{ $nim }} | {{ $study_program }}</small>
-                        </h6>
-                    </div>
                     <div class="card-content">
                         <div class="card-body">
-                            <p>
-                                {{ $abstract }}
+                            <div class="flex-column d-flex">
+                                <h4 class="card-title">{{ $author }}</h4>
+                                <p>
+                                    <small>{{ $nim }} | {{ $study_program }}</small>
+                                </p>
+                            </div>
+                            <p class="card-text">
+                                {{ $title }}
                             </p>
-                            <ul class="list-group">
-                                <li class="list-group-item">{{ $type }}</li>
-                                <li class="list-group-item">{{ $published_at }}</li>
-                            </ul>
+                            <p>
+                                <small> {{ $type }}</small>
+                            </p>
+                            <p>
+                                <small> {{ $published_at }}</small>
+                            </p>
+                            <a href="{{ route('repository.read', ['repository' => $slug]) }}" target="_blank"
+                                class="block btn btn-primary">
+                                <i class="bi bi-eye-fill"></i>
+                                View
+                            </a>
                         </div>
                     </div>
                 </div>

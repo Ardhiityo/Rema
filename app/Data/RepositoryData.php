@@ -6,6 +6,7 @@ use App\Models\Repository;
 use Illuminate\Support\Str;
 use Spatie\LaravelData\Data;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Storage;
 use Spatie\LaravelData\Attributes\Computed;
 
 class RepositoryData extends Data
@@ -31,7 +32,7 @@ class RepositoryData extends Data
         public string $published_at,
         public string $year,
         public string $slug,
-        public string $study_program,
+        public string $study_program
     ) {
         $date = Carbon::parse($this->published_at);
         $this->publised_at_to_dfy = $date->format('d F Y');
@@ -48,7 +49,7 @@ class RepositoryData extends Data
             $repository->author->nim,
             $repository->abstract,
             $repository->file_path,
-            $repository->type,
+            $repository->type == 'thesis' ? 'Skripsi' : ($repository->type === 'final_Project' ? 'Tugas Akhir' : 'Manual Book'),
             $repository->author->id,
             $repository->author->name,
             $repository->published_at,
