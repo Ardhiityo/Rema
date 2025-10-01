@@ -110,7 +110,9 @@ class StudyProgram extends Component
             $query->whereLike('name', "%$keyword%");
         }
 
-        $study_programs = StudyProgramData::collect($query->paginate(10));
+        $study_programs = StudyProgramData::collect(
+            $query->orderByDesc('id')->paginate(10)
+        );
 
         return view('livewire.study-program', compact('study_programs'));
     }

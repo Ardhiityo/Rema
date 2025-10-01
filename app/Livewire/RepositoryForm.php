@@ -75,11 +75,13 @@ class RepositoryForm extends Component
             $this->title = $repository_data->title;
             $this->slug = Str::slug($repository_data->title);
             $this->abstract = $repository_data->abstract;
-            $this->type = $repository_data->type;
+            $this->type = $repository_data->original_type;
             $this->author_id = $repository_data->author_id;
             $this->published_at = $repository_data->publised_at_to_ymd;
             $this->year = $repository_data->published_at_year;
             $this->is_update = true;
+        } else {
+            $this->published_at = Carbon::now()->format('Y-m-d');
         }
     }
 

@@ -38,7 +38,9 @@ class RepositoryList extends Component
             $query->whereLike('title', "%$keyword%");
         }
 
-        $repositories = RepositoryData::collect($query->paginate(10));
+        $repositories = RepositoryData::collect(
+            $query->orderByDesc('id')->paginate(10)
+        );
 
         return view('livewire.repository-list', compact('repositories'));
     }

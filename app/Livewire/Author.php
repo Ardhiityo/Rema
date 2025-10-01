@@ -112,7 +112,9 @@ class Author extends Component
 
         $query->with('studyProgram');
 
-        $authors = AuthorData::collect($query->paginate(10));
+        $authors = AuthorData::collect(
+            $query->orderByDesc('id')->paginate(10)
+        );
         $study_programs = StudyProgramData::collect(StudyProgram::get());
 
         return view('livewire.author', compact('authors', 'study_programs'));

@@ -5,8 +5,11 @@
                    <a href="{{ route('dashboard') }}" class="d-flex justify-content-center">
                        <img src="{{ asset('assets/logo/favicon.jpg') }}" class="h-50 w-50" alt="Logo" srcset="">
                    </a>
+                   <p class="mb-0 text-center">
+                       <small>Rema</small>
+                   </p>
                </div>
-               <div class="gap-2 mt-2 theme-toggle d-flex align-items-center">
+               <div class="gap-2 theme-toggle d-flex align-items-center">
                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true"
                        role="img" class="iconify iconify--system-uicons" width="20" height="20"
                        preserveAspectRatio="xMidYMid meet" viewBox="0 0 21 21">
