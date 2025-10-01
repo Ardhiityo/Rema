@@ -31,7 +31,7 @@ class RepositoryForm extends Component
     protected function rules()
     {
         return [
-            'title' => ['required'],
+            'title' => ['nullable'],
             'slug' => ['required', 'min:3', 'max:200', new RepositoryUpdateRule(
                 is_update: $this->is_update,
                 repository_id: $this->repository_id
@@ -48,7 +48,9 @@ class RepositoryForm extends Component
     protected function validationAttributes()
     {
         return [
-            'file_path' => 'file'
+            'file_path' => 'file',
+            'slug' => 'title',
+            'author_id' => 'author'
         ];
     }
 

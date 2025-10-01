@@ -25,63 +25,42 @@
                     <div class="mb-4 row">
                         <div class="form-group">
                             <div>
-                                @if ($errors->has('title') || $errors->has('slug'))
-                                    <div class="alert alert-dark">
-                                        <ul class="mb-0">
-                                            @error('title')
-                                                <li>
-                                                    <i class="bi bi-exclamation-triangle"></i>
-                                                    {{ $message }}
-                                                </li>
-                                            @enderror
-                                            @error('slug')
-                                                <li>
-                                                    <i class="bi bi-exclamation-triangle"></i>
-                                                    {{ $message }}
-                                                </li>
-                                            @enderror
-                                        </ul>
-                                    </div>
-                                @endif
                                 <label for="basicInput" class="form-label">Title</label>
                                 <input type="text" required class="form-control" id="basicInput" wire:model='title'
                                     placeholder="ex: Sistem Informasi Management Sekolah">
+                                @error('slug')
+                                    <span class="badge bg-danger">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
                             </div>
 
                             <div class="mt-4">
-                                @error('abstract')
-                                    <div class="alert alert-dark">
-                                        <i class="bi bi-exclamation-triangle"></i>
-                                        {{ $message }}
-                                    </div>
-                                @enderror
                                 <div class="mb-3 form-group">
                                     <label for="exampleFormControlTextarea1" class="form-label">Abstract</label>
                                     <textarea class="form-control" id="exampleFormControlTextarea1" wire:model='abstract' rows="3"></textarea>
+                                    @error('abstract')
+                                        <span class="badge bg-danger">
+                                            {{ $message }}
+                                        </span>
+                                    @enderror
                                 </div>
                             </div>
 
                             <div class="mt-4">
-                                @error('file_path')
-                                    <div class="alert alert-dark">
-                                        <i class="bi bi-exclamation-triangle"></i>
-                                        {{ $message }}
-                                    </div>
-                                @enderror
                                 <label for="formFile" class="form-label">
                                     File
                                 </label>
                                 <input class="form-control" wire:model='file_path' type="file" id="formFile"
                                     accept="application/pdf">
+                                @error('file_path')
+                                    <span class="badge bg-danger">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
                             </div>
 
                             <div class="mt-4">
-                                @error('author_id')
-                                    <div class="alert alert-dark">
-                                        <i class="bi bi-exclamation-triangle"></i>
-                                        {{ $message }}
-                                    </div>
-                                @enderror
                                 <div class="input-group">
                                     <label class="input-group-text" for="inputGroupSelect01">
                                         Author
@@ -95,15 +74,14 @@
                                         @endforeach
                                     </select>
                                 </div>
+                                @error('author_id')
+                                    <span class="badge bg-danger">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
                             </div>
 
                             <div class="mt-4">
-                                @error('type')
-                                    <div class="alert alert-dark">
-                                        <i class="bi bi-exclamation-triangle"></i>
-                                        {{ $message }}
-                                    </div>
-                                @enderror
                                 <div class="input-group">
                                     <label class="input-group-text" for="inputGroupSelect01">
                                         Type
@@ -121,18 +99,22 @@
                                         </option>
                                     </select>
                                 </div>
+                                @error('type')
+                                    <span class="badge bg-danger">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
                             </div>
 
                             <div class="mt-4">
-                                @error('published_at')
-                                    <div class="alert alert-dark">
-                                        <i class="bi bi-exclamation-triangle"></i>
-                                        {{ $message }}
-                                    </div>
-                                @enderror
                                 <label for="published_at" class="form-label">Published At</label>
-                                <input type="date" class="mb-3 form-control" placeholder="Select date.."
+                                <input type="date" class="form-control" placeholder="Select date.."
                                     wire:model='published_at'>
+                                @error('published_at')
+                                    <span class="badge bg-danger">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
                             </div>
                         </div>
 

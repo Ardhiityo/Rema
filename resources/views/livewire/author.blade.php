@@ -26,36 +26,28 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <div>
-                                        @error('nim')
-                                            <div class="alert alert-dark">
-                                                <i class="bi bi-exclamation-triangle"></i>
-                                                {{ $message }}
-                                            </div>
-                                        @enderror
                                         <label for="basicInput" class="form-label">NIM</label>
                                         <input type="text" required class="form-control" id="basicInput"
                                             wire:model='nim' placeholder="ex: 22040004" name="nim">
+                                        @error('nim')
+                                            <span class="badge bg-danger">
+                                                {{ $message }}
+                                            </span>
+                                        @enderror
                                     </div>
 
                                     <div class="mt-3">
-                                        @error('name')
-                                            <div class="alert alert-dark">
-                                                <i class="bi bi-exclamation-triangle"></i>
-                                                {{ $message }}
-                                            </div>
-                                        @enderror
                                         <label for="basicInput" class="form-label">Author</label>
                                         <input type="text" required class="form-control" id="basicInput"
                                             wire:model='name' placeholder="ex: Arya Adhi Prasetyo" name="name">
+                                        @error('name')
+                                            <span class="badge bg-danger">
+                                                {{ $message }}
+                                            </span>
+                                        @enderror
                                     </div>
 
                                     <div class="mt-4">
-                                        @error('study_program_id')
-                                            <div class="alert alert-dark">
-                                                <i class="bi bi-exclamation-triangle"></i>
-                                                {{ $message }}
-                                            </div>
-                                        @enderror
                                         <div class="input-group">
                                             <label class="input-group-text" for="inputGroupSelect01" class="form-label">
                                                 Study Program
@@ -70,6 +62,11 @@
                                                 @endforeach
                                             </select>
                                         </div>
+                                        @error('study_program_id')
+                                            <span class="badge bg-danger">
+                                                {{ $message }}
+                                            </span>
+                                        @enderror
                                     </div>
                                 </div>
                             </div>

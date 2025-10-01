@@ -29,15 +29,14 @@
                                 <div class="mb-4 row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            @error('slug')
-                                                <div class="alert alert-dark">
-                                                    <i class="bi bi-exclamation-triangle"></i>
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
                                             <label for="basicInput" class="form-label">Study Program</label>
                                             <input type="text" required class="form-control" id="basicInput"
                                                 wire:model='name' placeholder="ex: Teknik Informatika">
+                                            @error('slug')
+                                                <span class="badge bg-danger">
+                                                    {{ $message }}
+                                                </span>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>

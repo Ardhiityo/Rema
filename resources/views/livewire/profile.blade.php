@@ -2,13 +2,13 @@
     <div class="page-title">
         <div class="row">
             <div class="order-last col-12 col-md-6 order-md-1">
-                <h3>My Accounts</h3>
+                <h3>Profile</h3>
                 <p class="text-subtitle text-muted">All data about your account.</p>
             </div>
             <div class="order-first col-12 col-md-6 order-md-2">
                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="index.html">My Accounts</a></li>
+                        <li class="breadcrumb-item"><a href="index.html">Profile</a></li>
                     </ol>
                 </nav>
             </div>
@@ -27,56 +27,52 @@
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="form-group">
-                                            @error('name')
-                                                <div class="alert alert-dark">
-                                                    <i class="bi bi-exclamation-triangle"></i>
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
                                             <label for="first-name-column" class="form-label">Name</label>
                                             <input type="text" id="first-name-column" class="form-control"
                                                 placeholder="ex: Arya Adhi Prasetyo" name="name" wire:model='name'>
+                                            @error('name')
+                                                <span class="badge bg-danger">
+                                                    {{ $message }}
+                                                </span>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-12">
                                         <div class="form-group">
-                                            @error('email')
-                                                <div class="alert alert-dark">
-                                                    <i class="bi bi-exclamation-triangle"></i>
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
                                             <label for="last-name-column" class="form-label">Email</label>
                                             <input type="email" id="last-name-column" class="form-control"
                                                 placeholder="ex: ardhiityo229@gmail.com" name="email"
                                                 wire:model='email'>
+                                            @error('email')
+                                                <span class="badge bg-danger">
+                                                    {{ $message }}
+                                                </span>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-12">
                                         <div class="form-group">
-                                            @error('password')
-                                                <div class="alert alert-dark">
-                                                    <i class="bi bi-exclamation-triangle"></i>
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
                                             <label for="city-column" class="form-label">Password</label>
                                             <input type="password" id="city-column" class="form-control"
                                                 placeholder="min: 8 characters" name="city-column"
                                                 wire:model='password'>
+                                            @error('password')
+                                                <span class="badge bg-danger">
+                                                    {{ $message }}
+                                                </span>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-12">
                                         <div class="form-group">
-                                            @error('avatar')
-                                                <div class="alert alert-dark">
-                                                    <i class="bi bi-exclamation-triangle"></i>
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
                                             <label for="country-floating" class="form-label">Avatar</label>
                                             <input class="form-control" type="file" id="formFile"
                                                 accept="application/jpg,application/png" wire:model='avatar'>
+                                            @error('avatar')
+                                                <span class="badge bg-danger">
+                                                    {{ $message }}
+                                                </span>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="gap-3 mt-4 col-12 d-flex">
