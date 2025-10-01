@@ -5,7 +5,7 @@ namespace App\Livewire;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Data\StudyProgramData;
-use Illuminate\Support\Facades\Log;
+use Livewire\Attributes\Computed;
 
 class StudyProgram extends Component
 {
@@ -17,7 +17,13 @@ class StudyProgram extends Component
     public string $name = '';
     public string $slug = '';
     public int|null $study_program_id = null;
-    public bool $isUpdate = false;
+    public bool $is_update = false;
+
+    #[Computed()]
+    public function formTitle()
+    {
+        return $this->is_update ? 'Edit Study Program' : 'Create New Study Program';
+    }
 
     protected function rules()
     {

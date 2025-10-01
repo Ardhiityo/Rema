@@ -18,7 +18,7 @@
     <section class="section">
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title">Basic Inputs</h4>
+                <h4 class="card-title">{{ $this->formTitle }}</h4>
             </div>
             <div class="card-body">
                 <div>

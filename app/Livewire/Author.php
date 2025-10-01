@@ -8,6 +8,7 @@ use App\Models\StudyProgram;
 use Livewire\WithPagination;
 use App\Data\StudyProgramData;
 use App\Rules\AuthorUpdateRule;
+use Livewire\Attributes\Computed;
 
 class Author extends Component
 {
@@ -39,6 +40,12 @@ class Author extends Component
         return [
             'name' => 'author'
         ];
+    }
+
+    #[Computed()]
+    public function formTitle()
+    {
+        return $this->is_update ? 'Edit Author' : 'Create New Author';
     }
 
     public function create()

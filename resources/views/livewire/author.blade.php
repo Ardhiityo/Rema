@@ -18,7 +18,7 @@
         <section class="section">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title">Basic Inputs</h4>
+                    <h4 class="card-title">{{ $this->formTitle }}</h4>
                 </div>
                 <div class="card-body">
                     <div>
@@ -131,8 +131,8 @@
                                     <td class="text-bold-500">{{ $author->name }}</td>
                                     <td class="text-bold-500">{{ $author->study_program_name }}</td>
                                     <td class="gap-3 d-flex justify-content-center align-items-center">
-                                        <button wire:click="edit('{{ $author->id }}')" wire:key="{{ $author->nim }}"
-                                            class="btn btn-warning">
+                                        <button wire:click="edit('{{ $author->id }}')"
+                                            wire:key="{{ $author->nim }}" class="btn btn-warning">
                                             <i class="bi bi-pencil-square"></i>
                                         </button>
                                         <button type="button" wire:click="deleteConfirm('{{ $author->id }}')"

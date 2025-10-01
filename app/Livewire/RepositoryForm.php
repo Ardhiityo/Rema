@@ -9,6 +9,7 @@ use App\Models\Repository;
 use Illuminate\Support\Str;
 use App\Data\RepositoryData;
 use Livewire\WithFileUploads;
+use Livewire\Attributes\Computed;
 use App\Rules\RepositoryUpdateRule;
 use Illuminate\Support\Facades\Storage;
 
@@ -50,6 +51,13 @@ class RepositoryForm extends Component
             'file_path' => 'file'
         ];
     }
+
+    #[Computed()]
+    public function formTitle()
+    {
+        return $this->is_update ? 'Edit Repository' : 'Create New Repository';
+    }
+
 
     public function mount(string $repository_slug = '')
     {

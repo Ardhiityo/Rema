@@ -22,7 +22,7 @@
                 <section class="section">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Basic Inputs</h4>
+                            <h4 class="card-title">{{ $this->formTitle }}</h4>
                         </div>
                         <div class="card-body">
                             <div>
@@ -42,7 +42,7 @@
                                     </div>
                                 </div>
                                 <div class="gap-3 d-flex">
-                                    @if ($isUpdate)
+                                    @if ($is_update)
                                         <button wire:click='update' wire:loading.attr='disabled' wire:target='update'
                                             class="btn btn-primary">
                                             Update
