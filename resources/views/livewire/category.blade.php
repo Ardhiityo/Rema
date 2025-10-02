@@ -2,15 +2,15 @@
     <div class="page-title">
         <div class="row">
             <div class="order-last col-12 col-md-6 order-md-1">
-                <h4>Study Programs</h4>
+                <h4>Categories</h4>
                 <p class="text-subtitle text-muted">
-                    All study programs data listed.
+                    All categories data listed.
                 </p>
             </div>
             <div class="order-first col-12 col-md-6 order-md-2">
                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="index.html">Study Programs</a></li>
+                        <li class="breadcrumb-item"><a href="index.html">Categories</a></li>
                     </ol>
                 </nav>
             </div>
@@ -32,9 +32,9 @@
                         <div class="mb-4 row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="basicInput" class="form-label">Study Program</label>
-                                    <input type="text" required class="form-control" id="basicInput"
-                                        wire:model='name' placeholder="ex: Teknik Informatika">
+                                    <label for="category" class="form-label">Category</label>
+                                    <input type="text" required class="form-control" id="category" wire:model='name'
+                                        placeholder="ex: Skripsi">
                                     @error('slug')
                                         <span class="badge bg-danger">
                                             {{ $message }}
@@ -85,24 +85,23 @@
                             <thead>
                                 <tr class="text-nowrap">
                                     <th>No</th>
-                                    <th>Study Program</th>
+                                    <th>Category</th>
                                     <th>Created At</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse ($study_programs as $study_program)
+                                @forelse ($categories as $category)
                                     <tr class="text-nowrap">
-                                        <td class="text-bold-500">{{ $loop->index + $study_programs->firstItem() }}</td>
-                                        <td class="text-bold-500">{{ $study_program->name }}</td>
-                                        <td>{{ $study_program->created_at }}</td>
+                                        <td class="text-bold-500">{{ $loop->index + $categories->firstItem() }}</td>
+                                        <td class="text-bold-500">{{ $category->name }}</td>
+                                        <td>{{ $category->created_at }}</td>
                                         <td class="gap-3 d-flex justify-content-center align-items-center">
-                                            <button wire:click="edit('{{ $study_program->slug }}')"
-                                                wire:key='{{ $study_program->slug }}' class="btn btn-warning">
+                                            <button wire:click="edit('{{ $category->slug }}')"
+                                                wire:key='{{ $category->slug }}' class="btn btn-warning">
                                                 <i class="bi bi-pencil-square"></i>
                                             </button>
-                                            <button type="button"
-                                                wire:click="deleteConfirm('{{ $study_program->slug }}')"
+                                            <button type="button" wire:click="deleteConfirm('{{ $category->slug }}')"
                                                 class="block btn btn-danger" data-bs-toggle="modal"
                                                 data-bs-target="#border-less">
                                                 <i class="bi bi-trash3"></i>
@@ -118,9 +117,9 @@
                             </tbody>
                         </table>
                     </div>
-                    @if ($study_programs->isNotEmpty())
+                    @if ($categories->isNotEmpty())
                         <div class="p-3 pt-4">
-                            {{ $study_programs->links() }}
+                            {{ $categories->links() }}
                         </div>
                     @endif
                 </div>
@@ -139,7 +138,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <p>Are you sure you want to delete the {{ $name }} data?</p>
+                            <p>Are you sure you want to delete the data?</p>
                         </div>
                         <div class="gap-2 modal-footer d-flex">
                             <button type="button" class="btn btn-primary" data-bs-dismiss="modal">

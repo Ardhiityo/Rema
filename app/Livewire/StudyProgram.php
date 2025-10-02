@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use Livewire\Component;
+use Illuminate\Support\Str;
 use Livewire\WithPagination;
 use App\Data\StudyProgramData;
 use Livewire\Attributes\Computed;
@@ -29,7 +30,7 @@ class StudyProgram extends Component
     {
         return [
             'name' => ['required'],
-            'slug' => ['required', 'min:3', 'max:50', 'unique:study_programs,slug']
+            'slug' => ['required', 'min:3', 'max:50', $this->is_update ? 'unique:study_programs,slug,' . $this->study_program_id : 'unique:study_programs,slug']
         ];
     }
 
@@ -40,22 +41,17 @@ class StudyProgram extends Component
         ];
     }
 
-    public function updatedName($value)
-    {
-        $study_program = StudyProgramData::from([
-            'name' => $value,
-        ]);
-
-        $this->slug = $study_program->getSlug();
-    }
-
     public function create()
     {
+        $this->slug = Str::slug($this->name);
+
         $validated = $this->validate();
 
         \App\Models\StudyProgram::create($validated);
 
-        return redirect()->route('study-program.index');
+        $this->resetInput();
+
+        return session()->flash('message', 'The study program was successfully created.');
     }
 
     public function edit($study_program_slug)
@@ -66,7 +62,7 @@ class StudyProgram extends Component
         $this->slug = $study_program->slug;
         $this->study_program_id = $study_program->id;
 
-        $this->isUpdate = true;
+        $this->is_update = true;
     }
 
     public function update()
@@ -77,9 +73,11 @@ class StudyProgram extends Component
 
         $study_program->update($validated);
 
-        $this->isUpdate = false;
+        $this->is_update = false;
 
         $this->resetInput();
+
+        return session()->flash('message', 'The study program was successfully updated.');
     }
 
     public function deleteConfirm($study_program_slug)
@@ -93,6 +91,8 @@ class StudyProgram extends Component
     public function delete()
     {
         \App\Models\StudyProgram::find($this->study_program_id)->delete();
+
+        return session()->flash('message', 'The study program was successfully deleted.');
     }
 
     public function resetInput()

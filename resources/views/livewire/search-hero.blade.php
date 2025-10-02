@@ -18,10 +18,10 @@
                       <input type="number" class="form-control" aria-label="Text input with dropdown button"
                           placeholder="Year" wire:model.live.debounce.250ms='year'>
                       <select class="form-select" id="inputGroupSelect01" wire:model.live='type'>
-                          <option selected value="">Type</option>
-                          <option value="thesis">Skripsi</option>
-                          <option value="final_project">Tugas Akhir</option>
-                          <option value="manual_book">Manual Book</option>
+                          <option selected value="">Category</option>
+                          @foreach ($categories as $category)
+                              <option value="{{ $category->slug }}">{{ $category->name }}</option>
+                          @endforeach
                       </select>
                       <button class="btn btn-primary d-flex align-items-center" wire:click='resetInput'
                           wire:loading.attr='disabled' wire:target='resetInput'>

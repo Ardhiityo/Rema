@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Data\LatestRepositoriesData;
 use App\Data\UserData;
 use App\Models\Repository;
 use App\Data\RecentlyAddData;

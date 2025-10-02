@@ -58,6 +58,17 @@
 
                {{-- Study Program --}}
                @hasrole('admin')
+                   <li class="sidebar-item {{ request()->is('categories*') ? 'active' : '' }}">
+                       <a href="{{ route('category.index') }}" class='sidebar-link'>
+                           <i class="bi bi-tags"></i>
+                           <span>Categories</span>
+                       </a>
+                   </li>
+               @endhasrole
+               {{-- Study Program --}}
+
+               {{-- Study Program --}}
+               @hasrole('admin')
                    <li class="sidebar-item {{ request()->is('study-programs*') ? 'active' : '' }}">
                        <a href="{{ route('study-program.index') }}" class='sidebar-link'>
                            <i class="bi bi-mortarboard"></i>

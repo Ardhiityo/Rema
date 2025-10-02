@@ -5,6 +5,7 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Models\Repository;
 use App\Data\SearchHeroData;
+use App\Models\Category;
 use Livewire\WithPagination;
 use Livewire\Attributes\Layout;
 use Illuminate\Support\Facades\Log;
@@ -16,7 +17,7 @@ class SearchHero extends Component
     protected $paginationTheme = 'bootstrap';
 
     public string $title = '';
-    public string $type = '';
+    public string $category = '';
     public string $year = '';
     public string $author = '';
 
@@ -58,8 +59,11 @@ class SearchHero extends Component
             $query->whereLike('title', "%$title%");
         }
 
-        if ($type = $this->type) {
-            $query->where('type', $type);
+        if ($slug = $this->category) {
+            $query->whereHas(
+                'category',
+                fn($query) => $query->where('slug', $slug)
+            );
         }
 
         if ($year = $this->year) {
@@ -73,9 +77,13 @@ class SearchHero extends Component
             );
         }
 
-        $repositories = SearchHeroData::collect($query->with(['author', 'author.studyProgram'])
-            ->paginate(12));
+        $repositories = SearchHeroData::collect(
+            $query->with(['author', 'author.studyProgram'])
+                ->orderByDesc('id')->paginate(12)
+        );
 
-        return view('livewire.search-hero', compact('repositories'));
+        $categories = Category::all();
+
+        return view('livewire.search-hero', compact('repositories', 'categories'));
     }
 }
