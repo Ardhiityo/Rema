@@ -5,12 +5,14 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Models\Repository;
 use App\Data\RepositoryData;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class RepositoryList extends Component
 {
     public string $keyword = '';
     public string $title = '';
+    public string $status_filter = 'approve';
 
     public int|null $repository_id = null;
 
@@ -34,7 +36,13 @@ class RepositoryList extends Component
     {
         $query = Repository::query();
 
-        $query->where('status', 'approve');
+        $user = Auth::user();
+
+        if ($user->hasRole('contributor')) {
+            $query->where('author_id', $user->author->id);
+        }
+
+        $query->where('status', $this->status_filter);
 
         if ($keyword = $this->keyword) {
             $query->whereLike('title', "%$keyword%");

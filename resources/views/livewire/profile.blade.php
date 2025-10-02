@@ -20,15 +20,15 @@
                 <div class="card">
                     <div class="card-header">
                         <h4 class="card-title">Edit Profile</h4>
-                        @if (session('message'))
-                            <div class="alert alert-warning">
-                                <i class="bi bi-exclamation-triangle-fill"></i>
-                                {{ session('message') }}
-                            </div>
-                        @endif
                     </div>
                     <div class="card-content">
                         <div class="card-body">
+                            @if (session('message'))
+                                <div class="alert alert-warning">
+                                    <i class="bi bi-exclamation-triangle-fill"></i>
+                                    {{ session('message') }}
+                                </div>
+                            @endif
                             <div class="form">
                                 <div class="row">
                                     {{-- Name --}}

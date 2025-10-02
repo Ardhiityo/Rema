@@ -5,17 +5,10 @@ namespace App\Data;
 use App\Models\Repository;
 use Illuminate\Support\Str;
 use Spatie\LaravelData\Data;
-use Illuminate\Support\Carbon;
 use Spatie\LaravelData\Attributes\Computed;
 
 class RepositoryData extends Data
 {
-    #[Computed]
-    public string $publised_at_to_ymd;
-    #[Computed]
-    public string $publised_at_to_dfy;
-    #[Computed]
-    public string $published_at_year;
     #[Computed]
     public string $short_title;
     public string $badge_status;
@@ -26,7 +19,8 @@ class RepositoryData extends Data
         public string $nim,
         public string $abstract,
         public string $file_path,
-        public string $type,
+        public string $category_id,
+        public string $category_name,
         public int $author_id,
         public string $author_name,
         public string $published_at,
@@ -36,12 +30,8 @@ class RepositoryData extends Data
         public string $original_type,
         public string $status
     ) {
-        $date = Carbon::parse($this->published_at);
-        $this->publised_at_to_dfy = $date->format('d F Y');
-        $this->publised_at_to_ymd = $date->format('Y-m-d');
-        $this->published_at_year = $date->year;
         $this->short_title = Str::limit($title, 30, '...');
-        $this->badge_status = $status === 'approve' ? 'badge bg-success' : 'badge bg-danger';
+        $this->badge_status = $status === 'Approve' ? 'badge bg-success' : 'badge bg-danger';
     }
 
     public static function fromModel(Repository $repository)
@@ -52,7 +42,8 @@ class RepositoryData extends Data
             $repository->author->nim,
             $repository->abstract,
             $repository->file_path,
-            $repository->type == 'thesis' ? 'Skripsi' : ($repository->type === 'final_Project' ? 'Tugas Akhir' : 'Manual Book'),
+            $repository->category_id,
+            $repository->category->name,
             $repository->author->id,
             $repository->author->name,
             $repository->published_at,

@@ -17,9 +17,16 @@
     <section class="section">
         <div class="card">
             <div class="card-header">
-                <div class="gap-3 d-flex align-items-center">
+                <div class="input-group">
+                    <label class="input-group-text" for="keyword">Keyword</label>
                     <input type="text" wire:model.live.debounce.250ms='keyword' autofocus class="form-control"
-                        id="basicInput" placeholder="Search...">
+                        id="keyword" placeholder="Search...">
+                    <label class="input-group-text" for="status">Status</label>
+                    <select name="status" id="status" class="form-select" wire:model.live='status_filter'>
+                        <option value="pending">Pending</option>
+                        <option value="approve">Approve</option>
+                        <option value="reject">Reject</option>
+                    </select>
                     <button class="btn btn-primary" wire:click='resetInput'>
                         <i class="bi bi-arrow-clockwise"></i>
                     </button>

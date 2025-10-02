@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LandingPageController;
 use App\Http\Middleware\ValidateAuthorMiddleware;
+use App\Livewire\AuthorForm;
 
 Route::controller(LandingPageController::class)->group(function () {
     Route::get('/', 'index')->name('landing_page.index');
@@ -18,8 +19,11 @@ Route::controller(LandingPageController::class)->group(function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
     Route::get('/study-programs', StudyProgram::class)->name('study-program.index');
+
     Route::get('/authors', Author::class)->name('author.index');
+
     Route::get('/repositories', RepositoryList::class)->name('repository.index');
 
     Route::middleware(ValidateAuthorMiddleware::class)->group(function () {

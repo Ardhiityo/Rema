@@ -117,21 +117,6 @@
                                 @enderror
                             </div>
                             {{-- Type --}}
-
-                            {{-- Published At --}}
-                            @hasrole('admin')
-                                <div class="mt-4">
-                                    <label for="published_at" class="form-label">Published At</label>
-                                    <input type="date" class="form-control" placeholder="Select date.."
-                                        wire:model='published_at'>
-                                    @error('published_at')
-                                        <span class="badge bg-danger">
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
-                                </div>
-                            @endhasrole
-                            {{-- Published At --}}
                         </div>
 
                     </div>

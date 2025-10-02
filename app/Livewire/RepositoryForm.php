@@ -22,11 +22,9 @@ class RepositoryForm extends Component
     public string $title = '';
     public string $abstract = '';
     public $file_path = null;
-    public string $type = '';
+    public string $category_id = '';
     public int|null $author_id = null;
-    public string $published_at = '';
     public int|null $repository_id = null;
-    public string $year = '';
     public string $slug = '';
     public bool $is_update = false;
 
@@ -40,10 +38,9 @@ class RepositoryForm extends Component
             )],
             'abstract' => ['required', 'min:3', 'max:2000'],
             'file_path' => [$this->is_update ? 'nullable' : 'required', 'file', 'mimes:pdf', 'max:5120'],
-            'type' => ['required', 'in:thesis,final_project,manual_book'],
+            'category_id' => ['required', 'exists:categories,id'],
             'author_id' => ['required', 'exists:authors,id'],
-            'published_at' => ['required'],
-            'year' => ['required']
+            'published_at' => ['required']
         ];
     }
 
@@ -76,28 +73,10 @@ class RepositoryForm extends Component
             $this->title = $repository_data->title;
             $this->slug = Str::slug($repository_data->title);
             $this->abstract = $repository_data->abstract;
-            $this->type = $repository_data->original_type;
+            $this->category_id = $repository_data->category_id;
             $this->author_id = $repository_data->author_id;
-            $this->published_at = $repository_data->publised_at_to_ymd;
-            $this->year = $repository_data->published_at_year;
             $this->is_update = true;
-        } else {
-            $date =  Carbon::now();
-            $this->published_at = $date->format('Y-m-d');
-            $this->year = $date->year;
         }
-    }
-
-    public function updatedTitle($value)
-    {
-        $slug = Str::slug($value);
-        $this->slug = $slug;
-    }
-
-    public function updatedPublishedAt($value)
-    {
-        $year = Carbon::parse($value)->year;
-        $this->year = $year;
     }
 
     public function create()
@@ -106,11 +85,13 @@ class RepositoryForm extends Component
 
         if ($user->hasRole('contributor')) {
             $this->author_id = $user->author->id;
-            $this->published_at = Carbon::now();
-            $this->year = Carbon::now()->year;
         }
 
+        $this->slug = Str::slug($this->title);
+
         $validated = $this->validate();
+
+        $validated['year'] = Carbon::now()->year;
 
         $validated['file_path'] = $validated['file_path']->store('repositories', 'public');
 
