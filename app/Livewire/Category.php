@@ -103,8 +103,14 @@ class Category extends Component
     }
     public function render()
     {
+        $query = \App\Models\Category::query();
+
+        if ($keyword = $this->keyword) {
+            $query->whereLike('name', "%$keyword%");
+        }
+
         $categories = CategoryData::collect(
-            \App\Models\Category::orderByDesc('id')->paginate(10)
+            $query->orderByDesc('id')->paginate(10)
         );
 
         return view('livewire.category', compact('categories'));

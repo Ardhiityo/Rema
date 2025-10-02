@@ -70,19 +70,17 @@
                             @hasrole('admin')
                                 <div class="mt-4">
                                     <div class="input-group">
-                                        <label class="input-group-text" for="inputGroupSelect01">
+                                        <label class="input-group-text" for="author_id">
                                             Author
                                         </label>
-                                        <select class="form-select" id="inputGroupSelect01" wire:model='author_id'>
-                                            <option selected>Choose...</option>
+                                        <select class="form-select" id="author_id" wire:model='author_id'>
+                                            <option selected value="">Choose...</option>
                                             @foreach ($authors as $author)
-                                                <option value="{{ $author->id }}">
-                                                    {{ $author->name }}
-                                                </option>
+                                                <option value="{{ $author->author_id }}">{{ $author->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
-                                    @error('author_id')
+                                    @error('type')
                                         <span class="badge bg-danger">
                                             {{ $message }}
                                         </span>
@@ -91,32 +89,28 @@
                             @endhasrole
                             {{-- Author --}}
 
-                            {{-- Type --}}
+                            {{-- Category --}}
                             <div class="mt-4">
                                 <div class="input-group">
-                                    <label class="input-group-text" for="inputGroupSelect01">
-                                        Type
+                                    <label class="input-group-text" for="category_id">
+                                        Category
                                     </label>
-                                    <select class="form-select" id="inputGroupSelect01" wire:model='type'>
-                                        <option selected>Choose...</option>
-                                        <option value="thesis">
-                                            Skripsi
-                                        </option>
-                                        <option value="final_project">
-                                            Tugas Akhir
-                                        </option>
-                                        <option value="manual_book">
-                                            Manual Book
-                                        </option>
+                                    <select class="form-select" id="category_id" wire:model='category_id'>
+                                        <option selected value="">Choose...</option>
+                                        @foreach ($categories as $category)
+                                            <option selected value="{{ $category->id }}">
+                                                {{ $category->name }}
+                                            </option>
+                                        @endforeach
                                     </select>
                                 </div>
-                                @error('type')
+                                @error('category')
                                     <span class="badge bg-danger">
                                         {{ $message }}
                                     </span>
                                 @enderror
                             </div>
-                            {{-- Type --}}
+                            {{-- Category --}}
                         </div>
 
                     </div>

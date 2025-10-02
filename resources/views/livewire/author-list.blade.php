@@ -37,7 +37,7 @@
                                 <td class="text-bold-500">{{ $author->name }}</td>
                                 <td class="text-bold-500">{{ $author->study_program_name }}</td>
                                 <td class="text-bold-500">
-                                    <span class="{{ $author->badge_status }}">{{ $author->status }}</span>
+                                    <span class="{{ $author->badge_status }}">{{ $author->ucfirst_status }}</span>
                                 </td>
                                 <td class="gap-3 d-flex justify-content-center align-items-center">
                                     <button

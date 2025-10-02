@@ -10,11 +10,11 @@ class RepositoryDetail extends Component
 {
     public string $title = '';
     public string $abstract = '';
-    public string $type = '';
+    public string $category = '';
     public string $author = '';
-    public string $nim = '';
-    public string $published_at = '';
-    public string $study_program = '';
+    public string|null $nim = '';
+    public string $created_at = '';
+    public string|null $study_program = '';
     public string $slug = '';
 
     public function mount(Repository $repository)
@@ -25,11 +25,11 @@ class RepositoryDetail extends Component
 
         $this->title = $repository_data->title;
         $this->abstract = $repository_data->abstract;
-        $this->type = $repository_data->type;
+        $this->category = $repository_data->category_name;
         $this->author = $repository_data->author_name;
         $this->nim = $repository_data->nim;
         $this->slug = $repository_data->slug;
-        $this->published_at = $repository_data->publised_at_to_ymd;
+        $this->created_at = $repository_data->created_at;
         $this->study_program = $repository_data->study_program;
     }
 

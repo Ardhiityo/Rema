@@ -10,18 +10,22 @@ class AuthorData extends Data
 {
     #[Computed]
     public string $badge_status;
+    #[Computed]
+    public string $ucfirst_status;
 
     public function __construct(
         public int $author_id,
         public int $user_id,
-        public string $nim,
+        public string|null $nim,
+        public string $email,
         public string $name,
-        public int $study_program_id,
-        public string $study_program_name,
+        public int|null $study_program_id,
+        public string|null $study_program_name,
         public string $status,
         public string $origin_status
     ) {
         $this->badge_status = $origin_status === 'approve' ? 'badge bg-success' : 'badge bg-danger';
+        $this->ucfirst_status = ucfirst($status);
     }
 
     public static function fromModel(Author $author)
@@ -29,11 +33,12 @@ class AuthorData extends Data
         return new self(
             $author->id,
             $author->user->id,
-            $author->nim,
+            $author?->nim,
+            $author->user->email,
             $author->user->name,
-            $author->studyProgram->id,
-            $author->studyProgram->name,
-            ucfirst($author->status),
+            $author?->studyProgram?->id,
+            $author?->studyProgram?->name,
+            $author->status,
             $author->status,
         );
     }

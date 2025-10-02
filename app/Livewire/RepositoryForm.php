@@ -2,15 +2,17 @@
 
 namespace App\Livewire;
 
+use App\Data\AuthorData;
+use App\Data\CategoryData;
 use Carbon\Carbon;
 use App\Models\Author;
 use Livewire\Component;
+use App\Models\Category;
 use App\Models\Repository;
 use Illuminate\Support\Str;
 use App\Data\RepositoryData;
 use Livewire\WithFileUploads;
 use Livewire\Attributes\Computed;
-use App\Rules\RepositoryUpdateRule;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -32,15 +34,22 @@ class RepositoryForm extends Component
     {
         return [
             'title' => ['nullable'],
-            'slug' => ['required', 'min:3', 'max:200', new RepositoryUpdateRule(
-                is_update: $this->is_update,
-                repository_id: $this->repository_id
-            )],
+            'slug' =>
+            [
+                'required',
+                'min:3',
+                'max:200',
+                $this->is_update ? 'unique:repositories,slug,' . $this->repository_id : 'unique:repositories,slug'
+            ],
             'abstract' => ['required', 'min:3', 'max:2000'],
-            'file_path' => [$this->is_update ? 'nullable' : 'required', 'file', 'mimes:pdf', 'max:5120'],
+            'file_path' => [
+                'file',
+                'mimes:pdf',
+                'max:5120',
+                $this->is_update ? 'nullable' : 'required'
+            ],
             'category_id' => ['required', 'exists:categories,id'],
-            'author_id' => ['required', 'exists:authors,id'],
-            'published_at' => ['required']
+            'author_id' => ['required', 'exists:authors,id']
         ];
     }
 
@@ -132,8 +141,11 @@ class RepositoryForm extends Component
 
     public function render()
     {
-        $authors = Author::get();
+        $authors = AuthorData::collect(
+            Author::with('user')->where('status', 'approve')->get()
+        );
+        $categories = CategoryData::collect(Category::get());
 
-        return view('livewire.repository-form', compact('authors'));
+        return view('livewire.repository-form', compact('authors', 'categories'));
     }
 }

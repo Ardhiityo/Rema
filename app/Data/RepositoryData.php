@@ -16,19 +16,18 @@ class RepositoryData extends Data
     public function __construct(
         public int $id,
         public string $title,
-        public string $nim,
+        public string|null $nim,
         public string $abstract,
         public string $file_path,
         public string $category_id,
         public string $category_name,
         public int $author_id,
         public string $author_name,
-        public string $published_at,
         public string $year,
         public string $slug,
-        public string $study_program,
-        public string $original_type,
-        public string $status
+        public string|null $study_program,
+        public string $status,
+        public string $created_at
     ) {
         $this->short_title = Str::limit($title, 30, '...');
         $this->badge_status = $status === 'Approve' ? 'badge bg-success' : 'badge bg-danger';
@@ -39,19 +38,18 @@ class RepositoryData extends Data
         return new self(
             $repository->id,
             $repository->title,
-            $repository->author->nim,
+            $repository->author?->nim ?? '-',
             $repository->abstract,
             $repository->file_path,
             $repository->category_id,
             $repository->category->name,
             $repository->author->id,
-            $repository->author->name,
-            $repository->published_at,
+            $repository->author->user->name,
             $repository->year,
             $repository->slug,
-            $repository->author->studyProgram->name,
-            $repository->type,
-            ucfirst($repository->status)
+            $repository->author?->studyProgram?->name ?? '-',
+            ucfirst($repository->status),
+            $repository->created_at->format('d F Y')
         );
     }
 }

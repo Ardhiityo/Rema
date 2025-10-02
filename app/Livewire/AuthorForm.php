@@ -3,11 +3,13 @@
 namespace App\Livewire;
 
 use Livewire\Component;
+use App\Data\AuthorData;
 use Livewire\Attributes\On;
 use App\Models\StudyProgram;
 use Livewire\WithFileUploads;
 use App\Data\StudyProgramData;
 use Livewire\Attributes\Computed;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
@@ -16,7 +18,7 @@ class AuthorForm extends Component
     use WithFileUploads;
 
     public string $name = '';
-    public string $nim = '';
+    public string|null $nim = '';
     public string $email = '';
     public string $password = '';
     public $avatar;
@@ -67,7 +69,14 @@ class AuthorForm extends Component
                 'min:8',
                 'max:50'
             ],
-            'status' => ['required', 'in:approve,reject']
+            'status' => ['required', 'in:approve,reject,pending']
+        ];
+    }
+
+    protected function validationAttributes()
+    {
+        return [
+            'study_program_id' => 'study program'
         ];
     }
 
@@ -102,12 +111,15 @@ class AuthorForm extends Component
     #[On('author-edit')]
     public function edit($author_id)
     {
-        $author = \App\Models\Author::find($author_id);
-        $this->user_id = $author->user->id;
-        $this->author_id = $author->id;
-        $this->name = $author->user->name;
+        $author = AuthorData::fromModel(
+            \App\Models\Author::find($author_id)
+                ->load(['user', 'studyProgram'])
+        );
+        $this->user_id = $author->user_id;
+        $this->author_id = $author->author_id;
+        $this->name = $author->name;
         $this->nim = $author->nim;
-        $this->email = $author->user->email;
+        $this->email = $author->email;
         $this->study_program_id = $author->study_program_id;
         $this->status = $author->status;
 

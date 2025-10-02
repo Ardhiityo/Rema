@@ -110,15 +110,18 @@
                                           Status
                                       </label>
                                       <select class="form-select" id="status" wire:model='status'>
-                                          <option value="approve" selected>
+                                          <option value="approve">
                                               Approve
+                                          </option>
+                                          <option value="pending">
+                                              Pending
                                           </option>
                                           <option value="reject">
                                               Reject
                                           </option>
                                       </select>
                                   </div>
-                                  @error('study_program_id')
+                                  @error('status')
                                       <span class="badge bg-danger">
                                           {{ $message }}
                                       </span>

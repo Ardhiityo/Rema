@@ -5,6 +5,7 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Models\Repository;
 use App\Data\RepositoryData;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -36,6 +37,8 @@ class RepositoryList extends Component
     {
         $query = Repository::query();
 
+        $query->with(['author', 'author.user', 'category', 'author.studyProgram']);
+
         $user = Auth::user();
 
         if ($user->hasRole('contributor')) {
@@ -47,7 +50,7 @@ class RepositoryList extends Component
         if ($keyword = $this->keyword) {
             $query->whereLike('title', "%$keyword%");
         }
-
+        Log::info(json_encode($query->get(), JSON_PRETTY_PRINT));
         $repositories = RepositoryData::collect(
             $query->orderByDesc('id')->paginate(10)
         );

@@ -35,7 +35,7 @@
                                 {{ $title }}
                             </p>
                             <p>
-                                <small> {{ $type }} - {{ $published_at }}</small>
+                                <small> {{ $category }} - {{ $created_at }}</small>
                             </p>
                             <a href="{{ route('repository.read', ['repository' => $slug]) }}" target="_blank"
                                 class="block btn btn-primary">
@@ -57,7 +57,7 @@
                     <div class="card-content">
                         <div class="card-body">
                             <div class="flex-column d-flex">
-                                <h5 class="card-title">{{ $published_at }}</h5>
+                                <h5 class="card-title">{{ $created_at }}</h5>
                             </div>
                             <p class="mt-3 card-text">
                                 {{ $title }}
