@@ -31,6 +31,6 @@ class RolePermissionSeeder extends Seeder
 
         $user->assignRole('contributor');
 
-        $user->author()->create(['name' => $user->name]);
+        $user->author()->create();
     }
 }

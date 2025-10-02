@@ -16,9 +16,8 @@ return new class extends Migration
             $table->string('title');
             $table->longText('abstract');
             $table->string('file_path');
-            $table->enum('type', ['final_project', 'thesis', 'manual_book']);
+            $table->foreignId('category_id')->constrained()->cascadeOnDelete();
             $table->foreignId('author_id')->constrained()->cascadeOnDelete();
-            $table->dateTime('published_at');
             $table->year('year');
             $table->string('slug')->unique();
             $table->enum('status', ['approve', 'reject', 'pending', 'revision'])->default('pending');

@@ -22,9 +22,15 @@
                 </div>
                 <div class="card-body">
                     <div>
+                        @if (session()->has('message'))
+                            <div class="alert-success alert">
+                                {{ session('message') }}
+                            </div>
+                        @endif
                         <div class="mb-4 row">
                             <div class="col-md-6">
-                                <div class="form-group">
+                                <div class="gap-3 flex-column d-flex">
+                                    {{-- NIM --}}
                                     <div>
                                         <label for="basicInput" class="form-label">NIM</label>
                                         <input type="text" required class="form-control" id="basicInput"
@@ -35,9 +41,40 @@
                                             </span>
                                         @enderror
                                     </div>
+                                    {{-- NIM --}}
 
-                                    <div class="mt-3">
-                                        <label for="basicInput" class="form-label">Author</label>
+                                    {{-- Email --}}
+                                    <div>
+                                        <label for="email" class="form-label">Email</label>
+                                        <input type="email" required class="form-control" id="email"
+                                            wire:model='email' placeholder="ex: ardhiityo229@gmail.com" name="email">
+                                        @error('email')
+                                            <span class="badge bg-danger">
+                                                {{ $message }}
+                                            </span>
+                                        @enderror
+                                    </div>
+                                    {{-- Email --}}
+
+                                    {{-- Password --}}
+                                    <div>
+                                        <label for="password" class="form-label">Password</label>
+                                        <input type="password" required class="form-control" id="password"
+                                            wire:model='password' placeholder="min 8 characters" name="password">
+                                        @error('password')
+                                            <span class="badge bg-danger">
+                                                {{ $message }}
+                                            </span>
+                                        @enderror
+                                    </div>
+                                    {{-- Password --}}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="gap-3 flex-column d-flex">
+                                    {{-- Name --}}
+                                    <div>
+                                        <label for="basicInput" class="form-label">Name</label>
                                         <input type="text" required class="form-control" id="basicInput"
                                             wire:model='name' placeholder="ex: Arya Adhi Prasetyo" name="name">
                                         @error('name')
@@ -46,8 +83,10 @@
                                             </span>
                                         @enderror
                                     </div>
+                                    {{-- Name --}}
 
-                                    <div class="mt-4">
+                                    {{-- Study Program --}}
+                                    <div>
                                         <div class="input-group">
                                             <label class="input-group-text" for="inputGroupSelect01" class="form-label">
                                                 Study Program
@@ -68,34 +107,55 @@
                                             </span>
                                         @enderror
                                     </div>
+                                    {{-- Study Program --}}
+
+                                    {{-- Avatar --}}
+                                    <div>
+                                        <label for="avatar" class="form-label">
+                                            Avatar
+                                        </label>
+                                        <input class="form-control" wire:model='avatar' type="file" id="avatar"
+                                            accept=".jpg,.jpeg,.png">
+                                        @error('avatar')
+                                            <span class="badge bg-danger">
+                                                {{ $message }}
+                                            </span>
+                                        @enderror
+                                    </div>
+                                    {{-- Avatar --}}
                                 </div>
                             </div>
-                        </div>
-                        <div class="gap-3 d-flex">
-                            @if ($is_update)
-                                <button wire:click='update' wire:loading.attr='disabled' wire:target='update'
-                                    class="btn btn-primary">
-                                    Update
-                                    <span wire:loading wire:target='update'>
-                                        <span class="spinner-border spinner-border-sm text-light" role="status"></span>
-                                    </span>
+                            <div class="gap-3 mt-4 d-flex">
+                                @if ($is_update)
+                                    <button wire:click='update' wire:loading.attr='disabled' wire:target='update'
+                                        class="btn btn-primary">
+                                        <span wire:loading.class='d-none' wire:target='create'>
+                                            Update
+                                        </span>
+                                        <span wire:loading wire:target='update'>
+                                            <span class="spinner-border spinner-border-sm text-light" role="status">
+                                            </span>
+                                        </span>
+                                    </button>
+                                @else
+                                    <button wire:click='create' wire:loading.attr='disabled' class="btn btn-primary"
+                                        wire:target='create''>
+                                        <span wire:loading.class='d-none' wire:target='create'>
+                                            Add
+                                        </span>
+                                        <span wire:loading wire:target='create'>
+                                            <span class="spinner-border spinner-border-sm text-light" role="status">
+                                            </span>
+                                        </span>
+                                    </button>
+                                @endif
+                                <button wire:click='resetInput' class="btn btn-warning">
+                                    Clear
                                 </button>
-                            @else
-                                <button wire:click='create' wire:loading.attr='disabled' class="btn btn-primary"
-                                    wire:target='create'>
-                                    Add
-                                    <span wire:loading wire:target='create'>
-                                        <span class="spinner-border spinner-border-sm text-light" role="status"></span>
-                                    </span>
-                                </button>
-                            @endif
-                            <button wire:click='resetInput' class="btn btn-warning">
-                                Clear
-                            </button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
         </section>
 
         <div class="card">
@@ -128,11 +188,11 @@
                                     <td class="text-bold-500">{{ $author->name }}</td>
                                     <td class="text-bold-500">{{ $author->study_program_name }}</td>
                                     <td class="gap-3 d-flex justify-content-center align-items-center">
-                                        <button wire:click="edit('{{ $author->id }}')"
+                                        <button wire:click="edit('{{ $author->user_id }}')"
                                             wire:key="{{ $author->nim }}" class="btn btn-warning">
                                             <i class="bi bi-pencil-square"></i>
                                         </button>
-                                        <button type="button" wire:click="deleteConfirm('{{ $author->id }}')"
+                                        <button type="button" wire:click="deleteConfirm('{{ $author->user_id }}')"
                                             class="block btn btn-danger" data-bs-toggle="modal"
                                             data-bs-target="#border-less">
                                             <i class="bi bi-trash3"></i>
