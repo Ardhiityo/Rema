@@ -60,14 +60,15 @@
              <div class="modal-content">
                  <div class="modal-header">
                      <h5 class="modal-title">Border-Less</h5>
-                     <button type="button" class="close rounded-pill" data-bs-dismiss="modal" aria-label="Close">
-                         <i data-feather="x"></i>
-                     </button>
                  </div>
                  <div class="modal-body">
                      <p>Are you sure you want to delete the data?</p>
                  </div>
                  <div class="gap-2 modal-footer d-flex">
+                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+                         <i class="bx bx-x d-block d-sm-none"></i>
+                         <span class="d-none d-sm-block">Close</span>
+                     </button>
                      <button type="button" class="btn btn-danger ms-1" wire:click="$dispatch('category-delete')"
                          data-bs-dismiss="modal">
                          <i class="bx bx-check d-block d-sm-none"></i>

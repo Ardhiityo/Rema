@@ -25,11 +25,11 @@ class RepositoryForm extends Component
     public string $abstract = '';
     public $file_path = null;
     public string $category_id = '';
-    public int|null $author_id = null;
-    public int|null $repository_id = null;
+    public int|string $author_id = '';
+    public int|string $repository_id = '';
     public string $slug = '';
-    public bool $is_update = false;
     public string $status = '';
+    public bool $is_update = false;
 
     protected function rules()
     {
@@ -60,7 +60,8 @@ class RepositoryForm extends Component
         return [
             'file_path' => 'file',
             'slug' => 'title',
-            'author_id' => 'author'
+            'author_id' => 'author',
+            'category_id' => 'category'
         ];
     }
 
@@ -146,17 +147,28 @@ class RepositoryForm extends Component
 
     public function resetInput()
     {
-        $this->reset();
+        $this->title = '';
+        $this->abstract = '';
+        $this->file_path = null;
+        $this->author_id = '';
+        $this->category_id = '';
+        $this->status = '';
+
         $this->resetErrorBag();
     }
 
     public function render()
     {
         $authors = AuthorData::collect(
-            Author::with('user')->get()
+            Author::with('user')
+                ->where('status', 'approve')->get()
         );
+
         $categories = CategoryData::collect(Category::get());
 
-        return view('livewire.repository-form', compact('authors', 'categories'));
+        return view(
+            'livewire.repository-form',
+            compact('authors', 'categories')
+        );
     }
 }

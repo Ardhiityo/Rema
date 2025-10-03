@@ -24,6 +24,10 @@ class ValidateAuthorMiddleware
                 return redirect()->route('profile.index')
                     ->with('alert', 'Please complete your profile first.');
             }
+            if ($author->status !== 'approve') {
+                return redirect()->route('profile.index')
+                    ->with('alert', "Your account status is {$author->status}, please contact the academic department.");
+            }
         }
         return $next($request);
     }

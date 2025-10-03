@@ -18,14 +18,14 @@ Route::controller(LandingPageController::class)->group(function () {
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
-
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/categories', Category::class)->name('category.index');
     Route::get('/study-programs', StudyProgram::class)->name('study-program.index');
     Route::get('/authors', Author::class)->name('author.index');
-    Route::get('/repositories', RepositoryList::class)->name('repository.index');
 
     Route::middleware(ValidateAuthorMiddleware::class)->group(function () {
+        Route::get('/repositories', RepositoryList::class)
+            ->name('repository.index');
         Route::get('/repositories/create', RepositoryForm::class)
             ->name('repository.create');
         Route::get('/repositories/{repository:slug}/show', RepositoryDetail::class)

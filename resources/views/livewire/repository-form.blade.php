@@ -76,13 +76,13 @@
                                     Author
                                 </label>
                                 <select class="form-select" id="author_id" wire:model='author_id'>
-                                    <option selected value="">Choose...</option>
+                                    <option value="">Choose...</option>
                                     @foreach ($authors as $author)
                                         <option value="{{ $author->author_id }}">{{ $author->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
-                            @error('type')
+                            @error('author_id')
                                 <span class="badge bg-danger">
                                     {{ $message }}
                                 </span>
@@ -106,7 +106,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        @error('category')
+                        @error('category_id')
                             <span class="badge bg-danger">
                                 {{ $message }}
                             </span>
