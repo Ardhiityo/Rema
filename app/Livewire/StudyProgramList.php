@@ -3,12 +3,12 @@
 namespace App\Livewire;
 
 use Livewire\Component;
-use App\Models\Category;
-use App\Data\CategoryData;
+use App\Models\StudyProgram;
+use App\Data\StudyProgramData;
 use Livewire\Attributes\On;
 use Livewire\WithPagination;
 
-class CategoryList extends Component
+class StudyProgramList extends Component
 {
     use WithPagination;
 
@@ -17,26 +17,25 @@ class CategoryList extends Component
     public function resetInput()
     {
         $this->keyword = '';
-
         $this->resetPage();
     }
 
-    #[On('refresh-categories')]
-    public function getCategoriesProperty()
+    #[On('refresh-study-programs')]
+    public function getStudyProgramsProperty()
     {
-        $query = Category::query();
+        $query = StudyProgram::query();
 
         if ($keyword = $this->keyword) {
             $query->whereLike('name', "%$keyword%");
         }
 
-        return CategoryData::collect(
+        return StudyProgramData::collect(
             $query->orderByDesc('id')->paginate(10)
         );
     }
 
     public function render()
     {
-        return view('livewire.category-list');
+        return view('livewire.study-program-list');
     }
 }

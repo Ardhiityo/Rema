@@ -14,82 +14,79 @@
             </div>
         </div>
     </div>
-    <section class="section">
-        <div class="card">
-            <div class="card-header">
-                <div class="input-group">
-                    <label class="input-group-text" for="keyword">Keyword</label>
-                    <input type="text" wire:model.live.debounce.250ms='keyword' autofocus class="form-control"
-                        id="keyword" placeholder="Search...">
-                    <label class="input-group-text" for="status">Status</label>
-                    <select name="status" id="status" class="form-select" wire:model.live='status_filter'>
-                        <option value="approve">Approve</option>
-                        <option value="pending">Pending</option>
-                        <option value="revision">Revision</option>
-                        <option value="reject">Reject</option>
-                    </select>
-                    <button class="btn btn-primary" wire:click='resetInput'>
-                        <i class="bi bi-arrow-clockwise"></i>
-                    </button>
-                </div>
-            </div>
-            <div class="card-content">
-                <div class="table-responsive">
-                    <table class="table mb-0 text-center table-lg">
-                        <thead>
-                            <tr class="text-nowrap">
-                                <th>No</th>
-                                <th>Title</th>
-                                <th>Author</th>
-                                <th>Category</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse ($this->repositories as $repository)
-                                <tr class="text-nowrap" wire:key='{{ $repository->slug }}'>
-                                    <td class="text-bold-500">{{ $loop->index + $this->repositories->firstItem() }}</td>
-                                    <td class="text-bold-500">{{ $repository->short_title }}</td>
-                                    <td class="text-bold-500">{{ $repository->author_name }}</td>
-                                    <td class="text-bold-500">{{ $repository->category_name }}</td>
-                                    <td class="text-bold-500">
-                                        <span class="{{ $repository->badge_status }}">{{ $repository->status }}</span>
-                                    </td>
-                                    <td class="gap-3 d-flex justify-content-center align-items-center">
-                                        <a href="{{ route('repository.show', ['repository' => $repository->slug]) }}"
-                                            class="btn btn-info">
-                                            <i class="bi bi-eye-fill"></i>
-                                        </a>
-                                        <a href="{{ route('repository.edit', ['repository_slug' => $repository->slug]) }}"
-                                            class="btn btn-warning">
-                                            <i class="bi bi-pencil-square"></i>
-                                        </a>
-                                        @hasrole('admin')
-                                            <button type="button" wire:click="deleteConfirm('{{ $repository->slug }}')"
-                                                class="block btn btn-danger" data-bs-toggle="modal"
-                                                data-bs-target="#border-less">
-                                                <i class="bi bi-trash3"></i>
-                                            </button>
-                                        @endhasrole
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="6" class="text-center">Data Not Found</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
-                @if ($this->repositories->isNotEmpty())
-                    <div class="p-3 pt-4">
-                        {{ $this->repositories->links() }}
-                    </div>
-                @endif
+    <div class="card">
+        <div class="card-header">
+            <div class="input-group">
+                <label class="input-group-text" for="keyword">Keyword</label>
+                <input type="text" wire:model.live.debounce.250ms='keyword' autofocus class="form-control"
+                    id="keyword" placeholder="Search...">
+                <label class="input-group-text" for="status">Status</label>
+                <select name="status" id="status" class="form-select" wire:model.live='status_filter'>
+                    <option value="approve">Approve</option>
+                    <option value="pending">Pending</option>
+                    <option value="revision">Revision</option>
+                    <option value="reject">Reject</option>
+                </select>
+                <button class="btn btn-primary" wire:click='resetInput'>
+                    <i class="bi bi-arrow-clockwise"></i>
+                </button>
             </div>
         </div>
-
+        <div class="card-content">
+            <div class="table-responsive">
+                <table class="table mb-0 text-center table-lg">
+                    <thead>
+                        <tr class="text-nowrap">
+                            <th>No</th>
+                            <th>Title</th>
+                            <th>Author</th>
+                            <th>Category</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($this->repositories as $repository)
+                            <tr class="text-nowrap" wire:key='{{ $repository->slug }}'>
+                                <td class="text-bold-500">{{ $loop->index + $this->repositories->firstItem() }}</td>
+                                <td class="text-bold-500">{{ $repository->short_title }}</td>
+                                <td class="text-bold-500">{{ $repository->author_name }}</td>
+                                <td class="text-bold-500">{{ $repository->category_name }}</td>
+                                <td class="text-bold-500">
+                                    <span class="{{ $repository->badge_status }}">{{ $repository->status }}</span>
+                                </td>
+                                <td class="gap-3 d-flex justify-content-center align-items-center">
+                                    <a href="{{ route('repository.show', ['repository' => $repository->slug]) }}"
+                                        class="btn btn-info">
+                                        <i class="bi bi-eye-fill"></i>
+                                    </a>
+                                    <a href="{{ route('repository.edit', ['repository_slug' => $repository->slug]) }}"
+                                        class="btn btn-warning">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a>
+                                    @hasrole('admin')
+                                        <button type="button" wire:click="deleteConfirm('{{ $repository->slug }}')"
+                                            class="block btn btn-danger" data-bs-toggle="modal"
+                                            data-bs-target="#border-less">
+                                            <i class="bi bi-trash3"></i>
+                                        </button>
+                                    @endhasrole
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="6" class="text-center">Data Not Found</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+            @if ($this->repositories->isNotEmpty())
+                <div class="p-3 pt-4">
+                    {{ $this->repositories->links() }}
+                </div>
+            @endif
+        </div>
         <!--BorderLess Modal Modal -->
         <div wire:ignore.self class="text-left modal fade modal-borderless" id="border-less" tabindex="-1"
             role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
@@ -117,5 +114,5 @@
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 </div>

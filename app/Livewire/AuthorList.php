@@ -33,6 +33,13 @@ class AuthorList extends Component
         );
     }
 
+    public function resetInput()
+    {
+        $this->keyword = '';
+        $this->status_filter = 'approve';
+        $this->resetPage();
+    }
+
     public function render()
     {
         return view('livewire.author-list');

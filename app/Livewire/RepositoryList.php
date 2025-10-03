@@ -9,9 +9,12 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\On;
+use Livewire\WithPagination;
 
 class RepositoryList extends Component
 {
+    use WithPagination;
+
     public string $keyword = '';
     public string $title = '';
     public string $status_filter = 'approve';
@@ -56,6 +59,14 @@ class RepositoryList extends Component
         return RepositoryData::collect(
             $query->orderByDesc('id')->paginate(10)
         );
+    }
+
+    public function resetInput()
+    {
+        $this->keyword = '';
+        $this->status_filter = 'approve';
+
+        $this->resetPage();
     }
 
     public function render()

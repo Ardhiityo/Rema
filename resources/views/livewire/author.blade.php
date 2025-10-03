@@ -14,8 +14,6 @@
             </div>
         </div>
     </div>
-    <section class="section">
-        <livewire:author-form />
-        <livewire:author-list />
-    </section>
+    <livewire:author-form />
+    <livewire:author-list />
 </div>

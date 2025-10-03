@@ -1,73 +1,69 @@
-<section>
-    <div class="card">
-        <div class="card-header">
-            <div class="input-group">
-                <label class="input-group-text" for="status">Keyword</label>
-                <input type="text" wire:model.live.debounce.250ms='keyword' autofocus class="form-control" id="status"
-                    placeholder="Search...">
-                <label class="input-group-text" for="status">Status</label>
-                <select name="status" id="status" class="form-select" wire:model.live='status_filter'>
-                    <option value="pending">Pending</option>
-                    <option value="approve">Approve</option>
-                    <option value="reject">Reject</option>
-                </select>
-                <button class="btn btn-primary" wire:click='resetInput'>
-                    <i class="bi bi-arrow-clockwise"></i>
-                </button>
-            </div>
+<div class="card">
+    <div class="card-header">
+        <div class="input-group">
+            <label class="input-group-text" for="status">Keyword</label>
+            <input type="text" wire:model.live.debounce.250ms='keyword' autofocus class="form-control" id="status"
+                placeholder="Search...">
+            <label class="input-group-text" for="status">Status</label>
+            <select name="status" id="status" class="form-select" wire:model.live='status_filter'>
+                <option value="pending">Pending</option>
+                <option value="approve">Approve</option>
+                <option value="reject">Reject</option>
+            </select>
+            <button class="btn btn-primary" wire:click='resetInput'>
+                <i class="bi bi-arrow-clockwise"></i>
+            </button>
         </div>
-        <div class="card-content">
-            <div class="table-responsive">
-                <table class="table mb-0 text-center table-lg">
-                    <thead>
+    </div>
+    <div class="card-content">
+        <div class="table-responsive">
+            <table class="table mb-0 text-center table-lg">
+                <thead>
+                    <tr class="text-nowrap">
+                        <th>No</th>
+                        <th>NIM</th>
+                        <th>Name</th>
+                        <th>Study Program</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($this->authors as $author)
                         <tr class="text-nowrap">
-                            <th>No</th>
-                            <th>NIM</th>
-                            <th>Name</th>
-                            <th>Study Program</th>
-                            <th>Status</th>
-                            <th>Action</th>
+                            <td class="text-bold-500">{{ $loop->index + $this->authors->firstItem() }}</td>
+                            <td class="text-bold-500">{{ $author->nim }}</td>
+                            <td class="text-bold-500">{{ $author->name }}</td>
+                            <td class="text-bold-500">{{ $author->study_program_name }}</td>
+                            <td class="text-bold-500">
+                                <span class="{{ $author->badge_status }}">{{ $author->ucfirst_status }}</span>
+                            </td>
+                            <td class="gap-3 d-flex justify-content-center align-items-center">
+                                <button wire:click="$dispatch('author-edit', { author_id: '{{ $author->author_id }}' })"
+                                    wire:key="{{ $author->nim }}" class="btn btn-warning">
+                                    <i class="bi bi-pencil-square"></i>
+                                </button>
+                                <button type="button"
+                                    wire:click="$dispatch('author-delete-confirm', {author_id : '{{ $author->author_id }}'})"
+                                    class="block btn btn-danger" data-bs-toggle="modal" data-bs-target="#border-less">
+                                    <i class="bi bi-trash3"></i>
+                                </button>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        @forelse ($this->authors as $author)
-                            <tr class="text-nowrap">
-                                <td class="text-bold-500">{{ $loop->index + $this->authors->firstItem() }}</td>
-                                <td class="text-bold-500">{{ $author->nim }}</td>
-                                <td class="text-bold-500">{{ $author->name }}</td>
-                                <td class="text-bold-500">{{ $author->study_program_name }}</td>
-                                <td class="text-bold-500">
-                                    <span class="{{ $author->badge_status }}">{{ $author->ucfirst_status }}</span>
-                                </td>
-                                <td class="gap-3 d-flex justify-content-center align-items-center">
-                                    <button
-                                        wire:click="$dispatch('author-edit', { author_id: '{{ $author->author_id }}' })"
-                                        wire:key="{{ $author->nim }}" class="btn btn-warning">
-                                        <i class="bi bi-pencil-square"></i>
-                                    </button>
-                                    <button type="button"
-                                        wire:click="$dispatch('author-delete-confirm', {author_id : '{{ $author->author_id }}'})"
-                                        class="block btn btn-danger" data-bs-toggle="modal"
-                                        data-bs-target="#border-less">
-                                        <i class="bi bi-trash3"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="6" class="text-center">Data Not Found</td>
-                            </tr>
-                        @endforelse
+                    @empty
                         <tr>
-                    </tbody>
-                </table>
-            </div>
-            @if ($this->authors->isNotEmpty())
-                <div class="p-3 pt-4">
-                    {{ $this->authors->links() }}
-                </div>
-            @endif
+                            <td colspan="6" class="text-center">Data Not Found</td>
+                        </tr>
+                    @endforelse
+                    <tr>
+                </tbody>
+            </table>
         </div>
+        @if ($this->authors->isNotEmpty())
+            <div class="p-3 pt-4">
+                {{ $this->authors->links() }}
+            </div>
+        @endif
     </div>
     <!--BorderLess Modal Modal -->
     <div wire:ignore.self class="text-left modal fade modal-borderless" id="border-less" tabindex="-1" role="dialog"
@@ -97,4 +93,4 @@
             </div>
         </div>
     </div>
-</section>
+</div>
