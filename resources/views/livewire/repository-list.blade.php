@@ -65,11 +65,13 @@
                                             class="btn btn-warning">
                                             <i class="bi bi-pencil-square"></i>
                                         </a>
-                                        <button type="button" wire:click="deleteConfirm('{{ $repository->slug }}')"
-                                            class="block btn btn-danger" data-bs-toggle="modal"
-                                            data-bs-target="#border-less">
-                                            <i class="bi bi-trash3"></i>
-                                        </button>
+                                        @hasrole('admin')
+                                            <button type="button" wire:click="deleteConfirm('{{ $repository->slug }}')"
+                                                class="block btn btn-danger" data-bs-toggle="modal"
+                                                data-bs-target="#border-less">
+                                                <i class="bi bi-trash3"></i>
+                                            </button>
+                                        @endhasrole
                                     </td>
                                 </tr>
                             @empty
@@ -77,7 +79,6 @@
                                     <td colspan="6" class="text-center">Data Not Found</td>
                                 </tr>
                             @endforelse
-                            <tr>
                         </tbody>
                     </table>
                 </div>
@@ -101,7 +102,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p>Are you sure you want to delete the {{ $title }} data?</p>
+                        <p>Are you sure you want to delete the data?</p>
                     </div>
                     <div class="gap-2 modal-footer d-flex">
                         <button type="button" class="btn btn-primary" data-bs-dismiss="modal">

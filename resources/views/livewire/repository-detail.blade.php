@@ -62,16 +62,18 @@
                             <p class="mt-3 card-text">
                                 {{ $title }}
                             </p>
-                            <div class="gap-3 d-flex">
-                                <a href="" target="_blank" class="block btn btn-primary">
-                                    <i class="bi bi-pencil-square"></i>
-                                    Edit
-                                </a>
-                                <a href="" target="_blank" class="block btn btn-danger">
-                                    <i class="bi bi-trash3"></i>
-                                    Delete
-                                </a>
-                            </div>
+                            @hasrole('admin')
+                                <div class="gap-3 d-flex">
+                                    <a href="" target="_blank" class="block btn btn-primary">
+                                        <i class="bi bi-pencil-square"></i>
+                                        Edit
+                                    </a>
+                                    <a href="" target="_blank" class="block btn btn-danger">
+                                        <i class="bi bi-trash3"></i>
+                                        Delete
+                                    </a>
+                                </div>
+                            @endhasrole
                         </div>
                     </div>
                 </div>

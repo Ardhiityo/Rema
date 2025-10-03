@@ -51,7 +51,7 @@ class RepositoryForm extends Component
             ],
             'category_id' => ['required', 'exists:categories,id'],
             'author_id' => ['required', 'exists:authors,id'],
-            'status' => ['required', 'in:approve,pending,reject,revision']
+            'status' => ['in:approve,pending,reject,revision', 'required']
         ];
     }
 
@@ -96,6 +96,7 @@ class RepositoryForm extends Component
 
         if ($user->hasRole('contributor')) {
             $this->author_id = $user->author->id;
+            $this->status = 'pending';
         }
 
         $this->slug = Str::slug($this->title);
@@ -108,14 +109,22 @@ class RepositoryForm extends Component
 
         Repository::create($validated);
 
-        return redirect()->route('repository.index');
+        $this->resetInput();
+
+        return session()->flash('message', 'The repository was successfully created.');
     }
 
     public function update()
     {
-        $validated = $this->validate();
+        $user = Auth::user();
 
         $repository = Repository::find($this->repository_id);
+
+        if ($user->hasRole('contributor')) {
+            $this->status = $repository->status;
+        }
+
+        $validated = $this->validate();
 
         if ($validated['file_path']) {
             if (Storage::disk('public')->exists($repository->file_path)) {
@@ -128,7 +137,7 @@ class RepositoryForm extends Component
 
         $repository->update($validated);
 
-        return redirect()->route('repository.index');
+        return session()->flash('message', 'The repository was successfully updated.');
     }
 
     public function resetInput()
