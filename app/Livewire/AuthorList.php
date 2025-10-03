@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use App\Data\AuthorData;
+use Livewire\Attributes\On;
 use Livewire\WithPagination;
 
 class AuthorList extends Component
@@ -14,7 +15,8 @@ class AuthorList extends Component
     public string $status_filter = 'approve';
     public string $keyword = '';
 
-    public function render()
+    #[On('refresh-authors')]
+    public function getAuthorsProperty()
     {
         $query = \App\Models\Author::query();
 
@@ -26,10 +28,13 @@ class AuthorList extends Component
 
         $query->with(['studyProgram', 'user']);
 
-        $authors = AuthorData::collect(
+        return AuthorData::collect(
             $query->orderByDesc('id')->paginate(10)
         );
+    }
 
-        return view('livewire.author-list', compact('authors'));
+    public function render()
+    {
+        return view('livewire.author-list');
     }
 }

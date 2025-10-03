@@ -105,6 +105,8 @@ class AuthorForm extends Component
 
         $this->resetInput();
 
+        $this->dispatch('refresh-authors');
+
         return session()->flash('message', 'The author was successfully created.');
     }
 
@@ -160,6 +162,8 @@ class AuthorForm extends Component
 
         $this->resetInput();
 
+        $this->dispatch('refresh-authors');
+
         return session()->flash('message', 'The author was successfully updated.');
     }
 
@@ -183,6 +187,8 @@ class AuthorForm extends Component
         }
 
         $user->delete();
+
+        $this->dispatch('refresh-authors');
 
         return session()->flash('message', 'The author was successfully deleted.');
     }

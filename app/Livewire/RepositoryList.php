@@ -8,6 +8,7 @@ use App\Data\RepositoryData;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Livewire\Attributes\On;
 
 class RepositoryList extends Component
 {
@@ -33,7 +34,8 @@ class RepositoryList extends Component
         $repository->delete();
     }
 
-    public function render()
+    #[On('refresh-repositories')]
+    public function getRepositoriesProperty()
     {
         $query = Repository::query();
 
@@ -50,11 +52,14 @@ class RepositoryList extends Component
         if ($keyword = $this->keyword) {
             $query->whereLike('title', "%$keyword%");
         }
-        Log::info(json_encode($query->get(), JSON_PRETTY_PRINT));
-        $repositories = RepositoryData::collect(
+
+        return RepositoryData::collect(
             $query->orderByDesc('id')->paginate(10)
         );
+    }
 
-        return view('livewire.repository-list', compact('repositories'));
+    public function render()
+    {
+        return view('livewire.repository-list');
     }
 }

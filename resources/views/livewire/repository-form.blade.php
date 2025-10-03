@@ -124,6 +124,9 @@
                                         Status
                                     </label>
                                     <select class="form-select" id="status" wire:model='status'>
+                                        <option value="">
+                                            Choose...
+                                        </option>
                                         <option value="approve">
                                             Approve
                                         </option>

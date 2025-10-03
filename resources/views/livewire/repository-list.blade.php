@@ -47,9 +47,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($repositories as $repository)
+                            @forelse ($this->repositories as $repository)
                                 <tr class="text-nowrap" wire:key='{{ $repository->slug }}'>
-                                    <td class="text-bold-500">{{ $loop->index + $repositories->firstItem() }}</td>
+                                    <td class="text-bold-500">{{ $loop->index + $this->repositories->firstItem() }}</td>
                                     <td class="text-bold-500">{{ $repository->short_title }}</td>
                                     <td class="text-bold-500">{{ $repository->author_name }}</td>
                                     <td class="text-bold-500">{{ $repository->category_name }}</td>
@@ -82,9 +82,9 @@
                         </tbody>
                     </table>
                 </div>
-                @if ($repositories->isNotEmpty())
+                @if ($this->repositories->isNotEmpty())
                     <div class="p-3 pt-4">
-                        {{ $repositories->links() }}
+                        {{ $this->repositories->links() }}
                     </div>
                 @endif
             </div>

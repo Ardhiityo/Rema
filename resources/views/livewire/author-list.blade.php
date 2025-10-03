@@ -29,10 +29,10 @@
                             <th>Action</th>
                         </tr>
                     </thead>
-                    <tbody wire:poll.visible>
-                        @forelse ($authors as $author)
+                    <tbody>
+                        @forelse ($this->authors as $author)
                             <tr class="text-nowrap">
-                                <td class="text-bold-500">{{ $loop->index + $authors->firstItem() }}</td>
+                                <td class="text-bold-500">{{ $loop->index + $this->authors->firstItem() }}</td>
                                 <td class="text-bold-500">{{ $author->nim }}</td>
                                 <td class="text-bold-500">{{ $author->name }}</td>
                                 <td class="text-bold-500">{{ $author->study_program_name }}</td>
@@ -62,9 +62,9 @@
                     </tbody>
                 </table>
             </div>
-            @if ($authors->isNotEmpty())
+            @if ($this->authors->isNotEmpty())
                 <div class="p-3 pt-4">
-                    {{ $authors->links() }}
+                    {{ $this->authors->links() }}
                 </div>
             @endif
         </div>

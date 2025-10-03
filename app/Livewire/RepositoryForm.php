@@ -111,6 +111,8 @@ class RepositoryForm extends Component
 
         $this->resetInput();
 
+        $this->dispatch('refresh-repositories');
+
         return session()->flash('message', 'The repository was successfully created.');
     }
 
@@ -137,6 +139,8 @@ class RepositoryForm extends Component
 
         $repository->update($validated);
 
+        $this->dispatch('refresh-repositories');
+
         return session()->flash('message', 'The repository was successfully updated.');
     }
 
@@ -149,7 +153,7 @@ class RepositoryForm extends Component
     public function render()
     {
         $authors = AuthorData::collect(
-            Author::with('user')->where('status', 'approve')->get()
+            Author::with('user')->get()
         );
         $categories = CategoryData::collect(Category::get());
 
