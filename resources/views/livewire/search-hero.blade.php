@@ -86,7 +86,7 @@
                           <div class="p-4 pt-0 border feature-item h-100 d-flex flex-column justify-content-between">
                               <div>
                                   <div class="p-4 mb-4 feature-icon">
-                                      <i class="{{ $repository->icon_class }}"></i>
+                                      <i class="fas fa-book-reader fa-3x"></i>
                                   </div>
                                   <div class="mb-4">
                                       <h4>{{ $repository->short_author_name }}</h4>
@@ -96,7 +96,7 @@
                               </div>
                               <div>
                                   <p><small><i class="far fa-clock"></i>
-                                          {{ $repository->published_at_to_diff_for_humans }}</small></p>
+                                          {{ $repository->created_at }}</small></p>
                                   <span class="px-4 py-2 btn btn-primary rounded-pill">
                                       View <i class="fas fa-eye ms-2"></i>
                                   </span>

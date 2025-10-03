@@ -23,8 +23,9 @@
                         id="keyword" placeholder="Search...">
                     <label class="input-group-text" for="status">Status</label>
                     <select name="status" id="status" class="form-select" wire:model.live='status_filter'>
-                        <option value="pending">Pending</option>
                         <option value="approve">Approve</option>
+                        <option value="pending">Pending</option>
+                        <option value="revision">Revision</option>
                         <option value="reject">Reject</option>
                     </select>
                     <button class="btn btn-primary" wire:click='resetInput'>

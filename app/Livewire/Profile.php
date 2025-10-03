@@ -4,10 +4,8 @@ namespace App\Livewire;
 
 use App\Data\StudyProgramData;
 use App\Models\StudyProgram;
-use App\Models\User;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -17,8 +15,8 @@ class Profile extends Component
     use WithFileUploads;
 
     public string $name = '';
-    public string $nim = '';
-    public string $study_program_id = '';
+    public string|null $nim = '';
+    public int|null|string $study_program_id = null;
     public string $email = '';
     public string $password = '';
     public $avatar = null;
@@ -31,6 +29,10 @@ class Profile extends Component
         $this->user_id = $user->id;
         $this->name = $user->name;
         $this->email = $user->email;
+
+        $user = $user->load('author');
+        $this->nim = $user->author?->nim;
+        $this->study_program_id = $user->author?->study_program_id;
     }
 
     protected function rules()
@@ -81,7 +83,7 @@ class Profile extends Component
         if ($user->hasRole('contributor')) {
             $data = [];
             if (!is_null($name = $validated['name'])) {
-                data_set($data, 'name', $name);
+                $user->update(['name' => $validated['name']]);
             }
             if (!is_null($nim = $validated['nim'])) {
                 data_set($data, 'nim', $nim);
@@ -105,13 +107,14 @@ class Profile extends Component
 
         is_null($validated['password']) ? $validated['password'] = $user->password : $validated['password'] = Hash::make($validated['password']);
 
+        /** @var \App\Models\User $user*/
         $user->update([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => $validated['password']
         ]);
 
-        $this->resetInput();
+        return session()->flash('message', 'The profile was successfully updated.');
     }
 
     public function render()

@@ -55,6 +55,8 @@ class SearchHero extends Component
     {
         $query = Repository::query();
 
+        $query->where('status', 'approve');
+
         if ($title = $this->title) {
             $query->whereLike('title', "%$title%");
         }
@@ -78,7 +80,7 @@ class SearchHero extends Component
         }
 
         $repositories = SearchHeroData::collect(
-            $query->with(['author', 'author.studyProgram'])
+            $query->with(['author', 'category', 'author.user', 'author.studyProgram'])
                 ->orderByDesc('id')->paginate(12)
         );
 

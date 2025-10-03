@@ -23,9 +23,13 @@
                     </div>
                     <div class="card-content">
                         <div class="card-body">
-                            @if (session('message'))
+                            @if (session()->has('alert'))
                                 <div class="alert alert-warning">
                                     <i class="bi bi-exclamation-triangle-fill"></i>
+                                    {{ session('alert') }}
+                                </div>
+                            @elseif (session()->has('message'))
+                                <div class="alert alert-success">
                                     {{ session('message') }}
                                 </div>
                             @endif

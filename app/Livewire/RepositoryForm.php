@@ -29,6 +29,7 @@ class RepositoryForm extends Component
     public int|null $repository_id = null;
     public string $slug = '';
     public bool $is_update = false;
+    public string $status = '';
 
     protected function rules()
     {
@@ -49,7 +50,8 @@ class RepositoryForm extends Component
                 $this->is_update ? 'nullable' : 'required'
             ],
             'category_id' => ['required', 'exists:categories,id'],
-            'author_id' => ['required', 'exists:authors,id']
+            'author_id' => ['required', 'exists:authors,id'],
+            'status' => ['required', 'in:approve,pending,reject,revision']
         ];
     }
 
@@ -103,10 +105,6 @@ class RepositoryForm extends Component
         $validated['year'] = Carbon::now()->year;
 
         $validated['file_path'] = $validated['file_path']->store('repositories', 'public');
-
-        if ($user->hasRole('admin')) {
-            $validated['status'] = 'approve';
-        }
 
         Repository::create($validated);
 

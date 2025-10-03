@@ -111,8 +111,36 @@
                                 @enderror
                             </div>
                             {{-- Category --}}
-                        </div>
 
+                            {{-- Status --}}
+                            <div class="mt-4">
+                                <div class="input-group">
+                                    <label class="input-group-text" for="status" class="form-label">
+                                        Status
+                                    </label>
+                                    <select class="form-select" id="status" wire:model='status'>
+                                        <option value="approve">
+                                            Approve
+                                        </option>
+                                        <option value="revision">
+                                            Revision
+                                        </option>
+                                        <option value="pending">
+                                            Pending
+                                        </option>
+                                        <option value="reject">
+                                            Reject
+                                        </option>
+                                    </select>
+                                </div>
+                                @error('status')
+                                    <span class="badge bg-danger">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
+                            </div>
+                            {{-- Status --}}
+                        </div>
                     </div>
                     <div class="gap-3 d-flex">
                         @if ($is_update)

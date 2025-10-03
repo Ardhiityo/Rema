@@ -22,7 +22,7 @@ class ValidateAuthorMiddleware
             $author = $user->author;
             if (is_null($author->nim) || is_null($author->study_program_id)) {
                 return redirect()->route('profile.index')
-                    ->with('message', 'Please complete your profile first.');
+                    ->with('alert', 'Please complete your profile first.');
             }
         }
         return $next($request);

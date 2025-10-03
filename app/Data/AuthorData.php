@@ -33,11 +33,11 @@ class AuthorData extends Data
         return new self(
             $author->id,
             $author->user->id,
-            $author?->nim,
+            $author?->nim ?? '-',
             $author->user->email,
             $author->user->name,
             $author?->studyProgram?->id,
-            $author?->studyProgram?->name,
+            $author?->studyProgram?->name ?? '-',
             $author->status,
             $author->status,
         );
