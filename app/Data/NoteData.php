@@ -18,7 +18,7 @@ class NoteData extends Data
         return new self(
             $note->id,
             $note->message,
-            $note->created_at->format('d F Y')
+            $note->created_at->format('d F Y H:i')
         );
     }
 }

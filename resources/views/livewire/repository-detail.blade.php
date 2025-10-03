@@ -41,12 +41,14 @@
                     </p>
                     <a href="{{ route('repository.read', ['repository' => $slug]) }}" target="_blank"
                         class="btn btn-primary">
-                        Review
+                        View
                     </a>
                 </div>
             </div>
         </div>
-        <livewire:note-form :repository_id="$repository_id" />
+        @hasrole('admin')
+            <livewire:note-form :repository_id="$repository_id" />
+        @endhasrole
         <livewire:note-list :repository_id="$repository_id" />
     </section>
 </div>

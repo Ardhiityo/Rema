@@ -1,18 +1,28 @@
  <div class="card">
      <div class="card-content">
-         @foreach ($this->notes as $note)
-             <div class="card-body">
-                 <div class="flex-column d-flex">
-                     <h5 class="card-title">{{ $note->created_at }}</h5>
-                 </div>
-                 <div class="mt-3 row">
+         <div class="card-body">
+             <div class="flex-column d-flex">
+                 <h5 class="card-title">Notes</h5>
+             </div>
+
+             @foreach ($this->notes as $note)
+                 <div class="my-4 row">
                      <div class="col-10">
                          <p class="card-text">
                              {{ $note->message }}
                          </p>
+                         <ul>
+                             <li>
+                                 <p>
+                                     <small>
+                                         <b>{{ $note->created_at }}</b>
+                                     </small>
+                                 </p>
+                             </li>
+                         </ul>
                      </div>
                      @hasrole('admin')
-                         <div class="gap-3 col-2 d-flex justify-content-end">
+                         <div class="gap-3 col-2 d-flex justify-content-end align-items-center">
                              <button class="btn btn-primary"
                                  wire:click="$dispatch('note-edit', { note_id: '{{ $note->id }}' })">
                                  <i class="bi bi-pencil-square"></i>
@@ -25,8 +35,9 @@
                          </div>
                      @endhasrole
                  </div>
-             </div>
-         @endforeach
+             @endforeach
+
+         </div>
      </div>
 
      <!--BorderLess Modal Modal -->
