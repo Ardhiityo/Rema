@@ -51,7 +51,7 @@
                                 </div>
                             </div>
                             <div class="col-12">
-                                <div class="gap-2 my-3 d-flex gap-md-4 flex-column flex-md-row justify-content-md-end">
+                                <div class="gap-3 my-3 d-flex justify-content-center">
                                     <a href="{{ route('register') }}" class="link-secondary text-decoration-none">
                                         Create new account
                                     </a>
@@ -68,7 +68,7 @@
                         <div class="col-12">
                             <p class="text-center ">Or continue with</p>
                             <div class="gap-3 d-flex flex-column">
-                                <a href="#!"
+                                <a href="{{ route('google.redirect') }}"
                                     class="gap-1 btn btn-lg btn-secondary d-flex align-items-center justify-content-center">
                                     <i class="bi bi-google"></i>
                                     <span class="ms-2 fs-6 text-uppercase">Sign in With Google</span>

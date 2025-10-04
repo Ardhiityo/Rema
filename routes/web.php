@@ -2,15 +2,23 @@
 
 use App\Livewire\Author;
 use App\Livewire\Profile;
+use App\Livewire\Category;
 use App\Livewire\StudyProgram;
-use App\Livewire\RepositoryList;
 use App\Livewire\RepositoryForm;
+use App\Livewire\RepositoryList;
 use App\Livewire\RepositoryDetail;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LandingPageController;
 use App\Http\Middleware\ValidateAuthorMiddleware;
-use App\Livewire\Category;
+
+Route::controller(GoogleController::class)->group(function () {
+    Route::get('/auth/google', 'redirect')
+        ->name('google.redirect');
+    Route::get('/auth/google/callback', 'callback')
+        ->name('google.callback');
+});
 
 Route::controller(LandingPageController::class)->group(function () {
     Route::get('/', 'index')->name('landing_page.index');

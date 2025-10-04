@@ -75,24 +75,22 @@
                                             </button>
                                         </div>
                                     </div>
+                                    <div class="col-12">
+                                        <div class="my-3 d-flex justify-content-center">
+                                            <a href="{{ route('login') }}" class="link-secondary text-decoration-none">
+                                                Login
+                                            </a>
+                                        </div>
+                                        <hr class="border-secondary-subtle">
+                                    </div>
                                 </div>
                             </form>
                             <div class="row">
                                 <div class="col-12">
-                                    <hr class="mt-5 mb-4 border-secondary-subtle">
-                                    <div class="d-flex justify-content-end">
-                                        <a href="{{ route('login') }}" class="link-secondary text-decoration-none">
-                                            Login
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-12">
-                                    <p class="mt-5 mb-4">Or continue with</p>
+                                    <p class="text-center ">Or continue with</p>
                                     <div class="gap-3 d-flex flex-column">
-                                        <a href="#!"
-                                            class="gap-1 btn btn-lg btn-danger d-flex align-items-center justify-content-center">
+                                        <a href="{{ route('google.redirect') }}"
+                                            class="gap-1 btn btn-lg btn-secondary d-flex align-items-center justify-content-center">
                                             <i class="bi bi-google"></i>
                                             <span class="ms-2 fs-6 text-uppercase">Sign in With Google</span>
                                         </a>
