@@ -50,27 +50,26 @@
                                     </button>
                                 </div>
                             </div>
+                            <div class="col-12">
+                                <div class="gap-2 my-3 d-flex gap-md-4 flex-column flex-md-row justify-content-md-end">
+                                    <a href="{{ route('register') }}" class="link-secondary text-decoration-none">
+                                        Create new account
+                                    </a>
+                                    <a href="{{ route('password.request') }}"
+                                        class="link-secondary text-decoration-none">
+                                        Forgot password
+                                    </a>
+                                </div>
+                                <hr class="border-secondary-subtle">
+                            </div>
                         </div>
                     </form>
                     <div class="row">
                         <div class="col-12">
-                            <hr class="mt-5 mb-4 border-secondary-subtle">
-                            <div class="gap-2 d-flex gap-md-4 flex-column flex-md-row justify-content-md-end">
-                                <a href="{{ route('register') }}" class="link-secondary text-decoration-none">
-                                    Create new account
-                                </a>
-                                <a href="{{ route('password.request') }}" class="link-secondary text-decoration-none">
-                                    Forgot password
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <p class="mt-5 mb-4">Or continue with</p>
+                            <p class="text-center ">Or continue with</p>
                             <div class="gap-3 d-flex flex-column">
                                 <a href="#!"
-                                    class="gap-1 btn btn-lg btn-danger d-flex align-items-center justify-content-center">
+                                    class="gap-1 btn btn-lg btn-secondary d-flex align-items-center justify-content-center">
                                     <i class="bi bi-google"></i>
                                     <span class="ms-2 fs-6 text-uppercase">Sign in With Google</span>
                                 </a>
