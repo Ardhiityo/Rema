@@ -17,16 +17,20 @@ class RolePermissionSeeder extends Seeder
         Role::create(['name' => 'admin']);
         Role::create(['name' => 'contributor']);
 
-        User::create([
+        $user = User::create([
             'name' => 'Admin',
             'email' => 'admin@gmail.com',
-            'password' => 'rahasia'
-        ])->assignRole('admin');
+            'password' => 'rahasia',
+            'email_verified_at' => now()
+        ]);
+
+        $user->assignRole('admin');
 
         $user = User::create([
             'name' => 'John doe',
             'email' => 'contributor@gmail.com',
-            'password' => 'rahasia'
+            'password' => 'rahasia',
+            'email_verified_at' => now()
         ]);
 
         $user->assignRole('contributor');
