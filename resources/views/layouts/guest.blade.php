@@ -14,7 +14,11 @@
 </head>
 
 <body>
-    {{ $slot }}
+    <div style="min-height: 100dvh;" class="d-flex justify-content-center align-items-center bg-primary">
+        <div class="container">
+            {{ $slot }}
+        </div>
+    </div>
 </body>
 
 </html>
