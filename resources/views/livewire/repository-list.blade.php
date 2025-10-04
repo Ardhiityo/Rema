@@ -8,7 +8,7 @@
             <div class="order-first col-12 col-md-6 order-md-2">
                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="index.html">Repositories</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('repository.index') }}">Repositories</a></li>
                     </ol>
                 </nav>
             </div>
@@ -42,6 +42,7 @@
                             <th>Author</th>
                             <th>Category</th>
                             <th>Status</th>
+                            <th>Visibility</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -53,8 +54,11 @@
                                 <td class="text-bold-500">{{ $repository->author_name }}</td>
                                 <td class="text-bold-500">{{ $repository->category_name }}</td>
                                 <td class="text-bold-500">
-                                    <span class="{{ $repository->badge_status }}">{{ $repository->status }}</span>
+                                    <span class="{{ $repository->badge_status }}">
+                                        {{ $repository->ucfirst_status }}
+                                    </span>
                                 </td>
+                                <td class="text-bold-500">{{ $repository->ucfirst_visibility }}</td>
                                 <td class="gap-3 d-flex justify-content-center align-items-center">
                                     <a href="{{ route('repository.show', ['repository' => $repository->slug]) }}"
                                         class="btn btn-info">

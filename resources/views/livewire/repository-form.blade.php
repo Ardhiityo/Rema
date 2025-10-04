@@ -8,7 +8,8 @@
             <div class="order-first col-12 col-md-6 order-md-2">
                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="index.html">Repositories</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('repository.index') }}">Repositories</a></li>
+                        <li class="breadcrumb-item"><a href="{{ url()->current() }}">Form</a></li>
                     </ol>
                 </nav>
             </div>
@@ -147,6 +148,37 @@
                         </div>
                     @endhasrole
                     {{-- Status --}}
+
+                    {{-- Visibility --}}
+                    @hasrole('admin')
+                        <div class="mt-4">
+                            <div class="input-group">
+                                <label class="input-group-text" for="status" class="form-label">
+                                    Visibility
+                                </label>
+                                <select class="form-select" id="status" wire:model='visibility'>
+                                    <option value="">
+                                        Choose...
+                                    </option>
+                                    <option value="private">
+                                        Private
+                                    </option>
+                                    <option value="protected">
+                                        Protected
+                                    </option>
+                                    <option value="public">
+                                        Public
+                                    </option>
+                                </select>
+                            </div>
+                            @error('visibility')
+                                <span class="badge bg-danger">
+                                    {{ $message }}
+                                </span>
+                            @enderror
+                        </div>
+                    @endhasrole
+                    {{-- Visibility --}}
                 </div>
             </div>
             <div class="gap-3 d-flex">

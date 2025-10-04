@@ -55,7 +55,7 @@ class SearchHero extends Component
     {
         $query = Repository::query();
 
-        $query->where('status', 'approve');
+        $query->where('status', 'approve')->where('visibility', 'public');
 
         if ($title = $this->title) {
             $query->whereLike('title', "%$title%");

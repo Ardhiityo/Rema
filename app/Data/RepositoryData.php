@@ -11,7 +11,12 @@ class RepositoryData extends Data
 {
     #[Computed]
     public string $short_title;
+    #[Computed]
     public string $badge_status;
+    #[Computed]
+    public string $ucfirst_status;
+    #[Computed]
+    public string $ucfirst_visibility;
 
     public function __construct(
         public int $id,
@@ -27,10 +32,13 @@ class RepositoryData extends Data
         public string $slug,
         public string|null $study_program,
         public string $status,
+        public string $visibility,
         public string $created_at
     ) {
         $this->short_title = Str::limit($title, 30, '...');
         $this->badge_status = $status === 'Approve' ? 'badge bg-success' : 'badge bg-danger';
+        $this->ucfirst_status = ucfirst($status);
+        $this->ucfirst_visibility = ucfirst($visibility);
     }
 
     public static function fromModel(Repository $repository)
@@ -48,7 +56,8 @@ class RepositoryData extends Data
             $repository->year,
             $repository->slug,
             $repository->author?->studyProgram?->name ?? '-',
-            ucfirst($repository->status),
+            $repository->status,
+            $repository->visibility,
             $repository->created_at->format('d F Y')
         );
     }

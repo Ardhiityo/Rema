@@ -24,16 +24,20 @@ class RepositoryList extends Component
     public function deleteConfirm($repository_slug)
     {
         $repository = Repository::where('slug', $repository_slug)->first();
+
         $this->repository_id = $repository->id;
+
         $this->title = $repository->title;
     }
 
     public function delete()
     {
         $repository = Repository::find($this->repository_id);
+
         if (Storage::disk('public')->exists($repository->file_path)) {
             Storage::disk('public')->delete($repository->file_path);
         };
+
         $repository->delete();
     }
 
@@ -47,7 +51,8 @@ class RepositoryList extends Component
         $user = Auth::user();
 
         if ($user->hasRole('contributor')) {
-            $query->where('author_id', $user->author->id);
+            $query->where('author_id', $user->author->id)
+                ->whereIn('visibility', ['public', 'protected']);
         }
 
         $query->where('status', $this->status_filter);

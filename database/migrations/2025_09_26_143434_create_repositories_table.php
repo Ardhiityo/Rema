@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('category_id')->constrained()->cascadeOnDelete();
             $table->foreignId('author_id')->constrained()->cascadeOnDelete();
             $table->year('year');
+            $table->enum('visibility', ['private', 'protected', 'public'])->default('private');
             $table->string('slug')->unique();
             $table->enum('status', ['approve', 'reject', 'pending', 'revision'])->default('pending');
             $table->timestamps();

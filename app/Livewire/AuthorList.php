@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\Author;
 use Livewire\Component;
 use App\Data\AuthorData;
 use Livewire\Attributes\On;
@@ -18,12 +19,16 @@ class AuthorList extends Component
     #[On('refresh-authors')]
     public function getAuthorsProperty()
     {
-        $query = \App\Models\Author::query();
+        $query = Author::query();
 
         $query->where('status', $this->status_filter);
 
         if ($keyword = $this->keyword) {
-            $query->whereLike('name', "%$keyword%")->orWhere('nim', $keyword);
+            $query->whereHas(
+                'user',
+                fn($query) => $query->whereLike('name', "%$keyword%")
+            )
+                ->orWhere('nim', $keyword);
         }
 
         $query->with(['studyProgram', 'user']);

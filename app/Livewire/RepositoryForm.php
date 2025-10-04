@@ -29,6 +29,7 @@ class RepositoryForm extends Component
     public int|string $repository_id = '';
     public string $slug = '';
     public string $status = '';
+    public string $visibility = '';
     public bool $is_update = false;
 
     protected function rules()
@@ -51,7 +52,8 @@ class RepositoryForm extends Component
             ],
             'category_id' => ['required', 'exists:categories,id'],
             'author_id' => ['required', 'exists:authors,id'],
-            'status' => ['in:approve,pending,reject,revision', 'required']
+            'status' => ['required', 'in:approve,pending,reject,revision'],
+            'visibility' => ['required', 'in:private,protected,public']
         ];
     }
 
@@ -87,6 +89,8 @@ class RepositoryForm extends Component
             $this->abstract = $repository_data->abstract;
             $this->category_id = $repository_data->category_id;
             $this->author_id = $repository_data->author_id;
+            $this->status = $repository_data->status;
+            $this->visibility = $repository_data->visibility;
             $this->is_update = true;
         }
     }
@@ -98,6 +102,7 @@ class RepositoryForm extends Component
         if ($user->hasRole('contributor')) {
             $this->author_id = $user->author->id;
             $this->status = 'pending';
+            $this->visibility = 'private';
         }
 
         $this->slug = Str::slug($this->title);
@@ -125,6 +130,7 @@ class RepositoryForm extends Component
 
         if ($user->hasRole('contributor')) {
             $this->status = $repository->status;
+            $this->visibility = $repository->visibility;
         }
 
         $validated = $this->validate();
@@ -164,7 +170,7 @@ class RepositoryForm extends Component
                 ->where('status', 'approve')->get()
         );
 
-        $categories = CategoryData::collect(Category::get());
+        $categories = CategoryData::collect(Category::all());
 
         return view(
             'livewire.repository-form',

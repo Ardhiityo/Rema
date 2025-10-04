@@ -8,7 +8,7 @@
             <div class="order-first col-12 col-md-6 order-md-2">
                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="index.html">Profile</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('profile.index') }}">Profile</a></li>
                     </ol>
                 </nav>
             </div>
