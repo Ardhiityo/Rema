@@ -51,8 +51,10 @@ class RepositoryList extends Component
         $user = Auth::user();
 
         if ($user->hasRole('contributor')) {
-            $query->where('author_id', $user->author->id)
-                ->whereIn('visibility', ['public', 'protected']);
+            $query
+                ->where('status', 'approve')
+                ->where('visibility', 'protected')
+                ->orWhere('visibility', 'public');
         }
 
         $query->where('status', $this->status_filter);

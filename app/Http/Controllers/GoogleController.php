@@ -31,7 +31,9 @@ class GoogleController extends Controller
 
         Auth::login($user);
 
-        $user->author()->create();
+        if (is_null($user->author)) {
+            $user->author()->create();
+        }
 
         $user->assignRole('contributor');
 

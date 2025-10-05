@@ -36,7 +36,7 @@ class RepositoryData extends Data
         public string $created_at
     ) {
         $this->short_title = Str::limit($title, 30, '...');
-        $this->badge_status = $status === 'Approve' ? 'badge bg-success' : 'badge bg-danger';
+        $this->badge_status = $status === 'approve' ? 'badge bg-success' : 'badge bg-danger';
         $this->ucfirst_status = ucfirst($status);
         $this->ucfirst_visibility = ucfirst($visibility);
     }

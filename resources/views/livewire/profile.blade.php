@@ -96,15 +96,9 @@
                                     {{-- Email --}}
                                     <div class="col-12">
                                         <div class="form-group">
-                                            <label for="last-name-column" class="form-label">Email</label>
-                                            <input type="email" id="last-name-column" class="form-control"
-                                                placeholder="ex: ardhiityo229@gmail.com" name="email"
-                                                wire:model='email'>
-                                            @error('email')
-                                                <span class="badge bg-danger">
-                                                    {{ $message }}
-                                                </span>
-                                            @enderror
+                                            <label for="email" class="form-label">Email</label>
+                                            <input type="email" id="email" class="form-control" wire:model='email'
+                                                name="email" disabled>
                                         </div>
                                     </div>
                                     {{-- Email --}}

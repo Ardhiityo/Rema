@@ -97,7 +97,9 @@
                    </a>
                    <ul class="submenu">
                        <li class="submenu-item {{ request()->routeIs('repository.index') ? 'active' : '' }}">
-                           <a href="{{ route('repository.index') }}" class="submenu-link">Master Data</a>
+                           <a href="{{ route('repository.index') }}" class="submenu-link">
+                               Master Data
+                           </a>
                        </li>
                        <li class="submenu-item {{ request()->routeIs('repository.create') ? 'active' : '' }}">
                            <a href="{{ route('repository.create') }}" class="submenu-link">Create Data</a>

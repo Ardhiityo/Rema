@@ -28,7 +28,7 @@ class RepositoryDetail extends Component
 
         $this->repository_id = $repository_data->id;
         $this->title = $repository_data->title;
-        $this->status = $repository_data->status;
+        $this->status = $repository_data->ucfirst_status;
         $this->badge_status = $repository_data->badge_status;
         $this->abstract = $repository_data->abstract;
         $this->category = $repository_data->category_name;

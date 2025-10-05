@@ -3,7 +3,8 @@
            <div class="row g-4 align-items-center">
                <div class="text-center col-md-6 text-md-end mb-md-0">
                    <span class="text-body">
-                       Developed By <a class="text-white border-bottom" href="https://htmlcodex.com">Arya Adhi
+                       Developed By <a class="text-white border-bottom" href="https://www.instagram.com/ardhiityo/">Arya
+                           Adhi
                            Prasetyo</a>, All right reserved.
                    </span>
                </div>

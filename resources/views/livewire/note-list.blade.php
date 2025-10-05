@@ -5,7 +5,7 @@
                  <h5 class="card-title">Notes</h5>
              </div>
 
-             @foreach ($this->notes as $note)
+             @forelse ($this->notes as $note)
                  <div class="my-4 row">
                      <div class="col-10">
                          <p class="card-text">
@@ -35,7 +35,11 @@
                          </div>
                      @endhasrole
                  </div>
-             @endforeach
+             @empty
+                 <div class="mt-3 col-12">
+                     <p>There are currently no notes <i class="bi bi-emoji-frown"></i></p>
+                 </div>
+             @endforelse
 
          </div>
      </div>

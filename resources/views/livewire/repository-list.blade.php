@@ -41,8 +41,10 @@
                             <th>Title</th>
                             <th>Author</th>
                             <th>Category</th>
-                            <th>Status</th>
-                            <th>Visibility</th>
+                            @hasrole('admin')
+                                <th>Status</th>
+                                <th>Visibility</th>
+                            @endhasrole
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -53,22 +55,24 @@
                                 <td class="text-bold-500">{{ $repository->short_title }}</td>
                                 <td class="text-bold-500">{{ $repository->author_name }}</td>
                                 <td class="text-bold-500">{{ $repository->category_name }}</td>
-                                <td class="text-bold-500">
-                                    <span class="{{ $repository->badge_status }}">
-                                        {{ $repository->ucfirst_status }}
-                                    </span>
-                                </td>
-                                <td class="text-bold-500">{{ $repository->ucfirst_visibility }}</td>
+                                @hasrole('admin')
+                                    <td class="text-bold-500">
+                                        <span class="{{ $repository->badge_status }}">
+                                            {{ $repository->ucfirst_status }}
+                                        </span>
+                                    </td>
+                                    <td class="text-bold-500">{{ $repository->ucfirst_visibility }}</td>
+                                @endhasrole
                                 <td class="gap-3 d-flex justify-content-center align-items-center">
                                     <a href="{{ route('repository.show', ['repository' => $repository->slug]) }}"
                                         class="btn btn-info">
                                         <i class="bi bi-eye-fill"></i>
                                     </a>
-                                    <a href="{{ route('repository.edit', ['repository_slug' => $repository->slug]) }}"
-                                        class="btn btn-warning">
-                                        <i class="bi bi-pencil-square"></i>
-                                    </a>
                                     @hasrole('admin')
+                                        <a href="{{ route('repository.edit', ['repository_slug' => $repository->slug]) }}"
+                                            class="btn btn-warning">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </a>
                                         <button type="button" wire:click="deleteConfirm('{{ $repository->slug }}')"
                                             class="block btn btn-danger" data-bs-toggle="modal"
                                             data-bs-target="#border-less">

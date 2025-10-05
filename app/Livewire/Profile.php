@@ -2,10 +2,10 @@
 
 namespace App\Livewire;
 
-use App\Data\StudyProgramData;
-use App\Models\StudyProgram;
 use Livewire\Component;
+use App\Models\StudyProgram;
 use Livewire\WithFileUploads;
+use App\Data\StudyProgramData;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -41,7 +41,6 @@ class Profile extends Component
             'name' => ['required', 'min:3', 'max:50'],
             'nim' => $this->nimRule(),
             'study_program_id' => $this->studyProgramRule(),
-            'email' => ['required', 'email:dns', 'unique:users,email,' . $this->user_id],
             'password' => ['nullable', 'min:8', 'max:100'],
             'avatar' => ['nullable', 'file', 'mimes:jpg,png', 'max:1000']
         ];
@@ -56,7 +55,12 @@ class Profile extends Component
 
     public function resetInput()
     {
-        $this->reset();
+        $this->name = '';
+        $this->nim = '';
+        $this->study_program_id = '';
+        $this->avatar = null;
+        $this->password = '';
+
         $this->resetErrorBag();
     }
 
@@ -82,9 +86,6 @@ class Profile extends Component
 
         if ($user->hasRole('contributor')) {
             $data = [];
-            if (!is_null($name = $validated['name'])) {
-                $user->update(['name' => $validated['name']]);
-            }
             if (!is_null($nim = $validated['nim'])) {
                 data_set($data, 'nim', $nim);
             }
@@ -105,12 +106,11 @@ class Profile extends Component
             $validated['avatar'] = $user->avatar;
         }
 
-        is_null($validated['password']) ? $validated['password'] = $user->password : $validated['password'] = Hash::make($validated['password']);
+        empty($validated['password']) ? $validated['password'] = $user->password : $validated['password'] = Hash::make($validated['password']);
 
         /** @var \App\Models\User $user*/
         $user->update([
             'name' => $validated['name'],
-            'email' => $validated['email'],
             'password' => $validated['password']
         ]);
 
