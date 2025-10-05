@@ -101,6 +101,13 @@
                                Master Data
                            </a>
                        </li>
+                       @hasrole('contributor')
+                           <li class="submenu-item {{ request()->routeIs('repository.author.index') ? 'active' : '' }}">
+                               <a href="{{ route('repository.author.index') }}" class="submenu-link">
+                                   My Data
+                               </a>
+                           </li>
+                       @endhasrole
                        <li class="submenu-item {{ request()->routeIs('repository.create') ? 'active' : '' }}">
                            <a href="{{ route('repository.create') }}" class="submenu-link">Create Data</a>
                        </li>

@@ -34,6 +34,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::middleware(ValidateAuthorMiddleware::class)->group(function () {
         Route::get('/repositories', RepositoryList::class)
             ->name('repository.index');
+        Route::get('/repositories/authors', RepositoryList::class)
+            ->name('repository.author.index');
         Route::get('/repositories/create', RepositoryForm::class)
             ->name('repository.create');
         Route::get('/repositories/{repository:slug}/show', RepositoryDetail::class)

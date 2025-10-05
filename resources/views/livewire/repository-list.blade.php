@@ -20,13 +20,15 @@
                 <label class="input-group-text" for="keyword">Keyword</label>
                 <input type="text" wire:model.live.debounce.250ms='keyword' autofocus class="form-control"
                     id="keyword" placeholder="Search...">
-                <label class="input-group-text" for="status">Status</label>
-                <select name="status" id="status" class="form-select" wire:model.live='status_filter'>
-                    <option value="approve">Approve</option>
-                    <option value="pending">Pending</option>
-                    <option value="revision">Revision</option>
-                    <option value="reject">Reject</option>
-                </select>
+                @if ($is_author_only || $is_admin)
+                    <label class="input-group-text" for="status">Status</label>
+                    <select name="status" id="status" class="form-select" wire:model.live='status_filter'>
+                        <option value="approve">Approve</option>
+                        <option value="pending">Pending</option>
+                        <option value="revision">Revision</option>
+                        <option value="reject">Reject</option>
+                    </select>
+                @endif
                 <button class="btn btn-primary" wire:click='resetInput'>
                     <i class="bi bi-arrow-clockwise"></i>
                 </button>
