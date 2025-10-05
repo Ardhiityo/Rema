@@ -18,8 +18,8 @@ class RecentlyAddData extends Data
     public static function fromModel(Repository $repository)
     {
         return new self(
-            Str::limit($repository->author->name, 15, '...'),
-            $repository->type == 'thesis' ? 'Skripsi' : ($repository->type == 'final_project' ? 'Tugas Akhir' : 'Manual Book'),
+            Str::limit($repository->author->user->name, 15, '...'),
+            $repository->category->name,
             $repository->slug,
             Str::limit($repository->title, 15, '...')
         );

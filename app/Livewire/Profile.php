@@ -111,7 +111,8 @@ class Profile extends Component
         /** @var \App\Models\User $user*/
         $user->update([
             'name' => $validated['name'],
-            'password' => $validated['password']
+            'password' => $validated['password'],
+            'avatar' => $validated['avatar']
         ]);
 
         return session()->flash('message', 'The profile was successfully updated.');

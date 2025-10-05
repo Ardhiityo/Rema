@@ -8,7 +8,6 @@ use App\Data\SearchHeroData;
 use App\Models\Category;
 use Livewire\WithPagination;
 use Livewire\Attributes\Layout;
-use Illuminate\Support\Facades\Log;
 
 class SearchHero extends Component
 {
@@ -24,7 +23,7 @@ class SearchHero extends Component
     protected function queryString()
     {
         return [
-            'type' => [
+            'category' => [
                 'except' => ''
             ],
             'title' => [
@@ -74,7 +73,7 @@ class SearchHero extends Component
 
         if ($author = $this->author) {
             $query->whereHas(
-                'author',
+                'author.user',
                 fn($query) => $query->whereLike('name', "%$author%")
             );
         }

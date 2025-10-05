@@ -22,6 +22,7 @@ class AuthorForm extends Component
     public string $email = '';
     public string $password = '';
     public $avatar;
+    public string $display_avatar = '';
     public string $status = '';
     public int|null $study_program_id = null;
     public int|null $author_id = null;
@@ -50,7 +51,8 @@ class AuthorForm extends Component
                 'unique:authors,nim'
             ],
             'study_program_id' => ['required', 'exists:study_programs,id'],
-            'avatar' => ['nullable', 'file', 'mimes:jpg,png', 'max:1000'],
+            'avatar' => $this->is_update ?
+                ['nullable'] : ['nullable', 'file', 'mimes:jpg,png', 'max:1000'],
             'email' => $this->is_update ? [
                 'required',
                 'email:dns',
@@ -124,7 +126,7 @@ class AuthorForm extends Component
         $this->email = $author->email;
         $this->study_program_id = $author->study_program_id;
         $this->status = $author->status;
-
+        $this->display_avatar = $author->avatar;
         $this->is_update = true;
     }
 
@@ -135,6 +137,9 @@ class AuthorForm extends Component
         $user = \App\Models\User::find($this->user_id);
 
         if (!is_null($validated['avatar'])) {
+            if (Storage::disk('public')->exists($user->avatar)) {
+                Storage::disk('public')->delete($user->avatar);
+            }
             $validated['avatar'] = $validated['avatar']->store('avatars', 'public');
         } else {
             $validated['avatar'] = $user->avatar;
@@ -149,7 +154,8 @@ class AuthorForm extends Component
         $user->update([
             'name' => $validated['name'],
             'email' => $validated['email'],
-            'password' => $validated['password']
+            'password' => $validated['password'],
+            'avatar' => $validated['avatar']
         ]);
 
         $user->author()->update([
@@ -195,7 +201,13 @@ class AuthorForm extends Component
 
     public function resetInput()
     {
-        $this->reset();
+        $this->name = '';
+        $this->nim = '';
+        $this->study_program_id = null;
+        $this->email = '';
+        $this->password = '';
+        $this->status = '';
+
         $this->resetErrorBag();
     }
 

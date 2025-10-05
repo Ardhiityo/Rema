@@ -12,7 +12,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $repositories = Repository::where('status', 'active')->select('year', DB::raw('count(*) as total_repositories'))
+        $repositories = Repository::where('status', 'approve')->select('year', DB::raw('count(*) as total_repositories'))
             ->groupBy('year')
             ->orderBy('year', 'asc')
             ->get();
@@ -25,8 +25,8 @@ class DashboardController extends Controller
             $repository_totals[] = $repository->total_repositories;
         }
 
-        $recently_adds = RecentlyAddData::collect(Repository::with('author')
-            ->where('status', 'active')
+        $recently_adds = RecentlyAddData::collect(Repository::with(['author', 'author.user'])
+            ->where('status', 'approve')
             ->limit(3)
             ->orderByDesc('id')
             ->get());
@@ -35,7 +35,7 @@ class DashboardController extends Controller
 
         $latest_repositories = RecentlyAddData::collect(
             Repository::with('author')
-                ->where('status', 'active')
+                ->where('status', 'approve')
                 ->limit(5)
                 ->orderByDesc('id')
                 ->get()

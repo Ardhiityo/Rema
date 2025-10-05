@@ -69,7 +69,7 @@
                     {{-- Study Program --}}
                     <div>
                         <div class="input-group">
-                            <label class="input-group-text" for="inputGroupSelect01" class="form-label">
+                            <label class="input-group-text" for="inputGroupSelect01">
                                 Study Program
                             </label>
                             <select class="form-select" id="inputGroupSelect01" wire:model='study_program_id'>
@@ -89,43 +89,59 @@
                     </div>
                     {{-- Study Program --}}
 
-                    {{-- Avatar --}}
-                    <div>
-                        <input class="form-control" wire:model='avatar' type="file" id="avatar"
-                            accept=".jpg,.jpeg,.png">
-                        @error('avatar')
-                            <span class="badge bg-danger">
-                                {{ $message }}
-                            </span>
-                        @enderror
-                    </div>
-                    {{-- Avatar --}}
-
                     {{-- Status --}}
                     @if ($is_update)
-                        <div class="input-group">
-                            <label class="input-group-text" for="status" class="form-label">
-                                Status
-                            </label>
-                            <select class="form-select" id="status" wire:model='status'>
-                                <option value="approve">
-                                    Approve
-                                </option>
-                                <option value="pending">
-                                    Pending
-                                </option>
-                                <option value="reject">
-                                    Reject
-                                </option>
-                            </select>
+                        <div>
+                            <div class="input-group">
+                                <label class="input-group-text" for="status" class="form-label">
+                                    Status
+                                </label>
+                                <select class="form-select" id="status" wire:model='status'>
+                                    <option value="">
+                                        Choose...
+                                    </option>
+                                    <option value="approve">
+                                        Approve
+                                    </option>
+                                    <option value="pending">
+                                        Pending
+                                    </option>
+                                    <option value="reject">
+                                        Reject
+                                    </option>
+                                </select>
+                            </div>
+                            @error('status')
+                                <span class="badge bg-danger">
+                                    {{ $message }}
+                                </span>
+                            @enderror
                         </div>
-                        @error('status')
-                            <span class="badge bg-danger">
-                                {{ $message }}
-                            </span>
-                        @enderror
                     @endif
-                    {{-- Study Program --}}
+                    {{-- Status --}}
+
+                    {{-- Avatar --}}
+                    <div>
+                        <div>
+                            <label for="avatar" class="form-label">
+                                Avatar
+                            </label>
+                            <input class="form-control" wire:model='avatar' type="file" id="avatar"
+                                accept=".jpg,.jpeg,.png">
+                            @error('avatar')
+                                <span class="badge bg-danger">
+                                    {{ $message }}
+                                </span>
+                            @enderror
+                        </div>
+                        @if ($is_update && Storage::disk('public')->exists($display_avatar))
+                            <div class="py-3">
+                                <img src="{{ Storage::url($display_avatar) }}" class="rounded-circle"
+                                    style="max-width: 100px;" alt="...">
+                            </div>
+                        @endif
+                    </div>
+                    {{-- Avatar --}}
                 </div>
             </div>
             <div class="gap-3 mt-4 d-flex">

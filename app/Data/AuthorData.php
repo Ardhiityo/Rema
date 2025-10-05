@@ -22,7 +22,8 @@ class AuthorData extends Data
         public int|null $study_program_id,
         public string|null $study_program_name,
         public string $status,
-        public string $origin_status
+        public string $origin_status,
+        public string|null $avatar
     ) {
         $this->badge_status = $origin_status === 'approve' ? 'badge bg-success' : 'badge bg-danger';
         $this->ucfirst_status = ucfirst($status);
@@ -40,6 +41,7 @@ class AuthorData extends Data
             $author?->studyProgram?->name ?? '-',
             $author->status,
             $author->status,
+            $author->user->avatar,
         );
     }
 }

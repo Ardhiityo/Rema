@@ -41,7 +41,7 @@ class SearchHeroData extends Data
             $repository->title,
             $repository->category->name,
             $repository->slug,
-            $repository->created_at->diffForHumans()
+            $repository->created_at->format('d F Y')
         );
     }
 }

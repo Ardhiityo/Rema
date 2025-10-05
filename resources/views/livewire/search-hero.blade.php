@@ -17,7 +17,7 @@
                           placeholder="Author" wire:model.live.debounce.250ms='author'>
                       <input type="number" class="form-control" aria-label="Text input with dropdown button"
                           placeholder="Year" wire:model.live.debounce.250ms='year'>
-                      <select class="form-select" id="inputGroupSelect01" wire:model.live='type'>
+                      <select class="form-select" id="inputGroupSelect01" wire:model.live='category'>
                           <option selected value="">Category</option>
                           @foreach ($categories as $category)
                               <option value="{{ $category->slug }}">{{ $category->name }}</option>
@@ -39,11 +39,11 @@
                           placeholder="Author" wire:model.live.debounce.250ms='author'>
                       <input type="number" class="form-control" aria-label="Text input with dropdown button"
                           placeholder="Year" wire:model.live.debounce.250ms='year'>
-                      <select class="form-select" id="inputGroupSelect01" wire:model.live='type'>
-                          <option selected value="">Type</option>
-                          <option value="thesis">Skripsi</option>
-                          <option value="final_project">Tugas Akhir</option>
-                          <option value="manual_book">Manual Book</option>
+                      <select class="form-select" id="inputGroupSelect01" wire:model.live='category'>
+                          <option selected value="">Category</option>
+                          @foreach ($categories as $category)
+                              <option value="{{ $category->slug }}">{{ $category->name }}</option>
+                          @endforeach
                       </select>
                       <button class="btn btn-primary" wire:click='resetInput' wire:target='resetInput'>
                           <i class="bi bi-arrow-clockwise" wire:loading.class='d-none' wire:target='resetInput'></i>
@@ -60,12 +60,11 @@
                           placeholder="Author" wire:model.live.debounce.250ms='author'>
                       <input type="number" class="form-control w-100" aria-label="Text input with dropdown button"
                           placeholder="Year" wire:model.live.debounce.250ms='year'>
-                      <select class="form-select w-100" id="inputGroupSelect01" wire:model.live='type'
-                          wire:target='resetInput'>
-                          <option selected value="">Type</option>
-                          <option value="thesis">Skripsi</option>
-                          <option value="final_project">Tugas Akhir</option>
-                          <option value="manual_book">Manual Book</option>
+                      <select class="form-select" id="inputGroupSelect01" wire:model.live='category'>
+                          <option selected value="">Category</option>
+                          @foreach ($categories as $category)
+                              <option value="{{ $category->slug }}">{{ $category->name }}</option>
+                          @endforeach
                       </select>
                       <button class="btn btn-primary w-100" wire:click='resetInput' wire:target='resetInput'>
                           <span wire:loading.class='d-none' wire:target='resetInput'>
@@ -95,8 +94,15 @@
                                   <p class="mb-4">{{ $repository->short_title }}</p>
                               </div>
                               <div>
-                                  <p><small><i class="far fa-clock"></i>
-                                          {{ $repository->created_at }}</small></p>
+                                  <p>
+                                      <small>{{ $repository->category }}</small>
+                                  </p>
+                                  <p>
+                                      <small>
+                                          <i class="far fa-clock"></i>
+                                          {{ $repository->created_at }}
+                                      </small>
+                                  </p>
                                   <span class="px-4 py-2 btn btn-primary rounded-pill">
                                       View <i class="fas fa-eye ms-2"></i>
                                   </span>

@@ -69,7 +69,7 @@
                                     <div class="table-responsive">
                                         <table class="table table-hover table-lg">
                                             <thead>
-                                                <tr class="text-center">
+                                                <tr>
                                                     <th>Author</th>
                                                     <th>Title</th>
                                                 </tr>
@@ -80,8 +80,7 @@
                                                         <td class="col-3">
                                                             <a
                                                                 href="{{ route('repository.show', ['repository' => $latest_repository->slug]) }}">
-                                                                <div
-                                                                    class="d-flex align-items-center justify-content-center">
+                                                                <div class="d-flex align-items-center">
                                                                     <div class="avatar avatar-md">
                                                                         <img src="./assets/compiled/jpg/2.jpg">
                                                                     </div>
@@ -93,16 +92,18 @@
                                                         <td class="col-auto">
                                                             <a
                                                                 href="{{ route('repository.show', ['repository' => $latest_repository->slug]) }}">
-                                                                <p class="mb-0 text-center">{{ $latest_repository->title }}
+                                                                <p class="mb-0">{{ $latest_repository->title }}
                                                                 </p>
                                                             </a>
                                                         </td>
-
                                                     </tr>
                                                 @empty
                                                     <tr>
-                                                        <td colspan="2">
-                                                            <h6 class="text-center">Repositories Not Found</h6>
+                                                        <td>
+                                                            No Author Available
+                                                        </td>
+                                                        <td>
+                                                            No Title Available
                                                         </td>
                                                     </tr>
                                                 @endforelse
