@@ -22,7 +22,10 @@ class RepositoryPolicy
      */
     public function view(User $user, Repository $repository): bool
     {
-        return false;
+        if ($user->hasRole('contributor')) {
+            return $user->author->id == $repository->author_id;
+        }
+        return true;
     }
 
     /**

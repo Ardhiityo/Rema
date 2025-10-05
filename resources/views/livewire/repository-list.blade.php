@@ -45,8 +45,8 @@
                             <th>Category</th>
                             @hasrole('admin')
                                 <th>Status</th>
-                                <th>Visibility</th>
                             @endhasrole
+                            <th>Visibility</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -63,8 +63,8 @@
                                             {{ $repository->ucfirst_status }}
                                         </span>
                                     </td>
-                                    <td class="text-bold-500">{{ $repository->ucfirst_visibility }}</td>
                                 @endhasrole
+                                <td class="text-bold-500">{{ $repository->ucfirst_visibility }}</td>
                                 <td class="gap-3 d-flex justify-content-center align-items-center">
                                     <a href="{{ route('repository.show', ['repository' => $repository->slug]) }}"
                                         class="btn btn-info">

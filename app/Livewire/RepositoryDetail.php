@@ -22,9 +22,11 @@ class RepositoryDetail extends Component
     public int $repository_id;
     public bool $can_see_notes;
     public bool $is_admin;
+    public Repository $repository;
 
     public function mount(Repository $repository)
     {
+        $this->repository = $repository;
         $repository_data = RepositoryData::fromModel(
             $repository->load('author', 'author.studyProgram')
         );
