@@ -5,6 +5,7 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Models\Repository;
 use App\Data\RepositoryData;
+use Illuminate\Support\Facades\Auth;
 
 class RepositoryDetail extends Component
 {
@@ -19,14 +20,18 @@ class RepositoryDetail extends Component
     public string|null $study_program = '';
     public string $slug = '';
     public int $repository_id;
+    public bool $can_see_notes;
+    public bool $is_admin;
 
     public function mount(Repository $repository)
     {
         $repository_data = RepositoryData::fromModel(
             $repository->load('author', 'author.studyProgram')
         );
-
+        $user = Auth::user();
+        $this->is_admin = $user->hasRole('admin') ? true : false;
         $this->repository_id = $repository_data->id;
+        $this->can_see_notes = $repository_data->author_id == $user->author->id;
         $this->title = $repository_data->title;
         $this->status = $repository_data->ucfirst_status;
         $this->badge_status = $repository_data->badge_status;

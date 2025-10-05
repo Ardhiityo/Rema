@@ -32,12 +32,12 @@
                     </p>
                     <p>
                         <small>
-                            @hasrole('admin')
+                            @if ($is_admin || $can_see_notes)
                                 <span class="{{ $badge_status }} mb-2">
                                     {{ $status }}
                                 </span>
                                 <br>
-                            @endhasrole
+                            @endif
                             {{ $category }} - {{ $created_at }}
                         </small>
                     </p>
@@ -50,7 +50,9 @@
         </div>
         @hasrole('admin')
             <livewire:note-form :repository_id="$repository_id" />
-            <livewire:note-list :repository_id="$repository_id" />
         @endhasrole
+        @if ($is_admin || $can_see_notes)
+            <livewire:note-list :repository_id="$repository_id" />
+        @endif
     </section>
 </div>

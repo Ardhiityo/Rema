@@ -70,11 +70,13 @@
                                         class="btn btn-info">
                                         <i class="bi bi-eye-fill"></i>
                                     </a>
-                                    @hasrole('admin')
+                                    @if ($is_admin || $is_author_only)
                                         <a href="{{ route('repository.edit', ['repository_slug' => $repository->slug]) }}"
                                             class="btn btn-warning">
                                             <i class="bi bi-pencil-square"></i>
                                         </a>
+                                    @endif
+                                    @hasrole('admin')
                                         <button type="button" wire:click="deleteConfirm('{{ $repository->slug }}')"
                                             class="block btn btn-danger" data-bs-toggle="modal"
                                             data-bs-target="#border-less">

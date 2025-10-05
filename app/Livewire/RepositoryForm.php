@@ -11,6 +11,7 @@ use App\Models\Category;
 use App\Models\Repository;
 use Illuminate\Support\Str;
 use App\Data\RepositoryData;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\WithFileUploads;
 use Livewire\Attributes\Computed;
 use Illuminate\Support\Facades\Log;
@@ -19,7 +20,7 @@ use Illuminate\Support\Facades\Storage;
 
 class RepositoryForm extends Component
 {
-    use WithFileUploads;
+    use WithFileUploads, AuthorizesRequests;
 
     public string $title = '';
     public string $abstract = '';
@@ -76,13 +77,17 @@ class RepositoryForm extends Component
     public function mount(string $repository_slug = '')
     {
         if ($repository_slug) {
-            $repository_data = RepositoryData::fromModel(
-                Repository::with(
-                    ['author', 'author.studyProgram']
-                )
-                    ->where('slug', $repository_slug)
-                    ->first()
-            );
+
+            $repository =  Repository::with(
+                ['author', 'author.studyProgram']
+            )
+                ->where('slug', $repository_slug)
+                ->first();
+
+            $this->authorize('update', $repository);
+
+            $repository_data = RepositoryData::fromModel($repository);
+
             $this->repository_id = $repository_data->id;
             $this->title = $repository_data->title;
             $this->slug = Str::slug($repository_data->title);
