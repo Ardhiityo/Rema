@@ -2,6 +2,8 @@
 
 namespace App\Livewire;
 
+use App\Models\User;
+use App\Models\Author;
 use Livewire\Component;
 use App\Data\AuthorData;
 use Livewire\Attributes\On;
@@ -97,7 +99,7 @@ class AuthorForm extends Component
             $validated['avatar'] = $validated['avatar']->store('avatars', 'public');
         }
 
-        $user = \App\Models\User::create([
+        $user = User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => $validated['password'],
@@ -121,7 +123,7 @@ class AuthorForm extends Component
     public function edit($author_id)
     {
         $author = AuthorData::fromModel(
-            \App\Models\Author::find($author_id)
+            Author::find($author_id)
                 ->load(['user', 'studyProgram'])
         );
         $this->user_id = $author->user_id;
@@ -139,7 +141,7 @@ class AuthorForm extends Component
     {
         $validated = $this->validate();
 
-        $user = \App\Models\User::find($this->user_id);
+        $user = User::find($this->user_id);
 
         if (!is_null($validated['avatar'])) {
             if (Storage::disk('public')->exists($user->avatar)) {
@@ -150,7 +152,7 @@ class AuthorForm extends Component
             $validated['avatar'] = $user->avatar;
         }
 
-        if (!is_null($validated['password'])) {
+        if (!empty($validated['password'])) {
             $validated['password'] = Hash::make($validated['password']);
         } else {
             $validated['password'] = $user->password;
@@ -189,7 +191,7 @@ class AuthorForm extends Component
     #[On('author-delete')]
     public function delete()
     {
-        $user = \App\Models\User::find($this->user_id);
+        $user = User::find($this->user_id);
 
         if (!is_null($user->avatar)) {
             if (Storage::disk('public')->exists($user->avatar)) {

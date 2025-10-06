@@ -21,7 +21,7 @@ class NoteList extends Component
     {
         return NoteData::collect(
             Note::where('repository_id', $this->repository_id)
-                ->paginate(10)
+                ->orderByDesc('id')->paginate(10)
         );
     }
 
