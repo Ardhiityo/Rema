@@ -86,7 +86,7 @@ class AuthorForm extends Component
     public function avatarRule()
     {
         if ($this->is_update) {
-            return is_null($this->user->avatar) ? ['required', 'file', 'mimes:jpg,png', 'max:1000'] : ['nullable'];
+            return is_null($this->user->avatar) ? ['required', 'file', 'mimes:jpg,png', 'max:1000'] : ['nullable', 'file', 'mimes:jpg,png', 'max:1000'];
         }
         return ['required', 'file', 'mimes:jpg,png', 'max:1000'];
     }
