@@ -11,12 +11,13 @@
                                   tugas
                                   akhir, dan manual book secara terstruktur dan mudah diakses.
                               </p>
-                              <div class="flex-shrink-0 mb-4 d-flex justify-content-center justify-content-md-start">
-                                  <a class="px-4 py-3 btn btn-light rounded-pill px-md-5 me-2"
+                              <div
+                                  class="flex-shrink-0 gap-2 mb-4 d-flex justify-content-center justify-content-md-start">
+                                  <a class="px-4 py-3 rounded-lg btn btn-light px-md-5 me-2"
                                       href="{{ route('login') }}">
                                       Sign In
                                   </a>
-                                  <a class="px-4 py-3 btn btn-dark rounded-pill px-md-5 me-2"
+                                  <a class="px-4 py-3 rounded-lg btn btn-dark px-md-5 me-2"
                                       href="{{ route('register') }}">
                                       Sign Up
                                   </a>
@@ -49,7 +50,7 @@
                                   tugas akhir, dan manual book secara terstruktur dan mudah diakses.
                               </p>
                               <div class="flex-shrink-0 mb-4 d-flex justify-content-center justify-content-md-end">
-                                  <a class="px-4 py-3 btn btn-light rounded-pill px-md-5 me-2" href="#repositories">
+                                  <a class="px-4 py-3 rounded-lg btn btn-light px-md-5 me-2" href="#repositories">
                                       <i class="fas fa-search me-2"></i>
                                       Temukan Inspirasi
                                   </a>

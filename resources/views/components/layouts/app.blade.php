@@ -21,7 +21,6 @@
         <div id="main">
             <x-header />
             {{ $slot }}
-            <x-footer />
         </div>
     </div>
     <script src="{{ asset('assets/static/js/components/dark.js') }}"></script>

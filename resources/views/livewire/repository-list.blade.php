@@ -16,22 +16,32 @@
     </div>
     <div class="card">
         <div class="card-header">
-            <div class="input-group">
-                <label class="input-group-text" for="keyword">Keyword</label>
-                <input type="text" wire:model.live.debounce.250ms='keyword' autofocus class="form-control"
-                    id="keyword" placeholder="Search...">
+            <div class="gap-3 row d-flex gap-md-0">
+                <div class="col-md-5">
+                    <div class="input-group">
+                        <label class="input-group-text" for="keyword">Keyword</label>
+                        <input type="text" wire:model.live.debounce.250ms='keyword' autofocus class="form-control"
+                            id="keyword" placeholder="Search...">
+                    </div>
+                </div>
                 @if ($is_author_only || $is_admin)
-                    <label class="input-group-text" for="status">Status</label>
-                    <select name="status" id="status" class="form-select" wire:model.live='status_filter'>
-                        <option value="approve">Approve</option>
-                        <option value="pending">Pending</option>
-                        <option value="revision">Revision</option>
-                        <option value="reject">Reject</option>
-                    </select>
+                    <div class="col-md-5">
+                        <div class="input-group">
+                            <label class="input-group-text" for="status">Status</label>
+                            <select name="status" id="status" class="form-select" wire:model.live='status_filter'>
+                                <option value="approve">Approve</option>
+                                <option value="pending">Pending</option>
+                                <option value="revision">Revision</option>
+                                <option value="reject">Reject</option>
+                            </select>
+                        </div>
+                    </div>
                 @endif
-                <button class="btn btn-primary" wire:click='resetInput'>
-                    <i class="bi bi-arrow-clockwise"></i>
-                </button>
+                <div class="col-md-2">
+                    <button class="btn btn-primary w-100" wire:click='resetInput'>
+                        <i class="bi bi-arrow-clockwise"></i>
+                    </button>
+                </div>
             </div>
         </div>
         <div class="card-content">
@@ -99,29 +109,31 @@
                 </div>
             @endif
         </div>
-        <!--BorderLess Modal Modal -->
-        <div wire:ignore.self class="text-left modal fade modal-borderless" id="border-less" tabindex="-1"
-            role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-scrollable" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Confirm deletion</h5>
-                    </div>
-                    <div class="modal-body">
-                        <p>Are you sure you want to delete the data?</p>
-                    </div>
-                    <div class="gap-2 modal-footer d-flex">
-                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
-                            <i class="bx bx-x d-block d-sm-none"></i>
-                            <span class="d-none d-sm-block">Close</span>
-                        </button>
-                        <button type="button" class="btn btn-danger ms-1" wire:click='delete' data-bs-dismiss="modal">
-                            <i class="bx bx-check d-block d-sm-none"></i>
-                            <span class="d-none d-sm-block">Accept</span>
-                        </button>
-                    </div>
+    </div>
+
+    <!--BorderLess Modal Modal -->
+    <div wire:ignore.self class="text-left modal fade modal-borderless" id="border-less" tabindex="-1" role="dialog"
+        aria-labelledby="myModalLabel1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirm deletion</h5>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete the data?</p>
+                </div>
+                <div class="gap-2 modal-footer d-flex">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+                        <i class="bx bx-x d-block d-sm-none"></i>
+                        <span class="d-none d-sm-block">Close</span>
+                    </button>
+                    <button type="button" class="btn btn-danger ms-1" wire:click='delete' data-bs-dismiss="modal">
+                        <i class="bx bx-check d-block d-sm-none"></i>
+                        <span class="d-none d-sm-block">Accept</span>
+                    </button>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>

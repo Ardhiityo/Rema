@@ -25,16 +25,20 @@
                              <td class="text-bold-500">{{ $loop->index + $this->categories->firstItem() }}</td>
                              <td class="text-bold-500">{{ $category->name }}</td>
                              <td>{{ $category->created_at }}</td>
-                             <td class="gap-3 d-flex justify-content-center align-items-center">
-                                 <button wire:click="$dispatch('category-edit', {category_id : '{{ $category->id }}'})"
-                                     class="btn btn-warning">
-                                     <i class="bi bi-pencil-square"></i>
-                                 </button>
-                                 <button type="button"
-                                     wire:click="$dispatch('category-delete-confirm', {category_id: '{{ $category->id }}' })"
-                                     class="block btn btn-danger" data-bs-toggle="modal" data-bs-target="#border-less">
-                                     <i class="bi bi-trash3"></i>
-                                 </button>
+                             <td>
+                                 <div class="gap-3 d-flex justify-content-center align-items-center">
+                                     <button
+                                         wire:click="$dispatch('category-edit', {category_id : '{{ $category->id }}'})"
+                                         class="btn btn-warning">
+                                         <i class="bi bi-pencil-square"></i>
+                                     </button>
+                                     <button type="button"
+                                         wire:click="$dispatch('category-delete-confirm', {category_id: '{{ $category->id }}' })"
+                                         class="block btn btn-danger" data-bs-toggle="modal"
+                                         data-bs-target="#border-less">
+                                         <i class="bi bi-trash3"></i>
+                                     </button>
+                                 </div>
                              </td>
                          </tr>
                      @empty

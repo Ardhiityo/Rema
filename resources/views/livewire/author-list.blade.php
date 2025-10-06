@@ -1,18 +1,28 @@
 <div class="card">
     <div class="card-header">
-        <div class="input-group">
-            <label class="input-group-text" for="status">Keyword</label>
-            <input type="text" wire:model.live.debounce.250ms='keyword' autofocus class="form-control" id="status"
-                placeholder="Search...">
-            <label class="input-group-text" for="status">Status</label>
-            <select name="status" id="status" class="form-select" wire:model.live='status_filter'>
-                <option value="pending">Pending</option>
-                <option value="approve">Approve</option>
-                <option value="reject">Reject</option>
-            </select>
-            <button class="btn btn-primary" wire:click='resetInput'>
-                <i class="bi bi-arrow-clockwise"></i>
-            </button>
+        <div class="gap-3 row d-flex gap-md-0">
+            <div class="col-md-5">
+                <div class="input-group">
+                    <label class="input-group-text" for="status">Keyword</label>
+                    <input type="text" wire:model.live.debounce.250ms='keyword' autofocus class="form-control"
+                        id="status" placeholder="Search...">
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="input-group">
+                    <label class="input-group-text" for="status">Status</label>
+                    <select name="status" id="status" class="form-select" wire:model.live='status_filter'>
+                        <option value="pending">Pending</option>
+                        <option value="approve">Approve</option>
+                        <option value="reject">Reject</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-primary w-100" wire:click='resetInput'>
+                    <i class="bi bi-arrow-clockwise"></i>
+                </button>
+            </div>
         </div>
     </div>
     <div class="card-content">
@@ -35,20 +45,26 @@
                             <td class="text-bold-500">{{ $author->nim }}</td>
                             <td class="text-bold-500">{{ $author->name }}</td>
                             <td class="text-bold-500">{{ $author->study_program_name }}</td>
-                            <td class="text-bold-500">
-                                <img src="{{ $author->avatar }}" alt="{{ $author->name }}" class="rounded-pill"
-                                    style="max-width: 38px">
+                            <td>
+                                <div class="d-flex justify-content-center">
+                                    <img src="{{ $author->avatar }}" alt="{{ $author->name }}"
+                                        style="width: 38px; height: 38px; border-radius: 100%;">
+                                </div>
                             </td>
-                            <td class="gap-3 d-flex justify-content-center align-items-center">
-                                <button wire:click="$dispatch('author-edit', { author_id: '{{ $author->author_id }}' })"
-                                    wire:key="{{ $author->nim }}" class="btn btn-warning">
-                                    <i class="bi bi-pencil-square"></i>
-                                </button>
-                                <button type="button"
-                                    wire:click="$dispatch('author-delete-confirm', {author_id : '{{ $author->author_id }}'})"
-                                    class="block btn btn-danger" data-bs-toggle="modal" data-bs-target="#border-less">
-                                    <i class="bi bi-trash3"></i>
-                                </button>
+                            <td>
+                                <div class="gap-3 d-flex justify-content-center align-items-center">
+                                    <button
+                                        wire:click="$dispatch('author-edit', { author_id: '{{ $author->author_id }}' })"
+                                        wire:key="{{ $author->nim }}" class="btn btn-warning">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </button>
+                                    <button type="button"
+                                        wire:click="$dispatch('author-delete-confirm', {author_id : '{{ $author->author_id }}'})"
+                                        class="block btn btn-danger" data-bs-toggle="modal"
+                                        data-bs-target="#border-less">
+                                        <i class="bi bi-trash3"></i>
+                                    </button>
+                                </div>
                             </td>
                         </tr>
                     @empty

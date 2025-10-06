@@ -11,15 +11,9 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class RolePermissionSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
-    public function run(): void
+    public function avatarGenerator($public_path)
     {
-        Role::create(['name' => 'admin']);
-        Role::create(['name' => 'contributor']);
-
-        $sourcePath = public_path('assets/compiled/jpg/3.jpg');
+        $sourcePath = public_path($public_path);
         $fileContents = File::get($sourcePath);
 
         // Buat nama file unik dengan ekstensi asli
@@ -28,11 +22,22 @@ class RolePermissionSeeder extends Seeder
         // Simpan ke storage/app/public
         Storage::disk('public')->put($filename, $fileContents);
 
+        return $filename;
+    }
+
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        Role::create(['name' => 'admin']);
+        Role::create(['name' => 'contributor']);
+
         $user = User::create([
             'name' => 'Admin',
             'email' => 'admin@gmail.com',
             'password' => 'rahasia',
-            'avatar' => $filename,
+            'avatar' => $this->avatarGenerator('assets/compiled/jpg/3.jpg'),
             'email_verified_at' => now()
         ]);
 
@@ -42,6 +47,7 @@ class RolePermissionSeeder extends Seeder
             'name' => 'John doe',
             'email' => 'contributor@gmail.com',
             'password' => 'rahasia',
+            'avatar' => $this->avatarGenerator('assets/compiled/jpg/4.jpg'),
             'email_verified_at' => now()
         ]);
 
