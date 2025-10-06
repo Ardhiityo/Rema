@@ -19,7 +19,11 @@
             <div class="card-content">
                 <div class="card-body">
                     <div class="mb-2 flex-column d-flex">
-                        <h3 class="card-title"> {{ $author }}</h3>
+                        <h4 class="gap-2 card-title d-flex align-items-center">
+                            <img src="{{ $avatar }}" alt="{{ $author }}" class="rounded-pill"
+                                style="max-width: 38px">
+                            <span>{{ $author }}</span>
+                        </h4>
                         <p>
                             <small>{{ $nim }} | {{ $study_program }}</small>
                         </p>

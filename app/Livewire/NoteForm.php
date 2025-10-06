@@ -58,7 +58,6 @@ class NoteForm extends Component
     #[On('note-edit')]
     public function edit($note_id)
     {
-        Log::info($note_id);
         $note = Note::find($note_id);
 
         $this->note_id = $note_id;

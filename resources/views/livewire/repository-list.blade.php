@@ -41,11 +41,10 @@
                         <tr class="text-nowrap">
                             <th>No</th>
                             <th>Title</th>
-                            <th>Author</th>
+                            @if (!$is_author_only)
+                                <th>Author</th>
+                            @endif
                             <th>Category</th>
-                            @hasrole('admin')
-                                <th>Status</th>
-                            @endhasrole
                             <th>Visibility</th>
                             <th>Action</th>
                         </tr>
@@ -55,15 +54,16 @@
                             <tr class="text-nowrap" wire:key='{{ $repository->slug }}'>
                                 <td class="text-bold-500">{{ $loop->index + $this->repositories->firstItem() }}</td>
                                 <td class="text-bold-500">{{ $repository->short_title }}</td>
-                                <td class="text-bold-500">{{ $repository->author_name }}</td>
-                                <td class="text-bold-500">{{ $repository->category_name }}</td>
-                                @hasrole('admin')
-                                    <td class="text-bold-500">
-                                        <span class="{{ $repository->badge_status }}">
-                                            {{ $repository->ucfirst_status }}
+                                @if (!$is_author_only)
+                                    <td>
+                                        <img src="{{ $repository->author_avatar }}" class="rounded-pill"
+                                            style="max-width: 38px" alt="{{ $repository->author_name }}">
+                                        <span class="text-bold-500 ms-1">
+                                            {{ $repository->author_name }}
                                         </span>
                                     </td>
-                                @endhasrole
+                                @endif
+                                <td class="text-bold-500">{{ $repository->category_name }}</td>
                                 <td class="text-bold-500">{{ $repository->ucfirst_visibility }}</td>
                                 <td class="gap-3 d-flex justify-content-center align-items-center">
                                     <a href="{{ route('repository.show', ['repository' => $repository->slug]) }}"

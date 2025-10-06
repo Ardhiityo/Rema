@@ -5,6 +5,7 @@ namespace App\Data;
 use App\Models\Repository;
 use Illuminate\Support\Str;
 use Spatie\LaravelData\Data;
+use Illuminate\Support\Facades\Storage;
 use Spatie\LaravelData\Attributes\Computed;
 
 class RepositoryData extends Data
@@ -28,6 +29,7 @@ class RepositoryData extends Data
         public string $category_name,
         public int $author_id,
         public string $author_name,
+        public string|null $author_avatar,
         public string $year,
         public string $slug,
         public string|null $study_program,
@@ -53,6 +55,7 @@ class RepositoryData extends Data
             $repository->category->name,
             $repository->author->id,
             $repository->author->user->name,
+            $repository->author->user->avatar ? Storage::url($repository->author->user->avatar) : null,
             $repository->year,
             $repository->slug,
             $repository->author?->studyProgram?->name ?? '-',
