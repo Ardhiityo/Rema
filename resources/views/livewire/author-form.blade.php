@@ -18,7 +18,7 @@
                             placeholder="ex: 22040004" name="nim">
                         @error('nim')
                             <span class="badge bg-danger">
-                                {{ $message }}
+                                <small>{{ $message }}</small>
                             </span>
                         @enderror
                     </div>
@@ -31,7 +31,7 @@
                             placeholder="ex: ardhiityo229@gmail.com" name="email">
                         @error('email')
                             <span class="badge bg-danger">
-                                {{ $message }}
+                                <small>{{ $message }}</small>
                             </span>
                         @enderror
                     </div>
@@ -44,7 +44,7 @@
                             placeholder="min 8 characters" name="password">
                         @error('password')
                             <span class="badge bg-danger">
-                                {{ $message }}
+                                <small>{{ $message }}</small>
                             </span>
                         @enderror
                     </div>
@@ -60,7 +60,7 @@
                             placeholder="ex: Arya Adhi Prasetyo" name="name">
                         @error('name')
                             <span class="badge bg-danger">
-                                {{ $message }}
+                                <small>{{ $message }}</small>
                             </span>
                         @enderror
                     </div>
@@ -83,7 +83,7 @@
                         </div>
                         @error('study_program_id')
                             <span class="badge bg-danger">
-                                {{ $message }}
+                                <small>{{ $message }}</small>
                             </span>
                         @enderror
                     </div>
@@ -113,7 +113,7 @@
                             </div>
                             @error('status')
                                 <span class="badge bg-danger">
-                                    {{ $message }}
+                                    <small>{{ $message }}</small>
                                 </span>
                             @enderror
                         </div>
@@ -130,7 +130,7 @@
                                 accept=".jpg,.jpeg,.png">
                             @error('avatar')
                                 <span class="badge bg-danger">
-                                    {{ $message }}
+                                    <small> {{ $message }}</small>
                                 </span>
                             @enderror
                         </div>

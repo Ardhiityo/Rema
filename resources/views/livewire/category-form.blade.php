@@ -16,7 +16,7 @@
                         placeholder="ex: Skripsi">
                     @error('slug')
                         <span class="badge bg-danger">
-                            {{ $message }}
+                            <small>{{ $message }}</small>
                         </span>
                     @enderror
                 </div>

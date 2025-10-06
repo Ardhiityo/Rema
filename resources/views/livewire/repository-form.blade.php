@@ -34,7 +34,7 @@
                             placeholder="ex: Sistem Informasi Management Sekolah">
                         @error('slug')
                             <span class="badge bg-danger">
-                                {{ $message }}
+                                <small>{{ $message }}</small>
                             </span>
                         @enderror
                     </div>
@@ -47,7 +47,7 @@
                             <textarea class="form-control" id="exampleFormControlTextarea1" wire:model='abstract' rows="3"></textarea>
                             @error('abstract')
                                 <span class="badge bg-danger">
-                                    {{ $message }}
+                                    <small>{{ $message }}</small>
                                 </span>
                             @enderror
                         </div>
@@ -63,7 +63,7 @@
                             accept="application/pdf">
                         @error('file_path')
                             <span class="badge bg-danger">
-                                {{ $message }}
+                                <small>{{ $message }}</small>
                             </span>
                         @enderror
                     </div>
@@ -85,7 +85,7 @@
                             </div>
                             @error('author_id')
                                 <span class="badge bg-danger">
-                                    {{ $message }}
+                                    <small>{{ $message }}</small>
                                 </span>
                             @enderror
                         </div>
@@ -109,7 +109,7 @@
                         </div>
                         @error('category_id')
                             <span class="badge bg-danger">
-                                {{ $message }}
+                                <small>{{ $message }}</small>
                             </span>
                         @enderror
                     </div>
@@ -142,7 +142,7 @@
                             </div>
                             @error('status')
                                 <span class="badge bg-danger">
-                                    {{ $message }}
+                                    <small>{{ $message }}</small>
                                 </span>
                             @enderror
                         </div>
@@ -173,7 +173,7 @@
                             </div>
                             @error('visibility')
                                 <span class="badge bg-danger">
-                                    {{ $message }}
+                                    <small>{{ $message }}</small>
                                 </span>
                             @enderror
                         </div>

@@ -16,7 +16,7 @@
                         placeholder="ex: Teknik Informatika">
                     @error('slug')
                         <span class="badge bg-danger">
-                            {{ $message }}
+                            <small>{{ $message }}</small>
                         </span>
                     @enderror
                 </div>

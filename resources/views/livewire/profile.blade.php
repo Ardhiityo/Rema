@@ -42,8 +42,8 @@
                                             <input type="text" id="first-name-column" class="form-control"
                                                 placeholder="ex: Arya Adhi Prasetyo" name="name" wire:model='name'>
                                             @error('name')
-                                                <span class="badge bg-danger">
-                                                    {{ $message }}
+                                                <span class="badge bg-danger fs-6">
+                                                    <small>{{ $message }}</small>
                                                 </span>
                                             @enderror
                                         </div>
@@ -59,7 +59,7 @@
                                                     placeholder="ex: 22040004" name="nim" wire:model='nim'>
                                                 @error('nim')
                                                     <span class="badge bg-danger">
-                                                        {{ $message }}
+                                                        <small>{{ $message }}</small>
                                                     </span>
                                                 @enderror
                                             </div>
@@ -86,7 +86,7 @@
                                             </div>
                                             @error('study_program_id')
                                                 <span class="badge bg-danger">
-                                                    {{ $message }}
+                                                    <small>{{ $message }}</small>
                                                 </span>
                                             @enderror
                                         </div>
@@ -112,7 +112,7 @@
                                                 wire:model='password'>
                                             @error('password')
                                                 <span class="badge bg-danger">
-                                                    {{ $message }}
+                                                    <small>{{ $message }}</small>
                                                 </span>
                                             @enderror
                                         </div>
@@ -127,7 +127,7 @@
                                                 accept="application/jpg,application/png" wire:model='avatar'>
                                             @error('avatar')
                                                 <span class="badge bg-danger">
-                                                    {{ $message }}
+                                                    <small>{{ $message }}</small>
                                                 </span>
                                             @enderror
                                         </div>

@@ -47,8 +47,12 @@
                             <td class="text-bold-500">{{ $author->study_program_name }}</td>
                             <td>
                                 <div class="d-flex justify-content-center">
-                                    <img src="{{ $author->avatar }}" alt="{{ $author->name }}"
-                                        style="width: 38px; height: 38px; border-radius: 100%;">
+                                    @if ($author->avatar)
+                                        <img src="{{ $author->avatar }}" alt="{{ $author->name }}"
+                                            style="width: 38px; height: 38px; border-radius: 100%;">
+                                    @else
+                                        -
+                                    @endif
                                 </div>
                             </td>
                             <td>

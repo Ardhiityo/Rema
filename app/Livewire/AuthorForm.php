@@ -22,7 +22,7 @@ class AuthorForm extends Component
     public string $email = '';
     public string $password = '';
     public $avatar;
-    public string|bool $display_avatar = '';
+    public string|bool|null $display_avatar = '';
     public string $status = '';
     public int|null $study_program_id = null;
     public int|null $author_id = null;
