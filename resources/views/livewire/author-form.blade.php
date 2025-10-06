@@ -154,23 +154,17 @@
                 @if ($is_update)
                     <button wire:click='update' wire:loading.attr='disabled' wire:target='update'
                         class="btn btn-primary">
-                        <span wire:loading.class='d-none' wire:target='create'>
-                            Update
-                        </span>
+                        Update
                         <span wire:loading wire:target='update'>
-                            <span class="spinner-border spinner-border-sm text-light" role="status">
-                            </span>
+                            <span class="spinner-border spinner-border-sm text-light" role="status"></span>
                         </span>
                     </button>
                 @else
-                    <button wire:click='create' wire:loading.attr='disabled' class="btn btn-primary"
-                        wire:target='create''>
-                        <span wire:loading.class='d-none' wire:target='create'>
-                            Add
-                        </span>
+                    <button wire:click='create' wire:loading.attr='disabled' wire:target='create'
+                        class="btn btn-primary">
+                        Add
                         <span wire:loading wire:target='create'>
-                            <span class="spinner-border spinner-border-sm text-light" role="status">
-                            </span>
+                            <span class="spinner-border spinner-border-sm text-light" role="status"></span>
                         </span>
                     </button>
                 @endif

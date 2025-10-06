@@ -20,8 +20,12 @@
                 <div class="card-body">
                     <div class="mb-2 flex-column d-flex">
                         <h4 class="gap-2 card-title d-flex align-items-center">
-                            <img src="{{ $avatar }}" alt="{{ $author }}" class="rounded-pill"
-                                style="max-width: 38px">
+                            @if ($avatar)
+                                <img src="{{ $avatar }}" alt="{{ $author }}" class="rounded-pill"
+                                    style="max-width: 38px">
+                            @else
+                                -
+                            @endif
                             <span>{{ $author }}</span>
                         </h4>
                         <p>

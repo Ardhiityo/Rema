@@ -66,8 +66,13 @@
                                 <td class="text-bold-500">{{ $repository->short_title }}</td>
                                 @if (!$is_author_only)
                                     <td>
-                                        <img src="{{ $repository->author_avatar }}" class="rounded-pill"
-                                            style="max-width: 38px" alt="{{ $repository->author_name }}">
+                                        @if ($repository->author_avatar)
+                                            <img src="{{ $repository->author_avatar }}"
+                                                alt="{{ $repository->author_name }}"
+                                                style="width: 38px; height: 38px; border-radius: 100%;">
+                                        @else
+                                            -
+                                        @endif
                                         <span class="text-bold-500 ms-1">
                                             {{ $repository->author_name }}
                                         </span>

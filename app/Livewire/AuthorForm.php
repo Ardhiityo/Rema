@@ -29,7 +29,9 @@ class AuthorForm extends Component
     public int|null $study_program_id = null;
     public int|null $author_id = null;
     public int|null $user_id = null;
+    #[Computed()]
     public bool $is_update = false;
+    public User $user;
 
     #[Computed()]
     public function formTitle()
@@ -58,8 +60,7 @@ class AuthorForm extends Component
                 'unique:authors,nim'
             ],
             'study_program_id' => ['required', 'exists:study_programs,id'],
-            'avatar' => $this->is_update ?
-                ['nullable'] : ['required', 'file', 'mimes:jpg,png', 'max:1000'],
+            'avatar' => $this->avatarRule(),
             'email' => $this->is_update ? [
                 'required',
                 'email:dns',
@@ -80,6 +81,14 @@ class AuthorForm extends Component
             ],
             'status' => ['required', 'in:approve,reject,pending']
         ];
+    }
+
+    public function avatarRule()
+    {
+        if ($this->is_update) {
+            return is_null($this->user->avatar) ? ['required', 'file', 'mimes:jpg,png', 'max:1000'] : ['nullable'];
+        }
+        return ['required', 'file', 'mimes:jpg,png', 'max:1000'];
     }
 
     protected function validationAttributes()
@@ -122,30 +131,30 @@ class AuthorForm extends Component
     #[On('author-edit')]
     public function edit($author_id)
     {
-        $author = AuthorData::fromModel(
-            Author::find($author_id)
-                ->load(['user', 'studyProgram'])
-        );
-        $this->user_id = $author->user_id;
-        $this->author_id = $author->author_id;
-        $this->name = $author->name;
-        $this->nim = $author->nim;
-        $this->email = $author->email;
-        $this->study_program_id = $author->study_program_id;
-        $this->status = $author->status;
-        $this->display_avatar = $author->avatar;
+        $author = Author::find($author_id)->load(['user', 'studyProgram']);
+        $this->user = $author->user;
+        $author_data = AuthorData::fromModel($author);
+        $this->user_id = $author_data->user_id;
+        $this->author_id = $author_data->author_id;
+        $this->name = $author_data->name;
+        $this->nim = $author_data->nim;
+        $this->email = $author_data->email;
+        $this->study_program_id = $author_data->study_program_id;
+        $this->status = $author_data->status;
+        $this->display_avatar = $author_data->avatar;
         $this->is_update = true;
     }
 
     public function update()
     {
         $validated = $this->validate();
-
         $user = User::find($this->user_id);
 
-        if (!is_null($validated['avatar'])) {
-            if (Storage::disk('public')->exists($user->avatar)) {
-                Storage::disk('public')->delete($user->avatar);
+        if (!empty($validated['avatar'])) {
+            if (!is_null($user->avatar)) {
+                if (Storage::disk('public')->exists($user->avatar)) {
+                    Storage::disk('public')->delete($user->avatar);
+                }
             }
             $validated['avatar'] = $validated['avatar']->store('avatars', 'public');
         } else {
@@ -171,11 +180,12 @@ class AuthorForm extends Component
             'status' => $validated['status']
         ]);
 
-        $this->is_update = false;
+        $this->dispatch('refresh-authors');
+
+        $this->is_update = !$this->is_update;
+        $this->display_avatar = false;
 
         $this->resetInput();
-
-        $this->dispatch('refresh-authors');
 
         return session()->flash('message', 'The author was successfully updated.');
     }
@@ -183,7 +193,7 @@ class AuthorForm extends Component
     #[On('author-delete-confirm')]
     public function deleteConfirm($author_id)
     {
-        $author = \App\Models\Author::find($author_id);
+        $author = Author::find($author_id);
 
         $this->user_id = $author->user->id;
     }
@@ -215,7 +225,6 @@ class AuthorForm extends Component
         $this->password = '';
         $this->status = '';
         $this->avatar = '';
-
         $this->resetErrorBag();
     }
 

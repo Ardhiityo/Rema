@@ -11,7 +11,7 @@ class RepositoryDetail extends Component
 {
     public string $title = '';
     public string $abstract = '';
-    public string $avatar = '';
+    public string|null $avatar = '';
     public string $status = '';
     public string $badge_status = '';
     public string $category = '';
