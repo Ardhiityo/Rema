@@ -3,8 +3,9 @@
 namespace App\Data;
 
 use App\Models\Author;
-use Livewire\Attributes\Computed;
 use Spatie\LaravelData\Data;
+use Livewire\Attributes\Computed;
+use Illuminate\Support\Facades\Storage;
 
 class AuthorData extends Data
 {
@@ -41,7 +42,7 @@ class AuthorData extends Data
             $author?->studyProgram?->name ?? '-',
             $author->status,
             $author->status,
-            $author->user->avatar,
+            $author->user->avatar ? Storage::url($author->user->avatar) : null
         );
     }
 }

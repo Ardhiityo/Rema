@@ -24,7 +24,7 @@
                         <th>NIM</th>
                         <th>Name</th>
                         <th>Study Program</th>
-                        <th>Status</th>
+                        <th>Avatar</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -36,7 +36,8 @@
                             <td class="text-bold-500">{{ $author->name }}</td>
                             <td class="text-bold-500">{{ $author->study_program_name }}</td>
                             <td class="text-bold-500">
-                                <span class="{{ $author->badge_status }}">{{ $author->ucfirst_status }}</span>
+                                <img src="{{ $author->avatar }}" alt="{{ $author->name }}" class="rounded-pill"
+                                    style="max-width: 38px">
                             </td>
                             <td class="gap-3 d-flex justify-content-center align-items-center">
                                 <button wire:click="$dispatch('author-edit', { author_id: '{{ $author->author_id }}' })"

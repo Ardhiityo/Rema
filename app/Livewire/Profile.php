@@ -6,6 +6,8 @@ use Livewire\Component;
 use App\Models\StudyProgram;
 use Livewire\WithFileUploads;
 use App\Data\StudyProgramData;
+use App\Data\UserData;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -19,16 +21,21 @@ class Profile extends Component
     public int|null|string $study_program_id = null;
     public string $email = '';
     public string $password = '';
-    public $avatar = null;
+    public $avatar;
+    public string|bool|null $display_avatar = '';
     public int|null $user_id = null;
+    public User $user;
 
     public function mount()
     {
         $user = Auth::user();
+        $this->user = $user;
 
-        $this->user_id = $user->id;
-        $this->name = $user->name;
-        $this->email = $user->email;
+        $user_data = UserData::fromModel($user);
+        $this->user_id = $user_data->id;
+        $this->name = $user_data->name;
+        $this->email = $user_data->email;
+        $this->display_avatar = $user->avatar;
 
         $user = $user->load('author');
         $this->nim = $user->author?->nim;
@@ -42,8 +49,25 @@ class Profile extends Component
             'nim' => $this->nimRule(),
             'study_program_id' => $this->studyProgramRule(),
             'password' => ['nullable', 'min:8', 'max:100'],
-            'avatar' => ['nullable', 'file', 'mimes:jpg,png', 'max:1000']
+            'avatar' => $this->user->avatar ?
+                [
+                    'nullable',
+                    'file',
+                    'mimes:jpg,png',
+                    'max:1000'
+                ]
+                : [
+                    'required',
+                    'file',
+                    'mimes:jpg,png',
+                    'max:1000'
+                ]
         ];
+    }
+
+    public function updatedAvatar()
+    {
+        $this->display_avatar = false;
     }
 
     protected function validationAttributes()
@@ -58,7 +82,6 @@ class Profile extends Component
         $this->name = '';
         $this->nim = '';
         $this->study_program_id = '';
-        $this->avatar = null;
         $this->password = '';
 
         $this->resetErrorBag();

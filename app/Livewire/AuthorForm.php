@@ -22,7 +22,7 @@ class AuthorForm extends Component
     public string $email = '';
     public string $password = '';
     public $avatar;
-    public string $display_avatar = '';
+    public string|bool $display_avatar = '';
     public string $status = '';
     public int|null $study_program_id = null;
     public int|null $author_id = null;
@@ -33,6 +33,11 @@ class AuthorForm extends Component
     public function formTitle()
     {
         return $this->is_update ? 'Edit Author' : 'Create New Author';
+    }
+
+    public function updatedAvatar()
+    {
+        $this->display_avatar = false;
     }
 
     protected function rules()
@@ -52,7 +57,7 @@ class AuthorForm extends Component
             ],
             'study_program_id' => ['required', 'exists:study_programs,id'],
             'avatar' => $this->is_update ?
-                ['nullable'] : ['nullable', 'file', 'mimes:jpg,png', 'max:1000'],
+                ['nullable'] : ['required', 'file', 'mimes:jpg,png', 'max:1000'],
             'email' => $this->is_update ? [
                 'required',
                 'email:dns',
@@ -207,6 +212,7 @@ class AuthorForm extends Component
         $this->email = '';
         $this->password = '';
         $this->status = '';
+        $this->avatar = '';
 
         $this->resetErrorBag();
     }

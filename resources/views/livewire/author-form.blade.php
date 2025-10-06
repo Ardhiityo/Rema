@@ -134,9 +134,15 @@
                                 </span>
                             @enderror
                         </div>
-                        @if ($is_update && Storage::disk('public')->exists($display_avatar))
+                        @if ($display_avatar)
                             <div class="py-3">
-                                <img src="{{ Storage::url($display_avatar) }}" class="rounded-circle"
+                                <img src="{{ $display_avatar }}" class="rounded-circle" style="max-width: 100px;"
+                                    alt="...">
+                            </div>
+                        @endif
+                        @if ($avatar)
+                            <div class="py-3">
+                                <img src="{{ $avatar->temporaryUrl() }}" class="rounded-circle"
                                     style="max-width: 100px;" alt="...">
                             </div>
                         @endif

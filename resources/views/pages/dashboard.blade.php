@@ -16,10 +16,14 @@
                         <div class="px-4 py-4 card-body">
                             <div class="d-flex align-items-center">
                                 <div class="avatar avatar-xl">
-                                    <img src="{{ $user_logged->avatar }}" alt="{{ $user_logged->name }}">
+                                    @if ($user_logged->avatar)
+                                        <img src="{{ $user_logged->avatar }}" alt="{{ $user_logged->name }}">
+                                    @else
+                                        <img src="{{ asset('assets/compiled/jpg/3.jpg') }}" alt="{{ $user_logged->name }}">
+                                    @endif
                                 </div>
                                 <div class="ms-3 name">
-                                    <h5 class="font-bold">{{ $user_logged->name }}</h5>
+                                    <h5 class="font-bold">{{ $user_logged->short_name }}</h5>
                                     <h6 class="mb-0 text-muted">{{ $user_logged->short_email }}</h6>
                                 </div>
                             </div>
