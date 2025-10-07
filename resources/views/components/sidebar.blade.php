@@ -6,7 +6,7 @@
                        <img src="{{ asset('assets/logo/favicon.jpg') }}" class="h-50 w-50" alt="Logo" srcset="">
                    </a>
                    <p class="mb-0 text-center">
-                       <small>Rema</small>
+                       <small>Rema FIK</small>
                    </p>
                </div>
                <div class="gap-2 theme-toggle d-flex align-items-center">

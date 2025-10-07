@@ -99,7 +99,7 @@
                                   </p>
                                   <p>
                                       <small>
-                                          <i class="far fa-clock"></i>
+                                          <i class="fas fa-calendar-week"></i>
                                           {{ $repository->created_at }}
                                       </small>
                                   </p>

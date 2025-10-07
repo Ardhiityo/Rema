@@ -21,7 +21,7 @@
                       </div>
                       <div>
                           <h4 class="text-white">Mail Us</h4>
-                          <p>alkhairiyah.university@gmail.com</p>
+                          <p>filkom.universitas.alkhairiyah@gmail.com</p>
                       </div>
                   </div>
               </div>
@@ -32,7 +32,7 @@
                       </div>
                       <div>
                           <h4 class="text-white">Telephone</h4>
-                          <p>(0254) 7877057</p>
+                          <p>+62 898 964 9370</p>
                       </div>
                   </div>
               </div>
