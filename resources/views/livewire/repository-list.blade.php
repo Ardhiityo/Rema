@@ -19,13 +19,20 @@
             <div class="gap-3 row d-flex gap-md-0">
                 <div class="col-md-5">
                     <div class="input-group">
-                        <label class="input-group-text" for="keyword">Keyword</label>
-                        <input type="text" wire:model.live.debounce.250ms='keyword' autofocus class="form-control"
-                            id="keyword" placeholder="Search...">
+                        <label class="input-group-text" for="keyword">Title</label>
+                        <input type="text" wire:model.live.debounce.250ms='title' autofocus class="form-control"
+                            id="keyword">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <label class="input-group-text" for="year">Tahun</label>
+                        <input type="number" wire:model.live.debounce.250ms='year' autofocus class="form-control"
+                            id="year">
                     </div>
                 </div>
                 @if ($is_author_only || $is_admin)
-                    <div class="col-md-5">
+                    <div class="col-md-3">
                         <div class="input-group">
                             <label class="input-group-text" for="status">Status</label>
                             <select name="status" id="status" class="form-select" wire:model.live='status_filter'>
@@ -37,7 +44,7 @@
                         </div>
                     </div>
                 @endif
-                <div class="col-md-2">
+                <div class="col-md-1">
                     <button class="btn btn-primary w-100" wire:click='resetInput'>
                         <i class="bi bi-arrow-clockwise"></i>
                     </button>

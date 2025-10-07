@@ -17,8 +17,8 @@ class RepositoryList extends Component
 {
     use WithPagination;
 
-    public string $keyword = '';
     public string $title = '';
+    public string $year = '';
     public string $status_filter = 'approve';
     public int|null $repository_id = null;
     public bool $is_author_only = false;
@@ -31,8 +31,6 @@ class RepositoryList extends Component
         $repository = Repository::where('slug', $repository_slug)->first();
 
         $this->repository_id = $repository->id;
-
-        $this->title = $repository->title;
     }
 
     public function mount()
@@ -79,8 +77,12 @@ class RepositoryList extends Component
 
         $query->where('status', $this->status_filter);
 
-        if ($keyword = $this->keyword) {
-            $query->whereLike('title', "%$keyword%");
+        if ($title = $this->title) {
+            $query->whereLike('title', "%$title%");
+        }
+
+        if ($year = $this->year) {
+            $query->where('year', $year);
         }
 
         $repositories = $query->orderByDesc('id')->paginate(10);
@@ -90,7 +92,8 @@ class RepositoryList extends Component
 
     public function resetInput()
     {
-        $this->keyword = '';
+        $this->title = '';
+        $this->year = '';
         $this->status_filter = 'approve';
 
         $this->resetPage();

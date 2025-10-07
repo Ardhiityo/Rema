@@ -46,13 +46,20 @@
                                 </span>
                                 <br>
                             @endcan
-                            {{ $category }} - {{ $created_at }}
+                            {{ $created_at }}
                         </small>
                     </p>
-                    <a href="{{ route('repository.read', ['repository' => $slug]) }}" target="_blank"
-                        class="btn btn-primary">
-                        View
-                    </a>
+                    <div class="gap-3 d-flex">
+                        <a href="{{ route('repository.read', ['repository' => $slug]) }}" target="_blank"
+                            class="btn btn-info btn-sm">
+                            <span>{{ $category }}</span>
+                            <i class="bi bi-eye-fill"></i>
+                        </a>
+                        <a href="" target="_blank" class="btn btn-secondary btn-sm">
+                            <span>Journal</span>
+                            <i class="bi bi-eye-fill"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
