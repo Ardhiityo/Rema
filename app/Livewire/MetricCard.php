@@ -15,11 +15,11 @@ class MetricCard extends Component
 
     public function getMetricsProperty()
     {
-        return StudyProgram::with(['authors.repositories'])
+        return StudyProgram::with(['authors.metadata'])
             ->get()
             ->map(function ($program) {
                 $total = $program->authors->sum(function ($author) {
-                    return $author->repositories->count();
+                    return $author->metadata()->count();
                 });
                 return [
                     'program' => $program->name,

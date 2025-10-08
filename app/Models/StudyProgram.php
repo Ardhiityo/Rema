@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class StudyProgram extends Model
 {
+    protected $table = 'study_programs';
 
     public function authors()
     {

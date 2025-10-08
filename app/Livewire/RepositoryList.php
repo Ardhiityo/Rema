@@ -5,6 +5,7 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Models\Repository;
 use App\Data\RepositoryData;
+use App\Models\MetaData;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
@@ -62,7 +63,7 @@ class RepositoryList extends Component
     #[On('refresh-repositories')]
     public function getRepositoriesProperty()
     {
-        $query = Repository::query();
+        $query = MetaData::query();
 
         $query->with(['author', 'author.user', 'category', 'author.studyProgram']);
 

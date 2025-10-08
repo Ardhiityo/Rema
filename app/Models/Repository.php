@@ -2,18 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\MetaData;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class Repository extends Model
+class Repository extends Pivot
 {
-    public function author()
-    {
-        return $this->belongsTo(Author::class, 'author_id', 'id');
-    }
+    protected $table = 'repositories';
 
-    public function notes()
+    public function metadata()
     {
-        return $this->hasMany(Note::class, 'repository_id', 'id');
+        return $this->belongsTo(MetaData::class, 'meta_data_id', 'id');
     }
 
     public function category()

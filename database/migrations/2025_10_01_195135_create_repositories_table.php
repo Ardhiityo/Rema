@@ -12,16 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('repositories', function (Blueprint $table) {
-            $table->id();
-            $table->string('title');
-            $table->longText('abstract');
             $table->string('file_path');
-            $table->foreignId('category_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('author_id')->constrained()->cascadeOnDelete();
-            $table->year('year');
-            $table->enum('visibility', ['private', 'protected', 'public'])->default('private');
-            $table->string('slug')->unique();
-            $table->enum('status', ['approve', 'reject', 'pending', 'revision'])->default('pending');
+            $table->unsignedBigInteger('meta_data_id');
+            $table->foreign('meta_data_id')->references('id')->on('meta_data')
+                ->cascadeOnDelete();
+            $table->unsignedBigInteger('category_id');
+            $table->foreign('category_id')->references('id')->on('categories')->cascadeOnDelete();
+            $table->primary(['category_id', 'meta_data_id']);
             $table->timestamps();
         });
     }

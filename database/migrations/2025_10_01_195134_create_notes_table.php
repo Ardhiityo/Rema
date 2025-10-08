@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('notes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('repository_id')->constrained()->cascadeOnDelete();
             $table->longText('message');
+            $table->unsignedBigInteger('meta_data_id');
+            $table->foreign('meta_data_id')->references('id')->on('meta_data')->cascadeOnDelete();
             $table->timestamps();
         });
     }

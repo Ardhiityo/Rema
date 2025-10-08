@@ -15,14 +15,22 @@
             </div>
         </div>
     </div>
+    {{-- Meta Data Form --}}
     <div class="card">
         <div class="card-header">
-            <h4 class="card-title">{{ $this->formTitle }}</h4>
+            <h4 class="card-title d-flex justify-content-between">
+                <span>
+                    {{ $this->metaDataTitle() }}
+                </span>
+                <span>
+                    Step 1/2
+                </span>
+            </h4>
         </div>
         <div class="card-body">
-            @if (session()->has('message'))
+            @if (session()->has('succes-meta-data'))
                 <div class="alert-success alert">
-                    {{ session('message') }}
+                    {{ session('succes-meta-data') }}
                 </div>
             @endif
             <div class="mb-4 row">
@@ -31,7 +39,8 @@
                     <div>
                         <label for="basicInput" class="form-label">Title</label>
                         <input type="text" required class="form-control" id="basicInput" wire:model='title'
-                            placeholder="ex: Sistem Informasi Management Sekolah">
+                            placeholder="ex: Sistem Informasi Management Sekolah"
+                            {{ $is_lock_meta_data ? 'disabled' : '' }}>
                         @error('slug')
                             <span class="badge bg-danger">
                                 <small>{{ $message }}</small>
@@ -44,7 +53,8 @@
                     <div class="mt-4">
                         <div class="mb-3 form-group">
                             <label for="exampleFormControlTextarea1" class="form-label">Abstract</label>
-                            <textarea class="form-control" id="exampleFormControlTextarea1" wire:model='abstract' rows="3"></textarea>
+                            <textarea class="form-control" id="exampleFormControlTextarea1" wire:model='abstract' rows="3"
+                                {{ $is_lock_meta_data ? 'disabled' : '' }}></textarea>
                             @error('abstract')
                                 <span class="badge bg-danger">
                                     <small>{{ $message }}</small>
@@ -54,21 +64,6 @@
                     </div>
                     {{-- Abstract --}}
 
-                    {{-- File Path --}}
-                    <div class="mt-4">
-                        <label for="formFile" class="form-label">
-                            File
-                        </label>
-                        <input class="form-control" wire:model='file_path' type="file" id="formFile"
-                            accept="application/pdf">
-                        @error('file_path')
-                            <span class="badge bg-danger">
-                                <small>{{ $message }}</small>
-                            </span>
-                        @enderror
-                    </div>
-                    {{-- File Path --}}
-
                     {{-- Author --}}
                     @hasrole('admin')
                         <div class="mt-4">
@@ -76,10 +71,11 @@
                                 <label class="input-group-text" for="author_id">
                                     Author
                                 </label>
-                                <select class="form-select" id="author_id" wire:model='author_id'>
+                                <select class="form-select" id="author_id" wire:model='author_id'
+                                    {{ $is_lock_meta_data ? 'disabled' : '' }}>
                                     <option value="">Choose...</option>
                                     @foreach ($authors as $author)
-                                        <option value="{{ $author->author_id }}">{{ $author->name }} - {{ $author->nim }}
+                                        <option value="{{ $author->author_id }}">{{ $author->nim }} - {{ $author->name }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -93,29 +89,6 @@
                     @endhasrole
                     {{-- Author --}}
 
-                    {{-- Category --}}
-                    <div class="mt-4">
-                        <div class="input-group">
-                            <label class="input-group-text" for="category_id">
-                                Category
-                            </label>
-                            <select class="form-select" id="category_id" wire:model='category_id'>
-                                <option selected value="">Choose...</option>
-                                @foreach ($categories as $category)
-                                    <option selected value="{{ $category->id }}">
-                                        {{ $category->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                        @error('category_id')
-                            <span class="badge bg-danger">
-                                <small>{{ $message }}</small>
-                            </span>
-                        @enderror
-                    </div>
-                    {{-- Category --}}
-
                     {{-- Status --}}
                     @hasrole('admin')
                         <div class="mt-4">
@@ -123,7 +96,8 @@
                                 <label class="input-group-text" for="status" class="form-label">
                                     Status
                                 </label>
-                                <select class="form-select" id="status" wire:model='status'>
+                                <select class="form-select" id="status" wire:model='status'
+                                    {{ $is_lock_meta_data ? 'disabled' : '' }}>
                                     <option value="">
                                         Choose...
                                     </option>
@@ -157,7 +131,8 @@
                                 <label class="input-group-text" for="status" class="form-label">
                                     Visibility
                                 </label>
-                                <select class="form-select" id="status" wire:model='visibility'>
+                                <select class="form-select" id="status" wire:model='visibility'
+                                    {{ $is_lock_meta_data ? 'disabled' : '' }}>
                                     <option value="">
                                         Choose...
                                     </option>
@@ -182,28 +157,206 @@
                     {{-- Visibility --}}
                 </div>
             </div>
-            <div class="gap-3 d-flex">
-                @if ($is_update)
-                    <button wire:click='update' wire:loading.attr='disabled' class="btn btn-primary"
-                        wire:target='update'>
-                        Update
-                        <span wire:loading wire:target='update'>
-                            <span class="spinner-border spinner-border-sm text-light" role="status"></span>
-                        </span>
-                    </button>
-                @else
-                    <button wire:click='create' wire:loading.attr='disabled' class="btn btn-primary"
-                        wire:target='create'>
-                        Add
-                        <span wire:loading wire:target='create'>
-                            <span class="spinner-border spinner-border-sm text-light" role="status"></span>
-                        </span>
-                    </button>
-                @endif
-                <button wire:click='resetInput' class="btn btn-warning">
-                    Clear
+            @if ($is_lock_meta_data)
+                <button wire:click='createNewMetaData' wire:loading.attr='disabled' class="btn btn-danger"
+                    wire:target='createNewMetaData'>
+                    Create New
+                    <span wire:loading wire:target='createNewMetaData'>
+                        <span class="spinner-border spinner-border-sm text-light" role="status"></span>
+                    </span>
                 </button>
-            </div>
+            @else
+                <div class="gap-3 d-flex">
+                    @if ($is_update)
+                        <button wire:click='updateMetaData' wire:loading.attr='disabled' class="btn btn-primary"
+                            wire:target='updateMetaData'>
+                            Update
+                            <span wire:loading wire:target='updateMetaData'>
+                                <span class="spinner-border spinner-border-sm text-light" role="status"></span>
+                            </span>
+                        </button>
+                    @else
+                        <button wire:click='createMetaData' wire:loading.attr='disabled' class="btn btn-primary"
+                            wire:target='createMetaData'>
+                            Save
+                            <span wire:loading wire:target='createMetaData'>
+                                <span class="spinner-border spinner-border-sm text-light" role="status"></span>
+                            </span>
+                        </button>
+                    @endif
+                    <button wire:click='resetInput' class="btn btn-warning">
+                        Clear
+                    </button>
+                </div>
+            @endif
         </div>
     </div>
+    {{-- Meta Data Form --}}
+
+    {{-- Repository Form --}}
+    @if ($this->meta_data)
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title d-flex justify-content-between">
+                    <span>
+                        {{ $this->repositoryTitle() }}
+                    </span>
+                    <span>
+                        Step 2/2
+                    </span>
+                </h4>
+            </div>
+            <div class="card-body">
+                @if (session()->has('succes-repository'))
+                    <div class="alert-success alert">
+                        {{ session('succes-repository') }}
+                    </div>
+                @endif
+                <div class="mb-4 row">
+                    <div class="form-group">
+                        {{-- Category --}}
+                        <div>
+                            <div class="input-group">
+                                <label class="input-group-text" for="category_id" class="form-label">
+                                    Category
+                                </label>
+                                <select class="form-select" id="category_id" wire:model='category_id'>
+                                    <option value="">
+                                        Choose...
+                                    </option>
+                                    @foreach ($categories as $category)
+                                        <option value="{{ $category->id }}">
+                                            {{ $category->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            @error('category_id')
+                                <span class="badge bg-danger">
+                                    <small>{{ $message }}</small>
+                                </span>
+                            @enderror
+                        </div>
+                        {{-- Category --}}
+
+                        {{-- File Path --}}
+                        <div class="mt-4">
+                            <label for="file_path" class="form-label">
+                                File
+                            </label>
+                            <input class="form-control" wire:model='file_path' type="file" id="file_path"
+                                accept="application/pdf">
+                            @error('file_path')
+                                <span class="badge bg-danger">
+                                    <small>{{ $message }}</small>
+                                </span>
+                            @enderror
+                        </div>
+                        {{-- File Path --}}
+                    </div>
+                </div>
+                <div class="gap-3 d-flex">
+                    @if ($is_update)
+                        <button wire:click='updateRepository' wire:loading.attr='disabled' class="btn btn-primary"
+                            wire:target='updateRepository'>
+                            Update
+                            <span wire:loading wire:target='updateRepository'>
+                                <span class="spinner-border spinner-border-sm text-light" role="status"></span>
+                            </span>
+                        </button>
+                    @else
+                        <button wire:click='createRepository' wire:loading.attr='disabled' class="btn btn-primary"
+                            wire:target='createRepository'>
+                            Save
+                            <span wire:loading wire:target='createRepository'>
+                                <span class="spinner-border spinner-border-sm text-light" role="status"></span>
+                            </span>
+                        </button>
+                    @endif
+                    <button wire:click='resetInput' class="btn btn-warning">
+                        Clear
+                    </button>
+                </div>
+            </div>
+        </div>
+    @endif
+    {{-- Repository Form --}}
+
+    {{-- List --}}
+    @if ($this->repositories->isNotEmpty())
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">List of repositories</h4>
+            </div>
+            <div class="card-content">
+                <div class="table-responsive">
+                    <table class="table mb-0 text-center table-lg">
+                        <thead>
+                            <tr class="text-nowrap">
+                                <th>No</th>
+                                <th>Category</th>
+                                <th>File</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($this->repositories as $key => $repository)
+                                <tr class="text-nowrap" wire:key='{{ $key }}'>
+                                    <td class="text-bold-500">{{ $loop->iteration }}</td>
+                                    <td class="text-bold-500">{{ $repository->category }}</td>
+                                    <td>
+                                        <a href="" class="btn btn-info">
+                                            <i class="bi bi-eye-fill"></i>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <div class="gap-3 d-flex justify-content-center align-items-center">
+                                            <button class="btn btn-warning">
+                                                <i class="bi bi-pencil-square"></i>
+                                            </button>
+                                            <button type="button" class="block btn btn-danger"
+                                                data-bs-toggle="modal" data-bs-target="#border-less">
+                                                <i class="bi bi-trash3"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="4">Data Not Found</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!--BorderLess Modal Modal -->
+            <div wire:ignore.self class="text-left modal fade modal-borderless" id="border-less" tabindex="-1"
+                role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-scrollable" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Confirm deletion</h5>
+                        </div>
+                        <div class="modal-body">
+                            <p>Are you sure you want to delete the data?</p>
+                        </div>
+                        <div class="gap-2 modal-footer d-flex">
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+                                <i class="bx bx-x d-block d-sm-none"></i>
+                                <span class="d-none d-sm-block">Close</span>
+                            </button>
+                            <button type="button" class="btn btn-danger ms-1"
+                                wire:click="$dispatch('category-delete')" data-bs-dismiss="modal">
+                                <i class="bx bx-check d-block d-sm-none"></i>
+                                <span class="d-none d-sm-block">Accept</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+    {{-- List --}}
 </div>
