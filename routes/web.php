@@ -14,7 +14,7 @@ use App\Http\Middleware\ValidateAuthorMiddleware;
 
 Route::controller(LandingPageController::class)->group(function () {
     Route::get('/', 'index')->name('landing_page.index');
-    Route::get('/repositories/{meta_data_id}/{category_id}/read', 'read')->name('repository.read');
+    Route::get('/repositories/{meta_data_slug}/{category_slug}/read', 'read')->name('repository.read');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {

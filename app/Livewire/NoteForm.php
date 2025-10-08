@@ -14,11 +14,11 @@ class NoteForm extends Component
     public int $note_id;
     public bool $is_update = false;
 
-    public int $repository_id;
+    public int $meta_data_id;
 
-    public function mount($repository_id)
+    public function mount($meta_data_id)
     {
-        $this->repository_id = $repository_id;
+        $this->meta_data_id = $meta_data_id;
     }
 
     #[Computed()]
@@ -44,7 +44,7 @@ class NoteForm extends Component
     {
         $validated = $this->validate();
 
-        $validated['repository_id'] = $this->repository_id;
+        $validated['meta_data_id'] = $this->meta_data_id;
 
         Note::create($validated);
 

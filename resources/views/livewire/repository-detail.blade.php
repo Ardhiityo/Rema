@@ -40,20 +40,20 @@
                     </p>
                     <p>
                         <small>
-                            {{-- @can('view', $repository) --}}
-                            <span class="{{ $badge_status }} mb-2">
-                                {{ $status }}
-                            </span>
-                            <br>
-                            {{-- @endcan --}}
+                            @can('view', $meta_data)
+                                <span class="{{ $badge_status }} mb-2">
+                                    {{ $status }}
+                                </span>
+                                <br>
+                            @endcan
                             {{ $created_at }}
                         </small>
                     </p>
                     <div class="gap-3 d-flex">
                         @foreach ($this->repositories as $repository)
                             <a href="{{ route('repository.read', [
-                                'meta_data_id' => $repository->meta_data_id,
-                                'category_id' => $repository->category->id,
+                                'meta_data_slug' => $repository->metadata->slug,
+                                'category_slug' => $repository->category->slug,
                             ]) }}"
                                 target="_blank" class="btn btn-info btn-sm">
                                 <span>{{ $repository->category->name }}</span>
@@ -65,10 +65,10 @@
             </div>
         </div>
         @hasrole('admin')
-            <livewire:note-form :repository_id="$repository_id" />
+            <livewire:note-form :meta_data_id="$meta_data_id" />
         @endhasrole
-        {{-- @can('view', $repository) --}}
-        {{-- <livewire:note-list :repository_id="$repository_id" /> --}}
-        {{-- @endcan --}}
+        @can('view', $meta_data)
+            <livewire:note-list :meta_data_id="$meta_data_id" />
+        @endcan
     </section>
 </div>

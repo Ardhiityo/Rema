@@ -2,12 +2,10 @@
 
 namespace App\Policies;
 
+use App\Models\Metadata;
 use App\Models\User;
-use App\Models\Repository;
-use Illuminate\Auth\Access\Response;
-use Illuminate\Support\Facades\Auth;
 
-class RepositoryPolicy
+class MetaDataPolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -20,10 +18,10 @@ class RepositoryPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Repository $repository): bool
+    public function view(User $user, Metadata $meta_data): bool
     {
         if ($user->hasRole('contributor')) {
-            return $user->author->id == $repository->author_id;
+            return $user->author->id == $meta_data->author_id;
         }
         return true;
     }
@@ -39,10 +37,10 @@ class RepositoryPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Repository $repository): bool
+    public function update(User $user, MetaData $meta_data): bool
     {
         if ($user->hasRole('contributor')) {
-            return $user->author->id == $repository->author_id;
+            return $user->author->id == $meta_data->author_id;
         }
         return true;
     }
@@ -50,7 +48,7 @@ class RepositoryPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Repository $repository): bool
+    public function delete(User $user, MetaData $meta_data): bool
     {
         return false;
     }
@@ -58,7 +56,7 @@ class RepositoryPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Repository $repository): bool
+    public function restore(User $user, MetaData $meta_data): bool
     {
         return false;
     }
@@ -66,7 +64,7 @@ class RepositoryPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Repository $repository): bool
+    public function forceDelete(User $user, MetaData $meta_data): bool
     {
         return false;
     }

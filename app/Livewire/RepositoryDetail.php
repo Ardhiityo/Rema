@@ -23,10 +23,10 @@ class RepositoryDetail extends Component
     public string $created_at = '';
     public string|null $study_program = '';
     public string $slug = '';
-    public int $repository_id;
+    public int $meta_data_id;
     public bool $is_admin;
     public MetaData $meta_data;
-    public  $repositories;
+    public $repositories;
 
     public function mount(Metadata $meta_data)
     {
@@ -35,9 +35,9 @@ class RepositoryDetail extends Component
             $meta_data->load('author', 'author.studyProgram', 'repositories')
         );
         $user = Auth::user();
-        $this->repositories = $meta_data->load('repositories')->repositories;
+        $this->repositories = $meta_data->load('repositories')->repositories->load('category');
         $this->is_admin = $user->hasRole('admin') ? true : false;
-        $this->repository_id = $metadata_data->id;
+        $this->meta_data_id = $metadata_data->id;
         $this->title = $metadata_data->title;
         $this->status = $metadata_data->ucfirst_status;
         $this->badge_status = $metadata_data->badge_status;

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Repository;
+use Illuminate\Support\Facades\Log;
 
 class LandingPageController extends Controller
 {
@@ -11,10 +12,16 @@ class LandingPageController extends Controller
         return view('index');
     }
 
-    public function read($meta_data_id, $category_id)
+    public function read($meta_data_slug, $category_slug)
     {
-        $repository = Repository::where('meta_data_id', $meta_data_id)
-            ->where('category_id', $category_id)->firstOrFail();
+        $repository = Repository::whereHas(
+                'category',
+                fn($query)
+                => $query->where('slug', $category_slug)
+            )->whereHas(
+                'metadata',
+                fn($query) => $query->where('slug', $meta_data_slug)
+            )->firstOrFail();
 
         $path = storage_path('app/public/' . $repository->file_path);
 
