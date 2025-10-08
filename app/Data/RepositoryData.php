@@ -13,7 +13,8 @@ class RepositoryData extends Data
         public int $category_id,
         public string $category,
         public string $file_path,
-        public string $meta_data_slug
+        public string $meta_data_slug,
+        public string $category_slug
     ) {}
 
     public static function fromModel(Repository $repository)
@@ -23,7 +24,8 @@ class RepositoryData extends Data
             $repository->category_id,
             $repository->category->name,
             Storage::url($repository->file_path),
-            $repository->metadata->slug
+            $repository->metadata->slug,
+            $repository->category->slug
         );
     }
 }

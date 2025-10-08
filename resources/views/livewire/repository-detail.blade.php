@@ -52,8 +52,8 @@
                     <div class="gap-3 d-flex">
                         @foreach ($this->repositories as $repository)
                             <a href="{{ route('repository.read', [
-                                'meta_data_slug' => $repository->metadata->slug,
                                 'category_slug' => $repository->category->slug,
+                                'meta_data_slug' => $repository->metadata->slug,
                             ]) }}"
                                 target="_blank" class="btn btn-info btn-sm">
                                 <span>{{ $repository->category->name }}</span>

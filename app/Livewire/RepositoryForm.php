@@ -37,6 +37,7 @@ class RepositoryForm extends Component
     public string $visibility = '';
     public bool $is_update = false;
     public bool $is_lock_meta_data = false;
+    public bool $is_edit_repository = false;
 
     protected function rulesMetaData()
     {
@@ -47,7 +48,7 @@ class RepositoryForm extends Component
                 'required',
                 'min:3',
                 'max:200',
-                $this->is_update ? 'unique:meta_data,slug,' . $this->repository_id : 'unique:meta_data,slug'
+                $this->is_update ? 'unique:meta_data,slug,' . $this->meta_data_id : 'unique:meta_data,slug'
             ],
             'abstract' => ['required', 'min:3', 'max:2000'],
             'author_id' => ['required', 'exists:authors,id'],
@@ -63,7 +64,7 @@ class RepositoryForm extends Component
                 $this->is_update ? 'nullable' : 'required',
                 'file',
                 'mimes:pdf',
-                'max:5120'
+                'max:7000'
             ],
             'category_id' => ['required', 'exists:categories,id'],
             'meta_data_id' => ['required', 'exists:meta_data,id']
@@ -89,7 +90,7 @@ class RepositoryForm extends Component
     #[Computed()]
     public function repositoryTitle()
     {
-        return $this->is_update ? 'Edit Repository Data' : 'Create Repository';
+        return $this->is_update ? 'Edit Repository' : 'Create Repository';
     }
 
     public function mount(string $meta_data_slug = '')
@@ -105,7 +106,7 @@ class RepositoryForm extends Component
 
             $metadata_data = MetadataData::fromModel($meta_data);
 
-            $this->repository_id = $metadata_data->id;
+            $this->meta_data_id = $metadata_data->id;
             $this->title = $metadata_data->title;
             $this->slug = Str::slug($metadata_data->title);
             $this->abstract = $metadata_data->abstract;
@@ -116,7 +117,6 @@ class RepositoryForm extends Component
         }
         if (session()->has('meta_data')) {
             $meta_data = session()->get('meta_data');
-            // dd($meta_data);
             $this->title = data_get($meta_data, 'title');
             $this->abstract = data_get($meta_data, 'abstract');
             $this->author_id = data_get($meta_data, 'author_id');
@@ -151,8 +151,31 @@ class RepositoryForm extends Component
         return session()->flash('succes-meta-data', 'The meta data was successfully created.');
     }
 
+    public function updateMetaData()
+    {
+        $user = Auth::user();
+
+        if ($user->hasRole('contributor')) {
+            $this->author_id = $user->author->id;
+            $this->status = 'pending';
+            $this->visibility = 'private';
+        }
+
+        $this->slug = Str::slug($this->title);
+
+        $validated = $this->validate($this->rulesMetaData());
+
+        Metadata::find($this->meta_data_id)->update($validated);
+
+        return session()->flash('succes-meta-data', 'The meta data was successfully updated.');
+    }
+
     public function getMetaDataProperty()
     {
+        if ($this->is_update) {
+            return $this->is_edit_repository;
+        }
+
         $meta_data = session()->get('meta_data', false);
 
         return $meta_data;
@@ -180,31 +203,47 @@ class RepositoryForm extends Component
         return session()->flash('succes-repository', 'The repository was successfully created.');
     }
 
-    public function update()
+    public function editRepository($meta_data_slug, $category_slug)
     {
-        $user = Auth::user();
+        $repository = Repository::whereHas(
+            'category',
+            fn($query) => $query->where('slug', $category_slug)
+        )
+            ->whereHas(
+                'metadata',
+                function ($query) use ($meta_data_slug) {
+                    $user = Auth::user();
+                    if ($user->hasRole('contributor')) {
+                        $query->where('author_id', $user->author->id);
+                    }
+                    $query->where('slug', $meta_data_slug);
+                }
+            )
+            ->first();
 
-        $repository = Repository::find($this->repository_id);
+        $this->meta_data_id = $repository->metadata->id;
+        $this->category_id = $repository->category->id;
+        $this->is_edit_repository = true;
+    }
 
-        if ($user->hasRole('contributor')) {
-            $this->status = $repository->status;
-            $this->visibility = $repository->visibility;
-        }
-
+    public function updateRepository()
+    {
         $validated = $this->validate();
 
-        if ($validated['file_path']) {
-            if (Storage::disk('public')->exists($repository->file_path)) {
-                Storage::disk('public')->delete($repository->file_path);
-            };
+        $repository = Repository::where('meta_data_id', $this->meta_data_id)
+            ->where('category_id', $this->category_id)
+            ->first();
+
+        if (!empty($validated['file_path'])) {
+            if ($repository->file_path) {
+                if (Storage::disk('public')->exists($repository->file_path)) {
+                    Storage::disk('public')->delete($repository->file_path);
+                }
+            }
             $validated['file_path'] = $validated['file_path']->store('repositories', 'public');
-        } else {
-            $validated['file_path'] = $repository->file_path;
         }
 
         $repository->update($validated);
-
-        $this->dispatch('refresh-repositories');
 
         return session()->flash('message', 'The repository was successfully updated.');
     }
@@ -237,6 +276,12 @@ class RepositoryForm extends Component
 
     public function getRepositoriesProperty()
     {
+        if ($this->is_update) {
+            $repositories = Metadata::find($this->meta_data_id)->repositories->load(['category', 'metadata']);
+
+            return (new DataCollection(RepositoryData::class, $repositories))->toCollection();
+        }
+
         $repositories = Repository::with('category')
             ->where('meta_data_id', data_get($this->meta_data, 'id'))
             ->get();

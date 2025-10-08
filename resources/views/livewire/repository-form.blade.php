@@ -22,9 +22,11 @@
                 <span>
                     {{ $this->metaDataTitle() }}
                 </span>
-                <span>
-                    Step 1/2
-                </span>
+                @if (!$is_update)
+                    <span>
+                        Step 1/2
+                    </span>
+                @endif
             </h4>
         </div>
         <div class="card-body">
@@ -201,9 +203,11 @@
                     <span>
                         {{ $this->repositoryTitle() }}
                     </span>
-                    <span>
-                        Step 2/2
-                    </span>
+                    @if (!$is_update)
+                        <span>
+                            Step 2/2
+                        </span>
+                    @endif
                 </h4>
             </div>
             <div class="card-body">
@@ -311,7 +315,8 @@
                                     </td>
                                     <td>
                                         <div class="gap-3 d-flex justify-content-center align-items-center">
-                                            <button class="btn btn-warning">
+                                            <button class="btn btn-warning"
+                                                wire:click="editRepository('{{ $repository->meta_data_slug }}', '{{ $repository->category_slug }}')">
                                                 <i class="bi bi-pencil-square"></i>
                                             </button>
                                             <button type="button" class="block btn btn-danger"
