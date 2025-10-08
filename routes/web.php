@@ -8,21 +8,13 @@ use App\Livewire\RepositoryForm;
 use App\Livewire\RepositoryList;
 use App\Livewire\RepositoryDetail;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LandingPageController;
 use App\Http\Middleware\ValidateAuthorMiddleware;
 
-Route::controller(GoogleController::class)->group(function () {
-    Route::get('/auth/google', 'redirect')
-        ->name('google.redirect');
-    Route::get('/auth/google/callback', 'callback')
-        ->name('google.callback');
-});
-
 Route::controller(LandingPageController::class)->group(function () {
     Route::get('/', 'index')->name('landing_page.index');
-    Route::get('/repositories/{repository:slug}/read', 'read')->name('repository.read');
+    Route::get('/repositories/{meta_data_id}/{category_id}/read', 'read')->name('repository.read');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -39,11 +31,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ->name('repository.author.index');
         Route::get('/repositories/create', RepositoryForm::class)
             ->name('repository.create');
-        Route::get('/repositories/{repository:slug}/show', RepositoryDetail::class)
+        Route::get('/repositories/{meta_data:slug}/show', RepositoryDetail::class)
             ->name('repository.show');
     });
 
-    Route::get('/repositories/{repository_slug}/edit', RepositoryForm::class)->name('repository.edit');
+    Route::get('/repositories/{meta_data_slug}/edit', RepositoryForm::class)->name('repository.edit');
     Route::get('/profile', Profile::class)->name('profile.index');
 });
 

@@ -61,45 +61,42 @@
                             @if (!$is_author_only)
                                 <th>Author</th>
                             @endif
-                            <th>Category</th>
                             <th>Visibility</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($this->repositories as $repository)
-                            <tr class="text-nowrap" wire:key='{{ $repository->slug }}'>
-                                <td class="text-bold-500">{{ $loop->index + $this->repositories->firstItem() }}</td>
-                                <td class="text-bold-500">{{ $repository->short_title }}</td>
+                        @forelse ($this->meta_data as $data)
+                            <tr class="text-nowrap" wire:key='{{ $data->slug }}'>
+                                <td class="text-bold-500">{{ $loop->index + $this->meta_data->firstItem() }}</td>
+                                <td class="text-bold-500">{{ $data->short_title }}</td>
                                 @if (!$is_author_only)
                                     <td>
-                                        @if ($repository->author_avatar)
-                                            <img src="{{ $repository->author_avatar }}"
-                                                alt="{{ $repository->author_name }}"
+                                        @if ($data->author_avatar)
+                                            <img src="{{ $data->author_avatar }}" alt="{{ $data->author_name }}"
                                                 style="width: 38px; height: 38px; border-radius: 100%;">
                                         @else
                                             -
                                         @endif
                                         <span class="text-bold-500 ms-1">
-                                            {{ $repository->author_name }}
+                                            {{ $data->author_name }}
                                         </span>
                                     </td>
                                 @endif
-                                <td class="text-bold-500">{{ $repository->category_name }}</td>
-                                <td class="text-bold-500">{{ $repository->ucfirst_visibility }}</td>
+                                <td class="text-bold-500">{{ $data->ucfirst_visibility }}</td>
                                 <td class="gap-3 d-flex justify-content-center align-items-center">
-                                    <a href="{{ route('repository.show', ['repository' => $repository->slug]) }}"
+                                    <a href="{{ route('repository.show', ['meta_data' => $data->slug]) }}"
                                         class="btn btn-info">
                                         <i class="bi bi-eye-fill"></i>
                                     </a>
                                     @if ($is_admin || $is_author_only)
-                                        <a href="{{ route('repository.edit', ['repository_slug' => $repository->slug]) }}"
+                                        <a href="{{ route('repository.edit', ['meta_data_slug' => $data->slug]) }}"
                                             class="btn btn-warning">
                                             <i class="bi bi-pencil-square"></i>
                                         </a>
                                     @endif
                                     @hasrole('admin')
-                                        <button type="button" wire:click="deleteConfirm('{{ $repository->slug }}')"
+                                        <button type="button" wire:click="deleteConfirm('{{ $data->slug }}')"
                                             class="block btn btn-danger" data-bs-toggle="modal"
                                             data-bs-target="#border-less">
                                             <i class="bi bi-trash3"></i>
@@ -115,9 +112,9 @@
                     </tbody>
                 </table>
             </div>
-            @if ($this->repositories->isNotEmpty())
+            @if ($this->meta_data->isNotEmpty())
                 <div class="p-3 pt-4">
-                    {{ $this->repositories->links() }}
+                    {{ $this->meta_data->links() }}
                 </div>
             @endif
         </div>

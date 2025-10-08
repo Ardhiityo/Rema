@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Data\MetadataData;
 use Livewire\Component;
 use App\Models\Repository;
 use App\Data\RepositoryData;
@@ -61,11 +62,11 @@ class RepositoryList extends Component
     }
 
     #[On('refresh-repositories')]
-    public function getRepositoriesProperty()
+    public function getMetaDataProperty()
     {
         $query = MetaData::query();
 
-        $query->with(['author', 'author.user', 'category', 'author.studyProgram']);
+        $query->with(['author', 'author.user', 'author.studyProgram']);
 
         if ($this->user->hasRole('contributor')) {
             if ($this->is_author_only) {
@@ -86,9 +87,9 @@ class RepositoryList extends Component
             $query->where('year', $year);
         }
 
-        $repositories = $query->orderByDesc('id')->paginate(10);
+        $meta_data = $query->orderByDesc('id')->paginate(10);
 
-        return RepositoryData::collect($repositories);
+        return MetadataData::collect($meta_data);
     }
 
     public function resetInput()

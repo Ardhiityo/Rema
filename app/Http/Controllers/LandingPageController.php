@@ -11,8 +11,11 @@ class LandingPageController extends Controller
         return view('index');
     }
 
-    public function read(Repository $repository)
+    public function read($meta_data_id, $category_id)
     {
+        $repository = Repository::where('meta_data_id', $meta_data_id)
+            ->where('category_id', $category_id)->firstOrFail();
+
         $path = storage_path('app/public/' . $repository->file_path);
 
         return response()->file($path, [

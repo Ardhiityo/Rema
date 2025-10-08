@@ -20,6 +20,6 @@ class Metadata extends Model
 
     public function repositories()
     {
-        return $this->belongsTo(Repository::class, 'meta_data_id', 'id');
+        return $this->hasMany(Repository::class, 'meta_data_id', 'id');
     }
 }

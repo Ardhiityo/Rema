@@ -40,25 +40,26 @@
                     </p>
                     <p>
                         <small>
-                            @can('view', $repository)
-                                <span class="{{ $badge_status }} mb-2">
-                                    {{ $status }}
-                                </span>
-                                <br>
-                            @endcan
+                            {{-- @can('view', $repository) --}}
+                            <span class="{{ $badge_status }} mb-2">
+                                {{ $status }}
+                            </span>
+                            <br>
+                            {{-- @endcan --}}
                             {{ $created_at }}
                         </small>
                     </p>
                     <div class="gap-3 d-flex">
-                        <a href="{{ route('repository.read', ['repository' => $slug]) }}" target="_blank"
-                            class="btn btn-info btn-sm">
-                            <span>{{ $category }}</span>
-                            <i class="bi bi-eye-fill"></i>
-                        </a>
-                        <a href="" target="_blank" class="btn btn-secondary btn-sm">
-                            <span>Journal</span>
-                            <i class="bi bi-eye-fill"></i>
-                        </a>
+                        @foreach ($this->repositories as $repository)
+                            <a href="{{ route('repository.read', [
+                                'meta_data_id' => $repository->meta_data_id,
+                                'category_id' => $repository->category->id,
+                            ]) }}"
+                                target="_blank" class="btn btn-info btn-sm">
+                                <span>{{ $repository->category->name }}</span>
+                                <i class="bi bi-eye-fill"></i>
+                            </a>
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -66,8 +67,8 @@
         @hasrole('admin')
             <livewire:note-form :repository_id="$repository_id" />
         @endhasrole
-        @can('view', $repository)
-            <livewire:note-list :repository_id="$repository_id" />
-        @endcan
+        {{-- @can('view', $repository) --}}
+        {{-- <livewire:note-list :repository_id="$repository_id" /> --}}
+        {{-- @endcan --}}
     </section>
 </div>

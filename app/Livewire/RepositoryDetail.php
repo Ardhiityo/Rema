@@ -2,10 +2,13 @@
 
 namespace App\Livewire;
 
-use Livewire\Component;
-use App\Models\Repository;
+use App\Data\MetadataData;
 use App\Data\RepositoryData;
+use Livewire\Component;
+use App\Models\Metadata;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
+use Spatie\LaravelData\DataCollection;
 
 class RepositoryDetail extends Component
 {
@@ -22,28 +25,29 @@ class RepositoryDetail extends Component
     public string $slug = '';
     public int $repository_id;
     public bool $is_admin;
-    public Repository $repository;
+    public MetaData $meta_data;
+    public  $repositories;
 
-    public function mount(Repository $repository)
+    public function mount(Metadata $meta_data)
     {
-        $this->repository = $repository;
-        $repository_data = RepositoryData::fromModel(
-            $repository->load('author', 'author.studyProgram')
+        $this->meta_data = $meta_data;
+        $metadata_data = MetadataData::fromModel(
+            $meta_data->load('author', 'author.studyProgram', 'repositories')
         );
         $user = Auth::user();
+        $this->repositories = $meta_data->load('repositories')->repositories;
         $this->is_admin = $user->hasRole('admin') ? true : false;
-        $this->repository_id = $repository_data->id;
-        $this->title = $repository_data->title;
-        $this->status = $repository_data->ucfirst_status;
-        $this->badge_status = $repository_data->badge_status;
-        $this->abstract = $repository_data->abstract;
-        $this->category = $repository_data->category_name;
-        $this->author = $repository_data->author_name;
-        $this->avatar = $repository_data->author_avatar;
-        $this->nim = $repository_data->nim;
-        $this->slug = $repository_data->slug;
-        $this->created_at = $repository_data->created_at;
-        $this->study_program = $repository_data->study_program;
+        $this->repository_id = $metadata_data->id;
+        $this->title = $metadata_data->title;
+        $this->status = $metadata_data->ucfirst_status;
+        $this->badge_status = $metadata_data->badge_status;
+        $this->abstract = $metadata_data->abstract;
+        $this->author = $metadata_data->author_name;
+        $this->avatar = $metadata_data->author_avatar;
+        $this->nim = $metadata_data->nim;
+        $this->slug = $metadata_data->slug;
+        $this->created_at = $metadata_data->created_at;
+        $this->study_program = $metadata_data->study_program;
     }
 
     public function render()

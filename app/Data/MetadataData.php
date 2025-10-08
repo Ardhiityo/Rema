@@ -3,6 +3,7 @@
 namespace App\Data;
 
 use App\Models\Metadata;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Str;
 use Spatie\LaravelData\Data;
 use Illuminate\Support\Facades\Storage;
@@ -27,6 +28,7 @@ class MetadataData extends Data
         public int $author_id,
         public string $author_name,
         public string|null $author_avatar,
+        public Collection $repositories,
         public string $year,
         public string $slug,
         public string|null $study_program,
@@ -40,22 +42,23 @@ class MetadataData extends Data
         $this->ucfirst_visibility = ucfirst($visibility);
     }
 
-    public static function fromModel(Metadata $repository)
+    public static function fromModel(Metadata $meta_data)
     {
         return new self(
-            $repository->id,
-            $repository->title,
-            $repository->author?->nim ?? '-',
-            $repository->abstract,
-            $repository->author->id,
-            $repository->author->user->name,
-            $repository->author->user->avatar ? Storage::url($repository->author->user->avatar) : null,
-            $repository->year,
-            $repository->slug,
-            $repository->author?->studyProgram?->name ?? '-',
-            $repository->status,
-            $repository->visibility,
-            $repository->created_at->format('d F Y')
+            $meta_data->id,
+            $meta_data->title,
+            $meta_data->author?->nim ?? '-',
+            $meta_data->abstract,
+            $meta_data->author->id,
+            $meta_data->author->user->name,
+            $meta_data->author->user->avatar ? Storage::url($meta_data->author->user->avatar) : null,
+            $meta_data->repositories,
+            $meta_data->year,
+            $meta_data->slug,
+            $meta_data->author?->studyProgram?->name ?? '-',
+            $meta_data->status,
+            $meta_data->visibility,
+            $meta_data->created_at->format('d F Y')
         );
     }
 }

@@ -31,6 +31,7 @@ class RepositoryForm extends Component
     public int|string $author_id = '';
     public int|null $meta_data_id = null;
     public int|string $repository_id = '';
+    public int|string $category_id = '';
     public string $slug = '';
     public string $status = '';
     public string $visibility = '';
@@ -59,10 +60,10 @@ class RepositoryForm extends Component
     {
         return [
             'file_path' => [
+                $this->is_update ? 'nullable' : 'required',
                 'file',
                 'mimes:pdf',
-                'max:5120',
-                $this->is_update ? 'nullable' : 'required'
+                'max:5120'
             ],
             'category_id' => ['required', 'exists:categories,id'],
             'meta_data_id' => ['required', 'exists:meta_data,id']
