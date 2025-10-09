@@ -28,7 +28,7 @@ class RepositoryForm extends Component
     public $file_path = null;
     public int|string $author_id = '';
     public int|null $meta_data_id = null;
-    public int|null $category_id = null;
+    public int|string $category_id = '';
     public string|null $file_path_update = null;
     public int|null $category_id_update = null;
     public int|string $repository_id = '';
@@ -85,7 +85,9 @@ class RepositoryForm extends Component
 
     public function createNewForm()
     {
-        return session()->forget('meta_data');
+        session()->forget('meta_data');
+
+        $this->resetInputMetaData();
     }
 
 
@@ -146,6 +148,8 @@ class RepositoryForm extends Component
 
         $meta_data = MetaData::create($validated);
 
+        $this->meta_data_id = $meta_data->id;
+
         session()->put('meta_data', $meta_data);
 
         return session()->flash('succes-meta-data', 'The meta data was successfully created.');
@@ -176,6 +180,15 @@ class RepositoryForm extends Component
         return session()->flash('succes-meta-data', 'The meta data was successfully updated.');
     }
 
+    public function resetInputMetaData()
+    {
+        $this->title = '';
+        $this->abstract = '';
+        $this->author_id = '';
+        $this->status = '';
+        $this->visibility = '';
+        $this->resetErrorBag();
+    }
 
 
     #[Computed()]
@@ -236,7 +249,7 @@ class RepositoryForm extends Component
 
         Repository::create($validated);
 
-        $this->resetInput();
+        $this->resetInputRepository();
 
         return session()->flash('repository-success', 'The repository was successfully created.');
     }
@@ -291,13 +304,15 @@ class RepositoryForm extends Component
 
         $this->is_update = false;
 
+        $this->resetInputRepository();
+
         return session()->flash('repository-success', 'The repository was successfully updated.');
     }
 
     public function resetInputRepository()
     {
         $this->file_path = null;
-        $this->category_id = null;
+        $this->category_id = '';
         $this->is_update = false;
 
         $this->resetErrorBag();

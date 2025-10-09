@@ -156,12 +156,15 @@
             </div>
             @if ($this->isMetaDataEdit)
                 <div class="gap-3 d-flex">
-                    <button wire:click='updateMetaData' wire:loading.attr='disabled' class="btn btn-warning"
+                    <button wire:click='updateMetaData' wire:loading.attr='disabled' class="btn btn-info"
                         wire:target='updateMetaData'>
                         Update
                         <span wire:loading wire:target='updateMetaData'>
                             <span class="spinner-border spinner-border-sm text-light" role="status"></span>
                         </span>
+                    </button>
+                    <button wire:click='resetInputMetaData' class="btn btn-warning">
+                        Clear
                     </button>
                     <button wire:click='createNewForm' wire:loading.attr='disabled' class="btn btn-danger"
                         wire:target='createNewForm'>
@@ -190,10 +193,10 @@
                             </span>
                         </button>
                     @endif
-                    <button wire:click='resetInput' class="btn btn-warning">
-                        Clear
-                    </button>
                 </div>
+                <button wire:click='resetInputMetaData' class="btn btn-warning">
+                    Clear
+                </button>
             @endif
         </div>
     </div>
@@ -313,7 +316,11 @@
                                     <td class="text-bold-500">{{ $loop->iteration }}</td>
                                     <td class="text-bold-500">{{ $category->name }}</td>
                                     <td>
-                                        <a href="" class="btn btn-info">
+                                        <a href="{{ route('repository.read', [
+                                            'category_slug' => $category->slug,
+                                            'meta_data_slug' => $this->repositories->slug,
+                                        ]) }}"
+                                            class="btn btn-info" target="_blank">
                                             <i class="bi bi-eye-fill"></i>
                                         </a>
                                     </td>
