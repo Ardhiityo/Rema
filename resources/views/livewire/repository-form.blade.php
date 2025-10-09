@@ -156,7 +156,7 @@
             </div>
             @if ($this->isMetaDataEdit)
                 <div class="gap-3 d-flex">
-                    <button wire:click='updateMetaData' wire:loading.attr='disabled' class="btn btn-info"
+                    <button wire:click='updateMetaData' wire:loading.attr='disabled' class="btn btn-primary"
                         wire:target='updateMetaData'>
                         Update
                         <span wire:loading wire:target='updateMetaData'>
@@ -166,13 +166,15 @@
                     <button wire:click='resetInputMetaData' class="btn btn-warning">
                         Clear
                     </button>
-                    <button wire:click='createNewForm' wire:loading.attr='disabled' class="btn btn-danger"
-                        wire:target='createNewForm'>
-                        New Form
-                        <span wire:loading wire:target='createNewForm'>
-                            <span class="spinner-border spinner-border-sm text-light" role="status"></span>
-                        </span>
-                    </button>
+                    @if (!$is_update)
+                        <button wire:click='createNewForm' wire:loading.attr='disabled' class="btn btn-danger"
+                            wire:target='createNewForm'>
+                            New Form
+                            <span wire:loading wire:target='createNewForm'>
+                                <span class="spinner-border spinner-border-sm text-light" role="status"></span>
+                            </span>
+                        </button>
+                    @endif
                 </div>
             @else
                 <div class="gap-3 d-flex">
@@ -183,6 +185,9 @@
                             <span wire:loading wire:target='updateMetaData'>
                                 <span class="spinner-border spinner-border-sm text-light" role="status"></span>
                             </span>
+                        </button>
+                        <button wire:click='resetInputMetaData' class="btn btn-warning">
+                            Clear
                         </button>
                     @else
                         <button wire:click='createMetaData' wire:loading.attr='disabled' class="btn btn-primary"
@@ -298,6 +303,11 @@
         <div class="card">
             <div class="card-header">
                 <h4 class="card-title">List of repositories</h4>
+                @if (session()->has('repository-success'))
+                    <div class="alert-success alert">
+                        {{ session('repository-success') }}
+                    </div>
+                @endif
             </div>
             <div class="card-content">
                 <div class="table-responsive">

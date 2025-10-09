@@ -39,6 +39,7 @@ class RepositoryForm extends Component
 
     public bool $is_update = false;
     public bool $is_edit_meta_data = false;
+    public bool $is_edit_repository = false;
 
     protected function validationAttributes()
     {
@@ -103,6 +104,9 @@ class RepositoryForm extends Component
     #[Computed()]
     public function metaDataTitle()
     {
+        if ($this->is_update) {
+            return $this->is_update ? 'Edit Meta Data' : 'Create Meta Data';
+        }
         return $this->isMetaDataEdit() ? 'Edit Meta Data' : 'Create Meta Data';
     }
 
@@ -150,7 +154,9 @@ class RepositoryForm extends Component
 
         $this->meta_data_id = $meta_data->id;
 
-        session()->put('meta_data', $meta_data);
+        if (!$this->is_update) {
+            session()->put('meta_data', $meta_data);
+        }
 
         return session()->flash('succes-meta-data', 'The meta data was successfully created.');
     }
@@ -195,18 +201,25 @@ class RepositoryForm extends Component
     #[Computed()]
     public function repositoryTitle()
     {
-        return $this->is_update ? 'Edit Repository' : 'Create Repository';
+        return $this->is_edit_repository ? 'Edit Repository' : 'Create Repository';
     }
 
     #[Computed()]
     public function showRepositoryFrom()
     {
+        if ($this->is_update) {
+            return $this->is_edit_repository;
+        }
         return $this->meta_data_session;
     }
 
     #[Computed()]
     public function showRepositoriesList()
     {
+        if ($this->is_update) {
+            return true;
+        }
+
         if ($data = $this->meta_data_session) {
             if ($meta_data_session = $data) {
                 $meta_data = MetaData::find($meta_data_session['id']);
@@ -276,7 +289,7 @@ class RepositoryForm extends Component
         $this->category_id_update = $repository->category_id;
         $this->category_id = $repository->category_id;
         $this->file_path_update = $repository->file_path;
-        $this->is_update = true;
+        $this->is_edit_repository = true;
     }
 
     public function updateRepository()
@@ -310,9 +323,9 @@ class RepositoryForm extends Component
                 'file_path' => $validated['file_path']
             ]);
 
-        $this->is_update = false;
-
         $this->resetInputRepository();
+
+        $this->is_edit_repository = false;
 
         return session()->flash('repository-success', 'The repository was successfully updated.');
     }
@@ -359,7 +372,6 @@ class RepositoryForm extends Component
     {
         $this->file_path = null;
         $this->category_id = '';
-        $this->is_update = false;
 
         $this->resetErrorBag();
     }
