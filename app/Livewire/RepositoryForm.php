@@ -39,7 +39,6 @@ class RepositoryForm extends Component
 
     public bool $is_update = false;
     public bool $is_edit_meta_data = false;
-    public bool $is_edit_repository = false;
 
     protected function validationAttributes()
     {
@@ -73,14 +72,14 @@ class RepositoryForm extends Component
             $this->visibility = $meta_data->visibility;
             $this->is_update = true;
         }
-        if (session()->has('meta_data')) {
-            $meta_data = session('meta_data');
-            $this->meta_data_id = data_get($meta_data, 'id');
-            $this->title = data_get($meta_data, 'title');
-            $this->abstract = data_get($meta_data, 'abstract');
-            $this->author_id = data_get($meta_data, 'author_id');
-            $this->status = data_get($meta_data, 'status');
-            $this->visibility = data_get($meta_data, 'visibility');
+        if ($data = $this->meta_data_session) {
+            $meta_data_session = $data;
+            $this->meta_data_id = data_get($meta_data_session, 'id');
+            $this->title = data_get($meta_data_session, 'title');
+            $this->abstract = data_get($meta_data_session, 'abstract');
+            $this->author_id = data_get($meta_data_session, 'author_id');
+            $this->status = data_get($meta_data_session, 'status');
+            $this->visibility = data_get($meta_data_session, 'visibility');
         }
     }
 
@@ -89,6 +88,14 @@ class RepositoryForm extends Component
         session()->forget('meta_data');
 
         $this->resetInputMetaData();
+    }
+
+    public function getMetaDataSessionProperty()
+    {
+        if (session()->has('meta_data')) {
+            return session()->get('meta_data');
+        }
+        return false;
     }
 
 
@@ -102,15 +109,7 @@ class RepositoryForm extends Component
     #[Computed()]
     public function isMetaDataEdit()
     {
-        return session()->has('meta_data') ? true : false;
-    }
-
-    public function getMetaDataProperty()
-    {
-        if ($this->is_update) {
-            return $this->is_edit_repository;
-        }
-        return session()->get('meta_data', false);
+        return $this->meta_data_session;
     }
 
     protected function rulesMetaData()
@@ -192,24 +191,24 @@ class RepositoryForm extends Component
     }
 
 
+
     #[Computed()]
     public function repositoryTitle()
     {
         return $this->is_update ? 'Edit Repository' : 'Create Repository';
     }
+
     #[Computed()]
     public function showRepositoryFrom()
     {
-        if (session()->has('meta_data')) {
-            return true;
-        }
+        return $this->meta_data_session;
     }
 
     #[Computed()]
     public function showRepositoriesList()
     {
-        if (session()->has('meta_data')) {
-            if ($meta_data_session = session('meta_data')) {
+        if ($data = $this->meta_data_session) {
+            if ($meta_data_session = $data) {
                 $meta_data = MetaData::find($meta_data_session['id']);
                 if ($meta_data?->categories->isNotEmpty()) {
                     return true;
@@ -277,13 +276,21 @@ class RepositoryForm extends Component
         $this->category_id_update = $repository->category_id;
         $this->category_id = $repository->category_id;
         $this->file_path_update = $repository->file_path;
-        $this->is_edit_repository = true;
         $this->is_update = true;
     }
 
     public function updateRepository()
     {
         $validated = $this->validate($this->rulesRepository());
+
+        $exists = Repository::where('category_id', '!=', $this->category_id_update)
+            ->where('category_id', $validated['category_id'])
+            ->exists();
+
+        if ($exists) {
+            $this->addError('category_id', 'category already exists');
+            return;
+        }
 
         if (!is_null($validated['file_path'])) {
             if ($this->file_path_update) {
@@ -363,8 +370,8 @@ class RepositoryForm extends Component
             $meta_data = MetaData::find($this->meta_data_id);
             return $meta_data;
         }
-        if ($this->meta_data) {
-            $meta_data = MetaData::find($this->meta_data['id']);
+        if ($meta_data_session = $this->meta_data_session) {
+            $meta_data = MetaData::find($meta_data_session['id']);
             if ($meta_data?->categories) {
                 return $meta_data;
             }
