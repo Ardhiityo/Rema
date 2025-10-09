@@ -69,21 +69,22 @@
                         @forelse ($this->meta_data as $data)
                             <tr class="text-nowrap" wire:key='{{ $data->slug }}'>
                                 <td class="text-bold-500">{{ $loop->index + $this->meta_data->firstItem() }}</td>
-                                <td class="text-bold-500">{{ $data->short_title }}</td>
+                                <td class="text-bold-500">{{ $data->title }}</td>
                                 @if (!$is_author_only)
                                     <td>
-                                        @if ($data->author_avatar)
-                                            <img src="{{ $data->author_avatar }}" alt="{{ $data->author_name }}"
+                                        @if ($data->author->user->avatar)
+                                            <img src="{{ Storage::url($data->author->user->avatar) }}"
+                                                alt="{{ $data->author->user->name }}"
                                                 style="width: 38px; height: 38px; border-radius: 100%;">
                                         @else
                                             -
                                         @endif
                                         <span class="text-bold-500 ms-1">
-                                            {{ $data->author_name }}
+                                            {{ $data->author->user->name }}
                                         </span>
                                     </td>
                                 @endif
-                                <td class="text-bold-500">{{ $data->ucfirst_visibility }}</td>
+                                <td class="text-bold-500">{{ $data->visibility }}</td>
                                 <td class="gap-3 d-flex justify-content-center align-items-center">
                                     <a href="{{ route('repository.show', ['meta_data' => $data->slug]) }}"
                                         class="btn btn-info">

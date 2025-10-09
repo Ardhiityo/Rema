@@ -89,7 +89,7 @@ class RepositoryList extends Component
 
         $meta_data = $query->orderByDesc('id')->paginate(10);
 
-        return MetadataData::collect($meta_data);
+        return $meta_data;
     }
 
     public function resetInput()

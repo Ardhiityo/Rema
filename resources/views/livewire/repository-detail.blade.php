@@ -20,43 +20,44 @@
                 <div class="card-body">
                     <div class="mb-2 flex-column d-flex">
                         <h4 class="gap-2 card-title d-flex align-items-center">
-                            @if ($avatar)
-                                <img src="{{ $avatar }}" alt="{{ $author }}" class="rounded-pill"
+                            @if ($meta_data->author->user->avatar)
+                                <img src="{{ Storage::url($meta_data->author->user->avatar) }}"
+                                    alt="{{ $meta_data->author->user->name }}" class="rounded-pill"
                                     style="max-width: 38px">
                             @else
                                 -
                             @endif
-                            <span>{{ $author }}</span>
+                            <span>{{ $meta_data->author->user->name }}</span>
                         </h4>
                         <p>
-                            <small>{{ $nim }} | {{ $study_program }}</small>
+                            <small>{{ $meta_data->author->nim }} | {{ $meta_data->author->studyProgram->name }}</small>
                         </p>
                     </div>
                     <h5 class="card-text">
-                        {{ $title }}
+                        {{ $meta_data->title }}
                     </h5>
                     <p class="card-text">
-                        {{ $abstract }}
+                        {{ $meta_data->abstractt }}
                     </p>
                     <p>
                         <small>
                             @can('view', $meta_data)
-                                <span class="{{ $badge_status }} mb-2">
-                                    {{ $status }}
+                                <span class="mb-2 badge text-bg-primary">
+                                    {{ $meta_data->status }}
                                 </span>
                                 <br>
                             @endcan
-                            {{ $created_at }}
+                            {{ $meta_data->created_at }}
                         </small>
                     </p>
                     <div class="gap-3 d-flex">
-                        @foreach ($this->repositories as $repository)
+                        @foreach ($meta_data->categories as $category)
                             <a href="{{ route('repository.read', [
-                                'category_slug' => $repository->category->slug,
-                                'meta_data_slug' => $repository->metadata->slug,
+                                'category_slug' => $category->slug,
+                                'meta_data_slug' => $meta_data->slug,
                             ]) }}"
                                 target="_blank" class="btn btn-info btn-sm">
-                                <span>{{ $repository->category->name }}</span>
+                                <span>{{ $category->name }}</span>
                                 <i class="bi bi-eye-fill"></i>
                             </a>
                         @endforeach
@@ -65,10 +66,10 @@
             </div>
         </div>
         @hasrole('admin')
-            <livewire:note-form :meta_data_id="$meta_data_id" />
+            <livewire:note-form :meta_data_id="$meta_data->id" />
         @endhasrole
         @can('view', $meta_data)
-            <livewire:note-list :meta_data_id="$meta_data_id" />
+            <livewire:note-list :meta_data_id="$meta_data->id" />
         @endcan
     </section>
 </div>

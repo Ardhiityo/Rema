@@ -192,11 +192,11 @@
                                 <span class="spinner-border spinner-border-sm text-light" role="status"></span>
                             </span>
                         </button>
+                        <button wire:click='resetInputMetaData' class="btn btn-warning">
+                            Clear
+                        </button>
                     @endif
                 </div>
-                <button wire:click='resetInputMetaData' class="btn btn-warning">
-                    Clear
-                </button>
             @endif
         </div>
     </div>
