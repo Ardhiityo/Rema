@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Metadata extends Model
+class MetaData extends Model
 {
     protected $table = 'meta_data';
 
@@ -18,8 +18,8 @@ class Metadata extends Model
         return $this->hasMany(Note::class, 'repository_id', 'id');
     }
 
-    public function repositories()
+    public function categories()
     {
-        return $this->hasMany(Repository::class, 'meta_data_id', 'id');
+        return $this->belongsToMany(Category::class, 'repositories', 'meta_data_id', 'category_id')->withPivot('file_path');
     }
 }

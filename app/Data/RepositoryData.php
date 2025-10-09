@@ -25,7 +25,7 @@ class RepositoryData extends Data
             $repository->category->name,
             Storage::url($repository->file_path),
             $repository->metadata->slug,
-            $repository->category->slug
+            $repository->category->slug,
         );
     }
 }

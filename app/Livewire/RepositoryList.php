@@ -66,7 +66,7 @@ class RepositoryList extends Component
     {
         $query = MetaData::query();
 
-        $query->with(['author', 'author.user', 'author.studyProgram']);
+        $query->with(['author', 'author.user', 'author.studyProgram', 'categories']);
 
         if ($this->user->hasRole('contributor')) {
             if ($this->is_author_only) {

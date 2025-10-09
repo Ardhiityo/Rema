@@ -7,8 +7,9 @@ use App\Models\Author;
 use Livewire\Component;
 use App\Data\AuthorData;
 use App\Models\Category;
-use App\Models\Metadata;
+use App\Models\MetaData;
 use App\Data\CategoryData;
+use App\Data\MetadataCategoryData;
 use App\Data\MetadataData;
 use App\Models\Repository;
 use Illuminate\Support\Str;
@@ -30,8 +31,10 @@ class RepositoryForm extends Component
     public $file_path = null;
     public int|string $author_id = '';
     public int|null $meta_data_id = null;
+    public int|null $category_id = null;
+    public string|null $file_path_update = null;
+    public int|null $category_id_update = null;
     public int|string $repository_id = '';
-    public int|string $category_id = '';
     public string $slug = '';
     public string $status = '';
     public string $visibility = '';
@@ -96,7 +99,7 @@ class RepositoryForm extends Component
     public function mount(string $meta_data_slug = '')
     {
         if ($meta_data_slug) {
-            $meta_data =  Metadata::with(
+            $meta_data =  MetaData::with(
                 ['author', 'author.studyProgram']
             )
                 ->where('slug', $meta_data_slug)
@@ -142,7 +145,7 @@ class RepositoryForm extends Component
 
         $validated['year'] = Carbon::now()->year;
 
-        $meta_data = Metadata::create($validated);
+        $meta_data = MetaData::create($validated);
 
         session()->put('meta_data', $meta_data);
 
@@ -165,7 +168,7 @@ class RepositoryForm extends Component
 
         $validated = $this->validate($this->rulesMetaData());
 
-        Metadata::find($this->meta_data_id)->update($validated);
+        MetaData::find($this->meta_data_id)->update($validated);
 
         return session()->flash('succes-meta-data', 'The meta data was successfully updated.');
     }
@@ -221,29 +224,35 @@ class RepositoryForm extends Component
             )
             ->first();
 
-        $this->meta_data_id = $repository->metadata->id;
-        $this->category_id = $repository->category->id;
+        $this->meta_data_id = $repository->meta_data_id;
+        $this->category_id_update = $repository->category_id;
+        $this->category_id = $repository->category_id;
+        $this->file_path_update = $repository->file_path;
         $this->is_edit_repository = true;
+        $this->is_update = true;
     }
 
     public function updateRepository()
     {
-        $validated = $this->validate();
+        $validated = $this->validate($this->rulesRepository());
 
-        $repository = Repository::where('meta_data_id', $this->meta_data_id)
-            ->where('category_id', $this->category_id)
-            ->first();
-
-        if (!empty($validated['file_path'])) {
-            if ($repository->file_path) {
-                if (Storage::disk('public')->exists($repository->file_path)) {
-                    Storage::disk('public')->delete($repository->file_path);
+        if (!is_null($validated['file_path'])) {
+            if ($this->file_path_update) {
+                if (Storage::disk('public')->exists($this->file_path_update)) {
+                    Storage::disk('public')->delete($this->file_path_update);
                 }
             }
             $validated['file_path'] = $validated['file_path']->store('repositories', 'public');
+        } else {
+            $validated['file_path'] = $this->file_path;
         }
 
-        $repository->update($validated);
+        Repository::where('meta_data_id', $this->meta_data_id)
+            ->where('category_id', $this->category_id_update)
+            ->update([
+                'category_id' => $validated['category_id'],
+                'file_path' => $validated['file_path']
+            ]);
 
         return session()->flash('message', 'The repository was successfully updated.');
     }
@@ -277,16 +286,11 @@ class RepositoryForm extends Component
     public function getRepositoriesProperty()
     {
         if ($this->is_update) {
-            $repositories = Metadata::find($this->meta_data_id)->repositories->load(['category', 'metadata']);
-
-            return (new DataCollection(RepositoryData::class, $repositories))->toCollection();
+            $meta_data = MetaData::find($this->meta_data_id);
+            return $meta_data;
         }
-
-        $repositories = Repository::with('category')
-            ->where('meta_data_id', data_get($this->meta_data, 'id'))
-            ->get();
-
-        return (new DataCollection(RepositoryData::class, $repositories))->toCollection();
+        $meta_data = MetaData::find($this->meta_data['id']);
+        return $meta_data;
     }
 
     public function render()

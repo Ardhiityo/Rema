@@ -287,7 +287,7 @@
     {{-- Repository Form --}}
 
     {{-- List --}}
-    @if ($this->repositories->isNotEmpty())
+    @if ($this->repositories->categories->isNotEmpty())
         <div class="card">
             <div class="card-header">
                 <h4 class="card-title">List of repositories</h4>
@@ -304,10 +304,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($this->repositories as $key => $repository)
+                            @forelse ($this->repositories->categories as $key => $category)
                                 <tr class="text-nowrap" wire:key='{{ $key }}'>
                                     <td class="text-bold-500">{{ $loop->iteration }}</td>
-                                    <td class="text-bold-500">{{ $repository->category }}</td>
+                                    <td class="text-bold-500">{{ $category->name }}</td>
                                     <td>
                                         <a href="" class="btn btn-info">
                                             <i class="bi bi-eye-fill"></i>
@@ -316,7 +316,7 @@
                                     <td>
                                         <div class="gap-3 d-flex justify-content-center align-items-center">
                                             <button class="btn btn-warning"
-                                                wire:click="editRepository('{{ $repository->meta_data_slug }}', '{{ $repository->category_slug }}')">
+                                                wire:click="editRepository('{{ $this->repositories->slug }}', '{{ $category->slug }}')">
                                                 <i class="bi bi-pencil-square"></i>
                                             </button>
                                             <button type="button" class="block btn btn-danger"

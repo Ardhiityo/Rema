@@ -8,8 +8,8 @@ class Category extends Model
 {
     protected $table = 'categories';
 
-    public function repositories()
+    public function metadata()
     {
-        return $this->hasMany(Repository::class, 'category_id', 'id');
+        return $this->belongsToMany(MetaData::class, 'repositories', 'category_id', 'meta_data_id')->withPivot('file_path');
     }
 }
