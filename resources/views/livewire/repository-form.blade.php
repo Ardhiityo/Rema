@@ -41,8 +41,7 @@
                     <div>
                         <label for="basicInput" class="form-label">Title</label>
                         <input type="text" required class="form-control" id="basicInput" wire:model='title'
-                            placeholder="ex: Sistem Informasi Management Sekolah"
-                            {{ $is_lock_meta_data ? 'disabled' : '' }}>
+                            placeholder="ex: Sistem Informasi Management Sekolah">
                         @error('slug')
                             <span class="badge bg-danger">
                                 <small>{{ $message }}</small>
@@ -55,8 +54,7 @@
                     <div class="mt-4">
                         <div class="mb-3 form-group">
                             <label for="exampleFormControlTextarea1" class="form-label">Abstract</label>
-                            <textarea class="form-control" id="exampleFormControlTextarea1" wire:model='abstract' rows="3"
-                                {{ $is_lock_meta_data ? 'disabled' : '' }}></textarea>
+                            <textarea class="form-control" id="exampleFormControlTextarea1" wire:model='abstract' rows="3"></textarea>
                             @error('abstract')
                                 <span class="badge bg-danger">
                                     <small>{{ $message }}</small>
@@ -73,8 +71,7 @@
                                 <label class="input-group-text" for="author_id">
                                     Author
                                 </label>
-                                <select class="form-select" id="author_id" wire:model='author_id'
-                                    {{ $is_lock_meta_data ? 'disabled' : '' }}>
+                                <select class="form-select" id="author_id" wire:model='author_id'>
                                     <option value="">Choose...</option>
                                     @foreach ($authors as $author)
                                         <option value="{{ $author->author_id }}">{{ $author->nim }} - {{ $author->name }}
@@ -98,8 +95,7 @@
                                 <label class="input-group-text" for="status" class="form-label">
                                     Status
                                 </label>
-                                <select class="form-select" id="status" wire:model='status'
-                                    {{ $is_lock_meta_data ? 'disabled' : '' }}>
+                                <select class="form-select" id="status" wire:model='status'>
                                     <option value="">
                                         Choose...
                                     </option>
@@ -133,8 +129,7 @@
                                 <label class="input-group-text" for="status" class="form-label">
                                     Visibility
                                 </label>
-                                <select class="form-select" id="status" wire:model='visibility'
-                                    {{ $is_lock_meta_data ? 'disabled' : '' }}>
+                                <select class="form-select" id="status" wire:model='visibility'>
                                     <option value="">
                                         Choose...
                                     </option>
@@ -159,14 +154,23 @@
                     {{-- Visibility --}}
                 </div>
             </div>
-            @if ($is_lock_meta_data)
-                <button wire:click='createNewMetaData' wire:loading.attr='disabled' class="btn btn-danger"
-                    wire:target='createNewMetaData'>
-                    Create New
-                    <span wire:loading wire:target='createNewMetaData'>
-                        <span class="spinner-border spinner-border-sm text-light" role="status"></span>
-                    </span>
-                </button>
+            @if ($this->isMetaDataEdit)
+                <div class="gap-3 d-flex">
+                    <button wire:click='updateMetaData' wire:loading.attr='disabled' class="btn btn-warning"
+                        wire:target='updateMetaData'>
+                        Update
+                        <span wire:loading wire:target='updateMetaData'>
+                            <span class="spinner-border spinner-border-sm text-light" role="status"></span>
+                        </span>
+                    </button>
+                    <button wire:click='createNewForm' wire:loading.attr='disabled' class="btn btn-danger"
+                        wire:target='createNewForm'>
+                        New Form
+                        <span wire:loading wire:target='createNewForm'>
+                            <span class="spinner-border spinner-border-sm text-light" role="status"></span>
+                        </span>
+                    </button>
+                </div>
             @else
                 <div class="gap-3 d-flex">
                     @if ($is_update)
@@ -196,7 +200,7 @@
     {{-- Meta Data Form --}}
 
     {{-- Repository Form --}}
-    @if ($this->meta_data)
+    @if ($this->showRepositoryFrom)
         <div class="card">
             <div class="card-header">
                 <h4 class="card-title d-flex justify-content-between">
@@ -211,9 +215,9 @@
                 </h4>
             </div>
             <div class="card-body">
-                @if (session()->has('succes-repository'))
+                @if (session()->has('repository-success'))
                     <div class="alert-success alert">
-                        {{ session('succes-repository') }}
+                        {{ session('repository-success') }}
                     </div>
                 @endif
                 <div class="mb-4 row">
@@ -271,13 +275,13 @@
                     @else
                         <button wire:click='createRepository' wire:loading.attr='disabled' class="btn btn-primary"
                             wire:target='createRepository'>
-                            Save
+                            Add
                             <span wire:loading wire:target='createRepository'>
                                 <span class="spinner-border spinner-border-sm text-light" role="status"></span>
                             </span>
                         </button>
                     @endif
-                    <button wire:click='resetInput' class="btn btn-warning">
+                    <button wire:click='resetInputRepository' class="btn btn-warning">
                         Clear
                     </button>
                 </div>
@@ -287,7 +291,7 @@
     {{-- Repository Form --}}
 
     {{-- List --}}
-    @if ($this->repositories->categories->isNotEmpty())
+    @if ($this->showRepositoriesList)
         <div class="card">
             <div class="card-header">
                 <h4 class="card-title">List of repositories</h4>
