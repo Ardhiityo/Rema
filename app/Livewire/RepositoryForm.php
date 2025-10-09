@@ -31,6 +31,7 @@ class RepositoryForm extends Component
     public int|string $category_id = '';
     public string|null $file_path_update = null;
     public int|null $category_id_update = null;
+    public int|null $category_id_delete = null;
     public int|string $repository_id = '';
     public string $slug = '';
     public string $status = '';
@@ -307,6 +308,44 @@ class RepositoryForm extends Component
         $this->resetInputRepository();
 
         return session()->flash('repository-success', 'The repository was successfully updated.');
+    }
+
+    public function deleteConfirmRepository($meta_data_slug, $category_slug)
+    {
+        $repository = Repository::whereHas(
+            'category',
+            fn($query) => $query->where('slug', $category_slug)
+        )
+            ->whereHas(
+                'metadata',
+                function ($query) use ($meta_data_slug) {
+                    $user = Auth::user();
+                    if ($user->hasRole('contributor')) {
+                        $query->where('author_id', $user->author->id);
+                    }
+                    $query->where('slug', $meta_data_slug);
+                }
+            )
+            ->first();
+
+        $this->meta_data_id = $repository->meta_data_id;
+        $this->category_id_delete = $repository->category_id;
+    }
+
+    public function deleteRepository()
+    {
+        $repository = Repository::where('meta_data_id', $this->meta_data_id)
+            ->where('category_id', $this->category_id_delete);
+
+        if ($file_path = $repository->first()->file_path) {
+            if (Storage::disk('public')->exists($file_path)) {
+                Storage::disk('public')->delete($file_path);
+            }
+        }
+
+        $repository->delete();
+
+        return session()->flash('repository-success', 'The repository was successfully deleted.');
     }
 
     public function resetInputRepository()

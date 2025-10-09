@@ -331,6 +331,7 @@
                                                 <i class="bi bi-pencil-square"></i>
                                             </button>
                                             <button type="button" class="block btn btn-danger"
+                                                wire:click="deleteConfirmRepository('{{ $this->repositories->slug }}', '{{ $category->slug }}')"
                                                 data-bs-toggle="modal" data-bs-target="#border-less">
                                                 <i class="bi bi-trash3"></i>
                                             </button>
@@ -363,8 +364,8 @@
                                 <i class="bx bx-x d-block d-sm-none"></i>
                                 <span class="d-none d-sm-block">Close</span>
                             </button>
-                            <button type="button" class="btn btn-danger ms-1"
-                                wire:click="$dispatch('category-delete')" data-bs-dismiss="modal">
+                            <button type="button" class="btn btn-danger ms-1" wire:click="deleteRepository"
+                                data-bs-dismiss="modal">
                                 <i class="bx bx-check d-block d-sm-none"></i>
                                 <span class="d-none d-sm-block">Accept</span>
                             </button>
