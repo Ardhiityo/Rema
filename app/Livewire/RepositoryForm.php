@@ -329,7 +329,17 @@ class RepositoryForm extends Component
                     Storage::disk('public')->delete($this->file_path_update);
                 }
             }
-            $validated['file_path'] = $validated['file_path']->store('repositories', 'public');
+            $tempPath = $validated['file_path']->getRealPath(); // file mentah
+            $filename = uniqid() . '.pdf';
+            $finalPath = storage_path('app/public/repositories/' . $filename);
+
+            $author_nim = MetaData::find($this->meta_data_id)->author->nim;
+
+            // Tambahkan watermark
+            PdfWatermarkService::apply($tempPath, $finalPath, "FIK-UNIVAL-{$author_nim}");
+
+            // Simpan path ke database
+            $validated['file_path'] = 'repositories/' . $filename;
         } else {
             $validated['file_path'] = $this->file_path_update;
         }
