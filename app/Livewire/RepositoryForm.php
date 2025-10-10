@@ -313,7 +313,8 @@ class RepositoryForm extends Component
     {
         $validated = $this->validate($this->rulesRepository());
 
-        $exists = Repository::where('category_id', '!=', $this->category_id_update)
+        $exists = Repository::where('meta_data_id', $this->meta_data_id)
+            ->where('category_id', '!=', $this->category_id_update)
             ->where('category_id', $validated['category_id'])
             ->exists();
 

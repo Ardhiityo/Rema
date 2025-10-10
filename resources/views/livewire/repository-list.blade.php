@@ -63,22 +63,23 @@
         </div>
         <div class="card-content">
             <div class="table-responsive">
-                <table class="table mb-0 text-center table-lg">
+                <table class="table mb-0 table-lg">
                     <thead>
                         <tr class="text-nowrap">
-                            <th>No</th>
+                            <th class="text-center">No</th>
                             <th>Title</th>
                             @if (!$is_author_only)
                                 <th>Author</th>
                             @endif
-                            <th>Visibility</th>
-                            <th>Action</th>
+                            <th class="text-center">Visibility</th>
+                            <th class="text-center">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse ($this->meta_data as $data)
                             <tr class="text-nowrap" wire:key='{{ $data->slug }}'>
-                                <td class="text-bold-500">{{ $loop->index + $this->meta_data->firstItem() }}</td>
+                                <td class="text-center text-bold-500">{{ $loop->index + $this->meta_data->firstItem() }}
+                                </td>
                                 <td class="text-bold-500">{{ $data->title }}</td>
                                 @if (!$is_author_only)
                                     <td>
@@ -94,7 +95,7 @@
                                         </span>
                                     </td>
                                 @endif
-                                <td class="text-bold-500">{{ $data->visibility }}</td>
+                                <td class="text-center text-bold-500">{{ $data->visibility }}</td>
                                 <td class="gap-3 d-flex justify-content-center align-items-center">
                                     <a href="{{ route('repository.show', ['meta_data' => $data->slug]) }}"
                                         class="btn btn-info">
