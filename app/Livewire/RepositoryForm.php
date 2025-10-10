@@ -91,7 +91,11 @@ class RepositoryForm extends Component
     public function getMetaDataSessionProperty()
     {
         if (session()->has('meta_data')) {
-            return session()->get('meta_data');
+            $meta_data_session = session()->get('meta_data');
+            if (MetaData::find($meta_data_session['id'])) {
+                return $meta_data_session;
+            }
+            return $this->createNewForm();
         }
         return false;
     }
