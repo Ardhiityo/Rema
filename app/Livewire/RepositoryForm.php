@@ -9,7 +9,6 @@ use App\Data\AuthorData;
 use App\Models\Category;
 use App\Models\MetaData;
 use App\Data\CategoryData;
-use App\Data\MetadataData;
 use App\Models\Repository;
 use Illuminate\Support\Str;
 use Livewire\WithFileUploads;
@@ -62,14 +61,12 @@ class RepositoryForm extends Component
 
             $this->authorize('update', $meta_data);
 
-            $metadata_data = MetadataData::fromModel($meta_data);
-
-            $this->meta_data_id = $metadata_data->id;
-            $this->title = $metadata_data->title;
-            $this->slug = Str::slug($metadata_data->title);
-            $this->abstract = $metadata_data->abstract;
-            $this->author_id = $metadata_data->author_id;
-            $this->status = $metadata_data->status;
+            $this->meta_data_id = $meta_data->id;
+            $this->title = $meta_data->title;
+            $this->slug = $meta_data->slug;
+            $this->abstract = $meta_data->abstract;
+            $this->author_id = $meta_data->author_id;
+            $this->status = $meta_data->status;
             $this->visibility = $meta_data->visibility;
             $this->is_update = true;
         }
@@ -181,7 +178,9 @@ class RepositoryForm extends Component
 
         $meta_data->update($validated);
 
-        session()->put('meta_data', $meta_data);
+        if (!$this->is_update) {
+            session()->put('meta_data', $meta_data);
+        }
 
         return session()->flash('succes-meta-data', 'The meta data was successfully updated.');
     }
@@ -208,7 +207,7 @@ class RepositoryForm extends Component
     public function showRepositoryFrom()
     {
         if ($this->is_update) {
-            return $this->is_edit_repository;
+            return true;
         }
         return $this->meta_data_session;
     }
@@ -217,9 +216,10 @@ class RepositoryForm extends Component
     public function showRepositoriesList()
     {
         if ($this->is_update) {
-            return true;
+            if (MetaData::find($this->meta_data_id)->categories->isNotEmpty()) {
+                return true;
+            }
         }
-
         if ($data = $this->meta_data_session) {
             if ($meta_data_session = $data) {
                 $meta_data = MetaData::find($meta_data_session['id']);
@@ -235,7 +235,7 @@ class RepositoryForm extends Component
     {
         return [
             'file_path' => [
-                $this->is_update ? 'nullable' : 'required',
+                $this->is_edit_repository ? 'nullable' : 'required',
                 'file',
                 'mimes:pdf',
                 'max:7000'
@@ -247,7 +247,9 @@ class RepositoryForm extends Component
 
     public function createRepository()
     {
-        $this->meta_data_id = data_get(session('meta_data'), 'id');
+        if (!$this->is_update) {
+            $this->meta_data_id = data_get(session('meta_data'), 'id');
+        }
 
         $validated = $this->validate($this->rulesRepository());
 
@@ -365,6 +367,10 @@ class RepositoryForm extends Component
 
         $repository->delete();
 
+        if (MetaData::find($this->meta_data_id)->categories->isEmpty()) {
+            $this->resetInputRepository();
+        }
+
         return session()->flash('repository-success', 'The repository was successfully deleted.');
     }
 
@@ -372,6 +378,7 @@ class RepositoryForm extends Component
     {
         $this->file_path = null;
         $this->category_id = '';
+        $this->is_edit_repository = false;
 
         $this->resetErrorBag();
     }

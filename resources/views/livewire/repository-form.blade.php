@@ -223,11 +223,6 @@
                 </h4>
             </div>
             <div class="card-body">
-                @if (session()->has('repository-success'))
-                    <div class="alert-success alert">
-                        {{ session('repository-success') }}
-                    </div>
-                @endif
                 <div class="mb-4 row">
                     <div class="form-group">
                         {{-- Category --}}
@@ -272,7 +267,7 @@
                     </div>
                 </div>
                 <div class="gap-3 d-flex">
-                    @if ($is_update)
+                    @if ($is_edit_repository)
                         <button wire:click='updateRepository' wire:loading.attr='disabled' class="btn btn-primary"
                             wire:target='updateRepository'>
                             Update
