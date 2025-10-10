@@ -15,6 +15,7 @@ use Livewire\WithFileUploads;
 use Livewire\Attributes\Computed;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use App\Services\PdfWatermarkService;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
@@ -257,6 +258,8 @@ class RepositoryForm extends Component
 
         $validated = $this->validate($this->rulesRepository());
 
+        $author_nim = MetaData::find($validated['meta_data_id'])->author->nim;
+
         $exists = Repository::where('category_id', $validated['category_id'])->where('meta_data_id', $validated['meta_data_id'])->exists();
 
         if ($exists) {
@@ -264,7 +267,15 @@ class RepositoryForm extends Component
             return;
         }
 
-        $validated['file_path'] = $validated['file_path']->store('repositories', 'public');
+        $tempPath = $validated['file_path']->getRealPath(); // file mentah
+        $filename = uniqid() . '.pdf';
+        $finalPath = storage_path('app/public/repositories/' . $filename);
+
+        // Tambahkan watermark
+        PdfWatermarkService::apply($tempPath, $finalPath, "FIK-UNIVAL-{$author_nim}");
+
+        // Simpan path ke database
+        $validated['file_path'] = 'repositories/' . $filename;
 
         Repository::create($validated);
 
