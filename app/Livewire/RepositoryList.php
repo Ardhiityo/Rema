@@ -3,7 +3,6 @@
 namespace App\Livewire;
 
 use Livewire\Component;
-use App\Models\Repository;
 use App\Models\MetaData;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
@@ -19,6 +18,7 @@ class RepositoryList extends Component
 
     public string $title = '';
     public string $year = '';
+    public string $visibility = '';
     public string $status_filter = 'approve';
     public int|null $meta_data_id = null;
     public bool $is_author_only = false;
@@ -89,6 +89,10 @@ class RepositoryList extends Component
 
         if ($year = $this->year) {
             $query->where('year', $year);
+        }
+
+        if ($visibility = $this->visibility) {
+            $query->where('visibility', $visibility);
         }
 
         $meta_data = $query->orderByDesc('id')->paginate(10);
