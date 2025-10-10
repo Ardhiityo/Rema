@@ -3,11 +3,11 @@
 namespace App\Livewire;
 
 use Livewire\Component;
-use App\Models\Repository;
-use App\Data\SearchHeroData;
 use App\Models\Category;
+use App\Models\MetaData;
 use Livewire\WithPagination;
 use Livewire\Attributes\Layout;
+use Illuminate\Support\Facades\Log;
 
 class SearchHero extends Component
 {
@@ -16,7 +16,7 @@ class SearchHero extends Component
     protected $paginationTheme = 'bootstrap';
 
     public string $title = '';
-    public string $category = '';
+    public string $category = 'skripsi';
     public string $year = '';
     public string $author = '';
 
@@ -52,7 +52,7 @@ class SearchHero extends Component
     #[Layout('layouts.welcome')]
     public function render()
     {
-        $query = Repository::query();
+        $query = MetaData::query();
 
         $query->where('status', 'approve')->where('visibility', 'public');
 
@@ -60,12 +60,10 @@ class SearchHero extends Component
             $query->whereLike('title', "%$title%");
         }
 
-        if ($slug = $this->category) {
-            $query->whereHas(
-                'category',
-                fn($query) => $query->where('slug', $slug)
-            );
-        }
+        $query->whereHas(
+            'categories',
+            fn($query) => $query->where('slug', $this->category)
+        );
 
         if ($year = $this->year) {
             $query->where('year', $year);
@@ -78,10 +76,13 @@ class SearchHero extends Component
             );
         }
 
-        $repositories = SearchHeroData::collect(
-            $query->with(['author', 'category', 'author.user', 'author.studyProgram'])
-                ->orderByDesc('id')->paginate(12)
-        );
+        $repositories = $query->with([
+            'author',
+            'categories' => fn($query) => $query->where('slug', $this->category),
+            'author.user',
+            'author.studyProgram'
+        ])
+            ->orderByDesc('id')->paginate(10);
 
         $categories = Category::all();
 

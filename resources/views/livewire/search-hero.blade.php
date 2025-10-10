@@ -18,7 +18,6 @@
                       <input type="number" class="form-control" aria-label="Text input with dropdown button"
                           placeholder="Year" wire:model.live.debounce.250ms='year'>
                       <select class="form-select" id="inputGroupSelect01" wire:model.live='category'>
-                          <option selected value="">Category</option>
                           @foreach ($categories as $category)
                               <option value="{{ $category->slug }}">{{ $category->name }}</option>
                           @endforeach
@@ -40,7 +39,6 @@
                       <input type="number" class="form-control" aria-label="Text input with dropdown button"
                           placeholder="Year" wire:model.live.debounce.250ms='year'>
                       <select class="form-select" id="inputGroupSelect01" wire:model.live='category'>
-                          <option selected value="">Category</option>
                           @foreach ($categories as $category)
                               <option value="{{ $category->slug }}">{{ $category->name }}</option>
                           @endforeach
@@ -61,7 +59,6 @@
                       <input type="number" class="form-control w-100" aria-label="Text input with dropdown button"
                           placeholder="Year" wire:model.live.debounce.250ms='year'>
                       <select class="form-select" id="inputGroupSelect01" wire:model.live='category'>
-                          <option selected value="">Category</option>
                           @foreach ($categories as $category)
                               <option value="{{ $category->slug }}">{{ $category->name }}</option>
                           @endforeach
@@ -80,22 +77,27 @@
           <div class="gap-4 row d-flex gap-md-0">
               @forelse ($repositories as $repository)
                   <div class="col-md-6 col-lg-6 col-xl-3 d-flex">
-                      <a href="{{ route('repository.read', ['repository' => $repository->slug]) }}" target="_blank"
-                          class="w-100">
+                      <a href="{{ route('repository.read', ['category_slug' => $repository->categories[0]['slug'], 'meta_data_slug' => $repository->slug]) }}"
+                          target="_blank" class="w-100">
                           <div class="p-4 pt-0 border feature-item h-100 d-flex flex-column justify-content-between">
                               <div>
                                   <div class="p-4 mb-4 feature-icon">
                                       <i class="fas fa-book-reader fa-3x"></i>
                                   </div>
                                   <div class="mb-4">
-                                      <h4>{{ $repository->short_author_name }}</h4>
-                                      <p><small>{{ $repository->nim }} | {{ $repository->study_program }}</small></p>
+                                      <h4>{{ $repository->author->user->name }}</h4>
+                                      <p>
+                                          <small>
+                                              {{ $repository->author->nim }} |
+                                              {{ $repository->author->studyProgram->name }}
+                                          </small>
+                                      </p>
                                   </div>
-                                  <p class="mb-4">{{ $repository->short_title }}</p>
+                                  <p class="mb-4">{{ $repository->title }}</p>
                               </div>
                               <div>
                                   <p>
-                                      <small>{{ $repository->category }}</small>
+                                      <small>{{ $repository->categories[0]['name'] }}</small>
                                   </p>
                                   <p>
                                       <small>

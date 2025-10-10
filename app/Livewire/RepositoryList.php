@@ -2,10 +2,8 @@
 
 namespace App\Livewire;
 
-use App\Data\MetadataData;
 use Livewire\Component;
 use App\Models\Repository;
-use App\Data\RepositoryData;
 use App\Models\MetaData;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
@@ -22,17 +20,17 @@ class RepositoryList extends Component
     public string $title = '';
     public string $year = '';
     public string $status_filter = 'approve';
-    public int|null $repository_id = null;
+    public int|null $meta_data_id = null;
     public bool $is_author_only = false;
     public bool $is_admin = false;
 
     public User $user;
 
-    public function deleteConfirm($repository_slug)
+    public function deleteConfirm($meta_data_slug)
     {
-        $repository = Repository::where('slug', $repository_slug)->first();
+        $meta_data = MetaData::where('slug', $meta_data_slug)->first();
 
-        $this->repository_id = $repository->id;
+        $this->meta_data_id = $meta_data->id;
     }
 
     public function mount()
@@ -52,13 +50,19 @@ class RepositoryList extends Component
 
     public function delete()
     {
-        $repository = Repository::find($this->repository_id);
+        $meta_data = MetaData::find($this->meta_data_id);
 
-        if (Storage::disk('public')->exists($repository->file_path)) {
-            Storage::disk('public')->delete($repository->file_path);
-        };
+        if ($meta_data->categories->isNotEmpty()) {
+            foreach ($meta_data->categories as $key => $category) {
+                if ($file_path = $category->pivot->file_path) {
+                    if (Storage::disk('public')->exists($file_path)) {
+                        Storage::disk('public')->delete($file_path);
+                    }
+                }
+            }
+        }
 
-        $repository->delete();
+        $meta_data->delete();
     }
 
     #[On('refresh-repositories')]
