@@ -7,7 +7,7 @@ use App\Models\Category;
 use Illuminate\Support\Str;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Computed;
-use Illuminate\Support\Facades\Log;
+
 
 class CategoryForm extends Component
 {
