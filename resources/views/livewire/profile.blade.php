@@ -5,13 +5,6 @@
                 <h3>Profile</h3>
                 <p class="text-subtitle text-muted">All data about your account.</p>
             </div>
-            <div class="order-first col-12 col-md-6 order-md-2">
-                <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{ route('profile.index') }}">Profile</a></li>
-                    </ol>
-                </nav>
-            </div>
         </div>
     </div>
     <section id="multiple-column-form">

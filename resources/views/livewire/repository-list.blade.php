@@ -5,13 +5,6 @@
                 <h3>Repository Lists</h3>
                 <p class="text-subtitle text-muted">All Repositories data listed.</p>
             </div>
-            <div class="order-first col-12 col-md-6 order-md-2">
-                <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{ route('repository.index') }}">Repositories</a></li>
-                    </ol>
-                </nav>
-            </div>
         </div>
     </div>
     <div class="card">
@@ -56,7 +49,7 @@
                 </div>
                 <div class="mt-3 col-12">
                     <button class="btn btn-primary w-100 btn-sm" wire:click='resetInput'>
-                        <i class="bi bi-arrow-clockwise"></i>
+                        <span>Reset</span>
                     </button>
                 </div>
             </div>
