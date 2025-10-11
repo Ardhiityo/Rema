@@ -3,10 +3,12 @@
 namespace App\Livewire;
 
 use Livewire\Component;
-use App\Models\Category;
-use Illuminate\Support\Str;
 use Livewire\Attributes\On;
+use Illuminate\Support\Str;
 use Livewire\Attributes\Computed;
+use App\Data\Category\CreateCategoryData;
+use App\Data\Category\UpdateCategoryData;
+use App\Repositories\Contratcs\CategoryRepositoryInterface;
 
 
 class CategoryForm extends Component
@@ -16,6 +18,11 @@ class CategoryForm extends Component
     public string $slug = '';
     public int $category_id;
     public bool $is_update = false;
+
+    public function getCategoryRepositoryProperty(CategoryRepositoryInterface $categoryRepository)
+    {
+        return $categoryRepository;
+    }
 
     #[Computed()]
     public function formTitle()
@@ -44,23 +51,25 @@ class CategoryForm extends Component
 
         $validated = $this->validate();
 
-        Category::create($validated);
+        $create_category_data = CreateCategoryData::from($validated);
+
+        $this->category_repository->create($create_category_data);
 
         $this->resetInput();
 
         $this->dispatch('refresh-categories');
 
-        return session()->flash('message', 'The category was successfully created.');
+        session()->flash('message', 'The category was successfully created.');
     }
 
     #[On('category-edit')]
     public function edit($category_id)
     {
-        $category = Category::find($category_id);
+        $category_data = $this->category_repository->findById($category_id);
 
-        $this->name = $category->name;
+        $this->name = $category_data->name;
 
-        $this->category_id = $category->id;
+        $this->category_id = $category_data->id;
 
         $this->is_update = true;
     }
@@ -73,9 +82,9 @@ class CategoryForm extends Component
 
         $validated = $this->validate();
 
-        $category = Category::find($this->category_id);
+        $update_category_data = UpdateCategoryData::from($validated);
 
-        $category->update($validated);
+        $this->category_repository->update($this->category_id, $update_category_data);
 
         $this->is_update = false;
 
@@ -83,25 +92,25 @@ class CategoryForm extends Component
 
         $this->dispatch('refresh-categories');
 
-        return session()->flash('message', 'The category was successfully updated.');
+        session()->flash('message', 'The category was successfully updated.');
     }
 
     #[On('category-delete-confirm')]
     public function deleteConfirm($category_id)
     {
-        $category = Category::find($category_id);
+        $category_data = $this->category_repository->findById($category_id);
 
-        $this->category_id = $category->id;
+        $this->category_id = $category_data->id;
     }
 
     #[On('category-delete')]
     public function delete()
     {
-        Category::find($this->category_id)->delete();
+        $this->category_repository->delete($this->category_id);
 
         $this->dispatch('refresh-categories');
 
-        return session()->flash('message', 'The category was successfully deleted.');
+        session()->flash('message', 'The category was successfully deleted.');
     }
 
     public function resetInput()
