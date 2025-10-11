@@ -39,6 +39,7 @@ class RepositoryForm extends Component
     public string $visibility = '';
 
     public bool $is_update = false;
+    public bool $is_approve = false;
     public bool $is_edit_meta_data = false;
     public bool $is_edit_repository = false;
 
@@ -70,6 +71,7 @@ class RepositoryForm extends Component
             $this->author_id = $meta_data->author_id;
             $this->status = $meta_data->status;
             $this->visibility = $meta_data->visibility;
+            $this->is_approve = $meta_data->status == 'approve' ? true : false;
             $this->is_update = true;
         }
         if ($data = $this->meta_data_session) {
@@ -102,7 +104,15 @@ class RepositoryForm extends Component
         return false;
     }
 
+    #[Computed()]
+    public function islockForm()
+    {
+        $user = Auth::user();
 
+        if ($user->hasRole('contributor')) {
+            return $this->is_approve;
+        }
+    }
 
     #[Computed()]
     public function metaDataTitle()
@@ -213,7 +223,7 @@ class RepositoryForm extends Component
     public function showRepositoryFrom()
     {
         if ($this->is_update) {
-            return true;
+            return !$this->islockForm();
         }
         return $this->meta_data_session;
     }

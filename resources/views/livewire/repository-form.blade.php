@@ -41,7 +41,8 @@
                     <div>
                         <label for="basicInput" class="form-label">Title</label>
                         <input type="text" required class="form-control" id="basicInput" wire:model='title'
-                            placeholder="ex: Sistem Informasi Management Sekolah">
+                            placeholder="ex: Sistem Informasi Management Sekolah"
+                            {{ $this->islockForm ? 'disabled' : '' }}>
                         @error('slug')
                             <span class="badge bg-danger">
                                 <small>{{ $message }}</small>
@@ -54,7 +55,8 @@
                     <div class="mt-4">
                         <div class="mb-3 form-group">
                             <label for="exampleFormControlTextarea1" class="form-label">Abstract</label>
-                            <textarea class="form-control" id="exampleFormControlTextarea1" wire:model='abstract' rows="3"></textarea>
+                            <textarea class="form-control" id="exampleFormControlTextarea1" wire:model='abstract' rows="3"
+                                {{ $this->islockForm ? 'disabled' : '' }}></textarea>
                             @error('abstract')
                                 <span class="badge bg-danger">
                                     <small>{{ $message }}</small>
@@ -179,16 +181,18 @@
             @else
                 <div class="gap-3 d-flex">
                     @if ($is_update)
-                        <button wire:click='updateMetaData' wire:loading.attr='disabled' class="btn btn-primary"
-                            wire:target='updateMetaData'>
-                            Update
-                            <span wire:loading wire:target='updateMetaData'>
-                                <span class="spinner-border spinner-border-sm text-light" role="status"></span>
-                            </span>
-                        </button>
-                        <button wire:click='resetInputMetaData' class="btn btn-warning">
-                            Clear
-                        </button>
+                        @if (!$this->islockForm)
+                            <button wire:click='updateMetaData' wire:loading.attr='disabled' class="btn btn-primary"
+                                wire:target='updateMetaData'>
+                                Update
+                                <span wire:loading wire:target='updateMetaData'>
+                                    <span class="spinner-border spinner-border-sm text-light" role="status"></span>
+                                </span>
+                            </button>
+                            <button wire:click='resetInputMetaData' class="btn btn-warning">
+                                Clear
+                            </button>
+                        @endif
                     @else
                         <button wire:click='createMetaData' wire:loading.attr='disabled' class="btn btn-primary"
                             wire:target='createMetaData'>
@@ -312,7 +316,9 @@
                                 <th>No</th>
                                 <th>Category</th>
                                 <th>File</th>
-                                <th>Action</th>
+                                @if (!$this->islockForm)
+                                    <th>Action</th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody>
@@ -329,19 +335,21 @@
                                             <i class="bi bi-eye-fill"></i>
                                         </a>
                                     </td>
-                                    <td>
-                                        <div class="gap-3 d-flex justify-content-center align-items-center">
-                                            <button class="btn btn-warning"
-                                                wire:click="editRepository('{{ $this->repositories->slug }}', '{{ $category->slug }}')">
-                                                <i class="bi bi-pencil-square"></i>
-                                            </button>
-                                            <button type="button" class="block btn btn-danger"
-                                                wire:click="deleteConfirmRepository('{{ $this->repositories->slug }}', '{{ $category->slug }}')"
-                                                data-bs-toggle="modal" data-bs-target="#border-less">
-                                                <i class="bi bi-trash3"></i>
-                                            </button>
-                                        </div>
-                                    </td>
+                                    @if (!$this->islockForm)
+                                        <td>
+                                            <div class="gap-3 d-flex justify-content-center align-items-center">
+                                                <button class="btn btn-warning"
+                                                    wire:click="editRepository('{{ $this->repositories->slug }}', '{{ $category->slug }}')">
+                                                    <i class="bi bi-pencil-square"></i>
+                                                </button>
+                                                <button type="button" class="block btn btn-danger"
+                                                    wire:click="deleteConfirmRepository('{{ $this->repositories->slug }}', '{{ $category->slug }}')"
+                                                    data-bs-toggle="modal" data-bs-target="#border-less">
+                                                    <i class="bi bi-trash3"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    @endif
                                 </tr>
                             @empty
                                 <tr>
