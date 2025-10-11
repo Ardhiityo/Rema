@@ -8,6 +8,7 @@ use Livewire\Component;
 use App\Data\AuthorData;
 use App\Models\Category;
 use App\Models\MetaData;
+use App\Services\PdfWatermarkService;
 use App\Data\CategoryData;
 use App\Models\Repository;
 use Illuminate\Support\Str;
@@ -15,7 +16,7 @@ use Livewire\WithFileUploads;
 use Livewire\Attributes\Computed;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
-use App\Services\PdfWatermarkService;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
@@ -61,7 +62,7 @@ class RepositoryForm extends Component
                 ->first();
 
             $this->authorize('update', $meta_data);
-
+            $this->createNewForm();
             $this->meta_data_id = $meta_data->id;
             $this->title = $meta_data->title;
             $this->slug = $meta_data->slug;
@@ -267,15 +268,36 @@ class RepositoryForm extends Component
             return;
         }
 
-        $tempPath = $validated['file_path']->getRealPath(); // file mentah
+        // 1. Ambil path file mentah dari hasil validasi
+        $tempPath = $validated['file_path']->getRealPath();
+
+        // 2. Buat nama file unik
         $filename = uniqid() . '.pdf';
-        $finalPath = storage_path('app/public/repositories/' . $filename);
 
-        // Tambahkan watermark
-        PdfWatermarkService::apply($tempPath, $finalPath, "FIK-UNIVAL-{$author_nim}");
+        // 3. Ambil NIM dari metadata
+        $authorNim = MetaData::find($this->meta_data_id)?->author?->nim ?? 'UNKNOWN';
 
-        // Simpan path ke database
-        $validated['file_path'] = 'repositories/' . $filename;
+        // 4. Tentukan path sementara untuk menyimpan file mentah
+        $tempStoragePath = storage_path("app/temp/{$filename}");
+
+        // 5. Pastikan folder temp ada
+        File::ensureDirectoryExists(dirname($tempStoragePath));
+
+        // 6. Pindahkan file mentah ke folder temp agar bisa dibaca FPDI
+        File::copy($tempPath, $tempStoragePath);
+
+        // 7. Terapkan watermark dan simpan ke storage publik
+        $relativePath = PdfWatermarkService::apply(
+            $tempStoragePath,
+            basename($filename), // ✅ pastikan hanya nama file, bukan path
+            "FIK-UNIVAL-{$authorNim}"
+        );
+
+        // 8. Hapus file temp
+        File::delete($tempStoragePath);
+
+        // 9. Simpan path ke database (tanpa 'public/')
+        $validated['file_path'] = $relativePath;
 
         Repository::create($validated);
 
@@ -329,17 +351,36 @@ class RepositoryForm extends Component
                     Storage::disk('public')->delete($this->file_path_update);
                 }
             }
-            $tempPath = $validated['file_path']->getRealPath(); // file mentah
+            // 1. Ambil path file mentah dari hasil validasi
+            $tempPath = $validated['file_path']->getRealPath();
+
+            // 2. Buat nama file unik
             $filename = uniqid() . '.pdf';
-            $finalPath = storage_path('app/public/repositories/' . $filename);
 
-            $author_nim = MetaData::find($this->meta_data_id)->author->nim;
+            // 3. Ambil NIM dari metadata
+            $authorNim = MetaData::find($this->meta_data_id)?->author?->nim ?? 'UNKNOWN';
 
-            // Tambahkan watermark
-            PdfWatermarkService::apply($tempPath, $finalPath, "FIK-UNIVAL-{$author_nim}");
+            // 4. Tentukan path sementara untuk menyimpan file mentah
+            $tempStoragePath = storage_path("app/temp/{$filename}");
 
-            // Simpan path ke database
-            $validated['file_path'] = 'repositories/' . $filename;
+            // 5. Pastikan folder temp ada
+            File::ensureDirectoryExists(dirname($tempStoragePath));
+
+            // 6. Pindahkan file mentah ke folder temp agar bisa dibaca FPDI
+            File::copy($tempPath, $tempStoragePath);
+
+            // 7. Terapkan watermark dan simpan ke storage publik
+            $relativePath = PdfWatermarkService::apply(
+                $tempStoragePath,
+                basename($filename), // ✅ pastikan hanya nama file, bukan path
+                "FIK-UNIVAL-{$authorNim}"
+            );
+
+            // 8. Hapus file temp
+            File::delete($tempStoragePath);
+
+            // 9. Simpan path ke database (tanpa 'public/')
+            $validated['file_path'] = $relativePath;
         } else {
             $validated['file_path'] = $this->file_path_update;
         }

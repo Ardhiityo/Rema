@@ -14,7 +14,8 @@
         "laravel/socialite": "^5.23",
         "laravel/tinker": "^2.10.1",
         "livewire/livewire": "^3.6",
-        "setasign/fpdi-fpdf": "^2.3",
+        "setasign/fpdf": "^1.8",
+        "setasign/fpdi": "^2.6",
         "spatie/laravel-data": "^4.17",
         "spatie/laravel-permission": "^6.21"
     },

@@ -18,7 +18,7 @@ class RepositoryList extends Component
 
     public string $title = '';
     public string $year = '';
-    public string $visibility = '';
+    public string $visibility = 'public';
     public string $status_filter = 'approve';
     public int|null $meta_data_id = null;
     public bool $is_author_only = false;
@@ -105,6 +105,7 @@ class RepositoryList extends Component
         $this->title = '';
         $this->year = '';
         $this->status_filter = 'approve';
+        $this->visibility = 'public';
 
         $this->resetPage();
     }
