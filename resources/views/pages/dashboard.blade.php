@@ -35,14 +35,14 @@
                         </div>
                         <div class="pb-4 card-content">
                             @forelse ($recently_adds as $recently_add)
-                                <a href="{{ route('repository.show', ['repository' => $recently_add->slug]) }}">
+                                <a href="{{ route('repository.show', ['meta_data' => $recently_add->slug]) }}">
                                     <div class="px-4 py-3 recent-message d-flex">
                                         <div class="avatar avatar-lg">
-                                            <img src="{{ asset('assets/compiled/jpg/5.jpg') }}">
+                                            <img src="{{ $recently_add->avatar }}">
                                         </div>
                                         <div class="name ms-4">
                                             <h5 class="mb-1">{{ $recently_add->author }}</h5>
-                                            <h6 class="mb-0 text-muted">{{ $recently_add->type }}</h6>
+                                            <h6 class="mb-0 text-muted">{{ $recently_add->categories }}</h6>
                                         </div>
                                     </div>
                                 </a>
@@ -83,10 +83,10 @@
                                                     <tr>
                                                         <td class="col-3">
                                                             <a
-                                                                href="{{ route('repository.show', ['repository' => $latest_repository->slug]) }}">
+                                                                href="{{ route('repository.show', ['meta_data' => $latest_repository->slug]) }}">
                                                                 <div class="d-flex align-items-center">
                                                                     <div class="avatar avatar-md">
-                                                                        <img src="./assets/compiled/jpg/2.jpg">
+                                                                        <img src="{{ $latest_repository->avatar }}">
                                                                     </div>
                                                                     <p class="mb-0 font-bold ms-3">
                                                                         {{ $latest_repository->author }}</p>
@@ -95,7 +95,7 @@
                                                         </td>
                                                         <td class="col-auto">
                                                             <a
-                                                                href="{{ route('repository.show', ['repository' => $latest_repository->slug]) }}">
+                                                                href="{{ route('repository.show', ['meta_data' => $latest_repository->slug]) }}">
                                                                 <p class="mb-0">{{ $latest_repository->title }}
                                                                 </p>
                                                             </a>
