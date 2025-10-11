@@ -3,10 +3,10 @@
 namespace App\Livewire;
 
 use Livewire\Component;
-use App\Models\StudyProgram;
-use App\Data\StudyProgramData;
 use Livewire\Attributes\On;
+use App\Models\StudyProgram;
 use Livewire\WithPagination;
+use  App\Data\StudyProgram\StudyProgramData;
 
 class StudyProgramList extends Component
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Data;
+namespace App\Data\StudyProgram;
 
 use App\Models\StudyProgram;
 use Spatie\LaravelData\Data;

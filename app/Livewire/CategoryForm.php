@@ -19,7 +19,7 @@ class CategoryForm extends Component
     public int $category_id;
     public bool $is_update = false;
 
-    public function getCategoryRepositoryProperty(CategoryRepositoryInterface $categoryRepository)
+    public function categoryRepositoryProperty(CategoryRepositoryInterface $categoryRepository)
     {
         return $categoryRepository;
     }

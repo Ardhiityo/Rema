@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Data;
+namespace App\Data\Category;
 
 use App\Models\Category;
 use Spatie\LaravelData\Data;
@@ -8,10 +8,10 @@ use Spatie\LaravelData\Data;
 class CategoryData extends Data
 {
     public function __construct(
-        public int|null $id,
+        public int $id,
         public string $name,
         public string $slug,
-        public string|null $created_at
+        public string $created_at
     ) {}
 
     public static function fromModel(Category $category)

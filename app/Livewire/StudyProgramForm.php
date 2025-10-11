@@ -2,9 +2,12 @@
 
 namespace App\Livewire;
 
+use App\Data\StudyProgram\CreateStudyProgramData;
+use App\Data\StudyProgram\UpdateStudyProgramData;
 use Livewire\Component;
 use Illuminate\Support\Str;
 use App\Models\StudyProgram;
+use App\Repositories\Contratcs\StudyProgramRepositoryInterface;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 
@@ -36,13 +39,20 @@ class StudyProgramForm extends Component
         ];
     }
 
+    public function getStudyProgramRepositoryProperty(StudyProgramRepositoryInterface $studyProgramRepository): StudyProgramRepositoryInterface
+    {
+        return $studyProgramRepository;
+    }
+
     public function create()
     {
         $this->slug = Str::slug($this->name);
 
         $validated = $this->validate();
 
-        StudyProgram::create($validated);
+        $create_study_program_data = CreateStudyProgramData::from($validated);
+
+        $this->study_program_repository->create($create_study_program_data);
 
         $this->resetInput();
 
@@ -54,11 +64,11 @@ class StudyProgramForm extends Component
     #[On('study-program-edit')]
     public function edit($study_program_id)
     {
-        $study_program = StudyProgram::find($study_program_id);
+        $study_program_data = $this->study_program_repository->findById($study_program_id);
 
-        $this->name = $study_program->name;
-        $this->slug = $study_program->slug;
-        $this->study_program_id = $study_program->id;
+        $this->name = $study_program_data->name;
+        $this->slug = $study_program_data->slug;
+        $this->study_program_id = $study_program_data->id;
 
         $this->is_update = true;
     }
@@ -67,9 +77,9 @@ class StudyProgramForm extends Component
     {
         $validated = $this->validate();
 
-        $study_program = StudyProgram::find($this->study_program_id);
+        $update_study_program_data = UpdateStudyProgramData::from($validated);
 
-        $study_program->update($validated);
+        $this->study_program_repository->update($this->study_program_id, $update_study_program_data);
 
         $this->is_update = false;
 
@@ -83,16 +93,16 @@ class StudyProgramForm extends Component
     #[On('study-program-delete-confirm')]
     public function deleteConfirm($study_program_id)
     {
-        $study_program = StudyProgram::find($study_program_id);
+        $study_program_data = $this->study_program_repository->findById($study_program_id);
 
-        $this->study_program_id = $study_program->id;
-        $this->name = $study_program->name;
+        $this->study_program_id = $study_program_data->id;
+        $this->name = $study_program_data->name;
     }
 
     #[On('study-program-delete')]
     public function delete()
     {
-        StudyProgram::find($this->study_program_id)->delete();
+        $this->study_program_repository->delete($this->study_program_id);
 
         $this->dispatch('refresh-study-programs');
 

@@ -4,9 +4,9 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use App\Models\Category;
-use App\Data\CategoryData;
 use Livewire\Attributes\On;
 use Livewire\WithPagination;
+use App\Data\Category\CategoryData;
 
 class CategoryList extends Component
 {

@@ -10,12 +10,14 @@ use App\Repositories\Contratcs\CategoryRepositoryInterface;
 
 class CategoryRepository implements CategoryRepositoryInterface
 {
-    public function create(CreateCategoryData $category)
+    public function create(CreateCategoryData $category): CategoryData
     {
-        Category::create([
+        $category = Category::create([
             'name' => $category->name,
             'slug' => $category->slug
         ]);
+
+        return CategoryData::fromModel($category);
     }
 
     public function findById(int $category_id): CategoryData
