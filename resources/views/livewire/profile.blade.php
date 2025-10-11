@@ -1,12 +1,5 @@
 <div>
-    <div class="page-title">
-        <div class="row">
-            <div class="order-last col-12 col-md-6 order-md-1">
-                <h3>Profile</h3>
-                <p class="text-subtitle text-muted">All data about your account.</p>
-            </div>
-        </div>
-    </div>
+    <x-page-title :title="'Profile'" :content="'All data about your account.'" />
     <section id="multiple-column-form">
         <div class="row match-height">
             <div class="col-12">

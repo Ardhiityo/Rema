@@ -1,12 +1,6 @@
 <div>
-    <div class="page-title">
-        <div class="row">
-            <div class="order-last col-12 col-md-6 order-md-1">
-                <h3>Repository Forms</h3>
-                <p class="text-subtitle text-muted">Form Repository data.</p>
-            </div>
-        </div>
-    </div>
+    <x-page-title :title="'Repository Forms'" :content="'Form Repository data.'" />
+
     {{-- Meta Data Form --}}
     <div class="card">
         <div class="card-header">

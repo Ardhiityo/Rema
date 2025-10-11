@@ -1,12 +1,5 @@
 <div>
-    <div class="page-title">
-        <div class="row">
-            <div class="order-last col-12 col-md-6 order-md-1">
-                <h3>Repository Lists</h3>
-                <p class="text-subtitle text-muted">All Repositories data listed.</p>
-            </div>
-        </div>
-    </div>
+    <x-page-title :title="'Repository Lists'" :content="'All Repositories data listed.'" />
     <div class="card">
         <div class="card-header">
             <div class="gap-3 row d-flex gap-md-0">
