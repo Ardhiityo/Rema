@@ -11,6 +11,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Livewire\Attributes\Computed;
 
 class Profile extends Component
 {
@@ -77,6 +78,16 @@ class Profile extends Component
         ];
     }
 
+    #[Computed()]
+    public function isLockForm()
+    {
+        $user = Auth::user();
+
+        if ($user->hasRole('contributor')) {
+            return $user->author->status == 'approve' ? true : false;
+        }
+    }
+
     public function resetInput()
     {
         $this->name = '';
@@ -103,9 +114,16 @@ class Profile extends Component
 
     public function update()
     {
-        $validated = $this->validate();
-
         $user = Auth::user();
+
+        if ($this->isLockForm()) {
+            $this->name = $user->name;
+            $this->nim = $user->author->nim;
+            $this->study_program_id = $user->author->study_program_id;
+            $this->avatar = null;
+        }
+
+        $validated = $this->validate();
 
         if ($user->hasRole('contributor')) {
             $data = [];

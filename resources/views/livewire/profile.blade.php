@@ -40,7 +40,8 @@
                                         <div class="form-group">
                                             <label for="first-name-column" class="form-label">Name</label>
                                             <input type="text" id="first-name-column" class="form-control"
-                                                placeholder="ex: Arya Adhi Prasetyo" name="name" wire:model='name'>
+                                                placeholder="ex: Arya Adhi Prasetyo" name="name" wire:model='name'
+                                                {{ $this->isLockForm ? 'disabled' : '' }}>
                                             @error('name')
                                                 <span class="badge bg-danger fs-6">
                                                     <small>{{ $message }}</small>
@@ -56,7 +57,8 @@
                                             <div class="form-group">
                                                 <label for="first-name-column" class="form-label">NIM</label>
                                                 <input type="text" id="first-name-column" class="form-control"
-                                                    placeholder="ex: 22040004" name="nim" wire:model='nim'>
+                                                    placeholder="ex: 22040004" name="nim" wire:model='nim'
+                                                    {{ $this->isLockForm ? 'disabled' : '' }}>
                                                 @error('nim')
                                                     <span class="badge bg-danger">
                                                         <small>{{ $message }}</small>
@@ -75,7 +77,7 @@
                                                     Study Program
                                                 </label>
                                                 <select class="form-select" id="inputGroupSelect01"
-                                                    wire:model='study_program_id'>
+                                                    wire:model='study_program_id' {{ $this->isLockForm ? 'disabled' : '' }}>
                                                     <option selected>Choose...</option>
                                                     @foreach ($study_programs as $study_program)
                                                         <option value="{{ $study_program->id }}">
@@ -124,7 +126,8 @@
                                         <div class="form-group">
                                             <label for="country-floating" class="form-label">Avatar</label>
                                             <input class="form-control" type="file" id="formFile"
-                                                accept="application/jpg,application/png" wire:model='avatar'>
+                                                accept="application/jpg,application/png" wire:model='avatar'
+                                                {{ $this->isLockForm ? 'disabled' : '' }}>
                                             @error('avatar')
                                                 <span class="badge bg-danger">
                                                     <small>{{ $message }}</small>
