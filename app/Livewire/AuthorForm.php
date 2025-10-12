@@ -156,9 +156,9 @@ class AuthorForm extends Component
     #[On('author-delete-confirm')]
     public function deleteConfirm($author_id)
     {
-        $author_data = $this->author->repository->findById($author_id);
+        $author_data = $this->author_repository->findById($author_id);
 
-        $this->user_id = $author_data->user->id;
+        $this->user_id = $author_data->user_id;
     }
 
     #[On('author-delete')]

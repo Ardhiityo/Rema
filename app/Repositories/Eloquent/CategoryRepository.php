@@ -3,7 +3,9 @@
 namespace App\Repositories\Eloquent;
 
 use App\Models\Category;
+use App\Models\Repository;
 use App\Data\Category\CategoryData;
+use Illuminate\Support\Facades\Storage;
 use App\Data\Category\CreateCategoryData;
 use App\Data\Category\UpdateCategoryData;
 use App\Repositories\Contratcs\CategoryRepositoryInterface;
@@ -41,7 +43,18 @@ class CategoryRepository implements CategoryRepositoryInterface
 
     public function delete(int $category_id): bool
     {
-        $category = Category::findOrFail($category_id);
+        $category = Category::findOrFail($category_id)->load('metadata');
+
+        if ($category->metadata->isNotEmpty()) {
+            foreach ($category->metadata as $data) {
+                $file_path = $data->pivot->file_path ?? null;
+                if ($file_path) {
+                    if (Storage::disk('public')->exists($file_path)) {
+                        Storage::disk('public')->delete($file_path);
+                    }
+                }
+            }
+        }
 
         return $category->delete();
     }

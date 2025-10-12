@@ -78,12 +78,16 @@ class UserRepository implements UserRepositoryInterface
 
         $meta_data = MetaData::with('categories')->where('author_id', $author_id)->get();
 
-        foreach ($meta_data as $category) {
-            $file_path = $category->pivot->file_path ?? null;
+        foreach ($meta_data as $data) {
+            if ($data->categories->isNotEmpty()) {
+                foreach ($data->categories as $category) {
+                    $file_path = $category->pivot->file_path ?? null;
 
-            if ($file_path) {
-                if (Storage::disk('public')->exists($file_path)) {
-                    Storage::disk('public')->delete($file_path);
+                    if ($file_path) {
+                        if (Storage::disk('public')->exists($file_path)) {
+                            Storage::disk('public')->delete($file_path);
+                        }
+                    }
                 }
             }
         }
