@@ -4,7 +4,6 @@ namespace App\Livewire;
 
 use App\Models\Author;
 use Livewire\Component;
-use App\Data\User\UserData;
 use Livewire\Attributes\On;
 use App\Models\StudyProgram;
 use Livewire\WithFileUploads;

@@ -12,8 +12,11 @@ use App\Repositories\Contratcs\StudyProgramRepositoryInterface;
 
 class StudyProgramForm extends Component
 {
+    // Start Form
     public string $name = '';
     public string $slug = '';
+    // End Form
+
     public int $study_program_id;
     public bool $is_update = false;
 
@@ -57,7 +60,7 @@ class StudyProgramForm extends Component
 
         $this->dispatch('refresh-study-programs');
 
-        return session()->flash('message', 'The study program was successfully created.');
+        session()->flash('message', 'The study program was successfully created.');
     }
 
     #[On('study-program-edit')]
@@ -65,17 +68,17 @@ class StudyProgramForm extends Component
     {
         $study_program_data = $this->study_program_repository->findById($study_program_id);
 
-        $this->name = $study_program_data->name;
-
-        $this->slug = $study_program_data->slug;
-
         $this->study_program_id = $study_program_data->id;
+
+        $this->name = $study_program_data->name;
 
         $this->is_update = true;
     }
 
     public function update()
     {
+        $this->slug = Str::slug($this->name);
+
         $validated = $this->validate();
 
         $update_study_program_data = UpdateStudyProgramData::from($validated);
@@ -88,7 +91,7 @@ class StudyProgramForm extends Component
 
         $this->dispatch('refresh-study-programs');
 
-        return session()->flash('message', 'The study program was successfully updated.');
+        session()->flash('message', 'The study program was successfully updated.');
     }
 
     #[On('study-program-delete-confirm')]
@@ -108,7 +111,12 @@ class StudyProgramForm extends Component
 
         $this->dispatch('refresh-study-programs');
 
-        return session()->flash('message', 'The study program was successfully deleted.');
+        if ($this->is_update) {
+            $this->resetInput();
+            $this->is_update = false;
+        }
+
+        session()->flash('message', 'The study program was successfully deleted.');
     }
 
     public function resetInput()

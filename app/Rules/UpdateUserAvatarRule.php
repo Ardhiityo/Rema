@@ -35,7 +35,7 @@ class UpdateUserAvatarRule implements ValidationRule
             }
 
             if ($size > $this->max_KB * 1024) {
-                $fail("The file size must not exceed {$this->max_KB}KB.");
+                $fail("The {$attribute} field must not be greater than {$this->max_KB} kilobytes.");
             }
         }
     }

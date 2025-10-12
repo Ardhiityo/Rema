@@ -10,16 +10,18 @@ use App\Data\Category\CreateCategoryData;
 use App\Data\Category\UpdateCategoryData;
 use App\Repositories\Contratcs\CategoryRepositoryInterface;
 
-
 class CategoryForm extends Component
 {
+    // Start Form
     public string $keyword = '';
     public string $name = '';
     public string $slug = '';
+    // End Form
+
     public int $category_id;
     public bool $is_update = false;
 
-    public function categoryRepositoryProperty(CategoryRepositoryInterface $categoryRepository)
+    public function getCategoryRepositoryProperty(CategoryRepositoryInterface $categoryRepository)
     {
         return $categoryRepository;
     }
@@ -108,6 +110,11 @@ class CategoryForm extends Component
         $this->category_repository->delete($this->category_id);
 
         $this->dispatch('refresh-categories');
+
+        if ($this->is_update) {
+            $this->resetInput();
+            $this->is_update = false;
+        }
 
         session()->flash('message', 'The category was successfully deleted.');
     }
