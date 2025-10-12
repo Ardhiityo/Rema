@@ -10,9 +10,9 @@ class AuthorListData extends Data
 {
     public function __construct(
         public int $id,
-        public int $nim,
+        public int|null $nim,
         public string $name,
-        public string $study_program,
+        public string|null $study_program,
         public string|null $avatar,
     ) {}
 
@@ -20,9 +20,9 @@ class AuthorListData extends Data
     {
         return new self(
             $author->id,
-            $author->nim,
+            $author->nim ?? null,
             $author->user->name,
-            $author->studyProgram->name,
+            $author->studyProgram->name ?? null,
             $author->user->avatar ? Storage::url($author->user->avatar) : null
         );
     }

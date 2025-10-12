@@ -23,11 +23,11 @@ class AuthorForm extends Component
     use WithFileUploads;
 
     // Form Start
-    public int|string $nim = '';
+    public int|string|null $nim = '';
     public string $email = '';
     public string $password = '';
     public string $name = '';
-    public int|string $study_program_id = '';
+    public int|string|null $study_program_id = '';
     public string $status = '';
     public  $avatar = null;
     // Form End
@@ -53,7 +53,7 @@ class AuthorForm extends Component
     {
         return [
             'name' => ['required', 'min:3', 'max:50'],
-            'nim' => ['required', 'min:8', 'max:50', 'unique:authors,nim'],
+            'nim' => ['required', 'numeric', 'digits_between:8,15', 'unique:authors,nim'],
             'study_program_id' => ['required', 'exists:study_programs,id'],
             'avatar' => ['required', 'file', 'mimes:jpg,png', 'max:1000'],
             'email' => ['required', 'email:dns', 'unique:users,email'],
@@ -66,7 +66,7 @@ class AuthorForm extends Component
     {
         return [
             'name' => ['required', 'min:3', 'max:50'],
-            'nim' => ['required', 'min:8', 'max:50', 'unique:authors,nim,' . $this->author_id],
+            'nim' => ['required', 'numeric', 'digits_between:8,15', 'unique:authors,nim,' . $this->author_id],
             'study_program_id' => ['required', 'exists:study_programs,id'],
             'avatar' => [new UpdateUserAvatarRule(user_id: $this->user_id, max_KB: 1000, allowedMimes: ['jpg', 'png'])],
             'email' => ['required', 'email:dns', 'unique:users,email,' . $this->user_id],
@@ -169,6 +169,12 @@ class AuthorForm extends Component
 
         $this->dispatch('refresh-authors');
 
+        if ($this->is_update) {
+            $this->resetInput();
+            $this->is_update = false;
+            $this->display_avatar = false;
+        }
+
         session()->flash('message', 'The author was successfully deleted.');
     }
 
@@ -181,6 +187,7 @@ class AuthorForm extends Component
         $this->password = '';
         $this->status = '';
         $this->avatar = '';
+
         $this->resetErrorBag();
     }
 

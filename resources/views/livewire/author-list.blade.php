@@ -42,9 +42,9 @@
                     @forelse ($this->authors as $key => $author)
                         <tr class="text-nowrap" wire:key="{{ $key }}">
                             <td class="text-bold-500">{{ $loop->index + $this->authors->firstItem() }}</td>
-                            <td class="text-bold-500">{{ $author->nim }}</td>
+                            <td class="text-bold-500">{{ $author->nim ?? '-' }}</td>
                             <td class="text-bold-500">{{ $author->name }}</td>
-                            <td class="text-bold-500">{{ $author->study_program }}</td>
+                            <td class="text-bold-500">{{ $author->study_program ?? '-' }}</td>
                             <td>
                                 <div class="d-flex justify-content-center">
                                     @if ($avatar = $author->avatar)
