@@ -87,8 +87,6 @@ class CategoryForm extends Component
 
         $this->category_repository->update($this->category_id, $update_category_data);
 
-        $this->is_update = false;
-
         $this->resetInput();
 
         $this->dispatch('refresh-categories');
@@ -111,10 +109,7 @@ class CategoryForm extends Component
 
         $this->dispatch('refresh-categories');
 
-        if ($this->is_update) {
-            $this->resetInput();
-            $this->is_update = false;
-        }
+        $this->resetInput();
 
         session()->flash('message', 'The category was successfully deleted.');
     }
@@ -124,6 +119,10 @@ class CategoryForm extends Component
         $this->keyword = '';
         $this->name = '';
         $this->slug = '';
+
+        if ($this->is_update) {
+            $this->is_update = false;
+        }
 
         $this->resetErrorBag();
     }

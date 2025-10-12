@@ -3,10 +3,11 @@
 namespace App\Repositories\Eloquent;
 
 use App\Models\User;
+use App\Models\MetaData;
 use App\Data\User\UserData;
 use App\Data\User\CreateUserData;
 use App\Data\User\UpdateUserData;
-use App\Models\MetaData;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use App\Repositories\Contratcs\UserRepositoryInterface;
@@ -36,22 +37,24 @@ class UserRepository implements UserRepositoryInterface
     {
         $user = User::findOrFail($user_id);
 
-        $avatar = $update_user_data->avatar;
+        $old_avatar = $user->avatar;
 
-        if ($avatar) {
-            if (Storage::disk('public')->exists($avatar)) {
-                Storage::disk('public')->delete($avatar);
-            }
-            $avatar = $avatar->store('avatars', 'public');
+        $new_avatar = $update_user_data->avatar ?? null;
+
+        if (empty($new_avatar)) {
+            $new_avatar = $old_avatar;
         } else {
-            $avatar = $user->avatar;
+            if (Storage::disk('public')->exists($old_avatar)) {
+                Storage::disk('public')->delete($old_avatar);
+            }
+            $new_avatar = $new_avatar->store('avatars', 'public');
         }
 
         $password = $update_user_data->password ? Hash::make($update_user_data->password) : $user->password;
 
         $user->update([
             'name' => $update_user_data->name,
-            'avatar' => $avatar,
+            'avatar' => $new_avatar,
             'email' => $update_user_data->email,
             'password' => $password
         ]);
@@ -63,7 +66,7 @@ class UserRepository implements UserRepositoryInterface
     {
         $user = User::findOrFail($user_id);
 
-        $avatar = $user->avatar;
+        $avatar = $user->avatar ?? null;
 
         if ($avatar) {
             if (Storage::disk('public')->exists($avatar)) {
@@ -75,7 +78,7 @@ class UserRepository implements UserRepositoryInterface
 
         $meta_data = MetaData::with('categories')->where('author_id', $author_id)->get();
 
-        foreach ($meta_data as $key => $category) {
+        foreach ($meta_data as $category) {
             $file_path = $category->pivot->file_path ?? null;
 
             if ($file_path) {

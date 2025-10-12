@@ -2,7 +2,6 @@
 
 namespace App\Livewire;
 
-use App\Models\Author;
 use Livewire\Component;
 use Livewire\Attributes\On;
 use App\Models\StudyProgram;
@@ -157,9 +156,9 @@ class AuthorForm extends Component
     #[On('author-delete-confirm')]
     public function deleteConfirm($author_id)
     {
-        $author = Author::find($author_id);
+        $author_data = $this->author->repository->findById($author_id);
 
-        $this->user_id = $author->user->id;
+        $this->user_id = $author_data->user->id;
     }
 
     #[On('author-delete')]
@@ -169,11 +168,9 @@ class AuthorForm extends Component
 
         $this->dispatch('refresh-authors');
 
-        if ($this->is_update) {
-            $this->resetInput();
-            $this->is_update = false;
-            $this->display_avatar = false;
-        }
+        $this->resetInput();
+
+        $this->display_avatar = false;
 
         session()->flash('message', 'The author was successfully deleted.');
     }
@@ -187,6 +184,10 @@ class AuthorForm extends Component
         $this->password = '';
         $this->status = '';
         $this->avatar = '';
+
+        if ($this->is_update) {
+            $this->is_update = false;
+        }
 
         $this->resetErrorBag();
     }

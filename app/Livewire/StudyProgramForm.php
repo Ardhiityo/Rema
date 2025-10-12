@@ -85,8 +85,6 @@ class StudyProgramForm extends Component
 
         $this->study_program_repository->update($this->study_program_id, $update_study_program_data);
 
-        $this->is_update = false;
-
         $this->resetInput();
 
         $this->dispatch('refresh-study-programs');
@@ -111,10 +109,7 @@ class StudyProgramForm extends Component
 
         $this->dispatch('refresh-study-programs');
 
-        if ($this->is_update) {
-            $this->resetInput();
-            $this->is_update = false;
-        }
+        $this->resetInput();
 
         session()->flash('message', 'The study program was successfully deleted.');
     }
@@ -123,6 +118,10 @@ class StudyProgramForm extends Component
     {
         $this->name = '';
         $this->slug = '';
+
+        if ($this->is_update) {
+            $this->is_update = false;
+        }
 
         $this->resetErrorBag();
     }
