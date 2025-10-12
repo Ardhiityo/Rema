@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Data;
+namespace App\Data\User;
 
 use App\Models\User;
 use Illuminate\Support\Str;
@@ -20,7 +20,7 @@ class UserData extends Data
         public string $name,
         public string $email,
         public string $password,
-        public string|bool $avatar
+        public string|null $avatar
     ) {
         $this->short_name = Str::limit($name, 12, 'xxx');
         $this->short_email = Str::limit($email, '12', 'xxx');
@@ -33,7 +33,7 @@ class UserData extends Data
             $user->name,
             $user->email,
             $user->password,
-            $user->avatar ? Storage::url($user->avatar) : false
+            $user->avatar ? $user->avatar : null
         );
     }
 }

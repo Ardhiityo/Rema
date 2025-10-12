@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Data\UserData;
-use App\Models\Repository;
-use App\Data\RecentlyAddData;
 use App\Models\MetaData;
+use App\Data\User\UserData;
+use App\Data\RecentlyAddData;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 

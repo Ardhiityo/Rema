@@ -90,34 +90,32 @@
                     {{-- Study Program --}}
 
                     {{-- Status --}}
-                    @if ($is_update)
-                        <div>
-                            <div class="input-group">
-                                <label class="input-group-text" for="status" class="form-label">
-                                    Status
-                                </label>
-                                <select class="form-select" id="status" wire:model='status'>
-                                    <option value="">
-                                        Choose...
-                                    </option>
-                                    <option value="approve">
-                                        Approve
-                                    </option>
-                                    <option value="pending">
-                                        Pending
-                                    </option>
-                                    <option value="reject">
-                                        Reject
-                                    </option>
-                                </select>
-                            </div>
-                            @error('status')
-                                <span class="badge bg-danger">
-                                    <small>{{ $message }}</small>
-                                </span>
-                            @enderror
+                    <div>
+                        <div class="input-group">
+                            <label class="input-group-text" for="status" class="form-label">
+                                Status
+                            </label>
+                            <select class="form-select" id="status" wire:model='status'>
+                                <option value="">
+                                    Choose...
+                                </option>
+                                <option value="approve">
+                                    Approve
+                                </option>
+                                <option value="pending">
+                                    Pending
+                                </option>
+                                <option value="reject">
+                                    Reject
+                                </option>
+                            </select>
                         </div>
-                    @endif
+                        @error('status')
+                            <span class="badge bg-danger">
+                                <small>{{ $message }}</small>
+                            </span>
+                        @enderror
+                    </div>
                     {{-- Status --}}
 
                     {{-- Avatar --}}

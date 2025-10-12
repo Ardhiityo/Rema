@@ -74,7 +74,6 @@ class CategoryForm extends Component
         $this->is_update = true;
     }
 
-
     #[On('category-update')]
     public function update()
     {

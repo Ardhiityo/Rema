@@ -2,14 +2,13 @@
 
 namespace App\Livewire;
 
+use Livewire\Component;
+use Livewire\Attributes\On;
+use Illuminate\Support\Str;
+use Livewire\Attributes\Computed;
 use App\Data\StudyProgram\CreateStudyProgramData;
 use App\Data\StudyProgram\UpdateStudyProgramData;
-use Livewire\Component;
-use Illuminate\Support\Str;
-use App\Models\StudyProgram;
 use App\Repositories\Contratcs\StudyProgramRepositoryInterface;
-use Livewire\Attributes\Computed;
-use Livewire\Attributes\On;
 
 class StudyProgramForm extends Component
 {
@@ -67,7 +66,9 @@ class StudyProgramForm extends Component
         $study_program_data = $this->study_program_repository->findById($study_program_id);
 
         $this->name = $study_program_data->name;
+
         $this->slug = $study_program_data->slug;
+
         $this->study_program_id = $study_program_data->id;
 
         $this->is_update = true;
@@ -96,6 +97,7 @@ class StudyProgramForm extends Component
         $study_program_data = $this->study_program_repository->findById($study_program_id);
 
         $this->study_program_id = $study_program_data->id;
+
         $this->name = $study_program_data->name;
     }
 

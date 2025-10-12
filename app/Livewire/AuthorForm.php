@@ -2,36 +2,42 @@
 
 namespace App\Livewire;
 
-use App\Models\User;
 use App\Models\Author;
 use Livewire\Component;
-use App\Data\AuthorData;
+use App\Data\User\UserData;
 use Livewire\Attributes\On;
 use App\Models\StudyProgram;
 use Livewire\WithFileUploads;
-use App\Data\StudyProgramData;
+use App\Data\User\CreateUserData;
+use App\Data\User\UpdateUserData;
 use Livewire\Attributes\Computed;
+use App\Rules\UpdateUserAvatarRule;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
+use App\Data\Author\CreateAuthorData;
+use App\Data\Author\UpdateAuthorData;
+use App\Data\StudyProgram\StudyProgramData;
+use App\Repositories\Contratcs\UserRepositoryInterface;
+use App\Repositories\Contratcs\AuthorRepositoryInterface;
 
 class AuthorForm extends Component
 {
     use WithFileUploads;
 
-    public string $name = '';
-    public string|null $nim = '';
+    // Form Start
+    public int|string $nim = '';
     public string $email = '';
     public string $password = '';
-    public $avatar;
-    public string|bool|null $display_avatar = '';
+    public string $name = '';
+    public int|string $study_program_id = '';
     public string $status = '';
-    public int|null $study_program_id = null;
+    public  $avatar = null;
+    // Form End
+
+    public string|bool $display_avatar = false;
     public int|null $author_id = null;
     public int|null $user_id = null;
     #[Computed()]
     public bool $is_update = false;
-    public User $user;
 
     #[Computed()]
     public function formTitle()
@@ -44,51 +50,30 @@ class AuthorForm extends Component
         $this->display_avatar = false;
     }
 
-    protected function rules()
+    protected function rulesCreate(): array
     {
         return [
             'name' => ['required', 'min:3', 'max:50'],
-            'nim' => $this->is_update ? [
-                'required',
-                'min:8',
-                'max:50',
-                'unique:authors,nim,' . $this->author_id
-            ] : [
-                'required',
-                'min:8',
-                'max:50',
-                'unique:authors,nim'
-            ],
+            'nim' => ['required', 'min:8', 'max:50', 'unique:authors,nim'],
             'study_program_id' => ['required', 'exists:study_programs,id'],
-            'avatar' => $this->avatarRule(),
-            'email' => $this->is_update ? [
-                'required',
-                'email:dns',
-                'unique:users,email,' . $this->user_id
-            ] : [
-                'required',
-                'email:dns',
-                'unique:users,email'
-            ],
-            'password' => $this->is_update ? [
-                'nullable',
-                'min:8',
-                'max:50'
-            ] : [
-                'required',
-                'min:8',
-                'max:50'
-            ],
+            'avatar' => ['required', 'file', 'mimes:jpg,png', 'max:1000'],
+            'email' => ['required', 'email:dns', 'unique:users,email'],
+            'password' =>  ['required', 'min:8', 'max:50'],
             'status' => ['required', 'in:approve,reject,pending']
         ];
     }
 
-    public function avatarRule()
+    public function rulesUpdate(): array
     {
-        if ($this->is_update) {
-            return is_null($this->user->avatar) ? ['required', 'file', 'mimes:jpg,png', 'max:1000'] : ['nullable', 'file', 'mimes:jpg,png', 'max:1000'];
-        }
-        return ['required', 'file', 'mimes:jpg,png', 'max:1000'];
+        return [
+            'name' => ['required', 'min:3', 'max:50'],
+            'nim' => ['required', 'min:8', 'max:50', 'unique:authors,nim,' . $this->author_id],
+            'study_program_id' => ['required', 'exists:study_programs,id'],
+            'avatar' => [new UpdateUserAvatarRule(user_id: $this->user_id, max_KB: 1000, allowedMimes: ['jpg', 'png'])],
+            'email' => ['required', 'email:dns', 'unique:users,email,' . $this->user_id],
+            'password' => ['nullable', 'min:8', 'max:50'],
+            'status' => ['required', 'in:approve,reject,pending']
+        ];
     }
 
     protected function validationAttributes()
@@ -98,96 +83,76 @@ class AuthorForm extends Component
         ];
     }
 
+    public function getUserRepositoryProperty(UserRepositoryInterface $userRepository)
+    {
+        return $userRepository;
+    }
+
+    public function getAuthorRepositoryProperty(AuthorRepositoryInterface $authorRepository)
+    {
+        return $authorRepository;
+    }
+
     public function create()
     {
-        $this->status = 'approve';
+        $validated = $this->validate($this->rulesCreate());
 
-        $validated = $this->validate();
+        $create_user_data = CreateUserData::from($validated);
 
-        if (!is_null($validated['avatar'])) {
-            $validated['avatar'] = $validated['avatar']->store('avatars', 'public');
-        }
+        $user_data = $this->user_repository->create($create_user_data);
 
-        $user = User::create([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'password' => $validated['password'],
-            'avatar' => $validated['avatar']
-        ]);
+        $validated['user_id'] = $user_data->id;
 
-        $user->author()->create([
-            'nim' => $validated['nim'],
-            'study_program_id' => $validated['study_program_id'],
-            'status' => $validated['status']
-        ]);
+        $create_author_data = CreateAuthorData::from($validated);
+
+        $this->author_repository->create($create_author_data);
 
         $this->resetInput();
 
         $this->dispatch('refresh-authors');
 
-        return session()->flash('message', 'The author was successfully created.');
+        session()->flash('message', 'The author was successfully created.');
     }
 
     #[On('author-edit')]
     public function edit($author_id)
     {
-        $author = Author::find($author_id)->load(['user', 'studyProgram']);
-        $this->user = $author->user;
-        $author_data = AuthorData::fromModel($author);
-        $this->user_id = $author_data->user_id;
-        $this->author_id = $author_data->author_id;
-        $this->name = $author_data->name;
+        $author_data = $this->author_repository->findById($author_id);
+        $this->author_id = $author_data->id;
         $this->nim = $author_data->nim;
-        $this->email = $author_data->email;
         $this->study_program_id = $author_data->study_program_id;
         $this->status = $author_data->status;
-        $this->display_avatar = $author_data->avatar;
+
+        $user_data = $this->user_repository->findById($author_data->user_id);
+        $this->user_id = $user_data->id;
+        $this->name = $user_data->name;
+        $this->email = $user_data->email;
+        $this->display_avatar = $user_data->avatar;
+
         $this->is_update = true;
     }
 
     public function update()
     {
-        $validated = $this->validate();
-        $user = User::find($this->user_id);
+        $validated = $this->validate($this->rulesUpdate());
 
-        if (!empty($validated['avatar'])) {
-            if (!is_null($user->avatar)) {
-                if (Storage::disk('public')->exists($user->avatar)) {
-                    Storage::disk('public')->delete($user->avatar);
-                }
-            }
-            $validated['avatar'] = $validated['avatar']->store('avatars', 'public');
-        } else {
-            $validated['avatar'] = $user->avatar;
-        }
+        $update_user_data = UpdateUserData::from($validated);
 
-        if (!empty($validated['password'])) {
-            $validated['password'] = Hash::make($validated['password']);
-        } else {
-            $validated['password'] = $user->password;
-        }
+        $this->user_repository->update($this->user_id, $update_user_data);
 
-        $user->update([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'password' => $validated['password'],
-            'avatar' => $validated['avatar']
-        ]);
+        $update_author_data = UpdateAuthorData::from($validated);
 
-        $user->author()->update([
-            'nim' => $validated['nim'],
-            'study_program_id' => $validated['study_program_id'],
-            'status' => $validated['status']
-        ]);
+        $this->author_repository->update($this->author_id, $update_author_data);
 
         $this->dispatch('refresh-authors');
 
-        $this->is_update = !$this->is_update;
+        $this->is_update = false;
+
         $this->display_avatar = false;
 
         $this->resetInput();
 
-        return session()->flash('message', 'The author was successfully updated.');
+        session()->flash('message', 'The author was successfully updated.');
     }
 
     #[On('author-delete-confirm')]
@@ -201,26 +166,18 @@ class AuthorForm extends Component
     #[On('author-delete')]
     public function delete()
     {
-        $user = User::find($this->user_id);
-
-        if (!is_null($user->avatar)) {
-            if (Storage::disk('public')->exists($user->avatar)) {
-                Storage::disk('public')->delete($user->avatar);
-            }
-        }
-
-        $user->delete();
+        $this->user_repository->delete($this->user_id);
 
         $this->dispatch('refresh-authors');
 
-        return session()->flash('message', 'The author was successfully deleted.');
+        session()->flash('message', 'The author was successfully deleted.');
     }
 
     public function resetInput()
     {
         $this->name = '';
         $this->nim = '';
-        $this->study_program_id = null;
+        $this->study_program_id = '';
         $this->email = '';
         $this->password = '';
         $this->status = '';

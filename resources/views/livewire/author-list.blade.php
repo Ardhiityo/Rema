@@ -39,16 +39,16 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($this->authors as $author)
-                        <tr class="text-nowrap">
+                    @forelse ($this->authors as $key => $author)
+                        <tr class="text-nowrap" wire:key="{{ $key }}">
                             <td class="text-bold-500">{{ $loop->index + $this->authors->firstItem() }}</td>
                             <td class="text-bold-500">{{ $author->nim }}</td>
                             <td class="text-bold-500">{{ $author->name }}</td>
-                            <td class="text-bold-500">{{ $author->study_program_name }}</td>
+                            <td class="text-bold-500">{{ $author->study_program }}</td>
                             <td>
                                 <div class="d-flex justify-content-center">
-                                    @if ($author->avatar)
-                                        <img src="{{ $author->avatar }}" alt="{{ $author->name }}"
+                                    @if ($avatar = $author->avatar)
+                                        <img src="{{ $avatar }}" alt="{{ $author->name }}"
                                             style="width: 38px; height: 38px; border-radius: 100%;">
                                     @else
                                         -
@@ -57,13 +57,12 @@
                             </td>
                             <td>
                                 <div class="gap-3 d-flex justify-content-center align-items-center">
-                                    <button
-                                        wire:click="$dispatch('author-edit', { author_id: '{{ $author->author_id }}' })"
-                                        wire:key="{{ $author->nim }}" class="btn btn-warning">
+                                    <button wire:click="$dispatch('author-edit', { author_id: '{{ $author->id }}' })"
+                                        class="btn btn-warning">
                                         <i class="bi bi-pencil-square"></i>
                                     </button>
                                     <button type="button"
-                                        wire:click="$dispatch('author-delete-confirm', {author_id : '{{ $author->author_id }}'})"
+                                        wire:click="$dispatch('author-delete-confirm', {author_id : '{{ $author->id }}'})"
                                         class="block btn btn-danger" data-bs-toggle="modal"
                                         data-bs-target="#border-less">
                                         <i class="bi bi-trash3"></i>

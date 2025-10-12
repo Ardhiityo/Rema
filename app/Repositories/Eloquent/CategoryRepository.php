@@ -3,7 +3,7 @@
 namespace App\Repositories\Eloquent;
 
 use App\Models\Category;
-use App\Data\CategoryData;
+use App\Data\Category\CategoryData;
 use App\Data\Category\CreateCategoryData;
 use App\Data\Category\UpdateCategoryData;
 use App\Repositories\Contratcs\CategoryRepositoryInterface;

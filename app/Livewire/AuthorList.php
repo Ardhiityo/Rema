@@ -4,9 +4,9 @@ namespace App\Livewire;
 
 use App\Models\Author;
 use Livewire\Component;
-use App\Data\AuthorData;
 use Livewire\Attributes\On;
 use Livewire\WithPagination;
+use App\Data\Author\AuthorListData;
 
 class AuthorList extends Component
 {
@@ -33,7 +33,7 @@ class AuthorList extends Component
 
         $query->with(['studyProgram', 'user']);
 
-        return AuthorData::collect(
+        return AuthorListData::collect(
             $query->orderByDesc('id')->paginate(10)
         );
     }
