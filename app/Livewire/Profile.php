@@ -73,6 +73,12 @@ class Profile extends Component
             'password' => ['nullable', 'min:8', 'max:100'],
         ];
     }
+    protected function validationAttributes()
+    {
+        return [
+            'study_program_id' => 'study program'
+        ];
+    }
 
     public function updatedAvatar()
     {
