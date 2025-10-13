@@ -29,7 +29,7 @@
                                                 placeholder="ex: Arya Adhi Prasetyo" name="name" wire:model='name'
                                                 {{ $this->isLockForm ? 'disabled' : '' }}>
                                             @error('name')
-                                                <span class="badge bg-danger fs-6">
+                                                <span class="badge bg-danger text-wrap">
                                                     <small>{{ $message }}</small>
                                                 </span>
                                             @enderror
@@ -46,7 +46,7 @@
                                                     placeholder="ex: 22040004" name="nim" wire:model='nim'
                                                     {{ $this->isLockForm ? 'disabled' : '' }}>
                                                 @error('nim')
-                                                    <span class="badge bg-danger">
+                                                    <span class="badge bg-danger text-wrap">
                                                         <small>{{ $message }}</small>
                                                     </span>
                                                 @enderror
@@ -73,7 +73,7 @@
                                                 </select>
                                             </div>
                                             @error('study_program_id')
-                                                <span class="badge bg-danger">
+                                                <span class="badge bg-danger text-wrap">
                                                     <small>{{ $message }}</small>
                                                 </span>
                                             @enderror
@@ -99,7 +99,7 @@
                                                 placeholder="min: 8 characters" name="city-column"
                                                 wire:model='password'>
                                             @error('password')
-                                                <span class="badge bg-danger">
+                                                <span class="badge bg-danger text-wrap">
                                                     <small>{{ $message }}</small>
                                                 </span>
                                             @enderror
@@ -112,17 +112,17 @@
                                         <div class="form-group">
                                             <label for="country-floating" class="form-label">Avatar</label>
                                             <input class="form-control" type="file" id="formFile"
-                                                accept="application/jpg,application/png" wire:model='avatar'
+                                                accept=".jpg,.jpeg,.png" wire:model='avatar'
                                                 {{ $this->isLockForm ? 'disabled' : '' }}>
                                             @error('avatar')
-                                                <span class="badge bg-danger">
+                                                <span class="badge bg-danger text-wrap">
                                                     <small>{{ $message }}</small>
                                                 </span>
                                             @enderror
                                         </div>
                                         @if ($display_avatar)
                                             <div class="py-3">
-                                                <img src="{{ $display_avatar }}" class="rounded-circle"
+                                                <img src="{{ Storage::url($display_avatar) }}" class="rounded-circle"
                                                     style="width: 100px; height: 100px;" alt="...">
                                             </div>
                                         @endif

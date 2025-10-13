@@ -44,8 +44,10 @@ class UserRepository implements UserRepositoryInterface
         if (empty($new_avatar)) {
             $new_avatar = $old_avatar;
         } else {
-            if (Storage::disk('public')->exists($old_avatar)) {
-                Storage::disk('public')->delete($old_avatar);
+            if ($old_avatar) {
+                if (Storage::disk('public')->exists($old_avatar)) {
+                    Storage::disk('public')->delete($old_avatar);
+                }
             }
             $new_avatar = $new_avatar->store('avatars', 'public');
         }

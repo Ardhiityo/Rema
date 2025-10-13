@@ -10,7 +10,7 @@ class AuthorListData extends Data
 {
     public function __construct(
         public int $id,
-        public int|null $nim,
+        public int|null|string $nim,
         public string $name,
         public string|null $study_program,
         public string|null $avatar,
