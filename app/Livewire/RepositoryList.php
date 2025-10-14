@@ -5,7 +5,6 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Models\MetaData;
 use App\Models\User;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
@@ -26,13 +25,6 @@ class RepositoryList extends Component
 
     public User $user;
 
-    public function deleteConfirm($meta_data_slug)
-    {
-        $meta_data = MetaData::where('slug', $meta_data_slug)->first();
-
-        $this->meta_data_id = $meta_data->id;
-    }
-
     public function mount()
     {
         $user = Auth::user();
@@ -46,6 +38,13 @@ class RepositoryList extends Component
         if ($user->hasRole('admin')) {
             $this->is_admin = true;
         }
+    }
+
+    public function deleteConfirm($meta_data_slug)
+    {
+        $meta_data = MetaData::where('slug', $meta_data_slug)->first();
+
+        $this->meta_data_id = $meta_data->id;
     }
 
     public function delete()

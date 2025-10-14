@@ -1,0 +1,111 @@
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title d-flex justify-content-between">
+            <span>
+                {{ $this->repositoryTitle() }}
+            </span>
+            <span>
+                Step 2/2
+            </span>
+        </h4>
+        @if (session()->has('repository-success'))
+            <div class="mt-4 alert-success alert">
+                {{ session('repository-success') }}
+            </div>
+        @endif
+    </div>
+    <div class="card-body">
+        <div class="mb-4 row">
+            <div class="form-group">
+                {{-- Category --}}
+                <div>
+                    <div class="input-group">
+                        <label class="input-group-text" for="category_id" class="form-label">
+                            Category
+                        </label>
+                        <select class="form-select" id="category_id" wire:model='category_id'>
+                            <option value="">
+                                Choose...
+                            </option>
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}">
+                                    {{ $category->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    @error('category_id')
+                        <span class="badge bg-danger">
+                            <small>{{ $message }}</small>
+                        </span>
+                    @enderror
+                </div>
+                {{-- Category --}}
+
+                {{-- File Path --}}
+                <div class="mt-4">
+                    <label for="file_path" class="form-label">
+                        File
+                    </label>
+                    <input class="form-control" wire:model='file_path' type="file" id="file_path"
+                        accept="application/pdf">
+                    @error('file_path')
+                        <span class="badge bg-danger">
+                            <small>{{ $message }}</small>
+                        </span>
+                    @enderror
+                </div>
+                {{-- File Path --}}
+            </div>
+        </div>
+        {{-- Display Medum ++ only --}}
+        <div class="gap-3 d-md-flex d-none">
+            @if ($is_update)
+                <button wire:click='updateRepository' wire:loading.attr='disabled' class="btn btn-primary"
+                    wire:target='updateRepository'>
+                    Update
+                    <span wire:loading wire:target='updateRepository'>
+                        <span class="spinner-border spinner-border-sm text-light" role="status"></span>
+                    </span>
+                </button>
+            @else
+                <button wire:click='createRepository' wire:loading.attr='disabled' class="btn btn-primary"
+                    wire:target='createRepository'>
+                    Add
+                    <span wire:loading wire:target='createRepository'>
+                        <span class="spinner-border spinner-border-sm text-light" role="status"></span>
+                    </span>
+                </button>
+            @endif
+            <button wire:click='resetInput' class="btn btn-warning">
+                Clear
+            </button>
+        </div>
+        {{-- Display Medum ++ only --}}
+
+        {{-- Display Small only --}}
+        <div class="gap-3 d-md-none d-flex">
+            @if ($is_update)
+                <button wire:click='updateRepository' wire:loading.attr='disabled' class="btn btn-primary btn-sm"
+                    wire:target='updateRepository'>
+                    Update
+                    <span wire:loading wire:target='updateRepository'>
+                        <span class="spinner-border spinner-border-sm text-light" role="status"></span>
+                    </span>
+                </button>
+            @else
+                <button wire:click='createRepository' wire:loading.attr='disabled' class="btn btn-primary btn-sm"
+                    wire:target='createRepository'>
+                    Add
+                    <span wire:loading wire:target='createRepository'>
+                        <span class="spinner-border spinner-border-sm text-light" role="status"></span>
+                    </span>
+                </button>
+            @endif
+            <button wire:click='resetInput' class="btn btn-warning btn-sm">
+                Clear
+            </button>
+        </div>
+        {{-- Display Small only --}}
+    </div>
+</div>
