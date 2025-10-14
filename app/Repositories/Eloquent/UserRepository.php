@@ -7,7 +7,6 @@ use App\Models\MetaData;
 use App\Data\User\UserData;
 use App\Data\User\CreateUserData;
 use App\Data\User\UpdateUserData;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use App\Repositories\Contratcs\UserRepositoryInterface;
@@ -22,6 +21,8 @@ class UserRepository implements UserRepositoryInterface
             'password' => $create_user_data->password,
             'avatar' => $create_user_data->avatar->store('avatars', 'public')
         ]);
+
+        $user->assignRole('contributor');
 
         return UserData::fromModel($user);
     }

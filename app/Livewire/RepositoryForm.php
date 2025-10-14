@@ -17,7 +17,8 @@ class RepositoryForm extends Component
     {
         if (request()->routeIs('repository.edit')) {
             $this->meta_data_slug = request()->route('meta_data_slug');
-            if ($this->metaDataRepository->findBySlug($this->meta_data_slug)) {
+            if ($meta_data_data = $this->metaDataRepository->findBySlug($this->meta_data_slug)) {
+                $this->authorize('update', $meta_data_data->toModel());
                 $this->is_update = true;
                 session()->forget('meta_data');
             } else {

@@ -6,7 +6,6 @@ use App\Models\Note;
 use Livewire\Component;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Computed;
-use Illuminate\Support\Facades\Log;
 
 class NoteForm extends Component
 {

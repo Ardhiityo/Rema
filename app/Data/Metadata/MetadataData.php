@@ -2,11 +2,11 @@
 
 namespace App\Data\Metadata;
 
-use App\Data\Category\CategoryData;
 use App\Models\MetaData;
-use Spatie\LaravelData\Attributes\DataCollectionOf;
 use Spatie\LaravelData\Data;
+use App\Data\Category\CategoryData;
 use Spatie\LaravelData\DataCollection;
+use Spatie\LaravelData\Attributes\DataCollectionOf;
 
 class MetadataData extends Data
 {
@@ -36,5 +36,16 @@ class MetadataData extends Data
             $meta_data->status,
             CategoryData::collect($meta_data->categories, DataCollection::class)
         );
+    }
+
+    public function toModel(): MetaData
+    {
+        $meta_data = new MetaData();
+
+        $meta_data->fill([
+            'author_id' =>  $this->author_id,
+        ]);
+
+        return $meta_data;
     }
 }

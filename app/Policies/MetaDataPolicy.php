@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\Models\Metadata;
+use App\Models\MetaData;
 use App\Models\User;
 
 class MetaDataPolicy
@@ -18,7 +18,7 @@ class MetaDataPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Metadata $meta_data): bool
+    public function view(User $user, MetaData $meta_data): bool
     {
         if ($user->hasRole('contributor')) {
             return $user->author->id == $meta_data->author_id;
