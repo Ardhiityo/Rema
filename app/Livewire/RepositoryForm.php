@@ -7,10 +7,12 @@ use App\Models\MetaData;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Computed;
 use App\Repositories\Contratcs\MetaDataRepositoryInterface;
+use App\Repositories\Contratcs\MetaDataCategoryRepositoryInterface;
 
 class RepositoryForm extends Component
 {
     public bool $is_update = false;
+    public bool $is_edit_repository_category_form = false;
     public string $meta_data_slug = '';
 
     public function mount()
@@ -34,6 +36,12 @@ class RepositoryForm extends Component
     }
 
     #[Computed()]
+    public function metaDataCategoryRepository()
+    {
+        return app(MetaDataCategoryRepositoryInterface::class);
+    }
+
+    #[Computed()]
     public function metaDataSession()
     {
         if (session()->has('meta_data')) {
@@ -49,9 +57,27 @@ class RepositoryForm extends Component
     }
 
     #[Computed()]
+    #[On('edit-repository-category')]
+    public function isEditRepositoryCategoryForm($meta_data_slug, $category_slug)
+    {
+        $metadata_categories_exist = $this->metaDataCategoryRepository
+            ->findByMetaDataSlugAndCategorySlug($meta_data_slug, $category_slug);
+
+        if ($metadata_categories_exist) {
+            $this->is_edit_repository_category_form = true;
+
+            return $this->showRepositoryCategoryFrom;
+        }
+    }
+
+    #[Computed()]
     #[On('refresh-meta-data-session')]
     public function showRepositoryCategoryFrom()
     {
+        if ($is_update = $this->is_update) {
+            return $is_update;
+        }
+
         return $this->metaDataSession;
     }
 

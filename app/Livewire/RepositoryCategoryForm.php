@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Rules\RepositoryCategoryCreateRule;
 use App\Rules\RepositoryCategoryUpdateRule;
 use App\Repositories\Contratcs\MetaDataRepositoryInterface;
+use App\Repositories\Contratcs\MetaDataCategoryRepositoryInterface;
 
 class RepositoryCategoryForm extends Component
 {
@@ -39,14 +40,10 @@ class RepositoryCategoryForm extends Component
         if ($this->metaDataSession) {
             $this->meta_data_id = $this->metaDataSession->id;
         }
-
-        if (request()->routeIs('repository.edit')) {
-            $this->is_update = true;
-        }
     }
 
     #[Computed()]
-    public function repositoryTitle()
+    public function title()
     {
         return $this->is_update ? 'Edit Repository' : 'Create Repository';
     }
@@ -90,6 +87,12 @@ class RepositoryCategoryForm extends Component
     public function metaDataRepository()
     {
         return app(MetaDataRepositoryInterface::class);
+    }
+
+    #[Computed()]
+    public function metaDataCategoryRepository()
+    {
+        return app(MetaDataCategoryRepositoryInterface::class);
     }
 
     #[Computed()]
@@ -151,26 +154,14 @@ class RepositoryCategoryForm extends Component
     #[On('edit-repository-category')]
     public function editRepository($meta_data_slug, $category_slug)
     {
-        $repository = Repository::whereHas(
-            'category',
-            fn($query) => $query->where('slug', $category_slug)
-        )
-            ->whereHas(
-                'metadata',
-                function ($query) use ($meta_data_slug) {
-                    $user = Auth::user();
-                    if ($user->hasRole('contributor')) {
-                        $query->where('author_id', $user->author->id);
-                    }
-                    $query->where('slug', $meta_data_slug);
-                }
-            )
-            ->first();
+        $meta_data_category_data = $this->metaDataCategoryRepository
+            ->findByMetaDataSlugAndCategorySlug($meta_data_slug, $category_slug);
 
-        $this->meta_data_id = $repository->meta_data_id;
-        $this->category_id_update = $repository->category_id;
-        $this->category_id = $repository->category_id;
-        $this->file_path_update = $repository->file_path;
+        $this->meta_data_id = $meta_data_category_data->meta_data_id;
+        $this->category_id = $meta_data_category_data->category_id;
+
+        $this->category_id_update = $meta_data_category_data->category_id;
+        $this->file_path_update = $meta_data_category_data->file_path;
 
         $this->is_update = true;
     }
@@ -239,6 +230,8 @@ class RepositoryCategoryForm extends Component
         $this->resetInput();
 
         $this->is_update = false;
+
+        $this->dispatch('refresh-repository-table');
 
         session()->flash('repository-success', 'The repository was successfully updated.');
     }

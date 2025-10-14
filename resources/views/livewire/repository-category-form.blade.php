@@ -2,7 +2,7 @@
     <div class="card-header">
         <h4 class="card-title d-flex justify-content-between">
             <span>
-                {{ $this->repositoryTitle() }}
+                {{ $this->title }}
             </span>
             <span>
                 Step 2/2
@@ -58,6 +58,7 @@
                 {{-- File Path --}}
             </div>
         </div>
+
         {{-- Display Medum ++ only --}}
         <div class="gap-3 d-md-flex d-none">
             @if ($is_update)
