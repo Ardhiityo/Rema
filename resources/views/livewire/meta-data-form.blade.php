@@ -2,7 +2,7 @@
         <div class="card-header">
             <h4 class="card-title d-flex justify-content-between">
                 <span>
-                    {{ $this->metaDataTitle() }}
+                    {{ $this->metaDataTitle }}
                 </span>
                 <span>
                     Step 1/2
@@ -151,7 +151,7 @@
                     @if ($this->metaDataSession)
                         <button wire:click='createNewForm' wire:loading.attr='disabled' class="btn btn-danger"
                             wire:target='createNewForm'>
-                            New Form
+                            New
                             <span wire:loading wire:target='createNewForm'>
                                 <span class="spinner-border spinner-border-sm text-light" role="status"></span>
                             </span>

@@ -16,7 +16,6 @@ class RepositoryForm extends Component
     public bool $is_approve = false;
     public bool $is_categories_empty = false;
 
-    #[On('refresh-repository-table')]
     public function mount()
     {
         if (request()->routeIs('repository.edit')) {

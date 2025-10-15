@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Attributes\Scope;
 
 class Author extends Model
 {
@@ -21,5 +23,11 @@ class Author extends Model
     public function metadata()
     {
         return $this->hasMany(MetaData::class, 'author_id', 'id');
+    }
+
+    #[Scope]
+    public function approve(Builder $query)
+    {
+        $query->where('status', 'approve');
     }
 }

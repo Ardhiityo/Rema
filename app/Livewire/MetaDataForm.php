@@ -3,14 +3,15 @@
 namespace App\Livewire;
 
 use Carbon\Carbon;
-use App\Models\Author;
 use Livewire\Component;
 use Illuminate\Support\Str;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Computed;
 use App\Data\Author\AuthorListData;
 use Illuminate\Support\Facades\Auth;
 use App\Data\Metadata\CreateMetaData;
 use App\Data\MetaData\UpdateMetaData;
+use App\Repositories\Contratcs\AuthorRepositoryInterface;
 use App\Repositories\Contratcs\MetaDataRepositoryInterface;
 
 class MetaDataForm extends Component
@@ -28,31 +29,33 @@ class MetaDataForm extends Component
     public bool $is_update = false;
     public bool $is_approve = false;
 
-    public function mount()
+    public function mount($meta_data_id = null)
     {
-        if (request()->routeIs('repository.edit')) {
-            $meta_data_slug = request()->route('meta_data_slug');
-            $meta_data =  $this->metaDataRepository->findBySlug($meta_data_slug);
+        if ($meta_data_id) {
             $this->createNewForm();
-            $this->meta_data_id = $meta_data->id;
-            $this->title = $meta_data->title;
-            $this->slug = $meta_data->slug;
-            $this->abstract = $meta_data->abstract;
-            $this->author_id = $meta_data->author_id;
-            $this->status = $meta_data->status;
-            $this->visibility = $meta_data->visibility;
-            $this->is_approve = $meta_data->status == 'approve' ? true : false;
             $this->is_update = true;
+
+            $meta_data_data =  $this->metaDataRepository->findById($meta_data_id);
+            $this->meta_data_id = $meta_data_data->id;
+            $this->title = $meta_data_data->title;
+            $this->slug = $meta_data_data->slug;
+            $this->abstract = $meta_data_data->abstract;
+            $this->author_id = $meta_data_data->author_id;
+            $this->status = $meta_data_data->status;
+            $this->visibility = $meta_data_data->visibility;
+            $this->is_approve = $meta_data_data->status == 'approve' ? true : false;
+            logger($this->is_approve);
         }
 
         if ($meta_data_session = $this->metaDataSession) {
+            $this->is_update = true;
+
             $this->meta_data_id = $meta_data_session->id;
             $this->title = $meta_data_session->title;
             $this->abstract = $meta_data_session->abstract;
             $this->author_id = $meta_data_session->author_id;
             $this->status = $meta_data_session->status;
             $this->visibility = $meta_data_session->visibility;
-            $this->is_update = true;
         }
     }
 
@@ -67,6 +70,8 @@ class MetaDataForm extends Component
     public function createNewForm()
     {
         session()->forget('meta_data');
+
+        $this->is_update = false;
 
         $this->dispatch('refresh-meta-data-session');
 
@@ -84,6 +89,7 @@ class MetaDataForm extends Component
                 return $this->createNewForm();
             }
         }
+
         return false;
     }
 
@@ -103,7 +109,8 @@ class MetaDataForm extends Component
         if ($this->is_update) {
             return 'Edit Meta Data';
         }
-        return 'Create Meta Data';
+
+        return $this->metaDataSession ? 'Edit Meta Data' : 'Create Meta Data';
     }
 
     protected function rules(): array
@@ -130,6 +137,12 @@ class MetaDataForm extends Component
         return app(MetaDataRepositoryInterface::class);
     }
 
+    #[Computed()]
+    public function authorRepository()
+    {
+        return app(AuthorRepositoryInterface::class);
+    }
+
     public function createMetaData()
     {
         $user = Auth::user();
@@ -153,6 +166,8 @@ class MetaDataForm extends Component
         $this->meta_data_id = $meta_data_data->id;
 
         session()->put('meta_data', $meta_data_data);
+
+        $this->is_update = true;
 
         $this->dispatch('refresh-meta-data-session');
 
@@ -204,10 +219,9 @@ class MetaDataForm extends Component
 
     public function render()
     {
-        $authors = AuthorListData::collect(
-            Author::with('user')
-                ->where('status', 'approve')->get()
-        );
+        $relations = ['user'];
+
+        $authors = AuthorListData::collect($this->authorRepository->findByApprovals($relations));
 
         return view('livewire.meta-data-form', compact('authors'));
     }

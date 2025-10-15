@@ -4,8 +4,10 @@ namespace App\Repositories\Eloquent;
 
 use App\Models\Author;
 use App\Data\Author\AuthorData;
+use App\Data\Author\AuthorListData;
 use App\Data\Author\CreateAuthorData;
 use App\Data\Author\UpdateAuthorData;
+use Spatie\LaravelData\DataCollection;
 use App\Repositories\Contratcs\AuthorRepositoryInterface;
 
 class AuthorRepository implements AuthorRepositoryInterface
@@ -40,5 +42,16 @@ class AuthorRepository implements AuthorRepositoryInterface
         ]);
 
         return AuthorData::fromModel($author->refresh());
+    }
+
+    public function findByApprovals(array|null $relations = null): DataCollection
+    {
+        $authors = Author::query();
+
+        if ($relations) {
+            $authors->with($relations);
+        }
+
+        return AuthorListData::collect($authors->get(), DataCollection::class);
     }
 }
