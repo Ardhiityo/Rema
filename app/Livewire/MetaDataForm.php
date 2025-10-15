@@ -5,7 +5,6 @@ namespace App\Livewire;
 use Carbon\Carbon;
 use Livewire\Component;
 use Illuminate\Support\Str;
-use Livewire\Attributes\On;
 use Livewire\Attributes\Computed;
 use App\Data\Author\AuthorListData;
 use Illuminate\Support\Facades\Auth;
@@ -44,7 +43,6 @@ class MetaDataForm extends Component
             $this->status = $meta_data_data->status;
             $this->visibility = $meta_data_data->visibility;
             $this->is_approve = $meta_data_data->status == 'approve' ? true : false;
-            logger($this->is_approve);
         }
 
         if ($meta_data_session = $this->metaDataSession) {

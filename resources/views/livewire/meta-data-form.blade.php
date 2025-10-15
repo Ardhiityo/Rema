@@ -138,20 +138,22 @@
             @if ($this->is_update)
                 {{-- Display Medium ++ only --}}
                 <div class="gap-3 align-items-center d-none d-md-flex">
-                    <button wire:click='updateMetaData' wire:loading.attr='disabled' class="btn btn-primary"
-                        wire:target='updateMetaData'>
-                        Update
-                        <span wire:loading wire:target='updateMetaData'>
-                            <span class="spinner-border spinner-border-sm text-light" role="status"></span>
-                        </span>
-                    </button>
-                    <button wire:click='resetInput' class="btn btn-warning">
-                        Clear
-                    </button>
+                    @if (!$this->islockForm)
+                        <button wire:click='updateMetaData' wire:loading.attr='disabled' class="btn btn-primary"
+                            wire:target='updateMetaData'>
+                            Update
+                            <span wire:loading wire:target='updateMetaData'>
+                                <span class="spinner-border spinner-border-sm text-light" role="status"></span>
+                            </span>
+                        </button>
+                        <button wire:click='resetInput' class="btn btn-warning">
+                            Clear
+                        </button>
+                    @endif
                     @if ($this->metaDataSession)
                         <button wire:click='createNewForm' wire:loading.attr='disabled' class="btn btn-danger"
                             wire:target='createNewForm'>
-                            New
+                            New Form
                             <span wire:loading wire:target='createNewForm'>
                                 <span class="spinner-border spinner-border-sm text-light" role="status"></span>
                             </span>
@@ -162,17 +164,19 @@
 
                 {{-- Display Small only --}}
                 <div class="gap-3 align-items-centere d-flex d-md-none">
-                    <button wire:click='updateMetaData' wire:loading.attr='disabled' class="btn btn-sm btn-primary"
-                        wire:target='updateMetaData'>
-                        Update
-                        <span wire:loading wire:target='updateMetaData'>
-                            <span class="spinner-border spinner-border-sm text-light" role="status"></span>
-                        </span>
-                    </button>
-                    <button wire:click='resetInput' class="btn btn-warning btn-sm">
-                        Clear
-                    </button>
-                    @if (!$is_update)
+                    @if (!$this->islockForm)
+                        <button wire:click='updateMetaData' wire:loading.attr='disabled' class="btn btn-sm btn-primary"
+                            wire:target='updateMetaData'>
+                            Update
+                            <span wire:loading wire:target='updateMetaData'>
+                                <span class="spinner-border spinner-border-sm text-light" role="status"></span>
+                            </span>
+                        </button>
+                        <button wire:click='resetInput' class="btn btn-warning btn-sm">
+                            Clear
+                        </button>
+                    @endif
+                    @if ($this->metaDataSession)
                         <button wire:click='createNewForm' wire:loading.attr='disabled' class="btn btn-danger btn-sm"
                             wire:target='createNewForm'>
                             New Form
@@ -218,6 +222,7 @@
                 <div class="gap-3 d-flex d-md-none">
                     @if ($is_update)
                         @if (!$this->islockForm)
+                            @dd($this->islockForm)
                             <button wire:click='updateMetaData' wire:loading.attr='disabled'
                                 class="btn btn-primary btn-sm" wire:target='updateMetaData'>
                                 Update

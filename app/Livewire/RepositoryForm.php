@@ -5,6 +5,7 @@ namespace App\Livewire;
 use Livewire\Component;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Computed;
+use Illuminate\Support\Facades\Auth;
 use App\Repositories\Contratcs\MetaDataRepositoryInterface;
 use App\Repositories\Contratcs\MetaDataCategoryRepositoryInterface;
 
@@ -78,8 +79,8 @@ class RepositoryForm extends Component
     #[On('refresh-meta-data-session')]
     public function showRepositoryCategoryFrom()
     {
-        if ($is_update = $this->is_update) {
-            return $is_update;
+        if ($this->is_update) {
+            return $this->is_approve && Auth::user()->hasRole('contributor') ? false : true;
         }
 
         return $this->metaDataSession;
