@@ -41,7 +41,8 @@ class StudyProgramForm extends Component
         ];
     }
 
-    public function getStudyProgramRepositoryProperty(StudyProgramRepositoryInterface $studyProgramRepository): StudyProgramRepositoryInterface
+    #[Computed()]
+    public function studyProgramRepository(StudyProgramRepositoryInterface $studyProgramRepository)
     {
         return $studyProgramRepository;
     }
@@ -54,7 +55,7 @@ class StudyProgramForm extends Component
 
         $create_study_program_data = CreateStudyProgramData::from($validated);
 
-        $this->study_program_repository->create($create_study_program_data);
+        $this->studyProgramRepository->create($create_study_program_data);
 
         $this->resetInput();
 
@@ -66,7 +67,7 @@ class StudyProgramForm extends Component
     #[On('study-program-edit')]
     public function edit($study_program_id)
     {
-        $study_program_data = $this->study_program_repository->findById($study_program_id);
+        $study_program_data = $this->studyProgramRepository->findById($study_program_id);
 
         $this->study_program_id = $study_program_data->id;
 
@@ -83,7 +84,7 @@ class StudyProgramForm extends Component
 
         $update_study_program_data = UpdateStudyProgramData::from($validated);
 
-        $this->study_program_repository->update($this->study_program_id, $update_study_program_data);
+        $this->studyProgramRepository->update($this->study_program_id, $update_study_program_data);
 
         $this->resetInput();
 
@@ -95,7 +96,7 @@ class StudyProgramForm extends Component
     #[On('study-program-delete-confirm')]
     public function deleteConfirm($study_program_id)
     {
-        $study_program_data = $this->study_program_repository->findById($study_program_id);
+        $study_program_data = $this->studyProgramRepository->findById($study_program_id);
 
         $this->study_program_id = $study_program_data->id;
 
@@ -105,7 +106,7 @@ class StudyProgramForm extends Component
     #[On('study-program-delete')]
     public function delete()
     {
-        $this->study_program_repository->delete($this->study_program_id);
+        $this->studyProgramRepository->delete($this->study_program_id);
 
         $this->dispatch('refresh-study-programs');
 

@@ -81,12 +81,14 @@ class AuthorForm extends Component
         ];
     }
 
-    public function getUserRepositoryProperty(UserRepositoryInterface $userRepository)
+    #[Computed()]
+    public function userRepository(UserRepositoryInterface $userRepository)
     {
         return $userRepository;
     }
 
-    public function getAuthorRepositoryProperty(AuthorRepositoryInterface $authorRepository)
+    #[Computed()]
+    public function authorRepository(AuthorRepositoryInterface $authorRepository)
     {
         return $authorRepository;
     }
@@ -97,13 +99,13 @@ class AuthorForm extends Component
 
         $create_user_data = CreateUserData::from($validated);
 
-        $user_data = $this->user_repository->create($create_user_data);
+        $user_data = $this->userRepository->create($create_user_data);
 
         $validated['user_id'] = $user_data->id;
 
         $create_author_data = CreateAuthorData::from($validated);
 
-        $this->author_repository->create($create_author_data);
+        $this->authorRepository->create($create_author_data);
 
         $this->resetInput();
 
@@ -115,13 +117,13 @@ class AuthorForm extends Component
     #[On('author-edit')]
     public function edit($author_id)
     {
-        $author_data = $this->author_repository->findById($author_id);
+        $author_data = $this->authorRepository->findById($author_id);
         $this->author_id = $author_data->id;
         $this->nim = $author_data->nim;
         $this->study_program_id = $author_data->study_program_id;
         $this->status = $author_data->status;
 
-        $user_data = $this->user_repository->findById($author_data->user_id);
+        $user_data = $this->userRepository->findById($author_data->user_id);
         $this->user_id = $user_data->id;
         $this->name = $user_data->name;
         $this->email = $user_data->email;
@@ -136,11 +138,11 @@ class AuthorForm extends Component
 
         $update_user_data = UpdateUserData::from($validated);
 
-        $this->user_repository->update($this->user_id, $update_user_data);
+        $this->userRepository->update($this->user_id, $update_user_data);
 
         $update_author_data = UpdateAuthorData::from($validated);
 
-        $this->author_repository->update($this->author_id, $update_author_data);
+        $this->authorRepository->update($this->author_id, $update_author_data);
 
         $this->dispatch('refresh-authors');
 
@@ -156,7 +158,7 @@ class AuthorForm extends Component
     #[On('author-delete-confirm')]
     public function deleteConfirm($author_id)
     {
-        $author_data = $this->author_repository->findById($author_id);
+        $author_data = $this->authorRepository->findById($author_id);
 
         $this->user_id = $author_data->user_id;
     }
@@ -164,7 +166,7 @@ class AuthorForm extends Component
     #[On('author-delete')]
     public function delete()
     {
-        $this->user_repository->delete($this->user_id);
+        $this->userRepository->delete($this->user_id);
 
         $this->dispatch('refresh-authors');
 

@@ -21,7 +21,8 @@ class CategoryForm extends Component
     public int $category_id;
     public bool $is_update = false;
 
-    public function getCategoryRepositoryProperty(CategoryRepositoryInterface $categoryRepository)
+    #[Computed()]
+    public function categoryRepository(CategoryRepositoryInterface $categoryRepository)
     {
         return $categoryRepository;
     }
@@ -55,7 +56,7 @@ class CategoryForm extends Component
 
         $create_category_data = CreateCategoryData::from($validated);
 
-        $this->category_repository->create($create_category_data);
+        $this->categoryRepository->create($create_category_data);
 
         $this->resetInput();
 
@@ -67,7 +68,7 @@ class CategoryForm extends Component
     #[On('category-edit')]
     public function edit($category_id)
     {
-        $category_data = $this->category_repository->findById($category_id);
+        $category_data = $this->categoryRepository->findById($category_id);
 
         $this->name = $category_data->name;
 
@@ -85,7 +86,7 @@ class CategoryForm extends Component
 
         $update_category_data = UpdateCategoryData::from($validated);
 
-        $this->category_repository->update($this->category_id, $update_category_data);
+        $this->categoryRepository->update($this->category_id, $update_category_data);
 
         $this->resetInput();
 
@@ -97,7 +98,7 @@ class CategoryForm extends Component
     #[On('category-delete-confirm')]
     public function deleteConfirm($category_id)
     {
-        $category_data = $this->category_repository->findById($category_id);
+        $category_data = $this->categoryRepository->findById($category_id);
 
         $this->category_id = $category_data->id;
     }
@@ -105,7 +106,7 @@ class CategoryForm extends Component
     #[On('category-delete')]
     public function delete()
     {
-        $this->category_repository->delete($this->category_id);
+        $this->categoryRepository->delete($this->category_id);
 
         $this->dispatch('refresh-categories');
 

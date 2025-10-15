@@ -42,6 +42,7 @@ class AuthorList extends Component
     {
         $this->keyword = '';
         $this->status_filter = 'approve';
+
         $this->resetPage();
     }
 

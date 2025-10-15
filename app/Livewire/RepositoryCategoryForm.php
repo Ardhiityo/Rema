@@ -3,15 +3,14 @@
 namespace App\Livewire;
 
 use Livewire\Component;
-use App\Models\Category;
 use Livewire\Attributes\On;
 use Livewire\WithFileUploads;
 use Livewire\Attributes\Computed;
-use App\Data\Category\CategoryData;
-use App\Rules\RepositoryCategoryUpdateRule;
 use App\Rules\RepositoryCategoryCreateRule;
+use App\Rules\RepositoryCategoryUpdateRule;
 use App\Data\MetadataCategory\CreateMetadataCategoryData;
 use App\Data\MetadataCategory\UpdateMetadataCategoryData;
+use App\Repositories\Contratcs\CategoryRepositoryInterface;
 use App\Repositories\Contratcs\MetaDataRepositoryInterface;
 use App\Repositories\Contratcs\MetaDataCategoryRepositoryInterface;
 
@@ -93,6 +92,12 @@ class RepositoryCategoryForm extends Component
     public function metaDataCategoryRepository()
     {
         return app(MetaDataCategoryRepositoryInterface::class);
+    }
+
+    #[Computed()]
+    public function categoryRepository()
+    {
+        return app(CategoryRepositoryInterface::class);
     }
 
     #[Computed()]
@@ -197,7 +202,7 @@ class RepositoryCategoryForm extends Component
 
     public function render()
     {
-        $categories = CategoryData::collect(Category::all());
+        $categories = $this->categoryRepository->all();
 
         return view('livewire.repository-category-form', compact('categories'));
     }

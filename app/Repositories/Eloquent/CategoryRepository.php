@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Data\Category\CreateCategoryData;
 use App\Data\Category\UpdateCategoryData;
 use App\Repositories\Contratcs\CategoryRepositoryInterface;
+use Spatie\LaravelData\DataCollection;
 
 class CategoryRepository implements CategoryRepositoryInterface
 {
@@ -57,5 +58,10 @@ class CategoryRepository implements CategoryRepositoryInterface
         }
 
         return $category->delete();
+    }
+
+    public function all(): DataCollection
+    {
+        return CategoryData::collect(Category::all(), DataCollection::class);
     }
 }
