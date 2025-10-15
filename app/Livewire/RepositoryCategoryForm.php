@@ -34,11 +34,19 @@ class RepositoryCategoryForm extends Component
     public int|null $category_id_delete = null;
     public int|string $repository_id = '';
     public bool $is_update = false;
+    public string $meta_data_slug = '';
 
     public function mount()
     {
         if ($this->metaDataSession) {
             $this->meta_data_id = $this->metaDataSession->id;
+        }
+
+        if (request()->routeIs('repository.edit')) {
+            $meta_data_slug = request()->route('meta_data_slug');
+            $this->meta_data_slug = $meta_data_slug;
+            $meta_data_data = $this->metaDataRepository->findBySlug($meta_data_slug);
+            $this->meta_data_id = $meta_data_data->id;
         }
     }
 
@@ -146,9 +154,11 @@ class RepositoryCategoryForm extends Component
 
         $this->resetInput();
 
+        $this->dispatch('refresh-repository-table');
+
         session()->flash('repository-success', 'The repository was successfully created.');
 
-        $this->dispatch('refresh-repository-table');
+        // return redirect()->route('repository.edit', ['meta_data_slug' => $this->meta_data_slug]);
     }
 
     #[On('edit-repository-category')]
@@ -239,42 +249,24 @@ class RepositoryCategoryForm extends Component
     #[On('delete-confirm-repository-category')]
     public function deleteConfirm($meta_data_slug, $category_slug)
     {
-        $repository = Repository::whereHas(
-            'category',
-            fn($query) => $query->where('slug', $category_slug)
-        )
-            ->whereHas(
-                'metadata',
-                function ($query) use ($meta_data_slug) {
-                    $user = Auth::user();
-                    if ($user->hasRole('contributor')) {
-                        $query->where('author_id', $user->author->id);
-                    }
-                    $query->where('slug', $meta_data_slug);
-                }
-            )
-            ->first();
+        $meta_data_category_data = $this->metaDataCategoryRepository
+            ->findByMetaDataSlugAndCategorySlug($meta_data_slug, $category_slug);
 
-        $this->meta_data_id = $repository->meta_data_id;
-        $this->category_id_delete = $repository->category_id;
+        $this->meta_data_id = $meta_data_category_data->meta_data_id;
+        $this->category_id_delete = $meta_data_category_data->category_id;
     }
 
     #[On('delete-repository-category')]
     public function delete()
     {
-        $repository = Repository::where('meta_data_id', $this->meta_data_id)
-            ->where('category_id', $this->category_id_delete);
+        $this->metaDataCategoryRepository->delete($this->meta_data_id, $this->category_id_delete);
 
-        if ($file_path = $repository->first()->file_path) {
-            if (Storage::disk('public')->exists($file_path)) {
-                Storage::disk('public')->delete($file_path);
+        $meta_data_data = $this->metaDataRepository->findById($this->meta_data_id, ['categories']);
+
+        if ($meta_data_data) {
+            if ($meta_data_data->categories->toCollection()->isEmpty()) {
+                $this->resetInput();
             }
-        }
-
-        $repository->delete();
-
-        if (MetaData::find($this->meta_data_id)->categories->isEmpty()) {
-            $this->resetInput();
         }
 
         $this->dispatch('refresh-repository-table');

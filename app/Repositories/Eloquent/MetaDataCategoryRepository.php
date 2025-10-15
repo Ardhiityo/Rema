@@ -4,6 +4,7 @@ namespace App\Repositories\Eloquent;
 
 use App\Models\Repository;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Data\MetadataCategory\MetadataCategoryData;
 use App\Repositories\Contratcs\MetaDataCategoryRepositoryInterface;
 
@@ -32,5 +33,19 @@ class MetaDataCategoryRepository implements MetaDataCategoryRepositoryInterface
         } catch (\Throwable $th) {
             return null;
         }
+    }
+
+    public function delete(int $meta_data_id, int $category_id): bool
+    {
+        $repository = Repository::where('meta_data_id', $meta_data_id)
+            ->where('category_id', $category_id);
+
+        if ($file_path = $repository->first()->file_path) {
+            if (Storage::disk('public')->exists($file_path)) {
+                Storage::disk('public')->delete($file_path);
+            }
+        }
+
+        return $repository->delete();
     }
 }

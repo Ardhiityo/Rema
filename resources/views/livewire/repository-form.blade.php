@@ -7,8 +7,8 @@
         <livewire:repository-category-form />
     @endif
 
-    @if ($this->showRepositoriesList)
-        <livewire:repository-table />
+    @if ($this->showRepositoriesTable)
+        <livewire:repository-table :meta_data_id="$meta_data_id" :is_approve="$is_approve" />
     @endif
 
 </div>
