@@ -14,7 +14,6 @@ class MetaDataRepository implements MetaDataRepositoryInterface
     {
         $meta_data = MetaData::create([
             'title' => $create_meta_data->title,
-            'abstract' => $create_meta_data->abstract,
             'author_id' => $create_meta_data->author_id,
             'visibility' => $create_meta_data->visibility,
             'year' => $create_meta_data->year,
@@ -32,7 +31,6 @@ class MetaDataRepository implements MetaDataRepositoryInterface
 
             $meta_data->update([
                 'title' => $update_meta_data->title,
-                'abstract' => $update_meta_data->abstract,
                 'author_id' => $update_meta_data->author_id,
                 'visibility' => $update_meta_data->visibility,
                 'slug' => $update_meta_data->slug,

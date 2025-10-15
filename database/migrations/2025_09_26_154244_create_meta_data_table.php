@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('meta_data', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->longText('abstract');
             $table->year('year');
             $table->enum('visibility', ['private', 'protected', 'public'])
                 ->default('private');

@@ -52,6 +52,8 @@ class AuthorRepository implements AuthorRepositoryInterface
             $authors->with($relations);
         }
 
+        $authors->approve();
+
         return AuthorListData::collect($authors->get(), DataCollection::class);
     }
 }

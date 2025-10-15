@@ -17,7 +17,6 @@ class MetaDataForm extends Component
 {
     // Start Form
     public string $title = '';
-    public string $abstract = '';
     public int|string $author_id = '';
     public string $status = '';
     public string $visibility = '';
@@ -38,7 +37,6 @@ class MetaDataForm extends Component
             $this->meta_data_id = $meta_data_data->id;
             $this->title = $meta_data_data->title;
             $this->slug = $meta_data_data->slug;
-            $this->abstract = $meta_data_data->abstract;
             $this->author_id = $meta_data_data->author_id;
             $this->status = $meta_data_data->status;
             $this->visibility = $meta_data_data->visibility;
@@ -50,7 +48,6 @@ class MetaDataForm extends Component
 
             $this->meta_data_id = $meta_data_session->id;
             $this->title = $meta_data_session->title;
-            $this->abstract = $meta_data_session->abstract;
             $this->author_id = $meta_data_session->author_id;
             $this->status = $meta_data_session->status;
             $this->visibility = $meta_data_session->visibility;
@@ -122,7 +119,6 @@ class MetaDataForm extends Component
                 'max:200',
                 $this->is_update ? 'unique:meta_data,slug,' . $this->meta_data_id : 'unique:meta_data,slug'
             ],
-            'abstract' => ['required', 'min:3', 'max:2000'],
             'author_id' => ['required', 'exists:authors,id'],
             'status' => ['required', 'in:approve,pending,reject,revision'],
             'visibility' => ['required', 'in:private,protected,public']
@@ -207,7 +203,6 @@ class MetaDataForm extends Component
     public function resetInput()
     {
         $this->title = '';
-        $this->abstract = '';
         $this->author_id = '';
         $this->status = '';
         $this->visibility = '';

@@ -30,21 +30,6 @@
                     </div>
                     {{-- Title --}}
 
-                    {{-- Abstract --}}
-                    <div class="mt-4">
-                        <div class="mb-3 form-group">
-                            <label for="abstract" class="form-label">Abstract</label>
-                            <textarea class="form-control" id="abstract" wire:model='abstract' rows="3"
-                                {{ $this->islockForm ? 'disabled' : '' }}></textarea>
-                            @error('abstract')
-                                <span class="badge bg-danger text-wrap">
-                                    <small>{{ $message }}</small>
-                                </span>
-                            @enderror
-                        </div>
-                    </div>
-                    {{-- Abstract --}}
-
                     {{-- Author --}}
                     @hasrole('admin')
                         <div class="mt-4">
@@ -137,7 +122,7 @@
             </div>
             @if ($this->is_update)
                 {{-- Display Medium ++ only --}}
-                <div class="gap-3 align-items-center d-none d-md-flex">
+                <div class="gap-3 align-items-center d-flex">
                     @if (!$this->islockForm)
                         <button wire:click='updateMetaData' wire:loading.attr='disabled' class="btn btn-primary"
                             wire:target='updateMetaData'>
@@ -153,7 +138,7 @@
                     @if ($this->metaDataSession)
                         <button wire:click='createNewForm' wire:loading.attr='disabled' class="btn btn-danger"
                             wire:target='createNewForm'>
-                            New Form
+                            New
                             <span wire:loading wire:target='createNewForm'>
                                 <span class="spinner-border spinner-border-sm text-light" role="status"></span>
                             </span>
@@ -161,35 +146,9 @@
                     @endif
                 </div>
                 {{-- Display Medium ++ only --}}
-
-                {{-- Display Small only --}}
-                <div class="gap-3 align-items-centere d-flex d-md-none">
-                    @if (!$this->islockForm)
-                        <button wire:click='updateMetaData' wire:loading.attr='disabled' class="btn btn-sm btn-primary"
-                            wire:target='updateMetaData'>
-                            Update
-                            <span wire:loading wire:target='updateMetaData'>
-                                <span class="spinner-border spinner-border-sm text-light" role="status"></span>
-                            </span>
-                        </button>
-                        <button wire:click='resetInput' class="btn btn-warning btn-sm">
-                            Clear
-                        </button>
-                    @endif
-                    @if ($this->metaDataSession)
-                        <button wire:click='createNewForm' wire:loading.attr='disabled' class="btn btn-danger btn-sm"
-                            wire:target='createNewForm'>
-                            New Form
-                            <span wire:loading wire:target='createNewForm'>
-                                <span class="spinner-border spinner-border-sm text-light" role="status"></span>
-                            </span>
-                        </button>
-                    @endif
-                </div>
-                {{-- Display Small only --}}
             @else
                 {{-- Display Medium ++ only --}}
-                <div class="gap-3 d-none d-md-flex">
+                <div class="gap-3 d-flex">
                     @if ($is_update)
                         @if (!$this->islockForm)
                             <button wire:click='updateMetaData' wire:loading.attr='disabled' class="btn btn-primary"
@@ -217,37 +176,6 @@
                     @endif
                 </div>
                 {{-- Display Medium ++ only --}}
-
-                {{-- Display Small only --}}
-                <div class="gap-3 d-flex d-md-none">
-                    @if ($is_update)
-                        @if (!$this->islockForm)
-                            @dd($this->islockForm)
-                            <button wire:click='updateMetaData' wire:loading.attr='disabled'
-                                class="btn btn-primary btn-sm" wire:target='updateMetaData'>
-                                Update
-                                <span wire:loading wire:target='updateMetaData'>
-                                    <span class="spinner-border spinner-border-sm text-light" role="status"></span>
-                                </span>
-                            </button>
-                            <button wire:click='resetInput' class="btn btn-warning btn-sm">
-                                Clear
-                            </button>
-                        @endif
-                    @else
-                        <button wire:click='createMetaData' wire:loading.attr='disabled'
-                            class="btn btn-primary btn-sm" wire:target='createMetaData'>
-                            Save
-                            <span wire:loading wire:target='createMetaData'>
-                                <span class="spinner-border spinner-border-sm text-light" role="status"></span>
-                            </span>
-                        </button>
-                        <button wire:click='resetInput' class="btn btn-warning btn-sm">
-                            Clear
-                        </button>
-                    @endif
-                </div>
-                {{-- Display Small only --}}
             @endif
         </div>
     </div>

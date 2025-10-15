@@ -90,7 +90,7 @@
                                     <p class="text-center ">Or continue with</p>
                                     <div class="gap-3 d-flex flex-column">
                                         <a href="{{ route('google.redirect') }}"
-                                            class="gap-1 btn btn-lg btn-secondary d-flex align-items-center justify-content-center">
+                                            class="gap-1 btn btn-lg btn-success d-flex align-items-center justify-content-center">
                                             <i class="bi bi-google"></i>
                                             <span class="ms-2 fs-6 text-uppercase">Sign in With Google</span>
                                         </a>

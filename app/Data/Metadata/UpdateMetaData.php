@@ -8,7 +8,6 @@ class UpdateMetaData extends Data
 {
     public function __construct(
         public string $title,
-        public string $abstract,
         public int $author_id,
         public string $visibility,
         public string $slug,

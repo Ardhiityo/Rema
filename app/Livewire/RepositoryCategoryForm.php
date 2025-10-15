@@ -10,7 +10,6 @@ use Livewire\Attributes\On;
 use Livewire\WithFileUploads;
 use Livewire\Attributes\Computed;
 use App\Data\Category\CategoryData;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use App\Services\PdfWatermarkService;
 use Illuminate\Support\Facades\Storage;

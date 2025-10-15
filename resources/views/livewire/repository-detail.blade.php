@@ -36,9 +36,6 @@
                     <h5 class="card-text">
                         {{ $meta_data->title }}
                     </h5>
-                    <p class="card-text">
-                        {{ $meta_data->abstractt }}
-                    </p>
                     <p>
                         <small>
                             @can('view', $meta_data)

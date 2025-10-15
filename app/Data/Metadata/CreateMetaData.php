@@ -8,7 +8,6 @@ class CreateMetaData extends Data
 {
     public function __construct(
         public string $title,
-        public string $abstract,
         public int $author_id,
         public string $visibility,
         public int $year,

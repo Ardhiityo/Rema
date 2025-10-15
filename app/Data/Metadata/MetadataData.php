@@ -13,7 +13,6 @@ class MetadataData extends Data
     public function __construct(
         public int $id,
         public string $title,
-        public string $abstract,
         public int $author_id,
         public string $visibility,
         public int $year,
@@ -28,7 +27,6 @@ class MetadataData extends Data
         return new self(
             $meta_data->id,
             $meta_data->title,
-            $meta_data->abstract,
             $meta_data->author_id,
             $meta_data->visibility,
             $meta_data->year,
