@@ -2,8 +2,10 @@
 
 namespace App\Data\Metadata;
 
+use App\Models\Author;
 use App\Models\MetaData;
 use Spatie\LaravelData\Data;
+use App\Data\Author\AuthorData;
 use App\Data\Category\CategoryData;
 use Spatie\LaravelData\DataCollection;
 use Spatie\LaravelData\Attributes\DataCollectionOf;
@@ -45,5 +47,10 @@ class MetadataData extends Data
         ]);
 
         return $meta_data;
+    }
+
+    public function author()
+    {
+        return AuthorData::fromModel(Author::find($this->author_id));
     }
 }

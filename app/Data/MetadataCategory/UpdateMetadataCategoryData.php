@@ -1,0 +1,15 @@
+<?php
+
+namespace App\Data\MetadataCategory;
+
+use Spatie\LaravelData\Data;
+use Illuminate\Http\UploadedFile;
+
+class UpdateMetadataCategoryData extends Data
+{
+    public function __construct(
+        public int $meta_data_id,
+        public int $category_id,
+        public UploadedFile|null $file_path
+    ) {}
+}

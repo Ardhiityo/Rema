@@ -4,7 +4,7 @@
     <livewire:meta-data-form :meta_data_id="$meta_data_id" />
 
     @if ($this->showRepositoryCategoryFrom)
-        <livewire:repository-category-form />
+        <livewire:repository-category-form :meta_data_id="$meta_data_id" />
     @endif
 
     @if ($this->showRepositoriesTable)

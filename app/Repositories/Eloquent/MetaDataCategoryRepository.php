@@ -2,15 +2,143 @@
 
 namespace App\Repositories\Eloquent;
 
+use App\Models\MetaData;
 use App\Models\Repository;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
+use App\Services\PdfWatermarkService;
 use Illuminate\Support\Facades\Storage;
 use App\Data\MetadataCategory\MetadataCategoryData;
+use App\Data\MetadataCategory\CreateMetadataCategoryData;
+use App\Data\MetadataCategory\UpdateMetadataCategoryData;
+use App\Repositories\Contratcs\MetaDataRepositoryInterface;
 use App\Repositories\Contratcs\MetaDataCategoryRepositoryInterface;
 
 class MetaDataCategoryRepository implements MetaDataCategoryRepositoryInterface
 {
-    public function findByMetaDataSlugAndCategorySlug($meta_data_slug, $category_slug): MetadataCategoryData|null
+    public function __construct(protected MetaDataRepositoryInterface $metaDataRepository) {}
+
+    public function create(CreateMetadataCategoryData $create_metadata_category_data): MetadataCategoryData
+    {
+        // 1. Ambil path file mentah dari hasil validasi
+        $tempPath = $create_metadata_category_data->file_path->getRealPath();
+
+        // 2. Buat nama file unik
+        $filename = uniqid() . '.pdf';
+
+        // 3. Ambil NIM dari metadata
+        $authorNim = $this->metaDataRepository
+            ->findById($create_metadata_category_data->meta_data_id)
+            ->author()->nim ?? 'UNKNOWN';
+
+        // 4. Tentukan path sementara untuk menyimpan file mentah
+        $tempStoragePath = storage_path("app/temp/{$filename}");
+
+        // 5. Pastikan folder temp ada
+        File::ensureDirectoryExists(dirname($tempStoragePath));
+
+        // 6. Pindahkan file mentah ke folder temp agar bisa dibaca FPDI
+        File::copy($tempPath, $tempStoragePath);
+
+        // 7. Terapkan watermark dan simpan ke storage publik
+        $relativePath = PdfWatermarkService::apply(
+            $tempStoragePath,
+            basename($filename), // ✅ pastikan hanya nama file, bukan path
+            "FIK-UNIVAL-{$authorNim}"
+        );
+
+        // 8. Hapus file temp
+        File::delete($tempStoragePath);
+
+        $repository = Repository::create([
+            'meta_data_id' => $create_metadata_category_data->meta_data_id,
+            'category_id' => $create_metadata_category_data->category_id,
+            'file_path' => $relativePath
+        ]);
+
+        return MetadataCategoryData::fromModel($repository);
+    }
+
+    public function update(UpdateMetadataCategoryData $update_metadata_category_data, int $current_category_id): MetadataCategoryData
+    {
+        $metadata_category_data = $this->findByMetaDataIdAndCategoryId(
+            $update_metadata_category_data->meta_data_id,
+            $current_category_id
+        );
+
+        $file_path = $update_metadata_category_data->file_path;
+
+        if (!is_null($file_path)) {
+
+            if ($metadata_category_data) {
+                if (Storage::disk('public')->exists($metadata_category_data->file_path)) {
+                    Storage::disk('public')->delete($metadata_category_data->file_path);
+                }
+            }
+
+            // 1. Ambil path file mentah dari hasil validasi
+            $tempPath = $update_metadata_category_data->file_path->getRealPath();
+
+            // 2. Buat nama file unik
+            $filename = uniqid() . '.pdf';
+
+            // 3. Ambil NIM dari metadata
+            $authorNim = $this->metaDataRepository
+                ->findById($update_metadata_category_data->meta_data_id)
+                ->author()->nim ?? 'UNKNOWN';
+
+            // 4. Tentukan path sementara untuk menyimpan file mentah
+            $tempStoragePath = storage_path("app/temp/{$filename}");
+
+            // 5. Pastikan folder temp ada
+            File::ensureDirectoryExists(dirname($tempStoragePath));
+
+            // 6. Pindahkan file mentah ke folder temp agar bisa dibaca FPDI
+            File::copy($tempPath, $tempStoragePath);
+
+            // 7. Terapkan watermark dan simpan ke storage publik
+            $relativePath = PdfWatermarkService::apply(
+                $tempStoragePath,
+                basename($filename), // ✅ pastikan hanya nama file, bukan path
+                "FIK-UNIVAL-{$authorNim}"
+            );
+
+            // 8. Hapus file temp
+            File::delete($tempStoragePath);
+
+            // 9. Simpan path ke database (tanpa 'public/')
+            $file_path = $relativePath;
+        } else {
+            $file_path = $metadata_category_data->file_path;
+        }
+
+        $repository = Repository::where('meta_data_id', $update_metadata_category_data->meta_data_id)
+            ->where('category_id', $current_category_id);
+
+        $repository->update([
+            'category_id' => $update_metadata_category_data->category_id,
+            'file_path' => $file_path
+        ]);
+
+        return $this->findByMetaDataIdAndCategoryId(
+            $update_metadata_category_data->meta_data_id,
+            $update_metadata_category_data->category_id
+        );
+    }
+
+    public function findByMetaDataIdAndCategoryId(int $meta_data_id, int $category_id): MetadataCategoryData|null
+    {
+        try {
+            $metadata_category_data = Repository::where('meta_data_id', $meta_data_id)
+                ->where('category_id', $category_id)->firstOrFail();
+
+            return MetadataCategoryData::fromModel($metadata_category_data);
+        } catch (\Throwable $th) {
+            return null;
+        }
+    }
+
+    public function findByMetaDataSlugAndCategorySlug(string $meta_data_slug, string $category_slug): MetadataCategoryData|null
     {
         try {
             $meta_data_category_data = Repository::whereHas(

@@ -4,17 +4,14 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use App\Models\Category;
-use App\Models\MetaData;
-use App\Models\Repository;
 use Livewire\Attributes\On;
 use Livewire\WithFileUploads;
 use Livewire\Attributes\Computed;
 use App\Data\Category\CategoryData;
-use Illuminate\Support\Facades\File;
-use App\Services\PdfWatermarkService;
-use Illuminate\Support\Facades\Storage;
-use App\Rules\RepositoryCategoryCreateRule;
 use App\Rules\RepositoryCategoryUpdateRule;
+use App\Rules\RepositoryCategoryCreateRule;
+use App\Data\MetadataCategory\CreateMetadataCategoryData;
+use App\Data\MetadataCategory\UpdateMetadataCategoryData;
 use App\Repositories\Contratcs\MetaDataRepositoryInterface;
 use App\Repositories\Contratcs\MetaDataCategoryRepositoryInterface;
 
@@ -33,19 +30,15 @@ class RepositoryCategoryForm extends Component
     public int|null $category_id_delete = null;
     public int|string $repository_id = '';
     public bool $is_update = false;
-    public string $meta_data_slug = '';
 
-    public function mount()
+    public function mount($meta_data_id = null)
     {
         if ($this->metaDataSession) {
             $this->meta_data_id = $this->metaDataSession->id;
         }
 
-        if (request()->routeIs('repository.edit')) {
-            $meta_data_slug = request()->route('meta_data_slug');
-            $this->meta_data_slug = $meta_data_slug;
-            $meta_data_data = $this->metaDataRepository->findBySlug($meta_data_slug);
-            $this->meta_data_id = $meta_data_data->id;
+        if ($meta_data_id) {
+            $this->meta_data_id = $meta_data_id;
         }
     }
 
@@ -75,7 +68,7 @@ class RepositoryCategoryForm extends Component
             'category_id' => [
                 'required',
                 'exists:categories,id',
-                new RepositoryCategoryUpdateRule($this->meta_data_id)
+                new RepositoryCategoryUpdateRule($this->meta_data_id, $this->category_id_update)
             ],
             'meta_data_id' => ['required', 'exists:meta_data,id']
         ];
@@ -111,6 +104,7 @@ class RepositoryCategoryForm extends Component
                 return $meta_data_session;
             }
         }
+
         return false;
     }
 
@@ -118,46 +112,15 @@ class RepositoryCategoryForm extends Component
     {
         $validated = $this->validate($this->rulesCreate());
 
-        // 1. Ambil path file mentah dari hasil validasi
-        $tempPath = $validated['file_path']->getRealPath();
+        $create_meta_data_category_data = CreateMetadataCategoryData::from($validated);
 
-        // 2. Buat nama file unik
-        $filename = uniqid() . '.pdf';
-
-        // 3. Ambil NIM dari metadata
-        $authorNim = MetaData::find($this->meta_data_id)?->author?->nim ?? 'UNKNOWN';
-
-        // 4. Tentukan path sementara untuk menyimpan file mentah
-        $tempStoragePath = storage_path("app/temp/{$filename}");
-
-        // 5. Pastikan folder temp ada
-        File::ensureDirectoryExists(dirname($tempStoragePath));
-
-        // 6. Pindahkan file mentah ke folder temp agar bisa dibaca FPDI
-        File::copy($tempPath, $tempStoragePath);
-
-        // 7. Terapkan watermark dan simpan ke storage publik
-        $relativePath = PdfWatermarkService::apply(
-            $tempStoragePath,
-            basename($filename), // ✅ pastikan hanya nama file, bukan path
-            "FIK-UNIVAL-{$authorNim}"
-        );
-
-        // 8. Hapus file temp
-        File::delete($tempStoragePath);
-
-        // 9. Simpan path ke database (tanpa 'public/')
-        $validated['file_path'] = $relativePath;
-
-        Repository::create($validated);
+        $this->metaDataCategoryRepository->create($create_meta_data_category_data);
 
         $this->resetInput();
 
         $this->dispatch('refresh-repository-table');
 
         session()->flash('repository-success', 'The repository was successfully created.');
-
-        // return redirect()->route('repository.edit', ['meta_data_slug' => $this->meta_data_slug]);
     }
 
     #[On('edit-repository-category')]
@@ -179,62 +142,12 @@ class RepositoryCategoryForm extends Component
     {
         $validated = $this->validate($this->rulesUpdate());
 
-        $exists = Repository::where('meta_data_id', $this->meta_data_id)
-            ->where('category_id', '!=', $this->category_id_update)
-            ->where('category_id', $validated['category_id'])
-            ->exists();
+        $update_meta_data_category_data = UpdateMetadataCategoryData::from($validated);
 
-        if ($exists) {
-            $this->addError('category_id', 'category already exists');
-            return;
-        }
-
-        if (!is_null($validated['file_path'])) {
-            if ($this->file_path_update) {
-                if (Storage::disk('public')->exists($this->file_path_update)) {
-                    Storage::disk('public')->delete($this->file_path_update);
-                }
-            }
-            // 1. Ambil path file mentah dari hasil validasi
-            $tempPath = $validated['file_path']->getRealPath();
-
-            // 2. Buat nama file unik
-            $filename = uniqid() . '.pdf';
-
-            // 3. Ambil NIM dari metadata
-            $authorNim = MetaData::find($this->meta_data_id)?->author?->nim ?? 'UNKNOWN';
-
-            // 4. Tentukan path sementara untuk menyimpan file mentah
-            $tempStoragePath = storage_path("app/temp/{$filename}");
-
-            // 5. Pastikan folder temp ada
-            File::ensureDirectoryExists(dirname($tempStoragePath));
-
-            // 6. Pindahkan file mentah ke folder temp agar bisa dibaca FPDI
-            File::copy($tempPath, $tempStoragePath);
-
-            // 7. Terapkan watermark dan simpan ke storage publik
-            $relativePath = PdfWatermarkService::apply(
-                $tempStoragePath,
-                basename($filename), // ✅ pastikan hanya nama file, bukan path
-                "FIK-UNIVAL-{$authorNim}"
-            );
-
-            // 8. Hapus file temp
-            File::delete($tempStoragePath);
-
-            // 9. Simpan path ke database (tanpa 'public/')
-            $validated['file_path'] = $relativePath;
-        } else {
-            $validated['file_path'] = $this->file_path_update;
-        }
-
-        Repository::where('meta_data_id', $this->meta_data_id)
-            ->where('category_id', $this->category_id_update)
-            ->update([
-                'category_id' => $validated['category_id'],
-                'file_path' => $validated['file_path']
-            ]);
+        $this->metaDataCategoryRepository->update(
+            $update_meta_data_category_data,
+            $this->category_id_update
+        );
 
         $this->resetInput();
 
