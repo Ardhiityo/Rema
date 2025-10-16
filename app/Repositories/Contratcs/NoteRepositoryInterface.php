@@ -6,7 +6,6 @@ use App\Data\Note\NoteData;
 use App\Data\Note\CreateNoteData;
 use App\Data\Note\UpdateNoteData;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Spatie\LaravelData\DataCollection;
 
 interface NoteRepositoryInterface
 {

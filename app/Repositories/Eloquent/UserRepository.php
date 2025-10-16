@@ -7,6 +7,7 @@ use App\Models\MetaData;
 use App\Data\User\UserData;
 use App\Data\User\CreateUserData;
 use App\Data\User\UpdateUserData;
+use App\Services\AvatarGenerator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use App\Repositories\Contratcs\UserRepositoryInterface;
@@ -19,7 +20,8 @@ class UserRepository implements UserRepositoryInterface
             'name' => $create_user_data->name,
             'email' => $create_user_data->email,
             'password' => $create_user_data->password,
-            'avatar' => $create_user_data->avatar->store('avatars', 'public')
+            'avatar' => is_null($create_user_data->avatar) ?
+                AvatarGenerator::generate() : $create_user_data->avatar->store('avatars', 'public')
         ]);
 
         $user->assignRole('contributor');

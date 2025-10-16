@@ -11,6 +11,6 @@ class CreateUserData extends Data
         public string $name,
         public string $email,
         public string $password,
-        public UploadedFile $avatar
+        public UploadedFile|null $avatar
     ) {}
 }

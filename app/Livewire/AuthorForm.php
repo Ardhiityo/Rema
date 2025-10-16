@@ -52,7 +52,7 @@ class AuthorForm extends Component
             'name' => ['required', 'min:3', 'max:50'],
             'nim' => ['required', 'numeric', 'digits_between:8,15', 'unique:authors,nim'],
             'study_program_id' => ['required', 'exists:study_programs,id'],
-            'avatar' => ['required', 'file', 'mimes:jpg,png', 'max:1000'],
+            'avatar' => ['nullable', 'file', 'mimes:jpg,png', 'max:1000'],
             'email' => ['required', 'email:dns', 'unique:users,email'],
             'password' =>  ['required', 'min:8', 'max:50'],
             'status' => ['required', 'in:approve,reject,pending']

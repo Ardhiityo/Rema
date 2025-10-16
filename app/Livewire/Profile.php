@@ -73,6 +73,7 @@ class Profile extends Component
             'password' => ['nullable', 'min:8', 'max:100'],
         ];
     }
+
     protected function validationAttributes()
     {
         return [
