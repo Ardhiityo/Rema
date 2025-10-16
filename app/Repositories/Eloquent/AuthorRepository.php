@@ -26,24 +26,32 @@ class AuthorRepository implements AuthorRepositoryInterface
         return AuthorData::fromModel($author);
     }
 
-    public function findById(int $author_id): AuthorData
+    public function findById(int $author_id): AuthorData|null
     {
-        $author = Author::findOrFail($author_id);
+        try {
+            $author = Author::findOrFail($author_id);
 
-        return AuthorData::fromModel($author);
+            return AuthorData::fromModel($author);
+        } catch (\Throwable $th) {
+            return null;
+        }
     }
 
-    public function update($author_id, UpdateAuthorData $update_author_data): AuthorData
+    public function update($author_id, UpdateAuthorData $update_author_data): AuthorData|null
     {
-        $author = Author::findOrFail($author_id);
+        try {
+            $author = Author::findOrFail($author_id);
 
-        $author->update([
-            'nim' => $update_author_data->nim,
-            'study_program_id' => $update_author_data->study_program_id,
-            'status' => $update_author_data->status
-        ]);
+            $author->update([
+                'nim' => $update_author_data->nim,
+                'study_program_id' => $update_author_data->study_program_id,
+                'status' => $update_author_data->status
+            ]);
 
-        return AuthorData::fromModel($author->refresh());
+            return AuthorData::fromModel($author->refresh());
+        } catch (\Throwable $th) {
+            return null;
+        }
     }
 
     public function findByApprovals(array|null $relations = null): DataCollection

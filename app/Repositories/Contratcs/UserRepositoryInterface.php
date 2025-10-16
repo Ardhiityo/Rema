@@ -10,9 +10,9 @@ interface UserRepositoryInterface
 {
     public function create(CreateUserData $create_user_data): UserData;
 
-    public function findById(int $user_id): UserData;
+    public function findById(int $user_id): UserData|null;
 
-    public function update(int $user_id, UpdateUserData $update_user_data): UserData;
+    public function update(int $user_id, UpdateUserData $update_user_data): UserData|null;
 
     public function delete(int $user_id): bool;
 }

@@ -23,23 +23,31 @@ class StudyProgramRepository implements StudyProgramRepositoryInterface
         return StudyProgramData::fromModel($study_program);
     }
 
-    public function findById(int $study_program_id): StudyProgramData
+    public function findById(int $study_program_id): StudyProgramData|null
     {
-        $study_program = StudyProgram::findOrFail($study_program_id);
+        try {
+            $study_program = StudyProgram::findOrFail($study_program_id);
 
-        return StudyProgramData::fromModel($study_program);
+            return StudyProgramData::fromModel($study_program);
+        } catch (\Throwable $th) {
+            return null;
+        }
     }
 
-    public function update($study_program_id, UpdateStudyProgramData $update_study_program_data): StudyProgramData
+    public function update($study_program_id, UpdateStudyProgramData $update_study_program_data): StudyProgramData|null
     {
-        $study_program = StudyProgram::findOrFail($study_program_id);
+        try {
+            $study_program = StudyProgram::findOrFail($study_program_id);
 
-        $study_program->update([
-            'name' => $update_study_program_data->name,
-            'slug' => $update_study_program_data->slug
-        ]);
+            $study_program->update([
+                'name' => $update_study_program_data->name,
+                'slug' => $update_study_program_data->slug
+            ]);
 
-        return StudyProgramData::fromModel($study_program->refresh());
+            return StudyProgramData::fromModel($study_program->refresh());
+        } catch (\Throwable $th) {
+            return null;
+        }
     }
 
     public function delete(int $study_program_id): bool

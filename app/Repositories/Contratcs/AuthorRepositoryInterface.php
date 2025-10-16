@@ -12,9 +12,9 @@ interface AuthorRepositoryInterface
 {
     public function create(CreateAuthorData $create_author_data): AuthorData;
 
-    public function findById(int $author_id): AuthorData;
+    public function findById(int $author_id): AuthorData|null;
 
-    public function update($author_id, UpdateAuthorData $update_author_data): AuthorData;
+    public function update($author_id, UpdateAuthorData $update_author_data): AuthorData|null;
 
     public function findByApprovals(array|null $relations = null): DataCollection;
 

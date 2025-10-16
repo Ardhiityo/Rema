@@ -27,74 +27,86 @@ class UserRepository implements UserRepositoryInterface
         return UserData::fromModel($user);
     }
 
-    public function findById(int $user_id): UserData
+    public function findById(int $user_id): UserData|null
     {
-        $user = User::findOrFail($user_id);
+        try {
+            $user = User::findOrFail($user_id);
 
-        return UserData::fromModel($user);
+            return UserData::fromModel($user);
+        } catch (\Throwable $th) {
+            return null;
+        }
     }
 
-    public function update(int $user_id, UpdateUserData $update_user_data): UserData
+    public function update(int $user_id, UpdateUserData $update_user_data): UserData|null
     {
-        $user = User::findOrFail($user_id);
+        try {
+            $user = User::findOrFail($user_id);
 
-        $old_avatar = $user->avatar;
+            $old_avatar = $user->avatar;
 
-        $new_avatar = $update_user_data->avatar ?? null;
+            $new_avatar = $update_user_data->avatar ?? null;
 
-        if (empty($new_avatar)) {
-            $new_avatar = $old_avatar;
-        } else {
-            if ($old_avatar) {
-                if (Storage::disk('public')->exists($old_avatar)) {
-                    Storage::disk('public')->delete($old_avatar);
+            if (empty($new_avatar)) {
+                $new_avatar = $old_avatar;
+            } else {
+                if ($old_avatar) {
+                    if (Storage::disk('public')->exists($old_avatar)) {
+                        Storage::disk('public')->delete($old_avatar);
+                    }
                 }
+                $new_avatar = $new_avatar->store('avatars', 'public');
             }
-            $new_avatar = $new_avatar->store('avatars', 'public');
+
+            $password = $update_user_data->password ? Hash::make($update_user_data->password) : $user->password;
+
+            $user->update([
+                'name' => $update_user_data->name,
+                'avatar' => $new_avatar,
+                'email' => $update_user_data->email,
+                'password' => $password
+            ]);
+
+            return UserData::fromModel($user->refresh());
+        } catch (\Throwable $th) {
+            return null;
         }
-
-        $password = $update_user_data->password ? Hash::make($update_user_data->password) : $user->password;
-
-        $user->update([
-            'name' => $update_user_data->name,
-            'avatar' => $new_avatar,
-            'email' => $update_user_data->email,
-            'password' => $password
-        ]);
-
-        return UserData::fromModel($user->refresh());
     }
 
     public function delete(int $user_id): bool
     {
-        $user = User::findOrFail($user_id);
+        try {
+            $user = User::findOrFail($user_id);
 
-        $avatar = $user->avatar ?? null;
+            $avatar = $user->avatar ?? null;
 
-        if ($avatar) {
-            if (Storage::disk('public')->exists($avatar)) {
-                Storage::disk('public')->delete($avatar);
+            if ($avatar) {
+                if (Storage::disk('public')->exists($avatar)) {
+                    Storage::disk('public')->delete($avatar);
+                }
             }
-        }
 
-        $author_id = $user->author->id;
+            $author_id = $user->author->id;
 
-        $meta_data = MetaData::with('categories')->where('author_id', $author_id)->get();
+            $meta_data = MetaData::with('categories')->where('author_id', $author_id)->get();
 
-        foreach ($meta_data as $data) {
-            if ($data->categories->isNotEmpty()) {
-                foreach ($data->categories as $category) {
-                    $file_path = $category->pivot->file_path ?? null;
+            foreach ($meta_data as $data) {
+                if ($data->categories->isNotEmpty()) {
+                    foreach ($data->categories as $category) {
+                        $file_path = $category->pivot->file_path ?? null;
 
-                    if ($file_path) {
-                        if (Storage::disk('public')->exists($file_path)) {
-                            Storage::disk('public')->delete($file_path);
+                        if ($file_path) {
+                            if (Storage::disk('public')->exists($file_path)) {
+                                Storage::disk('public')->delete($file_path);
+                            }
                         }
                     }
                 }
             }
-        }
 
-        return $user->delete();
+            return $user->delete();
+        } catch (\Throwable $th) {
+            return false;
+        }
     }
 }

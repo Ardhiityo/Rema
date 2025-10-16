@@ -24,23 +24,31 @@ class CategoryRepository implements CategoryRepositoryInterface
         return CategoryData::fromModel($category);
     }
 
-    public function findById(int $category_id): CategoryData
+    public function findById(int $category_id): CategoryData|null
     {
-        $category = Category::findOrFail($category_id);
+        try {
+            $category = Category::findOrFail($category_id);
 
-        return CategoryData::fromModel($category);
+            return CategoryData::fromModel($category);
+        } catch (\Throwable $th) {
+            return null;
+        }
     }
 
-    public function update(int $category_id, UpdateCategoryData $update_category_data): CategoryData
+    public function update(int $category_id, UpdateCategoryData $update_category_data): CategoryData|null
     {
-        $category = Category::findOrFail($category_id);
+        try {
+            $category = Category::findOrFail($category_id);
 
-        $category->update([
-            'name' => $update_category_data->name,
-            'slug' => $update_category_data->slug
-        ]);
+            $category->update([
+                'name' => $update_category_data->name,
+                'slug' => $update_category_data->slug
+            ]);
 
-        return CategoryData::fromModel($category->refresh());
+            return CategoryData::fromModel($category->refresh());
+        } catch (\Throwable $th) {
+            return null;
+        }
     }
 
     public function delete(int $category_id): bool
