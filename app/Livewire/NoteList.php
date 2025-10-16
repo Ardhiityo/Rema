@@ -2,13 +2,17 @@
 
 namespace App\Livewire;
 
-use App\Models\Note;
-use App\Data\NoteData;
-use Livewire\Attributes\On;
 use Livewire\Component;
+use Livewire\Attributes\On;
+use App\Repositories\Contratcs\NoteRepositoryInterface;
+use Livewire\WithPagination;
 
 class NoteList extends Component
 {
+    use WithPagination;
+
+    protected $paginationTheme = 'bootstrap';
+
     public int $meta_data_id;
 
     public function mount($meta_data_id)
@@ -17,12 +21,9 @@ class NoteList extends Component
     }
 
     #[On('refresh-notes')]
-    public function getNotesProperty()
+    public function getNotesProperty(NoteRepositoryInterface $noteRepository)
     {
-        return NoteData::collect(
-            Note::where('meta_data_id', $this->meta_data_id)
-                ->orderByDesc('id')->paginate(10)
-        );
+        return $noteRepository->findByMetaDataId($this->meta_data_id);
     }
 
     public function render()

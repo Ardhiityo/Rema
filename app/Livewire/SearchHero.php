@@ -7,7 +7,6 @@ use App\Models\Category;
 use App\Models\MetaData;
 use Livewire\WithPagination;
 use Livewire\Attributes\Layout;
-use Illuminate\Support\Facades\Log;
 
 class SearchHero extends Component
 {

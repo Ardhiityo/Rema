@@ -6,6 +6,7 @@ use App\Models\Note;
 use App\Data\Note\NoteData;
 use App\Data\Note\CreateNoteData;
 use App\Data\Note\UpdateNoteData;
+use Illuminate\Pagination\LengthAwarePaginator;
 use App\Repositories\Contratcs\NoteRepositoryInterface;
 
 class NoteRepository implements NoteRepositoryInterface
@@ -54,5 +55,14 @@ class NoteRepository implements NoteRepositoryInterface
         } catch (\Throwable $th) {
             return null;
         }
+    }
+
+    public function findByMetaDataId(int $metadata_id): LengthAwarePaginator
+    {
+        $notes = Note::where('meta_data_id', $metadata_id)
+            ->orderByDesc('id')
+            ->paginate(10);
+
+        return NoteData::collect($notes);
     }
 }

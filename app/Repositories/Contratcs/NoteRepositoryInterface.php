@@ -5,6 +5,8 @@ namespace App\Repositories\Contratcs;
 use App\Data\Note\NoteData;
 use App\Data\Note\CreateNoteData;
 use App\Data\Note\UpdateNoteData;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Spatie\LaravelData\DataCollection;
 
 interface NoteRepositoryInterface
 {
@@ -12,4 +14,5 @@ interface NoteRepositoryInterface
     public function update(UpdateNoteData $update_note_data, int $note_id): NoteData|null;
     public function delete(int $note_id): bool;
     public function findById(int $note_id): NoteData|null;
+    public function findByMetaDataId(int $metadata_id): LengthAwarePaginator;
 }
