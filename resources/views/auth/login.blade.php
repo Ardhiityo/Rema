@@ -19,17 +19,19 @@
                         @csrf
                         <div class="overflow-hidden row gy-3">
                             <div class="col-12">
-                                <div class="mb-3 form-floating">
+                                <div class="form-floating">
                                     <input type="email" class="form-control" name="email" id="email"
                                         placeholder="name@example.com" value="{{ old('email') }}" required>
                                     <label for="email" class="form-label">Email</label>
                                     @error('email')
-                                        <span class="badge text-bg-danger">{{ $message }}</span>
+                                        <span class="badge text-bg-danger text-wrap">
+                                            <small>{{ $message }}</small>
+                                        </span>
                                     @enderror
                                 </div>
                             </div>
                             <div class="col-12">
-                                <div class="mb-3 form-floating">
+                                <div class="form-floating">
                                     <input type="password" class="form-control" name="password" id="password"
                                         placeholder="Password" required>
                                     <label for="password" class="form-label">Password</label>
@@ -69,7 +71,7 @@
                             <p class="text-center ">Or continue with</p>
                             <div class="gap-3 d-flex flex-column">
                                 <a href="{{ route('google.redirect') }}"
-                                    class="gap-1 btn btn-lg btn-success d-flex align-items-center justify-content-center">
+                                    class="gap-1 btn btn-lg btn-outline-primary d-flex align-items-center justify-content-center">
                                     <i class="bi bi-google"></i>
                                     <span class="ms-2 fs-6 text-uppercase">Sign in With Google</span>
                                 </a>

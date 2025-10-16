@@ -1,6 +1,6 @@
 <x-guest-layout>
     <!-- Login 6 - Bootstrap Brain Component -->
-    <section class="p-3 bg-primary p-md-4 p-xl-5">
+    <section class="p-3 p-md-4 p-xl-5">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-12 col-md-9 col-lg-7 col-xl-6 col-xxl-5">
@@ -17,45 +17,53 @@
                                 @csrf
                                 <div class="overflow-hidden row gy-3">
                                     <div class="col-12">
-                                        <div class="mb-3 form-floating">
+                                        <div class="form-floating">
                                             <input type="text" class="form-control" name="name" id="name"
                                                 placeholder="ex: Arya Adhi Prasetyo" required
                                                 value="{{ old('name') }}">
                                             <label for="name" class="form-label">Name</label>
                                             @error('name')
-                                                <span class="badge text-bg-danger">{{ $message }}</span>
+                                                <span class="badge text-bg-danger text-wrap">
+                                                    <small>{{ $message }}</small>
+                                                </span>
                                             @enderror
                                         </div>
                                     </div>
                                     <div class="col-12">
-                                        <div class="mb-3 form-floating">
+                                        <div class="form-floating">
                                             <input type="email" class="form-control" name="email" id="email"
                                                 placeholder="name@example.com" required value="{{ old('email') }}">
                                             <label for="email" class="form-label">Email</label>
                                             @error('email')
-                                                <span class="badge text-bg-danger">{{ $message }}</span>
+                                                <span class="badge text-bg-danger text-wrap">
+                                                    <small>{{ $message }}</small>
+                                                </span>
                                             @enderror
                                         </div>
                                     </div>
                                     <div class="col-12">
-                                        <div class="mb-3 form-floating">
+                                        <div class="form-floating">
                                             <input type="password" class="form-control" name="password" id="password"
                                                 placeholder="min: 8 characters" required>
                                             <label for="password" class="form-label">Password</label>
                                             @error('password')
-                                                <span class="badge text-bg-danger">{{ $message }}</span>
+                                                <span class="badge text-bg-danger text-wrap">
+                                                    <small>{{ $message }}</small>
+                                                </span>
                                             @enderror
                                         </div>
                                     </div>
                                     <div class="col-12">
-                                        <div class="mb-3 form-floating">
+                                        <div class="form-floating">
                                             <input type="password" class="form-control" name="password_confirmation"
                                                 id="password_confirmation" placeholder="min: 8 characters" required>
                                             <label for="password_confirmation" class="form-label">
                                                 Password confirmation
                                             </label>
                                             @error('password_confirmation')
-                                                <span class="badge text-bg-danger">{{ $message }}</span>
+                                                <span class="badge text-bg-danger text-wrap">
+                                                    <small>{{ $message }}</small>
+                                                </span>
                                             @enderror
                                         </div>
                                     </div>
@@ -90,7 +98,7 @@
                                     <p class="text-center ">Or continue with</p>
                                     <div class="gap-3 d-flex flex-column">
                                         <a href="{{ route('google.redirect') }}"
-                                            class="gap-1 btn btn-lg btn-success d-flex align-items-center justify-content-center">
+                                            class="gap-1 btn btn-lg btn-outline-primary d-flex align-items-center justify-content-center">
                                             <i class="bi bi-google"></i>
                                             <span class="ms-2 fs-6 text-uppercase">Sign in With Google</span>
                                         </a>
