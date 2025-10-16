@@ -42,9 +42,9 @@ class StudyProgramForm extends Component
     }
 
     #[Computed()]
-    public function studyProgramRepository(StudyProgramRepositoryInterface $studyProgramRepository)
+    public function studyProgramRepository()
     {
-        return $studyProgramRepository;
+        return app(StudyProgramRepositoryInterface::class);
     }
 
     public function create()

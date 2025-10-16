@@ -20,6 +20,7 @@ use App\Rules\ProfileStudyProgramRule;
 use App\Data\StudyProgram\StudyProgramData;
 use App\Repositories\Contratcs\UserRepositoryInterface;
 use App\Repositories\Contratcs\AuthorRepositoryInterface;
+use App\Repositories\Contratcs\StudyProgramRepositoryInterface;
 
 class Profile extends Component
 {
@@ -148,12 +149,12 @@ class Profile extends Component
         session()->flash('message', 'The profile was successfully updated.');
     }
 
-    public function render()
+    public function render(StudyProgramRepositoryInterface $studyProgramRepository)
     {
         $study_programs = [];
 
         if ($this->user->hasRole('contributor')) {
-            $study_programs = StudyProgramData::collect(StudyProgram::get());
+            $study_programs = $studyProgramRepository->all();
         }
 
         return view('livewire.profile', compact('study_programs'));

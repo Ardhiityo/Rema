@@ -22,9 +22,9 @@ class CategoryForm extends Component
     public bool $is_update = false;
 
     #[Computed()]
-    public function categoryRepository(CategoryRepositoryInterface $categoryRepository)
+    public function categoryRepository()
     {
-        return $categoryRepository;
+        return app(CategoryRepositoryInterface::class);
     }
 
     #[Computed()]

@@ -39,8 +39,8 @@
                     <p>
                         <small>
                             @can('view', $meta_data)
-                                <span class="mb-2 badge text-bg-primary">
-                                    {{ $meta_data->status }}
+                                <span class="mb-2 badge {{ $badge_status_class }}">
+                                    {{ $badge_ucfirst }}
                                 </span>
                                 <br>
                             @endcan

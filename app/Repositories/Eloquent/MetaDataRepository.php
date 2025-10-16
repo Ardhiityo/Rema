@@ -4,13 +4,13 @@ namespace App\Repositories\Eloquent;
 
 use App\Models\MetaData;
 use App\Data\Metadata\MetadataData;
-use App\Data\Metadata\CreateMetaData;
+use App\Data\Metadata\CreateMetadataData;
 use App\Data\MetaData\UpdateMetaData;
 use App\Repositories\Contratcs\MetaDataRepositoryInterface;
 
 class MetaDataRepository implements MetaDataRepositoryInterface
 {
-    public function create(CreateMetaData $create_meta_data): MetadataData
+    public function create(CreateMetadataData $create_meta_data): MetadataData
     {
         $meta_data = MetaData::create([
             'title' => $create_meta_data->title,

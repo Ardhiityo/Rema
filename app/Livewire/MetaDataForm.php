@@ -7,8 +7,8 @@ use Livewire\Component;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Computed;
 use App\Data\Author\AuthorListData;
+use App\Data\Metadata\CreateMetadataData;
 use Illuminate\Support\Facades\Auth;
-use App\Data\Metadata\CreateMetaData;
 use App\Data\MetaData\UpdateMetaData;
 use App\Repositories\Contratcs\AuthorRepositoryInterface;
 use App\Repositories\Contratcs\MetaDataRepositoryInterface;
@@ -153,7 +153,7 @@ class MetaDataForm extends Component
 
         $validated['year'] = Carbon::now()->year;
 
-        $create_meta_data_data = CreateMetaData::from($validated);
+        $create_meta_data_data = CreateMetadataData::from($validated);
 
         $meta_data_data = $this->metaDataRepository->create($create_meta_data_data);
 

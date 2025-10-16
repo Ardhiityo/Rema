@@ -4,7 +4,7 @@ namespace App\Data\Metadata;
 
 use Spatie\LaravelData\Data;
 
-class CreateMetaData extends Data
+class CreateMetadataData extends Data
 {
     public function __construct(
         public string $title,
