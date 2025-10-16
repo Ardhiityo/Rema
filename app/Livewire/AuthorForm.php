@@ -4,7 +4,6 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use Livewire\Attributes\On;
-use App\Models\StudyProgram;
 use Livewire\WithFileUploads;
 use App\Data\User\CreateUserData;
 use App\Data\User\UpdateUserData;
@@ -12,9 +11,9 @@ use Livewire\Attributes\Computed;
 use App\Rules\UpdateUserAvatarRule;
 use App\Data\Author\CreateAuthorData;
 use App\Data\Author\UpdateAuthorData;
-use App\Data\StudyProgram\StudyProgramData;
 use App\Repositories\Contratcs\UserRepositoryInterface;
 use App\Repositories\Contratcs\AuthorRepositoryInterface;
+use App\Repositories\Contratcs\StudyProgramRepositoryInterface;
 
 class AuthorForm extends Component
 {
@@ -193,9 +192,9 @@ class AuthorForm extends Component
         $this->resetErrorBag();
     }
 
-    public function render()
+    public function render(StudyProgramRepositoryInterface $studyProgramRepository)
     {
-        $study_programs = StudyProgramData::collect(StudyProgram::get());
+        $study_programs = $studyProgramRepository->all();
 
         return view('livewire.author-form', compact('study_programs'));
     }

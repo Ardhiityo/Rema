@@ -2,10 +2,12 @@
 
 namespace App\Livewire;
 
-use App\Models\Note;
 use Livewire\Component;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Computed;
+use App\Data\Note\CreateNoteData;
+use App\Data\Note\UpdateNoteData;
+use App\Repositories\Contratcs\NoteRepositoryInterface;
 
 class NoteForm extends Component
 {
@@ -39,13 +41,21 @@ class NoteForm extends Component
         $this->resetErrorBag();
     }
 
+    #[Computed()]
+    public function noteRepository()
+    {
+        return app(NoteRepositoryInterface::class);
+    }
+
     public function create()
     {
         $validated = $this->validate();
 
         $validated['meta_data_id'] = $this->meta_data_id;
 
-        Note::create($validated);
+        $create_note_data = CreateNoteData::from($validated);
+
+        $this->noteRepository->create($create_note_data);
 
         $this->resetInput();
 
@@ -57,7 +67,7 @@ class NoteForm extends Component
     #[On('note-edit')]
     public function edit($note_id)
     {
-        $note = Note::find($note_id);
+        $note = $this->noteRepository->findById($note_id);
 
         $this->note_id = $note_id;
         $this->message = $note->message;
@@ -69,7 +79,9 @@ class NoteForm extends Component
     {
         $validated = $this->validate();
 
-        Note::find($this->note_id)->update($validated);
+        $update_note_data = UpdateNoteData::from($validated);
+
+        $this->noteRepository->update($update_note_data, $this->note_id);
 
         $this->resetInput();
 
@@ -89,7 +101,7 @@ class NoteForm extends Component
     #[On('note-delete')]
     public function delete()
     {
-        Note::destroy($this->note_id);
+        $this->noteRepository->delete($this->note_id);
 
         $this->dispatch('refresh-notes');
 

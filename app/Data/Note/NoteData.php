@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Data;
+namespace App\Data\Note;
 
 use App\Models\Note;
 use Spatie\LaravelData\Data;

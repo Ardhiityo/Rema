@@ -165,15 +165,21 @@ class MetaDataCategoryRepository implements MetaDataCategoryRepositoryInterface
 
     public function delete(int $meta_data_id, int $category_id): bool
     {
-        $repository = Repository::where('meta_data_id', $meta_data_id)
-            ->where('category_id', $category_id);
+        try {
+            $repository = Repository::where('meta_data_id', $meta_data_id)
+                ->where('category_id', $category_id);
 
-        if ($file_path = $repository->first()->file_path) {
-            if (Storage::disk('public')->exists($file_path)) {
-                Storage::disk('public')->delete($file_path);
+            if ($repository = $repository->firstOrFail()) {
+                if ($file_path = $repository->file_path) {
+                    if (Storage::disk('public')->exists($file_path)) {
+                        Storage::disk('public')->delete($file_path);
+                    }
+                }
             }
-        }
 
-        return $repository->delete();
+            return $repository->delete();
+        } catch (\Throwable $th) {
+            return false;
+        }
     }
 }
