@@ -77,7 +77,10 @@
           <div class="gap-4 row d-flex gap-md-0">
               @forelse ($repositories as $repository)
                   <div class="col-md-6 col-lg-6 col-xl-3 d-flex">
-                      <a href="{{ route('repository.read', ['category_slug' => $repository->categories[0]['slug'], 'meta_data_slug' => $repository->slug]) }}"
+                      <a href="{{ route('repository.read', [
+                          'category_slug' => $repository->category_slug,
+                          'meta_data_slug' => $repository->metadata_slug,
+                      ]) }}"
                           target="_blank" class="w-100">
                           <div class="p-4 pt-0 border feature-item h-100 d-flex flex-column justify-content-between">
                               <div>
@@ -85,11 +88,11 @@
                                       <i class="fas fa-book-reader fa-3x"></i>
                                   </div>
                                   <div class="mb-4">
-                                      <h4>{{ $repository->author->user->name }}</h4>
+                                      <h4>{{ $repository->name }}</h4>
                                       <p>
                                           <small>
-                                              {{ $repository->author->nim }} |
-                                              {{ $repository->author->studyProgram->name }}
+                                              {{ $repository->nim }} |
+                                              {{ $repository->study_program }}
                                           </small>
                                       </p>
                                   </div>
@@ -97,7 +100,7 @@
                               </div>
                               <div>
                                   <p>
-                                      <small>{{ $repository->categories[0]['name'] }}</small>
+                                      <small>{{ $repository->category_name }}</small>
                                   </p>
                                   <p>
                                       <small>

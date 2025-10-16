@@ -3,10 +3,11 @@
 namespace App\Livewire;
 
 use Livewire\Component;
-use App\Models\Category;
-use App\Models\MetaData;
 use Livewire\WithPagination;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\Computed;
+use App\Repositories\Contratcs\CategoryRepositoryInterface;
+use App\Repositories\Contratcs\LandingPageRepositoryInterface;
 
 class SearchHero extends Component
 {
@@ -48,42 +49,23 @@ class SearchHero extends Component
         $this->dispatch('scroll-to-search');
     }
 
-    #[Layout('layouts.welcome')]
-    public function render()
+    #[Computed()]
+    public function categoryRepository()
     {
-        $query = MetaData::query();
+        return app(CategoryRepositoryInterface::class);
+    }
 
-        $query->where('status', 'approve')->where('visibility', 'public');
-
-        if ($title = $this->title) {
-            $query->whereLike('title', "%$title%");
-        }
-
-        $query->whereHas(
-            'categories',
-            fn($query) => $query->where('slug', $this->category)
+    #[Layout('layouts.welcome')]
+    public function render(LandingPageRepositoryInterface $landingPageRepository)
+    {
+        $repositories = $landingPageRepository->searchHero(
+            $this->title,
+            $this->year,
+            $this->author,
+            $this->category
         );
 
-        if ($year = $this->year) {
-            $query->where('year', $year);
-        }
-
-        if ($author = $this->author) {
-            $query->whereHas(
-                'author.user',
-                fn($query) => $query->whereLike('name', "%$author%")
-            );
-        }
-
-        $repositories = $query->with([
-            'author',
-            'categories' => fn($query) => $query->where('slug', $this->category),
-            'author.user',
-            'author.studyProgram'
-        ])
-            ->orderByDesc('id')->paginate(10);
-
-        $categories = Category::all();
+        $categories = $this->categoryRepository->all();
 
         return view('livewire.search-hero', compact('repositories', 'categories'));
     }
