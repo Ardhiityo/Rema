@@ -10,7 +10,6 @@ use App\Data\User\CreateUserData;
 use App\Data\User\UpdateUserData;
 use Livewire\Attributes\Computed;
 use App\Rules\UpdateUserAvatarRule;
-use Illuminate\Support\Facades\Log;
 use App\Data\Author\CreateAuthorData;
 use App\Data\Author\UpdateAuthorData;
 use App\Data\StudyProgram\StudyProgramData;
@@ -82,15 +81,15 @@ class AuthorForm extends Component
     }
 
     #[Computed()]
-    public function userRepository(UserRepositoryInterface $userRepository)
+    public function userRepository()
     {
-        return $userRepository;
+        return app(UserRepositoryInterface::class);
     }
 
     #[Computed()]
-    public function authorRepository(AuthorRepositoryInterface $authorRepository)
+    public function authorRepository()
     {
-        return $authorRepository;
+        return app(AuthorRepositoryInterface::class);
     }
 
     public function create()

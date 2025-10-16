@@ -6,6 +6,7 @@ use App\Data\Author\AuthorData;
 use App\Data\Author\CreateAuthorData;
 use App\Data\Author\UpdateAuthorData;
 use Spatie\LaravelData\DataCollection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 interface AuthorRepositoryInterface
 {
@@ -16,4 +17,6 @@ interface AuthorRepositoryInterface
     public function update($author_id, UpdateAuthorData $update_author_data): AuthorData;
 
     public function findByApprovals(array|null $relations = null): DataCollection;
+
+    public function findByFilters(string $status_filter = 'approve', string|null $keyword = null): LengthAwarePaginator;
 }

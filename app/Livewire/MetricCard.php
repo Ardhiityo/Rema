@@ -2,30 +2,20 @@
 
 namespace App\Livewire;
 
-use App\Models\Author;
 use Livewire\Component;
-use App\Models\StudyProgram;
+use App\Repositories\Contratcs\DashboardRepositoryInterface;
+use App\Repositories\Contratcs\AuthorRepositoryInterface;
 
 class MetricCard extends Component
 {
-    public function getAuthorsCountProperty()
+    public function getAuthorsCountProperty(AuthorRepositoryInterface $authorRepository)
     {
-        return Author::count();
+        return $authorRepository->findByApprovals()->count();
     }
 
-    public function getMetricsProperty()
+    public function getMetricsProperty(DashboardRepositoryInterface $dashboardRepository)
     {
-        return StudyProgram::with(['authors.metadata'])
-            ->get()
-            ->map(function ($program) {
-                $total = $program->authors->sum(function ($author) {
-                    return $author->metadata()->count();
-                });
-                return [
-                    'program' => $program->name,
-                    'total_repositories' => $total,
-                ];
-            });
+        return $dashboardRepository->metricCards();
     }
 
     public function render()

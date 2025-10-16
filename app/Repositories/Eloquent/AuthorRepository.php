@@ -4,10 +4,12 @@ namespace App\Repositories\Eloquent;
 
 use App\Models\Author;
 use App\Data\Author\AuthorData;
+use App\Data\Metric\MetricData;
 use App\Data\Author\AuthorListData;
 use App\Data\Author\CreateAuthorData;
 use App\Data\Author\UpdateAuthorData;
 use Spatie\LaravelData\DataCollection;
+use Illuminate\Pagination\LengthAwarePaginator;
 use App\Repositories\Contratcs\AuthorRepositoryInterface;
 
 class AuthorRepository implements AuthorRepositoryInterface
@@ -55,5 +57,22 @@ class AuthorRepository implements AuthorRepositoryInterface
         $authors->approve();
 
         return AuthorListData::collect($authors->get(), DataCollection::class);
+    }
+
+    public function findByFilters(string $status_filter = 'approve', string|null $keyword = null): LengthAwarePaginator
+    {
+        $query = Author::query();
+
+        $query->where('status', $status_filter);
+
+        if ($keyword) {
+            $query->whereHas(
+                'user',
+                fn($query) => $query->whereLike('name', "%$keyword%")
+            )
+                ->orWhere('nim', $keyword);
+        }
+
+        return AuthorListData::collect($query->orderByDesc('id')->paginate(10));
     }
 }

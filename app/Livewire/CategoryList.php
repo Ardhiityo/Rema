@@ -3,14 +3,15 @@
 namespace App\Livewire;
 
 use Livewire\Component;
-use App\Models\Category;
 use Livewire\Attributes\On;
 use Livewire\WithPagination;
-use App\Data\Category\CategoryData;
+use App\Repositories\Contratcs\CategoryRepositoryInterface;
 
 class CategoryList extends Component
 {
     use WithPagination;
+
+    protected $paginationTheme = 'bootstrap';
 
     public string $keyword = '';
 
@@ -22,17 +23,9 @@ class CategoryList extends Component
     }
 
     #[On('refresh-categories')]
-    public function getCategoriesProperty()
+    public function getCategoriesProperty(CategoryRepositoryInterface $categoryRepository)
     {
-        $query = Category::query();
-
-        if ($keyword = $this->keyword) {
-            $query->whereLike('name', "%$keyword%");
-        }
-
-        return CategoryData::collect(
-            $query->orderByDesc('id')->paginate(10)
-        );
+        return $categoryRepository->findByFilters($this->keyword);
     }
 
     public function render()

@@ -5,11 +5,12 @@ namespace App\Repositories\Eloquent;
 use App\Models\Category;
 use App\Models\Repository;
 use App\Data\Category\CategoryData;
+use Spatie\LaravelData\DataCollection;
 use Illuminate\Support\Facades\Storage;
 use App\Data\Category\CreateCategoryData;
 use App\Data\Category\UpdateCategoryData;
+use Illuminate\Pagination\LengthAwarePaginator;
 use App\Repositories\Contratcs\CategoryRepositoryInterface;
-use Spatie\LaravelData\DataCollection;
 
 class CategoryRepository implements CategoryRepositoryInterface
 {
@@ -63,5 +64,18 @@ class CategoryRepository implements CategoryRepositoryInterface
     public function all(): DataCollection
     {
         return CategoryData::collect(Category::all(), DataCollection::class);
+    }
+
+    public function findByFilters(string|null $keyword = null): LengthAwarePaginator
+    {
+        $query = Category::query();
+
+        if ($keyword) {
+            $query->whereLike('name', "%$keyword%");
+        }
+
+        return CategoryData::collect(
+            $query->orderByDesc('id')->paginate(10)
+        );
     }
 }

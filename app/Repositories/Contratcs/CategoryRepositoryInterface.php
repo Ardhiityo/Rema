@@ -6,6 +6,7 @@ use App\Data\Category\CategoryData;
 use Spatie\LaravelData\DataCollection;
 use App\Data\Category\CreateCategoryData;
 use App\Data\Category\UpdateCategoryData;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 interface CategoryRepositoryInterface
 {
@@ -18,4 +19,6 @@ interface CategoryRepositoryInterface
     public function delete(int $category_id): bool;
 
     public function all(): DataCollection;
+
+    public function findByFilters(string|null $keyword = null): LengthAwarePaginator;
 }

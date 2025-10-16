@@ -15,6 +15,8 @@ class RepositoryList extends Component
 {
     use WithPagination;
 
+    protected $paginationTheme = 'bootstrap';
+
     public string $title = '';
     public string $year = '';
     public string $visibility = 'public';
@@ -22,7 +24,6 @@ class RepositoryList extends Component
     public int|null $meta_data_id = null;
     public bool $is_author_only = false;
     public bool $is_admin = false;
-
     public User $user;
 
     public function mount()

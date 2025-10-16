@@ -4,12 +4,14 @@ namespace App\Providers;
 
 use App\Repositories\Contratcs\AuthorRepositoryInterface;
 use App\Repositories\Contratcs\CategoryRepositoryInterface;
+use App\Repositories\Contratcs\DashboardRepositoryInterface;
 use App\Repositories\Contratcs\MetaDataCategoryRepositoryInterface;
 use App\Repositories\Contratcs\MetaDataRepositoryInterface;
 use App\Repositories\Contratcs\StudyProgramRepositoryInterface;
 use App\Repositories\Contratcs\UserRepositoryInterface;
 use App\Repositories\Eloquent\AuthorRepository;
 use App\Repositories\Eloquent\CategoryRepository;
+use App\Repositories\Eloquent\DashboardRepository;
 use App\Repositories\Eloquent\MetaDataCategoryRepository;
 use App\Repositories\Eloquent\MetaDataRepository;
 use App\Repositories\Eloquent\StudyProgramRepository;
@@ -30,6 +32,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(AuthorRepositoryInterface::class, AuthorRepository::class);
         $this->app->bind(MetaDataRepositoryInterface::class, MetaDataRepository::class);
         $this->app->bind(MetaDataCategoryRepositoryInterface::class, MetaDataCategoryRepository::class);
+        $this->app->bind(DashboardRepositoryInterface::class, DashboardRepository::class);
     }
 
     /**
