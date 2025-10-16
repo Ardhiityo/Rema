@@ -7,6 +7,7 @@ use App\Models\StudyProgram;
 use Spatie\LaravelData\DataCollection;
 use Illuminate\Support\Facades\Storage;
 use App\Data\StudyProgram\StudyProgramData;
+use Illuminate\Pagination\LengthAwarePaginator;
 use App\Data\StudyProgram\CreateStudyProgramData;
 use App\Data\StudyProgram\UpdateStudyProgramData;
 use App\Repositories\Contratcs\StudyProgramRepositoryInterface;
@@ -94,5 +95,18 @@ class StudyProgramRepository implements StudyProgramRepositoryInterface
     public function all(): DataCollection
     {
         return StudyProgramData::collect(StudyProgram::all(), DataCollection::class);
+    }
+
+    public function findByFilters(string|null $keyword = null): LengthAwarePaginator
+    {
+        $query = StudyProgram::query();
+
+        if ($keyword) {
+            $query->whereLike('name', "%$keyword%");
+        }
+
+        return StudyProgramData::collect(
+            $query->orderByDesc('id')->paginate(10)
+        );
     }
 }

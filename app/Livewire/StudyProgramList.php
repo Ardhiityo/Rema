@@ -4,9 +4,8 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use Livewire\Attributes\On;
-use App\Models\StudyProgram;
 use Livewire\WithPagination;
-use  App\Data\StudyProgram\StudyProgramData;
+use App\Repositories\Contratcs\StudyProgramRepositoryInterface;
 
 class StudyProgramList extends Component
 {
@@ -23,17 +22,9 @@ class StudyProgramList extends Component
     }
 
     #[On('refresh-study-programs')]
-    public function getStudyProgramsProperty()
+    public function getStudyProgramsProperty(StudyProgramRepositoryInterface $studyProgramRepository)
     {
-        $query = StudyProgram::query();
-
-        if ($keyword = $this->keyword) {
-            $query->whereLike('name', "%$keyword%");
-        }
-
-        return StudyProgramData::collect(
-            $query->orderByDesc('id')->paginate(10)
-        );
+        return $studyProgramRepository->findByFilters($this->keyword);
     }
 
     public function render()

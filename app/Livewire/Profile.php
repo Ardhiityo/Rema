@@ -105,14 +105,16 @@ class Profile extends Component
         $this->resetErrorBag();
     }
 
-    public function getUserRepositoryProperty(UserRepositoryInterface $userRepository)
+    #[Computed()]
+    public function userRepository()
     {
-        return $userRepository;
+        return app(UserRepositoryInterface::class);
     }
 
-    public function getAuthorRepositoryProperty(AuthorRepositoryInterface $authorRepository)
+    #[Computed()]
+    public function authorRepository()
     {
-        return $authorRepository;
+        return app(AuthorRepositoryInterface::class);
     }
 
     public function update()
@@ -137,14 +139,14 @@ class Profile extends Component
 
             $update_author_data = UpdateAuthorData::from($validated);
 
-            $this->author_repository->update($author_data->id, $update_author_data);
+            $this->authorRepository->update($author_data->id, $update_author_data);
         }
 
         $validated['email'] = $user_data->email;
 
         $update_user_data = UpdateUserData::from($validated);
 
-        $this->user_repository->update($user_data->id, $update_user_data);
+        $this->userRepository->update($user_data->id, $update_user_data);
 
         session()->flash('message', 'The profile was successfully updated.');
     }
