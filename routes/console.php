@@ -11,4 +11,4 @@ Artisan::command('inspire', function () {
 
 Schedule::call(function () {
     File::cleanDirectory(storage_path('app/private/livewire-tmp'));
-})->everyMinute();
+})->lastDayOfMonth();

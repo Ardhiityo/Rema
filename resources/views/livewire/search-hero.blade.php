@@ -76,7 +76,7 @@
           </div>
           <div class="gap-4 row d-flex gap-md-0">
               @forelse ($repositories as $repository)
-                  <div class="col-md-6 col-lg-6 col-xl-3 d-flex">
+                  <div class="col-md-6 col-lg-6 col-xl-3 d-flex mt-md-3">
                       <a href="{{ route('repository.read', [
                           'category_slug' => $repository->category_slug,
                           'meta_data_slug' => $repository->metadata_slug,
