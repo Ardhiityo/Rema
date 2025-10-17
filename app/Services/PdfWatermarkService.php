@@ -29,7 +29,7 @@ class PdfWatermarkService
                 $pdf->useTemplate($tplIdx);
 
                 $pdf->SetFont('Helvetica', '', 45);
-                $pdf->SetTextColor(178, 102, 255);
+                $pdf->SetTextColor(192, 192, 192);
                 $pdf->SetXY(0, $size['height'] / 2);
                 $pdf->Cell($size['width'], 10, $watermarkText, 0, 0, 'C');
             }
