@@ -41,7 +41,7 @@ class LandingPageRepository implements LandingPageRepositoryInterface
         }
 
         return SearchHeroData::collect(
-            $query->orderByDesc('id')->paginate(10)
+            $query->orderByDesc('id')->paginate(8)
         );
     }
 }
