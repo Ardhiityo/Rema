@@ -66,18 +66,17 @@
                             <tr class="text-nowrap" wire:key='{{ $data->slug }}'>
                                 <td class="text-center text-bold-500">{{ $loop->index + $this->meta_data->firstItem() }}
                                 </td>
-                                <td class="text-bold-500">{{ $data->title }}</td>
+                                <td class="text-bold-500">{{ $data->short_title }}</td>
                                 @if (!$is_author_only)
                                     <td>
-                                        @if ($data->author->user->avatar)
-                                            <img src="{{ Storage::url($data->author->user->avatar) }}"
-                                                alt="{{ $data->author->user->name }}"
+                                        @if ($data->avatar)
+                                            <img src="{{ $data->avatar }}" alt="{{ $data->name }}"
                                                 style="width: 38px; height: 38px; border-radius: 100%;">
                                         @else
                                             -
                                         @endif
                                         <span class="text-bold-500 ms-1">
-                                            {{ $data->author->user->name }}
+                                            {{ $data->short_name }}
                                         </span>
                                     </td>
                                 @endif

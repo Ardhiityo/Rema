@@ -15,6 +15,7 @@ class DashboardController extends Controller
         $repositories = MetaData::where('status', 'approve')->select('year', DB::raw('count(*) as total_repositories'))
             ->groupBy('year')
             ->orderBy('year', 'asc')
+            ->limit(3)
             ->get();
 
         $repository_years = [];

@@ -1,0 +1,39 @@
+<?php
+
+namespace App\Data\Metadata;
+
+use App\Models\MetaData;
+use Illuminate\Support\Str;
+use Spatie\LaravelData\Data;
+use Illuminate\Support\Facades\Storage;
+use Spatie\LaravelData\Attributes\Computed;
+
+class MetadataListData extends Data
+{
+    #[Computed()]
+    public string $short_title;
+    #[Computed()]
+    public string $short_name;
+
+    public function __construct(
+        public string $title,
+        public string $avatar,
+        public string $name,
+        public string $visibility,
+        public string $slug,
+    ) {
+        $this->short_title = Str::limit($title, 50, '...');
+        $this->short_name = Str::limit($name, 15, '...');
+    }
+
+    public static function fromModel(MetaData $meta_data): self
+    {
+        return new self(
+            $meta_data->title,
+            $meta_data->author->user->avatar ? Storage::url($meta_data->author->user->avatar) : false,
+            $meta_data->author->user->name,
+            $meta_data->visibility,
+            $meta_data->slug
+        );
+    }
+}
