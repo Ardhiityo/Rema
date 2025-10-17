@@ -51,22 +51,21 @@
             <div class="table-responsive">
                 <table class="table mb-0 table-lg">
                     <thead>
-                        <tr class="text-nowrap">
-                            <th class="text-center">No</th>
+                        <tr class="text-center text-nowrap">
+                            <th>No</th>
                             <th>Title</th>
                             @if (!$is_author_only)
                                 <th>Author</th>
                             @endif
-                            <th class="text-center">Visibility</th>
-                            <th class="text-center">Action</th>
+                            <th>Visibility</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse ($this->meta_data as $data)
-                            <tr class="text-nowrap" wire:key='{{ $data->slug }}'>
-                                <td class="text-center text-bold-500">{{ $loop->index + $this->meta_data->firstItem() }}
-                                </td>
-                                <td class="text-bold-500">{{ $data->short_title }}</td>
+                            <tr class="text-center text-nowrap" wire:key='{{ $data->slug }}'>
+                                <td class="text-bold-500">{{ $loop->index + $this->meta_data->firstItem() }}</td>
+                                <td class="text-bold-500" title="{{ $data->title }}">{{ $data->short_title }}</td>
                                 @if (!$is_author_only)
                                     <td>
                                         @if ($data->avatar)
@@ -75,12 +74,12 @@
                                         @else
                                             -
                                         @endif
-                                        <span class="text-bold-500 ms-1">
+                                        <span class="text-bold-500 ms-1" title="{{ $data->name }}">
                                             {{ $data->short_name }}
                                         </span>
                                     </td>
                                 @endif
-                                <td class="text-center text-bold-500">{{ $data->visibility_ucfirst }}</td>
+                                <td class="text-bold-500">{{ $data->visibility_ucfirst }}</td>
                                 <td class="gap-3 d-flex justify-content-center align-items-center">
                                     <a href="{{ route('repository.show', ['meta_data' => $data->slug]) }}"
                                         class="btn btn-info">

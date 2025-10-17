@@ -26,7 +26,7 @@ class MetadataListData extends Data
         public string $visibility,
         public string $slug,
     ) {
-        $this->short_title = Str::limit($title, 50, '...');
+        $this->short_title = Str::limit($title, 35, '...');
         $this->short_name = Str::limit($name, 15, '...');
         $this->visibility_ucfirst = ucfirst($visibility);
     }
