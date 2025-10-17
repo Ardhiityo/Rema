@@ -41,7 +41,8 @@
                                             <img src="{{ $recently_add->avatar }}">
                                         </div>
                                         <div class="name ms-4">
-                                            <h5 class="mb-1">{{ $recently_add->author }}</h5>
+                                            <h5 class="mb-1" title="{{ $recently_add->name }}">
+                                                {{ $recently_add->short_name }}</h5>
                                             <h6 class="mb-0 text-muted">{{ $recently_add->categories }}</h6>
                                         </div>
                                     </div>
@@ -80,7 +81,7 @@
                                             </thead>
                                             <tbody>
                                                 @forelse ($latest_repositories as $latest_repository)
-                                                    <tr>
+                                                    <tr class="text-nowrap">
                                                         <td class="col-3">
                                                             <a
                                                                 href="{{ route('repository.show', ['meta_data' => $latest_repository->slug]) }}">
@@ -88,15 +89,17 @@
                                                                     <div class="avatar avatar-md">
                                                                         <img src="{{ $latest_repository->avatar }}">
                                                                     </div>
-                                                                    <p class="mb-0 font-bold ms-3">
-                                                                        {{ $latest_repository->author }}</p>
+                                                                    <p class="mb-0 font-bold ms-3"
+                                                                        title="{{ $latest_repository->name }}">
+                                                                        {{ $latest_repository->short_name }}</p>
                                                                 </div>
                                                             </a>
                                                         </td>
                                                         <td class="col-auto">
                                                             <a
                                                                 href="{{ route('repository.show', ['meta_data' => $latest_repository->slug]) }}">
-                                                                <p class="mb-0">{{ $latest_repository->title }}
+                                                                <p class="mb-0" title="{{ $latest_repository->title }}">
+                                                                    {{ $latest_repository->short_title }}
                                                                 </p>
                                                             </a>
                                                         </td>
