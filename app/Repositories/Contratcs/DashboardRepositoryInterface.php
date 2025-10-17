@@ -7,4 +7,5 @@ use Spatie\LaravelData\DataCollection;
 interface DashboardRepositoryInterface
 {
     public function metricCards(): DataCollection;
+    public function charts(): array;
 }

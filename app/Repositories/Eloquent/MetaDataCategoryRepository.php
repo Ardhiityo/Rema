@@ -12,6 +12,7 @@ use App\Data\MetadataCategory\CreateMetadataCategoryData;
 use App\Data\MetadataCategory\UpdateMetadataCategoryData;
 use App\Repositories\Contratcs\MetaDataRepositoryInterface;
 use App\Repositories\Contratcs\MetaDataCategoryRepositoryInterface;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class MetaDataCategoryRepository implements MetaDataCategoryRepositoryInterface
 {
@@ -180,5 +181,23 @@ class MetaDataCategoryRepository implements MetaDataCategoryRepositoryInterface
         } catch (\Throwable $th) {
             return false;
         }
+    }
+
+    public function read(string $category_slug, string $meta_data_slug): BinaryFileResponse
+    {
+        $repository = Repository::whereHas(
+            'category',
+            fn($query)
+            => $query->where('slug', $category_slug)
+        )->whereHas(
+            'metadata',
+            fn($query) => $query->where('slug', $meta_data_slug)
+        )->firstOrFail();
+
+        $path = storage_path('app/public/' . $repository->file_path);
+
+        return response()->file($path, [
+            'Content-Type' => 'application/pdf',
+        ]);
     }
 }

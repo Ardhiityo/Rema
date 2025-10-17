@@ -12,8 +12,12 @@ class MetadataListData extends Data
 {
     #[Computed()]
     public string $short_title;
+
     #[Computed()]
     public string $short_name;
+
+    #[Computed()]
+    public string $visibility_ucfirst;
 
     public function __construct(
         public string $title,
@@ -24,6 +28,7 @@ class MetadataListData extends Data
     ) {
         $this->short_title = Str::limit($title, 50, '...');
         $this->short_name = Str::limit($name, 15, '...');
+        $this->visibility_ucfirst = ucfirst($visibility);
     }
 
     public static function fromModel(MetaData $meta_data): self

@@ -3,9 +3,12 @@
 namespace App\Repositories\Eloquent;
 
 use App\Models\MetaData;
+use App\Data\User\UserData;
 use App\Models\StudyProgram;
+use App\Data\RecentlyAddData;
 use App\Data\Metric\MetricData;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Spatie\LaravelData\DataCollection;
 use App\Repositories\Contratcs\DashboardRepositoryInterface;
 
@@ -34,5 +37,46 @@ class DashboardRepository implements DashboardRepositoryInterface
         })->values();
 
         return MetricData::collect($metrics, DataCollection::class);
+    }
+
+    public function charts(): array
+    {
+        $repositories = MetaData::where('status', 'approve')->select('year', DB::raw('count(*) as total_repositories'))
+            ->groupBy('year')
+            ->orderBy('year', 'asc')
+            ->limit(3)
+            ->get();
+
+        $repository_years = [];
+        $repository_totals = [];
+
+        foreach ($repositories as $key => $repository) {
+            $repository_years[] = $repository->year;
+            $repository_totals[] = $repository->total_repositories;
+        }
+
+        $recently_adds = RecentlyAddData::collect(MetaData::with(['author', 'author.user'])
+            ->where('status', 'approve')
+            ->limit(3)
+            ->orderByDesc('id')
+            ->get());
+
+        $user_logged = UserData::fromModel(Auth::user());
+
+        $latest_repositories = RecentlyAddData::collect(
+            MetaData::with('author', 'author.user', 'categories')
+                ->where('status', 'approve')
+                ->limit(5)
+                ->orderByDesc('id')
+                ->get()
+        );
+
+        return compact(
+            'repository_years',
+            'repository_totals',
+            'recently_adds',
+            'user_logged',
+            'latest_repositories'
+        );
     }
 }

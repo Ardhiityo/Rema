@@ -80,7 +80,7 @@
                                         </span>
                                     </td>
                                 @endif
-                                <td class="text-center text-bold-500">{{ $data->visibility }}</td>
+                                <td class="text-center text-bold-500">{{ $data->visibility_ucfirst }}</td>
                                 <td class="gap-3 d-flex justify-content-center align-items-center">
                                     <a href="{{ route('repository.show', ['meta_data' => $data->slug]) }}"
                                         class="btn btn-info">
