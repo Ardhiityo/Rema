@@ -3,7 +3,6 @@
 namespace App\Livewire;
 
 use Livewire\Component;
-use Livewire\Attributes\On;
 use Livewire\WithPagination;
 use Livewire\Attributes\Computed;
 use Illuminate\Support\Facades\Auth;
@@ -24,7 +23,7 @@ class RepositoryList extends Component
     // Form Start
 
     public int|null $meta_data_id = null;
-    public bool $is_author_only = false;
+    public bool $is_author = false;
     public bool $is_admin = false;
 
     public function mount()
@@ -32,7 +31,7 @@ class RepositoryList extends Component
         $user = Auth::user();
 
         if (Route::is('repository.author.index')) {
-            $this->is_author_only = true;
+            $this->is_author = true;
         }
 
         if ($user->hasRole('admin')) {
@@ -58,17 +57,6 @@ class RepositoryList extends Component
         return $this->metaDataRepository->delete($this->meta_data_id);
     }
 
-    #[On('refresh-repositories')]
-    public function getMetaDataProperty()
-    {
-        return $this->metaDataRepository->findByFilters(
-            $this->title,
-            $this->status_filter,
-            $this->year,
-            $this->visibility
-        );
-    }
-
     public function resetInput()
     {
         $this->title = '';
@@ -81,6 +69,14 @@ class RepositoryList extends Component
 
     public function render()
     {
-        return view('livewire.repository-list');
+        $meta_data = $this->metaDataRepository->findByFilters(
+            $this->title,
+            $this->status_filter,
+            $this->year,
+            $this->visibility,
+            $this->is_author
+        );
+
+        return view('livewire.repository-list', compact('meta_data'));
     }
 }

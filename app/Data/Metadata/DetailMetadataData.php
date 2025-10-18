@@ -21,7 +21,7 @@ class DetailMetadataData extends Data
         public string $title,
         public int $author_id,
         public string $visibility,
-        public int $year,
+        public int|string $year,
         public string $slug,
         public string $status,
         public string $created_at,

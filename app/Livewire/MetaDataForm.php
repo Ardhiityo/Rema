@@ -2,7 +2,6 @@
 
 namespace App\Livewire;
 
-use Carbon\Carbon;
 use Livewire\Component;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Computed;
@@ -19,6 +18,7 @@ class MetaDataForm extends Component
     public string $title = '';
     public int|string $author_id = '';
     public string $status = '';
+    public string $year = '';
     public string $visibility = '';
     public string $slug = '';
     // End Form
@@ -36,7 +36,7 @@ class MetaDataForm extends Component
             $meta_data_data =  $this->metaDataRepository->findById($meta_data_id);
             $this->meta_data_id = $meta_data_data->id;
             $this->title = $meta_data_data->title;
-            $this->slug = $meta_data_data->slug;
+            $this->year = $meta_data_data->year;
             $this->author_id = $meta_data_data->author_id;
             $this->status = $meta_data_data->status;
             $this->visibility = $meta_data_data->visibility;
@@ -52,6 +52,10 @@ class MetaDataForm extends Component
             $this->status = $meta_data_session->status;
             $this->visibility = $meta_data_session->visibility;
         }
+
+        if (is_null($meta_data_id)) {
+            $this->year = now()->year;
+        }
     }
 
     protected function validationAttributes()
@@ -59,6 +63,7 @@ class MetaDataForm extends Component
         return [
             'slug' => 'title',
             'author_id' => 'author',
+            'year' => 'year of graduation',
         ];
     }
 
@@ -120,6 +125,7 @@ class MetaDataForm extends Component
                 $this->is_update ? 'unique:meta_data,slug,' . $this->meta_data_id : 'unique:meta_data,slug'
             ],
             'author_id' => ['required', 'exists:authors,id'],
+            'year' => ['required', 'date_format:Y'],
             'status' => ['required', 'in:approve,pending,reject,revision'],
             'visibility' => ['required', 'in:private,protected,public']
         ];
@@ -150,8 +156,6 @@ class MetaDataForm extends Component
         $this->slug = Str::slug($this->title);
 
         $validated = $this->validate();
-
-        $validated['year'] = Carbon::now()->year;
 
         $create_meta_data_data = CreateMetadataData::from($validated);
 

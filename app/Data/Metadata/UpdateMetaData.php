@@ -11,6 +11,7 @@ class UpdateMetaData extends Data
         public int $author_id,
         public string $visibility,
         public string $slug,
+        public string $year,
         public string $status
     ) {}
 }

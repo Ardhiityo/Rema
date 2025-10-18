@@ -30,6 +30,19 @@
                     </div>
                     {{-- Title --}}
 
+                    {{-- Graduation Year --}}
+                    <div class="mt-4">
+                        <label for="year" class="form-label">Year of Graduation</label>
+                        <input type="number" required class="form-control" id="year" wire:model='year'
+                            placeholder="ex: 2025" {{ $this->islockForm ? 'disabled' : '' }}>
+                        @error('slug')
+                            <span class="badge bg-danger text-wrap">
+                                <small>{{ $message }}</small>
+                            </span>
+                        @enderror
+                    </div>
+                    {{-- Graduation Year --}}
+
                     {{-- Author --}}
                     @hasrole('admin')
                         <div class="mt-4">

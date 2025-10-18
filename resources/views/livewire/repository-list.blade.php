@@ -10,7 +10,7 @@
                             id="keyword">
                     </div>
                 </div>
-                @if ($is_author_only || $is_admin)
+                @if ($is_author || $is_admin)
                     <div class="col-md-3">
                         <div class="input-group">
                             <label class="input-group-text" for="status">Status</label>
@@ -54,7 +54,7 @@
                         <tr class="text-center text-nowrap">
                             <th>No</th>
                             <th>Title</th>
-                            @if (!$is_author_only)
+                            @if (!$is_author)
                                 <th>Author</th>
                             @endif
                             <th>Visibility</th>
@@ -62,11 +62,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($this->meta_data as $data)
+                        @forelse ($meta_data as $data)
                             <tr class="text-center text-nowrap" wire:key='{{ $data->slug }}'>
-                                <td class="text-bold-500">{{ $loop->index + $this->meta_data->firstItem() }}</td>
+                                <td class="text-bold-500">{{ $loop->index + $meta_data->firstItem() }}</td>
                                 <td class="text-bold-500" title="{{ $data->title }}">{{ $data->short_title }}</td>
-                                @if (!$is_author_only)
+                                @if (!$is_author)
                                     <td>
                                         @if ($data->avatar)
                                             <img src="{{ $data->avatar }}" alt="{{ $data->name }}"
@@ -85,7 +85,7 @@
                                         class="btn btn-info">
                                         <i class="bi bi-eye-fill"></i>
                                     </a>
-                                    @if ($is_admin || $is_author_only)
+                                    @if ($is_admin || $is_author)
                                         <a href="{{ route('repository.edit', ['meta_data_slug' => $data->slug]) }}"
                                             class="btn btn-warning">
                                             <i class="bi bi-pencil-square"></i>
@@ -108,9 +108,9 @@
                     </tbody>
                 </table>
             </div>
-            @if ($this->meta_data->isNotEmpty())
+            @if ($meta_data->isNotEmpty())
                 <div class="p-3 pt-4">
-                    {{ $this->meta_data->links() }}
+                    {{ $meta_data->links() }}
                 </div>
             @endif
         </div>

@@ -44,7 +44,7 @@
                                 </span>
                                 <br>
                             @endcan
-                            {{ $meta_data->created_at }}
+                            Year of Graduation <strong>{{ $meta_data->year }}</strong>
                         </small>
                     </p>
                     <div class="gap-3 d-flex">

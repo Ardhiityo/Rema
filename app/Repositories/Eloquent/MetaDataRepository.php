@@ -38,6 +38,7 @@ class MetaDataRepository implements MetaDataRepositoryInterface
                 'title' => $update_meta_data->title,
                 'author_id' => $update_meta_data->author_id,
                 'visibility' => $update_meta_data->visibility,
+                'year' => $update_meta_data->year,
                 'slug' => $update_meta_data->slug,
                 'status' => $update_meta_data->status
             ]);
@@ -77,16 +78,15 @@ class MetaDataRepository implements MetaDataRepositoryInterface
         return null;
     }
 
-    public function findByFilters(string $title, string $status, string $year, string $visibility): LengthAwarePaginator
+    public function findByFilters(string $title, string $status, string $year, string $visibility, bool $is_author = false): LengthAwarePaginator
     {
         $query = MetaData::query();
-
         $user = Auth::user();
 
         $query->with(['author', 'author.user', 'author.studyProgram', 'categories']);
 
         if ($user->hasRole('contributor')) {
-            if (Route::is('repository.author.index')) {
+            if ($is_author) {
                 $query->where('author_id', $user->author->id);
             } else {
                 $query->where('visibility', '!=', 'private');
@@ -95,16 +95,14 @@ class MetaDataRepository implements MetaDataRepositoryInterface
 
         $query->where('status', $status);
 
+        $query->where('visibility', $visibility);
+
         if ($title) {
             $query->whereLike('title', "%$title%");
         }
 
         if ($year) {
             $query->where('year', $year);
-        }
-
-        if ($visibility) {
-            $query->where('visibility', $visibility);
         }
 
         return MetadataListData::collect(

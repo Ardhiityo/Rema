@@ -15,7 +15,7 @@ class SearchHeroData extends Data
         public string $category_slug,
         public string $metadata_slug,
         public string $category_name,
-        public string $created_at
+        public string $year
     ) {}
 
     public static function fromModel(MetaData $meta_data): self
@@ -28,7 +28,7 @@ class SearchHeroData extends Data
             $meta_data->categories->first()->slug,
             $meta_data->slug,
             $meta_data->categories->first()->name,
-            $meta_data->created_at->format('d F Y')
+            $meta_data->year
         );
     }
 }

@@ -104,8 +104,8 @@
                                   </p>
                                   <p>
                                       <small>
-                                          <i class="fas fa-calendar-week"></i>
-                                          {{ $repository->created_at }}
+                                          <i class="me-1 fas fa-calendar-week"></i>
+                                          Year of Graduation {{ $repository->year }}
                                       </small>
                                   </p>
                                   <span class="px-4 py-2 btn btn-primary rounded-pill">
