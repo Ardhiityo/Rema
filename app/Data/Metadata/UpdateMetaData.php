@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Data\MetaData;
+namespace App\Data\Metadata;
 
 use Spatie\LaravelData\Data;
 

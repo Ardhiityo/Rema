@@ -4,49 +4,41 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\File;
-use setasign\Fpdi\Fpdi;
+use Gutti3k\PdfWatermarker\Watermarkers\ImageWatermarker;
+
 
 class PdfWatermarkService
 {
-    public static function apply(string $sourcePath, string $filename, string $watermarkText): string
+    public static function apply(string $sourcePath, string $filename): string
     {
         try {
-            // Pastikan hanya nama file, bukan full path
             $filename = basename($filename);
-
             if (!str_ends_with(strtolower($filename), '.pdf')) {
                 $filename .= '.pdf';
             }
 
-            $pdf = new Fpdi();
-            $pageCount = $pdf->setSourceFile($sourcePath);
-
-            for ($i = 1; $i <= $pageCount; $i++) {
-                $tplIdx = $pdf->importPage($i);
-                $size = $pdf->getTemplateSize($tplIdx);
-
-                $pdf->AddPage($size['orientation'], [$size['width'], $size['height']]);
-                $pdf->useTemplate($tplIdx);
-
-                $pdf->SetFont('Helvetica', '', 45);
-                $pdf->SetTextColor(192, 192, 192);
-                $pdf->SetXY(0, $size['height'] / 2);
-                $pdf->Cell($size['width'], 10, $watermarkText, 0, 0, 'C');
-            }
-
             $tempDir = storage_path('app/temp');
-            if (!File::exists($tempDir)) {
-                File::makeDirectory($tempDir, 0775, true, true);
-            }
-
+            File::ensureDirectoryExists($tempDir);
             $tempOutput = $tempDir . '/output_' . $filename;
 
-            $pdf->Output($tempOutput, 'F');
+            $watermarkImagePath = public_path('assets/watermark/unival.png');
+
+            if (!File::exists($watermarkImagePath)) {
+                throw new \Exception('File watermark tidak ditemukan: ' . $watermarkImagePath);
+            }
+
+            (new ImageWatermarker())
+                ->input($sourcePath)
+                ->watermark($watermarkImagePath)
+                ->position('MiddleCenter', 0, 0)
+                ->resolution(300)
+                ->asOverlay()
+                ->pageRange(1, null)
+                ->save($tempOutput); // ✅ ini yang benar
 
             $relativePath = 'repositories/' . $filename;
             $publicPath = storage_path('app/public/' . $relativePath);
             File::ensureDirectoryExists(dirname($publicPath));
-
             File::move($tempOutput, $publicPath);
 
             return $relativePath;

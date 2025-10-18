@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1d6193dbd97481377dd2ade72b62e29f",
+    "content-hash": "6dbc22ef7a13eb6b6997857921d550f6",
     "packages": [
         {
             "name": "brick/math",
@@ -752,6 +752,56 @@
                 }
             ],
             "time": "2024-07-20T21:45:45+00:00"
+        },
+        {
+            "name": "gutti3k/pdf-watermarker",
+            "version": "v1.0.10",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/gutti3k/pdf-watermarker.git",
+                "reference": "fea38b9fea029382c1e5fa26c44d8cd830bddd97"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/gutti3k/pdf-watermarker/zipball/fea38b9fea029382c1e5fa26c44d8cd830bddd97",
+                "reference": "fea38b9fea029382c1e5fa26c44d8cd830bddd97",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": ">=7.0",
+                "php": ">=7.1.0",
+                "setasign/fpdf": "^1.8",
+                "setasign/fpdi": "^2.3"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "PdfWatermark": "Gutti3k\\PdfWatermarker\\Facades\\PdfWatermarker",
+                        "ImageWatermark": "Gutti3k\\PdfWatermarker\\Facades\\ImageWatermarker"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Gutti3k\\PdfWatermarker\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Juan Carlos Gutierrez V",
+                    "email": "guttiv@gmail.com"
+                }
+            ],
+            "description": "Fork of the Simple PDF Watermarker with Laravel support",
+            "support": {
+                "source": "https://github.com/gutti3k/pdf-watermarker/tree/v1.0.10"
+            },
+            "time": "2022-04-13T16:08:39+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",

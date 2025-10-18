@@ -44,7 +44,6 @@ class MetaDataCategoryRepository implements MetaDataCategoryRepositoryInterface
         $relativePath = PdfWatermarkService::apply(
             $tempStoragePath,
             basename($filename), // ✅ pastikan hanya nama file, bukan path
-            "FIK-UNIVAL-{$authorNim}"
         );
 
         // 8. Hapus file temp
@@ -100,7 +99,6 @@ class MetaDataCategoryRepository implements MetaDataCategoryRepositoryInterface
             $relativePath = PdfWatermarkService::apply(
                 $tempStoragePath,
                 basename($filename), // ✅ pastikan hanya nama file, bukan path
-                "FIK-UNIVAL-{$authorNim}"
             );
 
             // 8. Hapus file temp
