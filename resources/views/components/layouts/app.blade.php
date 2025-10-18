@@ -19,11 +19,13 @@
         <div id="sidebar">
             <x-sidebar />
         </div>
-        <div id="main">
+        <div id="main" style="min-height: 100dvh" class="d-flex flex-column justify-content-between">
             <x-header />
             {{ $slot }}
+            <x-footer />
         </div>
     </div>
+
     <script src="{{ asset('assets/static/js/components/dark.js') }}"></script>
     <script src="{{ asset('assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
     <script src="{{ asset('assets/compiled/js/app.js') }}"></script>
