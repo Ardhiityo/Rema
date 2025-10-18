@@ -3,9 +3,10 @@
            <div class="row g-4 align-items-center">
                <div class="text-center col-12">
                    <span class="text-body">
-                       Developed By <a class="text-white border-bottom" href="https://www.instagram.com/ardhiityo/">Arya
-                           Adhi
-                           Prasetyo</a>, All right reserved.
+                       Developed By
+                       <a class="text-white border-bottom" href="https://www.linkedin.com/in/ardhiityo" target="_blank"
+                           rel="noopener noreferrer">
+                           Arya Adhi Prasetyo</a>, All right reserved.
                    </span>
                </div>
            </div>

@@ -4,7 +4,7 @@
                <p>
                    <small>
                        Developed By
-                       <a href="www.linkedin.com/in/ardhiityo">
+                       <a href="https://www.linkedin.com/in/ardhiityo" target="_blank" rel="noopener noreferrer">
                            <strong>Arya Adhi Prasetyo</strong>
                        </a>
                        <br>
