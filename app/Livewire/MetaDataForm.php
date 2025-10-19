@@ -6,9 +6,9 @@ use Livewire\Component;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Computed;
 use App\Data\Author\AuthorListData;
-use App\Data\Metadata\CreateMetadataData;
 use Illuminate\Support\Facades\Auth;
-use App\Data\MetaData\UpdateMetaData;
+use App\Data\Metadata\UpdateMetaData;
+use App\Data\Metadata\CreateMetadataData;
 use App\Repositories\Contratcs\AuthorRepositoryInterface;
 use App\Repositories\Contratcs\MetaDataRepositoryInterface;
 

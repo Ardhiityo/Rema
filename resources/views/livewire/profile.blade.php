@@ -122,7 +122,7 @@
                                         </div>
                                         @if ($display_avatar)
                                             <div class="py-3">
-                                                <img src="{{ Storage::url($display_avatar) }}" class="rounded-circle"
+                                                <img src="{{ $display_avatar }}" class="rounded-circle"
                                                     style="width: 100px; height: 100px;" alt="...">
                                             </div>
                                         @endif

@@ -22,7 +22,7 @@
                                         <img src="{{ asset('assets/compiled/jpg/3.jpg') }}" alt="{{ $user_logged->name }}">
                                     @endif
                                 </div>
-                                <div class="ms-3 name">
+                                <div class="ms-3 name text-break">
                                     <h5 class="font-bold">{{ $user_logged->short_name }}</h5>
                                     <h6 class="mb-0 text-muted">{{ $user_logged->short_email }}</h6>
                                 </div>

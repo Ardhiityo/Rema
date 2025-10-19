@@ -20,8 +20,10 @@
             <x-sidebar />
         </div>
         <div id="main" style="min-height: 100dvh" class="d-flex flex-column justify-content-between">
-            <x-header />
-            {{ $slot }}
+            <section>
+                <x-header />
+                {{ $slot }}
+            </section>
             <x-footer />
         </div>
     </div>

@@ -134,37 +134,38 @@
                {{-- Logout --}}
            </ul>
        </div>
+   </div>
 
-       <!-- Hidden logout form -->
-       <form id="form-logout" class="d-none" action="{{ route('logout') }}" method="POST">
-           @csrf
-       </form>
+   <!-- Hidden logout form -->
+   <form id="form-logout" class="d-none" action="{{ route('logout') }}" method="POST">
+       @csrf
+   </form>
 
-       <div class="text-left modal fade modal-borderless" role="dialog" aria-labelledby="myModalLabel1"
-           aria-hidden="true" id="logoutModal" tabindex="-1" data-bs-backdrop="false" aria-hidden="true">
-           <div class="modal-dialog modal-dialog-scrollable" role="document">
-               <div class="modal-content">
-                   <div class="modal-header">
-                       <h5 class="modal-title">Confirm Logout</h5>
-                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                   </div>
-                   <div class="modal-body">
-                       <p>Are you sure you want to log out?</p>
-                   </div>
-                   <div class="gap-2 modal-footer d-flex">
-                       <div class="gap-3 modal-footer d-flex">
-                           <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancel</button>
-                           <button type="button" class="btn btn-danger" id="btn-logout">Logout</button>
-                       </div>
+   <div class="text-left modal fade modal-borderless" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true"
+       id="logoutModal" tabindex="-1" data-bs-backdrop="false" aria-hidden="true">
+       <div class="modal-dialog modal-dialog-scrollable" role="document">
+           <div class="modal-content">
+               <div class="modal-header">
+                   <h5 class="modal-title">Confirm Logout</h5>
+                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+               </div>
+               <div class="modal-body">
+                   <p>Are you sure you want to log out?</p>
+               </div>
+               <div class="gap-2 modal-footer d-flex">
+                   <div class="gap-3 modal-footer d-flex">
+                       <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancel</button>
+                       <button type="button" class="btn btn-danger" id="btn-logout">Logout</button>
                    </div>
                </div>
            </div>
        </div>
+   </div>
 
-       @push('scripts')
-           <script>
-               document.getElementById('btn-logout')?.addEventListener('click', function() {
-                   document.getElementById('form-logout')?.submit();
-               });
-           </script>
-       @endpush
+   @push('scripts')
+       <script>
+           document.getElementById('btn-logout')?.addEventListener('click', function() {
+               document.getElementById('form-logout')?.submit();
+           });
+       </script>
+   @endpush

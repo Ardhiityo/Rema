@@ -6,7 +6,7 @@
                       <div class="p-4 text-white rounded btn-xl-square bg-primary me-4">
                           <i class="fas fa-map-marker-alt fa-2x"></i>
                       </div>
-                      <div>
+                      <div class="text-break">
                           <h4 class="text-white">Address</h4>
                           <p>
                               Jl. Kh.Enggus Arja No.1, Citangkil, Kota Cilegon, Banten 42441
@@ -19,7 +19,7 @@
                       <div class="p-4 text-white rounded btn-xl-square bg-primary me-4">
                           <i class="fas fa-envelope fa-2x"></i>
                       </div>
-                      <div>
+                      <div class="text-break">
                           <h4 class="text-white">Mail Us</h4>
                           <p>filkom.universitas.alkhairiyah@gmail.com</p>
                       </div>
@@ -30,7 +30,7 @@
                       <div class="p-4 text-white rounded btn-xl-square bg-primary me-4">
                           <i class="fa fa-phone-alt fa-2x"></i>
                       </div>
-                      <div>
+                      <div class="text-break">
                           <h4 class="text-white">Telephone</h4>
                           <p>+62 898 964 9370</p>
                       </div>

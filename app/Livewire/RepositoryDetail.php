@@ -2,9 +2,9 @@
 
 namespace App\Livewire;
 
-use App\Data\Metadata\DetailMetadataData;
 use Livewire\Component;
-use App\Models\Metadata;
+use App\Models\MetaData;
+use App\Data\Metadata\DetailMetadataData;
 
 class RepositoryDetail extends Component
 {
@@ -12,7 +12,7 @@ class RepositoryDetail extends Component
     public string $badge_status_class = '';
     public string $badge_ucfirst = '';
 
-    public function mount(Metadata $meta_data)
+    public function mount(MetaData $meta_data)
     {
         $meta_data->load(
             'author',

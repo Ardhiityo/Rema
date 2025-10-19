@@ -33,7 +33,7 @@ class UserData extends Data
             $user->name,
             $user->email,
             $user->password,
-            $user->avatar ? $user->avatar : null
+            $user->avatar ? Storage::url($user->avatar) : null
         );
     }
 }
