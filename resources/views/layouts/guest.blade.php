@@ -14,7 +14,7 @@
 </head>
 
 <body>
-    <div style="min-height: 100dvh; background-image: url('assets/background/6017669.jpg'); background-size: cover;"
+    <div style="min-height: 100dvh; background-image: url({{ asset('assets/background/6017669.jpg') }}); background-size: cover;"
         class="d-flex justify-content-center align-items-center">
         <div class="container">
             {{ $slot }}
