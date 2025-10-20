@@ -30,26 +30,28 @@ class Profile extends Component
     public int|null|string $study_program_id = null;
     public string $password = '';
     public $avatar;
+    public string $email = '';
     // End Form
 
-    public string $email = '';
     public string|bool|null $display_avatar = '';
 
     public User $user;
     public Author $author;
     public string $status;
     public string $role = '';
+    public bool $is_author = false;
 
     public function mount()
     {
         $user = Auth::user();
+        $this->role = $user->getRoleNames()->first();
 
         if ($user->hasRole('contributor')) {
             $user->load('author');
             $this->author = $user->author;
+            $this->is_author = true;
 
             $author_data = AuthorData::fromModel($user->author);
-            $this->role = $user->getRoleNames()->first();
             $this->nim = $author_data->nim;
             $this->status = $author_data->status;
             $this->study_program_id = $author_data->study_program_id;
@@ -69,11 +71,12 @@ class Profile extends Component
             'nim' => ['required_if:role,contributor', new ProfileNimRule()],
             'study_program_id' => ['required_if:role,contributor', new ProfileStudyProgramRule()],
             'avatar' => [Rule::requiredIf($this->user->avatar == null), new ProfileAvatarRule()],
+            'email' => ['required_if:role,admin', 'email'],
             'password' => ['nullable', 'min:8', 'max:100'],
         ];
     }
 
-    protected function validationAttributes()
+    protected function validationAttributes(): array
     {
         return [
             'study_program_id' => 'study program'
@@ -140,7 +143,9 @@ class Profile extends Component
             $this->authorRepository->update($author_data->id, $update_author_data);
         }
 
-        $validated['email'] = $user_data->email;
+        if ($this->is_author) {
+            $validated['email'] = $user_data->email;
+        }
 
         $update_user_data = UpdateUserData::from($validated);
 

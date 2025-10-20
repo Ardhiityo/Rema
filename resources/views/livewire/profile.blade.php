@@ -86,7 +86,12 @@
                                         <div class="form-group">
                                             <label for="email" class="form-label">Email</label>
                                             <input type="email" id="email" class="form-control" wire:model='email'
-                                                name="email" disabled>
+                                                name="email" {{ $is_author ? 'disabled' : '' }}>
+                                            @error('email')
+                                                <span class="badge bg-danger text-wrap">
+                                                    <small>{{ $message }}</small>
+                                                </span>
+                                            @enderror
                                         </div>
                                     </div>
                                     {{-- Email --}}
