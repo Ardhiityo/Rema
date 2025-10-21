@@ -41,9 +41,14 @@
                                             <img src="{{ $recently_add->avatar }}">
                                         </div>
                                         <div class="name ms-4">
-                                            <h5 class="mb-1" title="{{ $recently_add->name }}">
-                                                {{ $recently_add->short_name }}</h5>
-                                            <h6 class="mb-0 text-muted">{{ $recently_add->categories }}</h6>
+                                            <h6 class="mb-1" title="{{ $recently_add->name }}">
+                                                {{ $recently_add->short_name }}
+                                            </h6>
+                                            <h6 class="mb-0 text-muted">
+                                                <small>
+                                                    {{ $recently_add->categories }}
+                                                </small>
+                                            </h6>
                                         </div>
                                     </div>
                                 </a>
