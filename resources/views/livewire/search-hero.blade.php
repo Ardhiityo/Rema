@@ -63,7 +63,8 @@
                               <option value="{{ $category->slug }}">{{ $category->name }}</option>
                           @endforeach
                       </select>
-                      <button class="btn btn-primary w-100" wire:click='resetInput' wire:target='resetInput'>
+                      <button class="btn btn-primary w-100" wire:click='resetInput' wire:target='resetInput'
+                          wire:click.attr='disabled'>
                           <span wire:loading.class='d-none' wire:target='resetInput'>
                               <i class="bi bi-arrow-clockwise"></i> <small>Reset</small>
                           </span>

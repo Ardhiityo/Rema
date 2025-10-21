@@ -139,19 +139,23 @@
                     @if (!$this->islockForm)
                         <button wire:click='updateMetaData' wire:loading.attr='disabled' class="btn btn-primary"
                             wire:target='updateMetaData'>
-                            Update
+                            <span wire:target='updateMetaData' wire:loading.class='d-none'>Update</span>
                             <span wire:loading wire:target='updateMetaData'>
                                 <span class="spinner-border spinner-border-sm text-light" role="status"></span>
                             </span>
                         </button>
-                        <button wire:click='resetInput' class="btn btn-warning">
-                            Clear
+                        <button wire:click='resetInput' wire:target='resetInput' wire:click.attr='disabled'
+                            class="btn btn-warning">
+                            <span wire:target='resetInput' wire:loading.class='d-none'>Clear</span>
+                            <span wire:loading wire:target='resetInput'>
+                                <span class="spinner-border spinner-border-sm text-primary" role="status"></span>
+                            </span>
                         </button>
                     @endif
                     @if ($this->metaDataSession)
                         <button wire:click='createNewForm' wire:loading.attr='disabled' class="btn btn-danger"
                             wire:target='createNewForm'>
-                            New
+                            <span wire:target='createNewForm' wire:loading.class='d-none'>New</span>
                             <span wire:loading wire:target='createNewForm'>
                                 <span class="spinner-border spinner-border-sm text-light" role="status"></span>
                             </span>
@@ -166,25 +170,33 @@
                         @if (!$this->islockForm)
                             <button wire:click='updateMetaData' wire:loading.attr='disabled' class="btn btn-primary"
                                 wire:target='updateMetaData'>
-                                Update
+                                <span wire:target='updateMetaData' wire:loading.class='d-none'>Update</span>
                                 <span wire:loading wire:target='updateMetaData'>
                                     <span class="spinner-border spinner-border-sm text-light" role="status"></span>
                                 </span>
                             </button>
-                            <button wire:click='resetInput' class="btn btn-warning">
-                                Clear
+                            <button wire:click='resetInput' wire:target='resetInput' wire:click.attr='disabled'
+                                class="btn btn-warning">
+                                <span wire:target='resetInput' wire:loading.class='d-none'>Clear</span>
+                                <span wire:loading wire:target='resetInput'>
+                                    <span class="spinner-border spinner-border-sm text-primary" role="status"></span>
+                                </span>
                             </button>
                         @endif
                     @else
                         <button wire:click='createMetaData' wire:loading.attr='disabled' class="btn btn-primary"
                             wire:target='createMetaData'>
-                            Save
+                            <span wire:loading.class='d-none' wire:target='createMetaData'>Save</span>
                             <span wire:loading wire:target='createMetaData'>
                                 <span class="spinner-border spinner-border-sm text-light" role="status"></span>
                             </span>
                         </button>
-                        <button wire:click='resetInput' class="btn btn-warning">
-                            Clear
+                        <button wire:click='resetInput' wire:target='resetInput' wire:click.attr='disabled'
+                            class="btn btn-warning">
+                            <span wire:target='resetInput' wire:loading.class='d-none'>Clear</span>
+                            <span wire:loading wire:target='resetInput'>
+                                <span class="spinner-border spinner-border-sm text-primary" role="status"></span>
+                            </span>
                         </button>
                     @endif
                 </div>

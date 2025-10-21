@@ -64,7 +64,7 @@
             @if ($is_update)
                 <button wire:click='updateRepository' wire:loading.attr='disabled' class="btn btn-primary"
                     wire:target='updateRepository'>
-                    Update
+                    <span wire:target='updateRepository' wire:loading.class='d-none'>Update</span>
                     <span wire:loading wire:target='updateRepository'>
                         <span class="spinner-border spinner-border-sm text-light" role="status"></span>
                     </span>
@@ -72,14 +72,18 @@
             @else
                 <button wire:click='createRepository' wire:loading.attr='disabled' class="btn btn-primary"
                     wire:target='createRepository'>
-                    Add
+                    <span wire:target='createRepository' wire:loading.class='d-none'>Add</span>
                     <span wire:loading wire:target='createRepository'>
                         <span class="spinner-border spinner-border-sm text-light" role="status"></span>
                     </span>
                 </button>
             @endif
-            <button wire:click='resetInput' class="btn btn-warning">
-                Clear
+            <button wire:click='resetInput' class="btn btn-warning" wire:target='resetInput'
+                wire:loading.attr='disabled'>
+                <span wire:target='resetInput' wire:loading.class='d-none'>Clear</span>
+                <span wire:loading wire:target='resetInput'>
+                    <span class="spinner-border spinner-border-sm text-primary" role="status"></span>
+                </span>
             </button>
         </div>
         {{-- Display Medum ++ only --}}
@@ -89,7 +93,7 @@
             @if ($is_update)
                 <button wire:click='updateRepository' wire:loading.attr='disabled' class="btn btn-primary btn-sm"
                     wire:target='updateRepository'>
-                    Update
+                    <span wire:loading.class='d-none' wire:target='updateRepository'>Update</span>
                     <span wire:loading wire:target='updateRepository'>
                         <span class="spinner-border spinner-border-sm text-light" role="status"></span>
                     </span>
@@ -97,14 +101,18 @@
             @else
                 <button wire:click='createRepository' wire:loading.attr='disabled' class="btn btn-primary btn-sm"
                     wire:target='createRepository'>
-                    Add
+                    <span wire:loading.class='d-none' wire:target='createRepository'>Add</span>
                     <span wire:loading wire:target='createRepository'>
                         <span class="spinner-border spinner-border-sm text-light" role="status"></span>
                     </span>
                 </button>
             @endif
-            <button wire:click='resetInput' class="btn btn-warning btn-sm">
-                Clear
+            <button wire:click='resetInput' class="btn btn-warning" wire:target='resetInput'
+                wire:loading.attr='disabled'>
+                <span wire:target='resetInput' wire:loading.class='d-none'>Clear</span>
+                <span wire:loading wire:target='resetInput'>
+                    <span class="spinner-border spinner-border-sm text-primary" role="status"></span>
+                </span>
             </button>
         </div>
         {{-- Display Small only --}}
