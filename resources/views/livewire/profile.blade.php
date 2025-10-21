@@ -24,7 +24,7 @@
                                     {{-- Name --}}
                                     <div class="col-12">
                                         <div class="form-group">
-                                            <label for="first-name-column" class="form-label">Name</label>
+                                            <label for="first-name-column" class="form-label">Name <sup>*</sup> </label>
                                             <input type="text" id="first-name-column" class="form-control"
                                                 placeholder="ex: Arya Adhi Prasetyo" name="name" wire:model='name'
                                                 {{ $this->isLockForm ? 'disabled' : '' }}>
@@ -41,7 +41,7 @@
                                     @hasrole('contributor')
                                         <div class="col-12">
                                             <div class="form-group">
-                                                <label for="first-name-column" class="form-label">NIM</label>
+                                                <label for="first-name-column" class="form-label">NIM <sup>*</sup></label>
                                                 <input type="text" id="first-name-column" class="form-control"
                                                     placeholder="ex: 22040004" name="nim" wire:model='nim'
                                                     {{ $this->isLockForm ? 'disabled' : '' }}>
@@ -60,7 +60,7 @@
                                         <div class="my-2 col-12">
                                             <div class="input-group">
                                                 <label class="input-group-text" for="inputGroupSelect01" class="form-label">
-                                                    Study Program
+                                                    Study Program <sup class="ms-1">*</sup>
                                                 </label>
                                                 <select class="form-select" id="inputGroupSelect01"
                                                     wire:model='study_program_id' {{ $this->isLockForm ? 'disabled' : '' }}>
@@ -84,7 +84,8 @@
                                     {{-- Email --}}
                                     <div class="col-12">
                                         <div class="form-group">
-                                            <label for="email" class="form-label">Email</label>
+                                            <label for="email" class="form-label">Email <sup>*</sup>
+                                            </label>
                                             <input type="email" id="email" class="form-control" wire:model='email'
                                                 name="email" {{ $is_author ? 'disabled' : '' }}>
                                             @error('email')

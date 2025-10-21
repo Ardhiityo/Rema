@@ -3,7 +3,6 @@
 namespace App\Repositories\Eloquent;
 
 use App\Models\Category;
-use App\Models\Repository;
 use App\Data\Category\CategoryData;
 use Spatie\LaravelData\DataCollection;
 use Illuminate\Support\Facades\Storage;
@@ -17,7 +16,7 @@ class CategoryRepository implements CategoryRepositoryInterface
     public function create(CreateCategoryData $category): CategoryData
     {
         $category = Category::create([
-            'name' => $category->name,
+            'name' => ucwords(strtolower($category->name)),
             'slug' => $category->slug
         ]);
 

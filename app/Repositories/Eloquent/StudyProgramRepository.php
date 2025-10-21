@@ -17,7 +17,7 @@ class StudyProgramRepository implements StudyProgramRepositoryInterface
     public function create(CreateStudyProgramData $create_study_program_data): StudyProgramData
     {
         $study_program = StudyProgram::create([
-            'name' => $create_study_program_data->name,
+            'name' => ucwords(strtolower($create_study_program_data->name)),
             'slug' => $create_study_program_data->slug
         ]);
 

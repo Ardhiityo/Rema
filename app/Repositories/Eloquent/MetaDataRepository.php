@@ -6,7 +6,6 @@ use App\Models\MetaData;
 use App\Data\Metadata\MetadataData;
 use Illuminate\Support\Facades\Auth;
 use App\Data\MetaData\UpdateMetaData;
-use Illuminate\Support\Facades\Route;
 use App\Data\Metadata\MetadataListData;
 use Illuminate\Support\Facades\Storage;
 use App\Data\Metadata\CreateMetadataData;
@@ -18,7 +17,7 @@ class MetaDataRepository implements MetaDataRepositoryInterface
     public function create(CreateMetadataData $create_meta_data): MetadataData
     {
         $meta_data = MetaData::create([
-            'title' => $create_meta_data->title,
+            'title' => ucwords(strtolower($create_meta_data->title)),
             'author_id' => $create_meta_data->author_id,
             'visibility' => $create_meta_data->visibility,
             'year' => $create_meta_data->year,

@@ -26,7 +26,7 @@ class AuthorForm extends Component
     public string $name = '';
     public int|string|null $study_program_id = '';
     public string $status = '';
-    public  $avatar = null;
+    public $avatar = null;
     // Form End
 
     public string|bool $display_avatar = false;
@@ -53,8 +53,8 @@ class AuthorForm extends Component
             'nim' => ['required', 'numeric', 'digits_between:8,15', 'unique:authors,nim'],
             'study_program_id' => ['required', 'exists:study_programs,id'],
             'avatar' => ['nullable', 'file', 'mimes:jpg,png', 'max:1000'],
-            'email' => ['required', 'email:dns', 'unique:users,email'],
-            'password' =>  ['required', 'min:8', 'max:50'],
+            'email' => ['nullable', 'email', 'unique:users,email'],
+            'password' =>  ['nullable', 'min:8', 'max:50'],
             'status' => ['required', 'in:approve,reject,pending']
         ];
     }
@@ -66,7 +66,7 @@ class AuthorForm extends Component
             'nim' => ['required', 'numeric', 'digits_between:8,15', 'unique:authors,nim,' . $this->author_id],
             'study_program_id' => ['required', 'exists:study_programs,id'],
             'avatar' => [new UpdateUserAvatarRule(user_id: $this->user_id, max_KB: 1000, allowedMimes: ['jpg', 'png'])],
-            'email' => ['required', 'email:dns', 'unique:users,email,' . $this->user_id],
+            'email' => ['required', 'email', 'unique:users,email,' . $this->user_id],
             'password' => ['nullable', 'min:8', 'max:50'],
             'status' => ['required', 'in:approve,reject,pending']
         ];
@@ -184,6 +184,7 @@ class AuthorForm extends Component
         $this->password = '';
         $this->status = '';
         $this->avatar = '';
+        $this->display_avatar = false;
 
         if ($this->is_update) {
             $this->is_update = false;

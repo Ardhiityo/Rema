@@ -11,7 +11,9 @@
         <div class="mb-4 row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="category" class="form-label">Category</label>
+                    <label for="category" class="form-label">Category
+                        <sup>*</sup>
+                    </label>
                     <input type="text" required class="form-control" id="category" wire:model='name'
                         placeholder="ex: Skripsi">
                     @error('slug')

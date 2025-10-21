@@ -22,6 +22,7 @@
                     <div class="input-group">
                         <label class="input-group-text" for="category_id" class="form-label">
                             Category
+                            <sup class="ms-1">*</sup>
                         </label>
                         <select class="form-select" id="category_id" wire:model='category_id'>
                             <option value="">
@@ -46,6 +47,9 @@
                 <div class="mt-4">
                     <label for="file_path" class="form-label">
                         File
+                        @if (!$is_update)
+                            <sup>*</sup>
+                        @endif
                     </label>
                     <input class="form-control" wire:model='file_path' type="file" id="file_path"
                         accept="application/pdf">

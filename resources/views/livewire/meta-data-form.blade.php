@@ -19,7 +19,7 @@
                 <div class="form-group">
                     {{-- Title --}}
                     <div>
-                        <label for="title" class="form-label">Title</label>
+                        <label for="title" class="form-label">Title <sup>*</sup> </label>
                         <input type="text" required class="form-control" id="title" wire:model='title'
                             placeholder="ex: Sistem Informasi Repository" {{ $this->islockForm ? 'disabled' : '' }}>
                         @error('slug')
@@ -32,7 +32,7 @@
 
                     {{-- Graduation Year --}}
                     <div class="mt-4">
-                        <label for="year" class="form-label">Year of Graduation</label>
+                        <label for="year" class="form-label">Year of Graduation <sup>*</sup> </label>
                         <input type="number" required class="form-control" id="year" wire:model='year'
                             placeholder="ex: 2025" {{ $this->islockForm ? 'disabled' : '' }}>
                         @error('slug')
@@ -48,7 +48,7 @@
                         <div class="mt-4">
                             <div class="input-group">
                                 <label class="input-group-text" for="author_id">
-                                    Author
+                                    Author <sup class="ms-1">*</sup>
                                 </label>
                                 <select class="form-select" id="author_id" wire:model='author_id'>
                                     <option value="">Choose...</option>
@@ -72,7 +72,7 @@
                         <div class="mt-4">
                             <div class="input-group">
                                 <label class="input-group-text" for="status" class="form-label">
-                                    Status
+                                    Status <sup class="ms-1">*</sup>
                                 </label>
                                 <select class="form-select" id="status" wire:model='status'>
                                     <option value="">
@@ -106,7 +106,7 @@
                         <div class="mt-4">
                             <div class="input-group">
                                 <label class="input-group-text" for="status" class="form-label">
-                                    Visibility
+                                    Visibility <sup class="ms-1">*</sup>
                                 </label>
                                 <select class="form-select" id="status" wire:model='visibility'>
                                     <option value="">

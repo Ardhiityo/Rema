@@ -18,8 +18,8 @@ class UserData extends Data
     public function __construct(
         public int $id,
         public string $name,
-        public string $email,
-        public string $password,
+        public string|null $email,
+        public string|null $password,
         public string|null $avatar
     ) {
         $this->short_name = Str::limit($name, 12, 'xxx');

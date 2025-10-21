@@ -13,7 +13,12 @@
                 <div class="gap-3 flex-column d-flex">
                     {{-- NIM --}}
                     <div>
-                        <label for="basicInput" class="form-label">NIM</label>
+                        <label for="basicInput" class="form-label">
+                            NIM
+                            <sup>
+                                *
+                            </sup>
+                        </label>
                         <input type="text" required class="form-control" id="basicInput" wire:model='nim'
                             placeholder="ex: 22040004" name="nim">
                         @error('nim')
@@ -26,7 +31,12 @@
 
                     {{-- Email --}}
                     <div>
-                        <label for="email" class="form-label">Email</label>
+                        <label for="email" class="form-label">
+                            Email
+                            @if ($is_update)
+                                <sup>*</sup>
+                            @endif
+                        </label>
                         <input type="email" required class="form-control" id="email" wire:model='email'
                             placeholder="ex: ardhiityo229@gmail.com" name="email">
                         @error('email')
@@ -51,11 +61,16 @@
                     {{-- Password --}}
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="mt-3 col-md-6 mt-md-0">
                 <div class="gap-3 flex-column d-flex">
                     {{-- Name --}}
                     <div>
-                        <label for="basicInput" class="form-label">Name</label>
+                        <label for="basicInput" class="form-label">
+                            Name
+                            <sup>
+                                *
+                            </sup>
+                        </label>
                         <input type="text" required class="form-control" id="basicInput" wire:model='name'
                             placeholder="ex: Arya Adhi Prasetyo" name="name">
                         @error('name')
@@ -71,6 +86,9 @@
                         <div class="input-group">
                             <label class="input-group-text" for="inputGroupSelect01">
                                 Study Program
+                                <sup class="ms-1">
+                                    *
+                                </sup>
                             </label>
                             <select class="form-select" id="inputGroupSelect01" wire:model='study_program_id'>
                                 <option selected>Choose...</option>
@@ -94,6 +112,9 @@
                         <div class="input-group">
                             <label class="input-group-text" for="status" class="form-label">
                                 Status
+                                <sup class="ms-1">
+                                    *
+                                </sup>
                             </label>
                             <select class="form-select" id="status" wire:model='status'>
                                 <option value="">

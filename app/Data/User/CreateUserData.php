@@ -9,8 +9,8 @@ class CreateUserData extends Data
 {
     public function __construct(
         public string $name,
-        public string $email,
-        public string $password,
-        public UploadedFile|null $avatar
+        public string|null $email,
+        public string|null $password,
+        public null|string|UploadedFile $avatar
     ) {}
 }

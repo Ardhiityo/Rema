@@ -5,6 +5,7 @@ namespace App\Repositories\Eloquent;
 use App\Models\User;
 use App\Models\MetaData;
 use App\Data\User\UserData;
+use Illuminate\Support\Str;
 use App\Data\User\CreateUserData;
 use App\Data\User\UpdateUserData;
 use App\Services\AvatarGenerator;
@@ -17,10 +18,10 @@ class UserRepository implements UserRepositoryInterface
     public function create(CreateUserData $create_user_data): UserData
     {
         $user = User::create([
-            'name' => $create_user_data->name,
-            'email' => $create_user_data->email,
-            'password' => $create_user_data->password,
-            'avatar' => is_null($create_user_data->avatar) ?
+            'name' => ucwords(strtolower($create_user_data->name)),
+            'email' => empty($create_user_data->email) ? uniqid() . '@noemail.local' : $create_user_data->email,
+            'password' => $create_user_data->password ?? Str::random(8),
+            'avatar' => empty($create_user_data->avatar) ?
                 AvatarGenerator::generate() : $create_user_data->avatar->store('avatars', 'public')
         ]);
 
@@ -63,7 +64,7 @@ class UserRepository implements UserRepositoryInterface
             $password = $update_user_data->password ? Hash::make($update_user_data->password) : $user->password;
 
             $user->update([
-                'name' => $update_user_data->name,
+                'name' => ucwords(strtolower($update_user_data->name)),
                 'avatar' => $new_avatar,
                 'email' => $update_user_data->email,
                 'password' => $password

@@ -11,7 +11,7 @@
         <div class="mb-4 row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="basicInput" class="form-label">Study Program</label>
+                    <label for="basicInput" class="form-label">Study Program <sup>*</sup></label>
                     <input type="text" required class="form-control" id="basicInput" wire:model='name'
                         placeholder="ex: Teknik Informatika">
                     @error('slug')

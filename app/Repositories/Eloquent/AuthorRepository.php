@@ -4,7 +4,6 @@ namespace App\Repositories\Eloquent;
 
 use App\Models\Author;
 use App\Data\Author\AuthorData;
-use App\Data\Metric\MetricData;
 use App\Data\Author\AuthorListData;
 use App\Data\Author\CreateAuthorData;
 use App\Data\Author\UpdateAuthorData;
