@@ -3,8 +3,12 @@
          <div class="gap-3 d-flex align-items-center">
              <input type="text" wire:model.live.debounce.250ms='keyword' autofocus class="form-control" id="basicInput"
                  placeholder="Search...">
-             <button class="btn btn-primary" wire:click='resetInput'>
-                 <i class="bi bi-arrow-clockwise"></i>
+             <button class="btn btn-primary" wire:click='resetInput' wire:target='resetInput'
+                 wire:loading.attr='disabled'>
+                 <span wire:target='resetInput' wire:loading.class='d-none'><i class="bi bi-arrow-clockwise"></i></span>
+                 <span wire:loading wire:target='resetInput'>
+                     <span class="spinner-border spinner-border-sm text-light" role="status"></span>
+                 </span>
              </button>
          </div>
      </div>

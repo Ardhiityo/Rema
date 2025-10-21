@@ -97,11 +97,14 @@
                                           </small>
                                       </p>
                                   </div>
-                                  <p class="mb-4">{{ $repository->title }}</p>
+                                  <p class="mb-4" title="{{ $repository->title }}">{{ $repository->title }}</p>
                               </div>
                               <div>
                                   <p>
-                                      <small>{{ $repository->category_name }}</small>
+                                      <small>
+                                          {{ $repository->category_name }}
+                                          <sup> <i class="fas fa-tags fa-xs"></i></sup>
+                                      </small>
                                   </p>
                                   <p>
                                       <small>

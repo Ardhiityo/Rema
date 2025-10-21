@@ -19,8 +19,13 @@
                 </div>
             </div>
             <div class="col-md-2">
-                <button class="btn btn-primary w-100" wire:click='resetInput'>
-                    <i class="bi bi-arrow-clockwise"></i>
+                <button class="btn btn-primary w-100" wire:click='resetInput' wire:target='resetInput'
+                    wire:loading.attr='disabled'>
+                    <span wire:target='resetInput' wire:loading.class='d-none'><i
+                            class="bi bi-arrow-clockwise"></i></span>
+                    <span wire:loading wire:target='resetInput'>
+                        <span class="spinner-border spinner-border-sm text-light" role="status"></span>
+                    </span>
                 </button>
             </div>
         </div>
