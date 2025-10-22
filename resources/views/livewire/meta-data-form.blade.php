@@ -53,7 +53,7 @@
                                 <select class="form-select" id="author_id" wire:model='author_id'>
                                     <option value="">Choose...</option>
                                     @foreach ($authors as $author)
-                                        <option value="{{ $author->id }}">{{ $author->nim }} - {{ $author->name }}
+                                        <option value="{{ $author->id }}">{{ $author->name }} - {{ $author->nim }}
                                         </option>
                                     @endforeach
                                 </select>

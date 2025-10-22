@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use Throwable;
 use Livewire\Component;
 use Livewire\Attributes\On;
 use Livewire\WithFileUploads;
@@ -115,17 +116,21 @@ class RepositoryCategoryForm extends Component
 
     public function createRepository()
     {
-        $validated = $this->validate($this->rulesCreate());
+        try {
+            $validated = $this->validate($this->rulesCreate());
 
-        $create_meta_data_category_data = CreateMetadataCategoryData::from($validated);
+            $create_meta_data_category_data = CreateMetadataCategoryData::from($validated);
 
-        $this->metaDataCategoryRepository->create($create_meta_data_category_data);
+            $this->metaDataCategoryRepository->create($create_meta_data_category_data);
 
-        $this->resetInput();
+            $this->resetInput();
 
-        $this->dispatch('refresh-repository-table');
+            $this->dispatch('refresh-repository-table');
 
-        session()->flash('repository-success', 'The repository was successfully created.');
+            return session()->flash('repository-success', 'The repository was successfully created.');
+        } catch (Throwable $th) {
+            return session()->flash('repository-failed', $th->getMessage());
+        }
     }
 
     #[On('edit-repository-category')]
@@ -145,22 +150,26 @@ class RepositoryCategoryForm extends Component
 
     public function updateRepository()
     {
-        $validated = $this->validate($this->rulesUpdate());
+        try {
+            $validated = $this->validate($this->rulesUpdate());
 
-        $update_meta_data_category_data = UpdateMetadataCategoryData::from($validated);
+            $update_meta_data_category_data = UpdateMetadataCategoryData::from($validated);
 
-        $this->metaDataCategoryRepository->update(
-            $update_meta_data_category_data,
-            $this->category_id_update
-        );
+            $this->metaDataCategoryRepository->update(
+                $update_meta_data_category_data,
+                $this->category_id_update
+            );
 
-        $this->resetInput();
+            $this->resetInput();
 
-        $this->is_update = false;
+            $this->is_update = false;
 
-        $this->dispatch('refresh-repository-table');
+            $this->dispatch('refresh-repository-table');
 
-        session()->flash('repository-success', 'The repository was successfully updated.');
+            session()->flash('repository-success', 'The repository was successfully updated.');
+        } catch (Throwable $th) {
+            session()->flash('repository-failed', $th->getMessage());
+        }
     }
 
     #[On('delete-confirm-repository-category')]

@@ -6,12 +6,13 @@ use App\Data\MetadataCategory\MetadataCategoryData;
 use App\Data\MetadataCategory\CreateMetadataCategoryData;
 use App\Data\MetadataCategory\UpdateMetadataCategoryData;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Throwable;
 
 interface MetaDataCategoryRepositoryInterface
 {
-    public function create(CreateMetadataCategoryData $create_metadata_category_data): MetadataCategoryData;
+    public function create(CreateMetadataCategoryData $create_metadata_category_data): MetadataCategoryData|Throwable;
 
-    public function update(UpdateMetadataCategoryData $update_metadata_category_data, int $current_category_id): MetadataCategoryData;
+    public function update(UpdateMetadataCategoryData $update_metadata_category_data, int $current_category_id): MetadataCategoryData|Throwable;
 
     public function findByMetaDataSlugAndCategorySlug(string $meta_data_slug, string $category_slug): MetadataCategoryData|null;
 

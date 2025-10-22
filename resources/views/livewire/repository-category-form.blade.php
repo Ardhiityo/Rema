@@ -9,8 +9,13 @@
             </span>
         </h4>
         @if (session()->has('repository-success'))
-            <div class="mt-4 alert-success alert">
+            <div class="mt-4 alert alert-success" role="alert">
                 {{ session('repository-success') }}
+            </div>
+        @endif
+        @if (session()->has('repository-failed'))
+            <div class="mt-4 alert alert-danger" role="alert">
+                {!! session('repository-failed') !!}
             </div>
         @endif
     </div>
