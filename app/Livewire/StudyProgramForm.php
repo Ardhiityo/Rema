@@ -50,11 +50,11 @@ class StudyProgramForm extends Component
 
     public function create()
     {
+        $this->slug = Str::slug($this->name);
+
+        $validated = $this->validate();
+
         try {
-            $this->slug = Str::slug($this->name);
-
-            $validated = $this->validate();
-
             $create_study_program_data = CreateStudyProgramData::from($validated);
 
             $this->studyProgramRepository->create($create_study_program_data);

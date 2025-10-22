@@ -121,22 +121,22 @@ class Profile extends Component
 
     public function update()
     {
+        $user_data = UserData::fromModel($this->user);
+
+        if ($this->user->hasRole('contributor')) {
+            $author_data = AuthorData::fromModel($this->author);
+        }
+
+        if ($this->isLockForm()) {
+            $this->name = $user_data->name;
+            $this->nim = $author_data->nim;
+            $this->study_program_id = $author_data->study_program_id;
+            $this->avatar = null;
+        }
+
+        $validated = $this->validate();
+
         try {
-            $user_data = UserData::fromModel($this->user);
-
-            if ($this->user->hasRole('contributor')) {
-                $author_data = AuthorData::fromModel($this->author);
-            }
-
-            if ($this->isLockForm()) {
-                $this->name = $user_data->name;
-                $this->nim = $author_data->nim;
-                $this->study_program_id = $author_data->study_program_id;
-                $this->avatar = null;
-            }
-
-            $validated = $this->validate();
-
             if ($this->user->hasRole('contributor')) {
                 $validated['status'] = $this->status;
 

@@ -94,9 +94,9 @@ class AuthorForm extends Component
 
     public function create()
     {
-        try {
-            $validated = $this->validate($this->rulesCreate());
+        $validated = $this->validate($this->rulesCreate());
 
+        try {
             $create_user_data = CreateUserData::from($validated);
 
             $user_data = $this->userRepository->create($create_user_data);
@@ -141,9 +141,9 @@ class AuthorForm extends Component
 
     public function update()
     {
-        try {
-            $validated = $this->validate($this->rulesUpdate());
+        $validated = $this->validate($this->rulesUpdate());
 
+        try {
             $update_user_data = UpdateUserData::from($validated);
 
             $this->userRepository->update($this->user_id, $update_user_data);

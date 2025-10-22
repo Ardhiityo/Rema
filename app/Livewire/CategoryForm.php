@@ -51,11 +51,11 @@ class CategoryForm extends Component
 
     public function create()
     {
+        $this->slug = Str::slug($this->name);
+
+        $validated = $this->validate();
+
         try {
-            $this->slug = Str::slug($this->name);
-
-            $validated = $this->validate();
-
             $create_category_data = CreateCategoryData::from($validated);
 
             $this->categoryRepository->create($create_category_data);
@@ -76,7 +76,6 @@ class CategoryForm extends Component
         try {
             $category_data = $this->categoryRepository->findById($category_id);
 
-
             $this->name = $category_data->name;
 
             $this->category_id = $category_data->id;
@@ -90,11 +89,11 @@ class CategoryForm extends Component
     #[On('category-update')]
     public function update()
     {
+        $this->slug = Str::slug($this->name);
+
+        $validated = $this->validate();
+
         try {
-            $this->slug = Str::slug($this->name);
-
-            $validated = $this->validate();
-
             $update_category_data = UpdateCategoryData::from($validated);
 
             $this->categoryRepository->update($this->category_id, $update_category_data);

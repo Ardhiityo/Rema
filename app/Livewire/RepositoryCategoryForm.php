@@ -116,9 +116,9 @@ class RepositoryCategoryForm extends Component
 
     public function createRepository()
     {
-        try {
-            $validated = $this->validate($this->rulesCreate());
+        $validated = $this->validate($this->rulesCreate());
 
+        try {
             $create_meta_data_category_data = CreateMetadataCategoryData::from($validated);
 
             $this->metaDataCategoryRepository->create($create_meta_data_category_data);
@@ -154,9 +154,9 @@ class RepositoryCategoryForm extends Component
 
     public function updateRepository()
     {
-        try {
-            $validated = $this->validate($this->rulesUpdate());
+        $validated = $this->validate($this->rulesUpdate());
 
+        try {
             $update_meta_data_category_data = UpdateMetadataCategoryData::from($validated);
 
             $this->metaDataCategoryRepository->update(

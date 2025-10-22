@@ -146,19 +146,19 @@ class MetaDataForm extends Component
 
     public function createMetaData()
     {
+        $user = Auth::user();
+
+        if ($user->hasRole('contributor')) {
+            $this->author_id = $user->author->id;
+            $this->status = 'pending';
+            $this->visibility = 'private';
+        }
+
+        $this->slug = Str::slug($this->title);
+
+        $validated = $this->validate();
+
         try {
-            $user = Auth::user();
-
-            if ($user->hasRole('contributor')) {
-                $this->author_id = $user->author->id;
-                $this->status = 'pending';
-                $this->visibility = 'private';
-            }
-
-            $this->slug = Str::slug($this->title);
-
-            $validated = $this->validate();
-
             $create_meta_data_data = CreateMetadataData::from($validated);
 
             $meta_data_data = $this->metaDataRepository->create($create_meta_data_data);
@@ -179,18 +179,19 @@ class MetaDataForm extends Component
 
     public function updateMetaData()
     {
+        $user = Auth::user();
+
+        if ($user->hasRole('contributor')) {
+            $this->author_id = $user->author->id;
+            $this->status = 'pending';
+            $this->visibility = 'private';
+        }
+
+        $this->slug = Str::slug($this->title);
+
+        $validated = $this->validate();
+
         try {
-            $user = Auth::user();
-
-            if ($user->hasRole('contributor')) {
-                $this->author_id = $user->author->id;
-                $this->status = 'pending';
-                $this->visibility = 'private';
-            }
-
-            $this->slug = Str::slug($this->title);
-
-            $validated = $this->validate();
 
             $update_meta_data_data = UpdateMetaData::from($validated);
 

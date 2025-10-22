@@ -77,7 +77,7 @@
           </div>
           <div class="gap-4 row d-flex gap-md-0">
               @forelse ($repositories as $repository)
-                  <div class="col-md-6 col-lg-6 col-xl-3 d-flex mt-md-3">
+                  <div class="col-md-6 col-lg-6 col-xl-3 d-flex mt-md-4">
                       <a href="{{ route('repository.read', [
                           'category_slug' => $repository->category_slug,
                           'meta_data_slug' => $repository->metadata_slug,
@@ -129,7 +129,7 @@
                       </div>
                   </div>
               @endforelse
-              <div class="py-3 col-12 d-flex justify-content-end">
+              <div class="py-5 col-12 d-flex justify-content-end">
                   {{ $repositories->Links() }}
               </div>
           </div>
