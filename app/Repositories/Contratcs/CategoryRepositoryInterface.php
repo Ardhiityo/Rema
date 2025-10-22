@@ -7,6 +7,7 @@ use Spatie\LaravelData\DataCollection;
 use App\Data\Category\CreateCategoryData;
 use App\Data\Category\UpdateCategoryData;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Throwable;
 
 interface CategoryRepositoryInterface
 {
@@ -14,7 +15,7 @@ interface CategoryRepositoryInterface
 
     public function findById(int $category_id): CategoryData|null;
 
-    public function update(int $category_id, UpdateCategoryData $update_category_data): CategoryData|null;
+    public function update(int $category_id, UpdateCategoryData $update_category_data): CategoryData|Throwable;
 
     public function delete(int $category_id): bool;
 

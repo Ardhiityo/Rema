@@ -2,9 +2,10 @@
 
 namespace App\Livewire;
 
+use Throwable;
 use Livewire\Component;
-use Livewire\Attributes\On;
 use Illuminate\Support\Str;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Computed;
 use App\Data\StudyProgram\CreateStudyProgramData;
 use App\Data\StudyProgram\UpdateStudyProgramData;
@@ -49,19 +50,23 @@ class StudyProgramForm extends Component
 
     public function create()
     {
-        $this->slug = Str::slug($this->name);
+        try {
+            $this->slug = Str::slug($this->name);
 
-        $validated = $this->validate();
+            $validated = $this->validate();
 
-        $create_study_program_data = CreateStudyProgramData::from($validated);
+            $create_study_program_data = CreateStudyProgramData::from($validated);
 
-        $this->studyProgramRepository->create($create_study_program_data);
+            $this->studyProgramRepository->create($create_study_program_data);
 
-        $this->resetInput();
+            $this->resetInput();
 
-        $this->dispatch('refresh-study-programs');
+            $this->dispatch('refresh-study-programs');
 
-        session()->flash('message', 'The study program was successfully created.');
+            session()->flash('study-program-success', 'The study program was successfully created.');
+        } catch (Throwable $th) {
+            session()->flash('study-program-failed', $th->getMessage());
+        }
     }
 
     #[On('study-program-edit')]
@@ -69,50 +74,69 @@ class StudyProgramForm extends Component
     {
         $study_program_data = $this->studyProgramRepository->findById($study_program_id);
 
-        $this->study_program_id = $study_program_data->id;
+        try {
+            $this->study_program_id = $study_program_data->id;
 
-        $this->name = $study_program_data->name;
+            $this->name = $study_program_data->name;
 
-        $this->is_update = true;
+            $this->is_update = true;
+        } catch (Throwable $th) {
+            session()->flash('study-program-failed', $th->getMessage());
+        }
     }
 
     public function update()
     {
-        $this->slug = Str::slug($this->name);
+        try {
+            $this->slug = Str::slug($this->name);
 
-        $validated = $this->validate();
+            $validated = $this->validate();
 
-        $update_study_program_data = UpdateStudyProgramData::from($validated);
+            $update_study_program_data = UpdateStudyProgramData::from($validated);
 
-        $this->studyProgramRepository->update($this->study_program_id, $update_study_program_data);
+            $this->studyProgramRepository->update(
+                $this->study_program_id,
+                $update_study_program_data
+            );
 
-        $this->resetInput();
+            $this->resetInput();
 
-        $this->dispatch('refresh-study-programs');
+            $this->dispatch('refresh-study-programs');
 
-        session()->flash('message', 'The study program was successfully updated.');
+            session()->flash('study-program-success', 'The study program was successfully updated.');
+        } catch (Throwable $th) {
+            session()->flash('study-program-failed', $th->getMessage());
+        }
     }
 
     #[On('study-program-delete-confirm')]
     public function deleteConfirm($study_program_id)
     {
-        $study_program_data = $this->studyProgramRepository->findById($study_program_id);
+        try {
+            $study_program_data = $this->studyProgramRepository->findById($study_program_id);
 
-        $this->study_program_id = $study_program_data->id;
+            $this->study_program_id = $study_program_data->id;
 
-        $this->name = $study_program_data->name;
+            $this->name = $study_program_data->name;
+        } catch (Throwable $th) {
+            session()->flash('study-program-failed', $th->getMessage());
+        }
     }
 
     #[On('study-program-delete')]
     public function delete()
     {
-        $this->studyProgramRepository->delete($this->study_program_id);
+        try {
+            $this->studyProgramRepository->delete($this->study_program_id);
 
-        $this->dispatch('refresh-study-programs');
+            $this->dispatch('refresh-study-programs');
 
-        $this->resetInput();
+            $this->resetInput();
 
-        session()->flash('message', 'The study program was successfully deleted.');
+            session()->flash('study-program-success', 'The study program was successfully deleted.');
+        } catch (Throwable $th) {
+            session()->flash('study-program-failed', $th->getMessage());
+        }
     }
 
     public function resetInput()

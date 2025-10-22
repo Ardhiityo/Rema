@@ -2,9 +2,10 @@
 
 namespace App\Livewire;
 
+use Throwable;
 use Livewire\Component;
-use Livewire\Attributes\On;
 use Illuminate\Support\Str;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Computed;
 use App\Data\Category\CreateCategoryData;
 use App\Data\Category\UpdateCategoryData;
@@ -50,69 +51,90 @@ class CategoryForm extends Component
 
     public function create()
     {
-        $this->slug = Str::slug($this->name);
+        try {
+            $this->slug = Str::slug($this->name);
 
-        $validated = $this->validate();
+            $validated = $this->validate();
 
-        $create_category_data = CreateCategoryData::from($validated);
+            $create_category_data = CreateCategoryData::from($validated);
 
-        $this->categoryRepository->create($create_category_data);
+            $this->categoryRepository->create($create_category_data);
 
-        $this->resetInput();
+            $this->resetInput();
 
-        $this->dispatch('refresh-categories');
+            $this->dispatch('refresh-categories');
 
-        session()->flash('message', 'The category was successfully created.');
+            session()->flash('category-success', 'The category was successfully created.');
+        } catch (Throwable $th) {
+            session()->flash('category-failed', $th->getMessage());
+        }
     }
 
     #[On('category-edit')]
     public function edit($category_id)
     {
-        $category_data = $this->categoryRepository->findById($category_id);
+        try {
+            $category_data = $this->categoryRepository->findById($category_id);
 
-        $this->name = $category_data->name;
 
-        $this->category_id = $category_data->id;
+            $this->name = $category_data->name;
 
-        $this->is_update = true;
+            $this->category_id = $category_data->id;
+
+            $this->is_update = true;
+        } catch (Throwable $th) {
+            session()->flash('category-failed', $th->getMessage());
+        }
     }
 
     #[On('category-update')]
     public function update()
     {
-        $this->slug = Str::slug($this->name);
+        try {
+            $this->slug = Str::slug($this->name);
 
-        $validated = $this->validate();
+            $validated = $this->validate();
 
-        $update_category_data = UpdateCategoryData::from($validated);
+            $update_category_data = UpdateCategoryData::from($validated);
 
-        $this->categoryRepository->update($this->category_id, $update_category_data);
+            $this->categoryRepository->update($this->category_id, $update_category_data);
 
-        $this->resetInput();
+            $this->resetInput();
 
-        $this->dispatch('refresh-categories');
+            $this->dispatch('refresh-categories');
 
-        session()->flash('message', 'The category was successfully updated.');
+            session()->flash('category-success', 'The category was successfully updated.');
+        } catch (Throwable $th) {
+            session()->flash('category-failed', $th->getMessage());
+        }
     }
 
     #[On('category-delete-confirm')]
     public function deleteConfirm($category_id)
     {
-        $category_data = $this->categoryRepository->findById($category_id);
+        try {
+            $category_data = $this->categoryRepository->findById($category_id);
 
-        $this->category_id = $category_data->id;
+            $this->category_id = $category_data->id;
+        } catch (Throwable $th) {
+            session()->flash('category-failed', $th->getMessage());
+        }
     }
 
     #[On('category-delete')]
     public function delete()
     {
-        $this->categoryRepository->delete($this->category_id);
+        try {
+            $this->categoryRepository->delete($this->category_id);
 
-        $this->dispatch('refresh-categories');
+            $this->dispatch('refresh-categories');
 
-        $this->resetInput();
+            $this->resetInput();
 
-        session()->flash('message', 'The category was successfully deleted.');
+            session()->flash('category-success', 'The category was successfully deleted.');
+        } catch (Throwable $th) {
+            session()->flash('category-failed', $th->getMessage());
+        }
     }
 
     public function resetInput()

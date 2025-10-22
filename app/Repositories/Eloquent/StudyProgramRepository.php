@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Eloquent;
 
+use Throwable;
 use App\Models\Author;
 use App\Models\StudyProgram;
 use Spatie\LaravelData\DataCollection;
@@ -16,12 +17,16 @@ class StudyProgramRepository implements StudyProgramRepositoryInterface
 {
     public function create(CreateStudyProgramData $create_study_program_data): StudyProgramData
     {
-        $study_program = StudyProgram::create([
-            'name' => ucwords(strtolower($create_study_program_data->name)),
-            'slug' => $create_study_program_data->slug
-        ]);
+        try {
+            $study_program = StudyProgram::create([
+                'name' => ucwords(strtolower($create_study_program_data->name)),
+                'slug' => $create_study_program_data->slug
+            ]);
 
-        return StudyProgramData::fromModel($study_program);
+            return StudyProgramData::fromModel($study_program);
+        } catch (Throwable $th) {
+            throw $th;
+        }
     }
 
     public function findById(int $study_program_id): StudyProgramData|null
@@ -30,8 +35,8 @@ class StudyProgramRepository implements StudyProgramRepositoryInterface
             $study_program = StudyProgram::findOrFail($study_program_id);
 
             return StudyProgramData::fromModel($study_program);
-        } catch (\Throwable $th) {
-            return null;
+        } catch (Throwable $th) {
+            throw $th;
         }
     }
 
@@ -46,8 +51,8 @@ class StudyProgramRepository implements StudyProgramRepositoryInterface
             ]);
 
             return StudyProgramData::fromModel($study_program->refresh());
-        } catch (\Throwable $th) {
-            return null;
+        } catch (Throwable $th) {
+            throw $th;
         }
     }
 

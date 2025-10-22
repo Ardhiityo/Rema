@@ -10,17 +10,22 @@ use App\Data\Category\CreateCategoryData;
 use App\Data\Category\UpdateCategoryData;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Repositories\Contratcs\CategoryRepositoryInterface;
+use Throwable;
 
 class CategoryRepository implements CategoryRepositoryInterface
 {
     public function create(CreateCategoryData $category): CategoryData
     {
-        $category = Category::create([
-            'name' => ucwords(strtolower($category->name)),
-            'slug' => $category->slug
-        ]);
+        try {
+            $category = Category::create([
+                'name' => ucwords(strtolower($category->name)),
+                'slug' => $category->slug
+            ]);
 
-        return CategoryData::fromModel($category);
+            return CategoryData::fromModel($category);
+        } catch (Throwable $th) {
+            throw $th;
+        }
     }
 
     public function findById(int $category_id): CategoryData|null
@@ -29,12 +34,12 @@ class CategoryRepository implements CategoryRepositoryInterface
             $category = Category::findOrFail($category_id);
 
             return CategoryData::fromModel($category);
-        } catch (\Throwable $th) {
-            return null;
+        } catch (Throwable $th) {
+            throw $th;
         }
     }
 
-    public function update(int $category_id, UpdateCategoryData $update_category_data): CategoryData|null
+    public function update(int $category_id, UpdateCategoryData $update_category_data): CategoryData|Throwable
     {
         try {
             $category = Category::findOrFail($category_id);
@@ -45,8 +50,8 @@ class CategoryRepository implements CategoryRepositoryInterface
             ]);
 
             return CategoryData::fromModel($category->refresh());
-        } catch (\Throwable $th) {
-            return null;
+        } catch (Throwable $th) {
+            throw $th;
         }
     }
 
@@ -67,8 +72,8 @@ class CategoryRepository implements CategoryRepositoryInterface
             }
 
             return $category->delete();
-        } catch (\Throwable $th) {
-            return false;
+        } catch (Throwable $th) {
+            throw $th;
         }
     }
 
