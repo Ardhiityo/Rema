@@ -53,7 +53,7 @@ class AuthorForm extends Component
             'nim' => ['required', 'numeric', 'digits_between:8,15', 'unique:authors,nim'],
             'study_program_id' => ['required', 'exists:study_programs,id'],
             'avatar' => ['nullable', 'file', 'mimes:jpg,png', 'max:1000'],
-            'email' => ['nullable', 'email', 'unique:users,email'],
+            'email' => ['nullable', 'email:dns', 'unique:users,email'],
             'password' =>  ['nullable', 'min:8', 'max:50'],
             'status' => ['required', 'in:approve,reject,pending']
         ];
@@ -66,7 +66,7 @@ class AuthorForm extends Component
             'nim' => ['required', 'numeric', 'digits_between:8,15', 'unique:authors,nim,' . $this->author_id],
             'study_program_id' => ['required', 'exists:study_programs,id'],
             'avatar' => [new UpdateUserAvatarRule(user_id: $this->user_id, max_KB: 1000, allowedMimes: ['jpg', 'png'])],
-            'email' => ['required', 'email', 'unique:users,email,' . $this->user_id],
+            'email' => ['required', 'email:dns', 'unique:users,email,' . $this->user_id],
             'password' => ['nullable', 'min:8', 'max:50'],
             'status' => ['required', 'in:approve,reject,pending']
         ];

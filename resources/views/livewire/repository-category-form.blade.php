@@ -63,8 +63,7 @@
             </div>
         </div>
 
-        {{-- Display Medum ++ only --}}
-        <div class="gap-3 d-md-flex d-none">
+        <div class="gap-3 d-flex">
             @if ($is_update)
                 <button wire:click='updateRepository' wire:loading.attr='disabled' class="btn btn-primary"
                     wire:target='updateRepository'>
@@ -90,35 +89,5 @@
                 </span>
             </button>
         </div>
-        {{-- Display Medum ++ only --}}
-
-        {{-- Display Small only --}}
-        <div class="gap-3 d-md-none d-flex">
-            @if ($is_update)
-                <button wire:click='updateRepository' wire:loading.attr='disabled' class="btn btn-primary btn-sm"
-                    wire:target='updateRepository'>
-                    <span wire:loading.class='d-none' wire:target='updateRepository'>Update</span>
-                    <span wire:loading wire:target='updateRepository'>
-                        <span class="spinner-border spinner-border-sm text-light" role="status"></span>
-                    </span>
-                </button>
-            @else
-                <button wire:click='createRepository' wire:loading.attr='disabled' class="btn btn-primary btn-sm"
-                    wire:target='createRepository'>
-                    <span wire:loading.class='d-none' wire:target='createRepository'>Add</span>
-                    <span wire:loading wire:target='createRepository'>
-                        <span class="spinner-border spinner-border-sm text-light" role="status"></span>
-                    </span>
-                </button>
-            @endif
-            <button wire:click='resetInput' class="btn btn-warning" wire:target='resetInput'
-                wire:loading.attr='disabled'>
-                <span wire:target='resetInput' wire:loading.class='d-none'>Clear</span>
-                <span wire:loading wire:target='resetInput'>
-                    <span class="spinner-border spinner-border-sm text-primary" role="status"></span>
-                </span>
-            </button>
-        </div>
-        {{-- Display Small only --}}
     </div>
 </div>
