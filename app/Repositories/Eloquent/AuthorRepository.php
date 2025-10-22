@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Eloquent;
 
+use Throwable;
 use App\Models\Author;
 use App\Data\Author\AuthorData;
 use App\Data\Author\AuthorListData;
@@ -15,14 +16,18 @@ class AuthorRepository implements AuthorRepositoryInterface
 {
     public function create(CreateAuthorData $create_author_data): AuthorData
     {
-        $author = Author::create([
-            'nim' => $create_author_data->nim,
-            'user_id' => $create_author_data->user_id,
-            'study_program_id' => $create_author_data->study_program_id,
-            'status' => $create_author_data->status
-        ]);
+        try {
+            $author = Author::create([
+                'nim' => $create_author_data->nim,
+                'user_id' => $create_author_data->user_id,
+                'study_program_id' => $create_author_data->study_program_id,
+                'status' => $create_author_data->status
+            ]);
 
-        return AuthorData::fromModel($author);
+            return AuthorData::fromModel($author);
+        } catch (Throwable $th) {
+            throw $th;
+        }
     }
 
     public function findById(int $author_id): AuthorData|null
@@ -31,8 +36,8 @@ class AuthorRepository implements AuthorRepositoryInterface
             $author = Author::findOrFail($author_id);
 
             return AuthorData::fromModel($author);
-        } catch (\Throwable $th) {
-            return null;
+        } catch (Throwable $th) {
+            throw $th;
         }
     }
 
@@ -48,8 +53,8 @@ class AuthorRepository implements AuthorRepositoryInterface
             ]);
 
             return AuthorData::fromModel($author->refresh());
-        } catch (\Throwable $th) {
-            return null;
+        } catch (Throwable $th) {
+            throw $th;
         }
     }
 

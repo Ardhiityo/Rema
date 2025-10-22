@@ -1,5 +1,15 @@
 <div>
     <x-page-title :title="'Repository Lists'" :content="'All Repositories data listed.'" />
+    @if (session()->has('repository-list-success'))
+        <div class="alert-success alert">
+            {{ session('repository-list-success') }}
+        </div>
+    @endif
+    @if (session()->has('repository-list-failed'))
+        <div class="alert-danger alert">
+            {{ session('repository-list-failed') }}
+        </div>
+    @endif
     <div class="card">
         <div class="card-header">
             <div class="gap-3 row d-flex gap-md-0">

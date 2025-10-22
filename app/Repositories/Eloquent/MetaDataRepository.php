@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Eloquent;
 
+use Throwable;
 use App\Models\MetaData;
 use App\Data\Metadata\MetadataData;
 use Illuminate\Support\Facades\Auth;
@@ -11,21 +12,26 @@ use Illuminate\Support\Facades\Storage;
 use App\Data\Metadata\CreateMetadataData;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Repositories\Contratcs\MetaDataRepositoryInterface;
+use Exception;
 
 class MetaDataRepository implements MetaDataRepositoryInterface
 {
     public function create(CreateMetadataData $create_meta_data): MetadataData
     {
-        $meta_data = MetaData::create([
-            'title' => ucwords(strtolower($create_meta_data->title)),
-            'author_id' => $create_meta_data->author_id,
-            'visibility' => $create_meta_data->visibility,
-            'year' => $create_meta_data->year,
-            'slug' => $create_meta_data->slug,
-            'status' => $create_meta_data->status
-        ]);
+        try {
+            $meta_data = MetaData::create([
+                'title' => ucwords(strtolower($create_meta_data->title)),
+                'author_id' => $create_meta_data->author_id,
+                'visibility' => $create_meta_data->visibility,
+                'year' => $create_meta_data->year,
+                'slug' => $create_meta_data->slug,
+                'status' => $create_meta_data->status
+            ]);
 
-        return MetadataData::fromModel($meta_data);
+            return MetadataData::fromModel($meta_data);
+        } catch (Throwable $th) {
+            throw $th;
+        }
     }
 
     public function update($meta_data_id, UpdateMetaData $update_meta_data): MetadataData|null
@@ -43,7 +49,7 @@ class MetaDataRepository implements MetaDataRepositoryInterface
             ]);
 
             return MetadataData::fromModel($meta_data->refresh());
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             return null;
         }
     }
@@ -58,8 +64,8 @@ class MetaDataRepository implements MetaDataRepositoryInterface
             }
 
             return MetadataData::fromModel($meta_data);
-        } catch (\Throwable $th) {
-            return null;
+        } catch (Throwable $th) {
+            throw $th;
         }
     }
 
@@ -74,7 +80,7 @@ class MetaDataRepository implements MetaDataRepositoryInterface
             return MetadataData::fromModel($meta_data);
         }
 
-        return null;
+        throw new Exception('Meta data slug not found');
     }
 
     public function findByFilters(string $title, string $status, string $year, string $visibility, bool $is_author = false): LengthAwarePaginator
@@ -125,8 +131,8 @@ class MetaDataRepository implements MetaDataRepositoryInterface
             }
 
             return $meta_data->delete();
-        } catch (\Throwable $th) {
-            return false;
+        } catch (Throwable $th) {
+            throw $th;
         }
     }
 }

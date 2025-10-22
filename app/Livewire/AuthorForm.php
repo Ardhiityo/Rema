@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use Throwable;
 use Livewire\Component;
 use Livewire\Attributes\On;
 use Livewire\WithFileUploads;
@@ -93,86 +94,106 @@ class AuthorForm extends Component
 
     public function create()
     {
-        $validated = $this->validate($this->rulesCreate());
+        try {
+            $validated = $this->validate($this->rulesCreate());
 
-        $create_user_data = CreateUserData::from($validated);
+            $create_user_data = CreateUserData::from($validated);
 
-        $user_data = $this->userRepository->create($create_user_data);
+            $user_data = $this->userRepository->create($create_user_data);
 
-        $validated['user_id'] = $user_data->id;
+            $validated['user_id'] = $user_data->id;
 
-        $create_author_data = CreateAuthorData::from($validated);
+            $create_author_data = CreateAuthorData::from($validated);
 
-        $this->authorRepository->create($create_author_data);
+            $this->authorRepository->create($create_author_data);
 
-        $this->resetInput();
+            $this->resetInput();
 
-        $this->dispatch('refresh-authors');
+            $this->dispatch('refresh-authors');
 
-        session()->flash('message', 'The author was successfully created.');
+            session()->flash('author-success', 'The author was successfully created.');
+        } catch (Throwable $th) {
+            session()->flash('author-failed', $th->getMessage());
+        }
     }
 
     #[On('author-edit')]
     public function edit($author_id)
     {
-        $author_data = $this->authorRepository->findById($author_id);
-        $this->author_id = $author_data->id;
-        $this->nim = $author_data->nim;
-        $this->study_program_id = $author_data->study_program_id;
-        $this->status = $author_data->status;
+        try {
+            $author_data = $this->authorRepository->findById($author_id);
+            $this->author_id = $author_data->id;
+            $this->nim = $author_data->nim;
+            $this->study_program_id = $author_data->study_program_id;
+            $this->status = $author_data->status;
 
-        $user_data = $this->userRepository->findById($author_data->user_id);
-        $this->user_id = $user_data->id;
-        $this->name = $user_data->name;
-        $this->email = $user_data->email;
-        $this->display_avatar = $user_data->avatar;
+            $user_data = $this->userRepository->findById($author_data->user_id);
+            $this->user_id = $user_data->id;
+            $this->name = $user_data->name;
+            $this->email = $user_data->email;
+            $this->display_avatar = $user_data->avatar;
 
-        $this->is_update = true;
+            $this->is_update = true;
+        } catch (Throwable $th) {
+            session()->flash('author-failed', $th->getMessage());
+        }
     }
 
     public function update()
     {
-        $validated = $this->validate($this->rulesUpdate());
+        try {
+            $validated = $this->validate($this->rulesUpdate());
 
-        $update_user_data = UpdateUserData::from($validated);
+            $update_user_data = UpdateUserData::from($validated);
 
-        $this->userRepository->update($this->user_id, $update_user_data);
+            $this->userRepository->update($this->user_id, $update_user_data);
 
-        $update_author_data = UpdateAuthorData::from($validated);
+            $update_author_data = UpdateAuthorData::from($validated);
 
-        $this->authorRepository->update($this->author_id, $update_author_data);
+            $this->authorRepository->update($this->author_id, $update_author_data);
 
-        $this->dispatch('refresh-authors');
+            $this->dispatch('refresh-authors');
 
-        $this->is_update = false;
+            $this->is_update = false;
 
-        $this->display_avatar = false;
+            $this->display_avatar = false;
 
-        $this->resetInput();
+            $this->resetInput();
 
-        session()->flash('message', 'The author was successfully updated.');
+            session()->flash('author-success', 'The author was successfully updated.');
+        } catch (Throwable $th) {
+            session()->flash('author-failed', $th->getMessage());
+        }
     }
 
     #[On('author-delete-confirm')]
     public function deleteConfirm($author_id)
     {
-        $author_data = $this->authorRepository->findById($author_id);
+        try {
+            $author_data = $this->authorRepository->findById($author_id);
 
-        $this->user_id = $author_data->user_id;
+            $this->user_id = $author_data->user_id;
+        } catch (Throwable $th) {
+            session()->flash('author-failed', $th->getMessage());
+        }
     }
 
     #[On('author-delete')]
     public function delete()
     {
-        $this->userRepository->delete($this->user_id);
+        try {
+            $this->userRepository->delete($this->user_id);
 
-        $this->dispatch('refresh-authors');
+            $this->dispatch('refresh-authors');
 
-        $this->resetInput();
+            $this->resetInput();
 
-        $this->display_avatar = false;
+            $this->display_avatar = false;
 
-        session()->flash('message', 'The author was successfully deleted.');
+            session()->flash('author-success', 'The author was successfully deleted.');
+        } catch (Throwable $th) {
+            session()->flash('author-failed', $th->getMessage());
+        }
     }
 
     public function resetInput()

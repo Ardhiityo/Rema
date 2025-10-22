@@ -154,8 +154,8 @@ class MetaDataCategoryRepository implements MetaDataCategoryRepositoryInterface
                 ->firstOrFail();
 
             return MetadataCategoryData::fromModel($meta_data_category_data);
-        } catch (\Throwable $th) {
-            return null;
+        } catch (Throwable $th) {
+            throw $th;
         }
     }
 
@@ -174,9 +174,9 @@ class MetaDataCategoryRepository implements MetaDataCategoryRepositoryInterface
             }
 
             return $repository->delete();
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             logger(json_encode($th->getMessage()));
-            return false;
+            throw $th;
         }
     }
 

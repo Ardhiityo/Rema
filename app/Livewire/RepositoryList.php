@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use Throwable;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\Attributes\Computed;
@@ -47,14 +48,23 @@ class RepositoryList extends Component
 
     public function deleteConfirm($meta_data_slug)
     {
-        $meta_data = $this->metaDataRepository->findBySlug($meta_data_slug);
+        try {
+            $meta_data = $this->metaDataRepository->findBySlug($meta_data_slug);
 
-        $this->meta_data_id = $meta_data->id;
+            $this->meta_data_id = $meta_data->id;
+        } catch (Throwable $th) {
+            session()->flash('repository-list-failed', $th->getMessage());
+        }
     }
 
     public function delete()
     {
-        return $this->metaDataRepository->delete($this->meta_data_id);
+        try {
+            $this->metaDataRepository->delete($this->meta_data_id);
+            session()->flash('repository-list-success', 'The repository was successfully deleted.');
+        } catch (Throwable $th) {
+            session()->flash('repository-list-failed', $th->getMessage());
+        }
     }
 
     public function resetInput()

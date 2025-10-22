@@ -14,9 +14,15 @@
                                     <i class="bi bi-exclamation-triangle-fill"></i>
                                     {{ session('alert') }}
                                 </div>
-                            @elseif (session()->has('message'))
+                            @endif
+                            @if (session()->has('profile-success'))
                                 <div class="alert alert-success">
-                                    {{ session('message') }}
+                                    {{ session('profile-success') }}
+                                </div>
+                            @endif
+                            @if (session()->has('profile-failed'))
+                                <div class="alert alert-danger">
+                                    {{ session('profile-failed') }}
                                 </div>
                             @endif
                             <div class="form">

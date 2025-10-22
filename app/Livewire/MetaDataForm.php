@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use Throwable;
 use Livewire\Component;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Computed;
@@ -145,62 +146,70 @@ class MetaDataForm extends Component
 
     public function createMetaData()
     {
-        $user = Auth::user();
+        try {
+            $user = Auth::user();
 
-        if ($user->hasRole('contributor')) {
-            $this->author_id = $user->author->id;
-            $this->status = 'pending';
-            $this->visibility = 'private';
+            if ($user->hasRole('contributor')) {
+                $this->author_id = $user->author->id;
+                $this->status = 'pending';
+                $this->visibility = 'private';
+            }
+
+            $this->slug = Str::slug($this->title);
+
+            $validated = $this->validate();
+
+            $create_meta_data_data = CreateMetadataData::from($validated);
+
+            $meta_data_data = $this->metaDataRepository->create($create_meta_data_data);
+
+            $this->meta_data_id = $meta_data_data->id;
+
+            session()->put('meta_data', $meta_data_data);
+
+            $this->is_update = true;
+
+            $this->dispatch('refresh-meta-data-session');
+
+            session()->flash('meta-data-success', 'The meta data was successfully created.');
+        } catch (Throwable $th) {
+            session()->flash('meta-data-failed', $th->getMessage());
         }
-
-        $this->slug = Str::slug($this->title);
-
-        $validated = $this->validate();
-
-        $create_meta_data_data = CreateMetadataData::from($validated);
-
-        $meta_data_data = $this->metaDataRepository->create($create_meta_data_data);
-
-        $this->meta_data_id = $meta_data_data->id;
-
-        session()->put('meta_data', $meta_data_data);
-
-        $this->is_update = true;
-
-        $this->dispatch('refresh-meta-data-session');
-
-        session()->flash('succes-meta-data', 'The meta data was successfully created.');
     }
 
     public function updateMetaData()
     {
-        $user = Auth::user();
+        try {
+            $user = Auth::user();
 
-        if ($user->hasRole('contributor')) {
-            $this->author_id = $user->author->id;
-            $this->status = 'pending';
-            $this->visibility = 'private';
-        }
+            if ($user->hasRole('contributor')) {
+                $this->author_id = $user->author->id;
+                $this->status = 'pending';
+                $this->visibility = 'private';
+            }
 
-        $this->slug = Str::slug($this->title);
+            $this->slug = Str::slug($this->title);
 
-        $validated = $this->validate();
+            $validated = $this->validate();
 
-        $update_meta_data_data = UpdateMetaData::from($validated);
+            $update_meta_data_data = UpdateMetaData::from($validated);
 
-        $meta_data_data = $this->metaDataRepository->update(
-            $this->meta_data_id,
-            $update_meta_data_data
-        );
+            $meta_data_data = $this->metaDataRepository->update(
+                $this->meta_data_id,
+                $update_meta_data_data
+            );
 
-        if (!$this->is_update) {
-            session()->put('meta_data', $meta_data_data);
-        }
+            if (!$this->is_update) {
+                session()->put('meta_data', $meta_data_data);
+            }
 
-        session()->flash('succes-meta-data', 'The meta data was successfully updated.');
+            session()->flash('meta-data-success', 'The meta data was successfully updated.');
 
-        if ($this->is_update) {
-            return redirect()->route('repository.edit', ['meta_data_slug' => $meta_data_data->slug]);
+            if ($this->is_update) {
+                return redirect()->route('repository.edit', ['meta_data_slug' => $meta_data_data->slug]);
+            }
+        } catch (Throwable $th) {
+            session()->flash('meta-data-failed', $th->getMessage());
         }
     }
 

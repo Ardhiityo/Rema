@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Eloquent;
 
+use Throwable;
 use App\Models\User;
 use App\Models\MetaData;
 use App\Data\User\UserData;
@@ -16,20 +17,24 @@ class UserRepository implements UserRepositoryInterface
 {
     public function create(CreateUserData $create_user_data): UserData
     {
-        $user = User::create([
-            'name' => ucwords(strtolower($create_user_data->name)),
-            'email' => empty($create_user_data->email)
-                ? $create_user_data->nim . '@gmail.com' : $create_user_data->email,
-            'password' => empty($create_user_data->password) ?
-                intval($create_user_data->nim) * 2 : $create_user_data->password,
-            'avatar' => empty($create_user_data->avatar) ?
-                AvatarGenerator::generate() : $create_user_data->avatar->store('avatars', 'public'),
-            'email_verified_at' => now()
-        ]);
+        try {
+            $user = User::create([
+                'name' => ucwords(strtolower($create_user_data->name)),
+                'email' => empty($create_user_data->email)
+                    ? $create_user_data->nim . '@gmail.com' : $create_user_data->email,
+                'password' => empty($create_user_data->password) ?
+                    intval($create_user_data->nim) * 2 : $create_user_data->password,
+                'avatar' => empty($create_user_data->avatar) ?
+                    AvatarGenerator::generate() : $create_user_data->avatar->store('avatars', 'public'),
+                'email_verified_at' => now()
+            ]);
 
-        $user->assignRole('contributor');
+            $user->assignRole('contributor');
 
-        return UserData::fromModel($user);
+            return UserData::fromModel($user);
+        } catch (Throwable $th) {
+            throw $th;
+        }
     }
 
     public function findById(int $user_id): UserData|null
@@ -73,8 +78,8 @@ class UserRepository implements UserRepositoryInterface
             ]);
 
             return UserData::fromModel($user->refresh());
-        } catch (\Throwable $th) {
-            return null;
+        } catch (Throwable $th) {
+            throw $th;
         }
     }
 
@@ -110,8 +115,8 @@ class UserRepository implements UserRepositoryInterface
             }
 
             return $user->delete();
-        } catch (\Throwable $th) {
-            return false;
+        } catch (Throwable $th) {
+            throw $th;
         }
     }
 }

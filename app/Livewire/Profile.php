@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use Throwable;
 use App\Models\User;
 use App\Models\Author;
 use Livewire\Component;
@@ -120,38 +121,42 @@ class Profile extends Component
 
     public function update()
     {
-        $user_data = UserData::fromModel($this->user);
+        try {
+            $user_data = UserData::fromModel($this->user);
 
-        if ($this->user->hasRole('contributor')) {
-            $author_data = AuthorData::fromModel($this->author);
+            if ($this->user->hasRole('contributor')) {
+                $author_data = AuthorData::fromModel($this->author);
+            }
+
+            if ($this->isLockForm()) {
+                $this->name = $user_data->name;
+                $this->nim = $author_data->nim;
+                $this->study_program_id = $author_data->study_program_id;
+                $this->avatar = null;
+            }
+
+            $validated = $this->validate();
+
+            if ($this->user->hasRole('contributor')) {
+                $validated['status'] = $this->status;
+
+                $update_author_data = UpdateAuthorData::from($validated);
+
+                $this->authorRepository->update($author_data->id, $update_author_data);
+            }
+
+            if ($this->is_author) {
+                $validated['email'] = $user_data->email;
+            }
+
+            $update_user_data = UpdateUserData::from($validated);
+
+            $this->userRepository->update($user_data->id, $update_user_data);
+
+            session()->flash('profile-success', 'The profile was successfully updated.');
+        } catch (Throwable $th) {
+            session()->flash('profile-failed', $th->getMessage());
         }
-
-        if ($this->isLockForm()) {
-            $this->name = $user_data->name;
-            $this->nim = $author_data->nim;
-            $this->study_program_id = $author_data->study_program_id;
-            $this->avatar = null;
-        }
-
-        $validated = $this->validate();
-
-        if ($this->user->hasRole('contributor')) {
-            $validated['status'] = $this->status;
-
-            $update_author_data = UpdateAuthorData::from($validated);
-
-            $this->authorRepository->update($author_data->id, $update_author_data);
-        }
-
-        if ($this->is_author) {
-            $validated['email'] = $user_data->email;
-        }
-
-        $update_user_data = UpdateUserData::from($validated);
-
-        $this->userRepository->update($user_data->id, $update_user_data);
-
-        session()->flash('message', 'The profile was successfully updated.');
     }
 
     public function render(StudyProgramRepositoryInterface $studyProgramRepository)

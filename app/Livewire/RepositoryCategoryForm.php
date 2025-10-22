@@ -136,16 +136,20 @@ class RepositoryCategoryForm extends Component
     #[On('edit-repository-category')]
     public function editRepository($meta_data_slug, $category_slug)
     {
-        $meta_data_category_data = $this->metaDataCategoryRepository
-            ->findByMetaDataSlugAndCategorySlug($meta_data_slug, $category_slug);
+        try {
+            $meta_data_category_data = $this->metaDataCategoryRepository
+                ->findByMetaDataSlugAndCategorySlug($meta_data_slug, $category_slug);
 
-        $this->meta_data_id = $meta_data_category_data->meta_data_id;
-        $this->category_id = $meta_data_category_data->category_id;
+            $this->meta_data_id = $meta_data_category_data->meta_data_id;
+            $this->category_id = $meta_data_category_data->category_id;
 
-        $this->category_id_update = $meta_data_category_data->category_id;
-        $this->file_path_update = $meta_data_category_data->file_path;
+            $this->category_id_update = $meta_data_category_data->category_id;
+            $this->file_path_update = $meta_data_category_data->file_path;
 
-        $this->is_update = true;
+            $this->is_update = true;
+        } catch (Throwable $th) {
+            return session()->flash('repository-failed', $th->getMessage());
+        }
     }
 
     public function updateRepository()
@@ -175,29 +179,37 @@ class RepositoryCategoryForm extends Component
     #[On('delete-confirm-repository-category')]
     public function deleteConfirm($meta_data_slug, $category_slug)
     {
-        $meta_data_category_data = $this->metaDataCategoryRepository
-            ->findByMetaDataSlugAndCategorySlug($meta_data_slug, $category_slug);
+        try {
+            $meta_data_category_data = $this->metaDataCategoryRepository
+                ->findByMetaDataSlugAndCategorySlug($meta_data_slug, $category_slug);
 
-        $this->meta_data_id = $meta_data_category_data->meta_data_id;
-        $this->category_id_delete = $meta_data_category_data->category_id;
+            $this->meta_data_id = $meta_data_category_data->meta_data_id;
+            $this->category_id_delete = $meta_data_category_data->category_id;
+        } catch (Throwable $th) {
+            session()->flash('repository-failed', $th->getMessage());
+        }
     }
 
     #[On('delete-repository-category')]
     public function delete()
     {
-        $this->metaDataCategoryRepository->delete($this->meta_data_id, $this->category_id_delete);
+        try {
+            $this->metaDataCategoryRepository->delete($this->meta_data_id, $this->category_id_delete);
 
-        $meta_data_data = $this->metaDataRepository->findById($this->meta_data_id, ['categories']);
+            $meta_data_data = $this->metaDataRepository->findById($this->meta_data_id, ['categories']);
 
-        if ($meta_data_data) {
-            if ($meta_data_data->categories->toCollection()->isEmpty()) {
-                $this->resetInput();
+            if ($meta_data_data) {
+                if ($meta_data_data->categories->toCollection()->isEmpty()) {
+                    $this->resetInput();
+                }
             }
+
+            $this->dispatch('refresh-repository-table');
+
+            session()->flash('repository-success', 'The repository was successfully deleted.');
+        } catch (Throwable $th) {
+            session()->flash('repository-failed', $th->getMessage());
         }
-
-        $this->dispatch('refresh-repository-table');
-
-        session()->flash('repository-success', 'The repository was successfully deleted.');
     }
 
     public function resetInput()

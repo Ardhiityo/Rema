@@ -8,9 +8,14 @@
                     Step 1/2
                 </span>
             </h4>
-            @if (session()->has('succes-meta-data'))
+            @if (session()->has('meta-data-success'))
                 <div class="mt-4 alert-success alert">
-                    {{ session('succes-meta-data') }}
+                    {{ session('meta-data-success') }}
+                </div>
+            @endif
+            @if (session()->has('meta-data-failed'))
+                <div class="mt-4 alert-danger alert">
+                    {{ session('meta-data-failed') }}
                 </div>
             @endif
         </div>
