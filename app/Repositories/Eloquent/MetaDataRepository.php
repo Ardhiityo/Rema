@@ -34,7 +34,7 @@ class MetaDataRepository implements MetaDataRepositoryInterface
         }
     }
 
-    public function update($meta_data_id, UpdateMetaData $update_meta_data): MetadataData|null
+    public function update($meta_data_id, UpdateMetaData $update_meta_data): MetadataData|Throwable
     {
         try {
             $meta_data = MetaData::findOrFail($meta_data_id);
@@ -50,11 +50,11 @@ class MetaDataRepository implements MetaDataRepositoryInterface
 
             return MetadataData::fromModel($meta_data->refresh());
         } catch (Throwable $th) {
-            return null;
+            throw $th;
         }
     }
 
-    public function findById(int $meta_data_id, array|null $relations = null): MetadataData|null
+    public function findById(int $meta_data_id, array|null $relations = null): MetadataData|Throwable
     {
         try {
             $meta_data = MetaData::findOrFail($meta_data_id);
@@ -69,7 +69,7 @@ class MetaDataRepository implements MetaDataRepositoryInterface
         }
     }
 
-    public function findBySlug(string $meta_data_slug, array|null $relations = null): MetadataData|null
+    public function findBySlug(string $meta_data_slug, array|null $relations = null): MetadataData|Throwable
     {
         $meta_data = MetaData::firstWhere('slug', $meta_data_slug);
 
@@ -115,7 +115,7 @@ class MetaDataRepository implements MetaDataRepositoryInterface
         );
     }
 
-    public function delete(int $meta_data_id): bool
+    public function delete(int $meta_data_id): bool|Throwable
     {
         try {
             $meta_data = MetaData::findOrFail($meta_data_id);

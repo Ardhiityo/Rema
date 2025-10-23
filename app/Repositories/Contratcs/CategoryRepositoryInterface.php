@@ -11,13 +11,13 @@ use Throwable;
 
 interface CategoryRepositoryInterface
 {
-    public function create(CreateCategoryData $create_category_data): CategoryData;
+    public function create(CreateCategoryData $create_category_data): CategoryData|Throwable;
 
-    public function findById(int $category_id): CategoryData|null;
+    public function findById(int $category_id): CategoryData|Throwable;
 
     public function update(int $category_id, UpdateCategoryData $update_category_data): CategoryData|Throwable;
 
-    public function delete(int $category_id): bool;
+    public function delete(int $category_id): bool|Throwable;
 
     public function all(): DataCollection;
 

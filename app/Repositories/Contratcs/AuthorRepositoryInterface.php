@@ -7,14 +7,15 @@ use App\Data\Author\CreateAuthorData;
 use App\Data\Author\UpdateAuthorData;
 use Spatie\LaravelData\DataCollection;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Throwable;
 
 interface AuthorRepositoryInterface
 {
-    public function create(CreateAuthorData $create_author_data): AuthorData;
+    public function create(CreateAuthorData $create_author_data): AuthorData|Throwable;
 
-    public function findById(int $author_id): AuthorData|null;
+    public function findById(int $author_id): AuthorData|Throwable;
 
-    public function update($author_id, UpdateAuthorData $update_author_data): AuthorData|null;
+    public function update($author_id, UpdateAuthorData $update_author_data): AuthorData|Throwable;
 
     public function findByApprovals(array|null $relations = null): DataCollection;
 

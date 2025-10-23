@@ -30,7 +30,7 @@ class AuthorRepository implements AuthorRepositoryInterface
         }
     }
 
-    public function findById(int $author_id): AuthorData|null
+    public function findById(int $author_id): AuthorData|Throwable
     {
         try {
             $author = Author::findOrFail($author_id);
@@ -41,7 +41,7 @@ class AuthorRepository implements AuthorRepositoryInterface
         }
     }
 
-    public function update($author_id, UpdateAuthorData $update_author_data): AuthorData|null
+    public function update($author_id, UpdateAuthorData $update_author_data): AuthorData|Throwable
     {
         try {
             $author = Author::findOrFail($author_id);

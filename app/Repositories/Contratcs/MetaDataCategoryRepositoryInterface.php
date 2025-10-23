@@ -14,11 +14,11 @@ interface MetaDataCategoryRepositoryInterface
 
     public function update(UpdateMetadataCategoryData $update_metadata_category_data, int $current_category_id): MetadataCategoryData|Throwable;
 
-    public function findByMetaDataSlugAndCategorySlug(string $meta_data_slug, string $category_slug): MetadataCategoryData|null;
+    public function findByMetaDataSlugAndCategorySlug(string $meta_data_slug, string $category_slug): MetadataCategoryData|Throwable;
 
-    public function findByMetaDataIdAndCategoryId(int $meta_data_id, int $category_id): MetadataCategoryData|null;
+    public function findByMetaDataIdAndCategoryId(int $meta_data_id, int $category_id): MetadataCategoryData|Throwable;
 
-    public function delete(int $meta_data_id, int $category_id): bool;
+    public function delete(int $meta_data_id, int $category_id): bool|Throwable;
 
     public function read(string $category_slug, string $meta_data_slug): BinaryFileResponse;
 }

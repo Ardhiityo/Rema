@@ -8,10 +8,11 @@ use App\Data\Note\CreateNoteData;
 use App\Data\Note\UpdateNoteData;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Repositories\Contratcs\NoteRepositoryInterface;
+use Throwable;
 
 class NoteRepository implements NoteRepositoryInterface
 {
-    public function create(CreateNoteData $create_note_data): NoteData
+    public function create(CreateNoteData $create_note_data): NoteData|Throwable
     {
         $note = Note::create([
             'meta_data_id' => $create_note_data->meta_data_id,
@@ -21,7 +22,7 @@ class NoteRepository implements NoteRepositoryInterface
         return NoteData::fromModel($note);
     }
 
-    public function update(UpdateNoteData $update_note_data, int $note_id): NoteData|null
+    public function update(UpdateNoteData $update_note_data, int $note_id): NoteData|Throwable
     {
         try {
             $note = Note::findOrFail($note_id);
@@ -31,8 +32,8 @@ class NoteRepository implements NoteRepositoryInterface
             ]);
 
             return NoteData::fromModel($note->refresh());
-        } catch (\Throwable $th) {
-            return null;
+        } catch (Throwable $th) {
+            throw $th;
         }
     }
 
@@ -41,19 +42,19 @@ class NoteRepository implements NoteRepositoryInterface
         try {
             $note = Note::findOrFail($note_id);
             return $note->delete();
-        } catch (\Throwable $th) {
-            return false;
+        } catch (Throwable $th) {
+            throw $th;
         }
     }
 
-    public function findById(int $note_id): NoteData|null
+    public function findById(int $note_id): NoteData|Throwable
     {
         try {
             $note = Note::findOrFail($note_id);
 
             return NoteData::fromModel($note);
-        } catch (\Throwable $th) {
-            return null;
+        } catch (Throwable $th) {
+            throw $th;
         }
     }
 

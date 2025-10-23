@@ -14,7 +14,7 @@ use Throwable;
 
 class CategoryRepository implements CategoryRepositoryInterface
 {
-    public function create(CreateCategoryData $category): CategoryData
+    public function create(CreateCategoryData $category): CategoryData|Throwable
     {
         try {
             $category = Category::create([
@@ -28,7 +28,7 @@ class CategoryRepository implements CategoryRepositoryInterface
         }
     }
 
-    public function findById(int $category_id): CategoryData|null
+    public function findById(int $category_id): CategoryData|Throwable
     {
         try {
             $category = Category::findOrFail($category_id);
@@ -45,7 +45,7 @@ class CategoryRepository implements CategoryRepositoryInterface
             $category = Category::findOrFail($category_id);
 
             $category->update([
-                'name' => $update_category_data->name,
+                'name' => ucwords(strtolower($update_category_data->name)),
                 'slug' => $update_category_data->slug
             ]);
 
@@ -55,7 +55,7 @@ class CategoryRepository implements CategoryRepositoryInterface
         }
     }
 
-    public function delete(int $category_id): bool
+    public function delete(int $category_id): bool|Throwable
     {
         try {
             $category = Category::findOrFail($category_id)->load('metadata');

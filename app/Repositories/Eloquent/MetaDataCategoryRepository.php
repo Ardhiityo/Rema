@@ -122,19 +122,19 @@ class MetaDataCategoryRepository implements MetaDataCategoryRepositoryInterface
         }
     }
 
-    public function findByMetaDataIdAndCategoryId(int $meta_data_id, int $category_id): MetadataCategoryData|null
+    public function findByMetaDataIdAndCategoryId(int $meta_data_id, int $category_id): MetadataCategoryData|Throwable
     {
         try {
             $metadata_category_data = Repository::where('meta_data_id', $meta_data_id)
                 ->where('category_id', $category_id)->firstOrFail();
 
             return MetadataCategoryData::fromModel($metadata_category_data);
-        } catch (\Throwable $th) {
-            return null;
+        } catch (Throwable $th) {
+            throw $th;
         }
     }
 
-    public function findByMetaDataSlugAndCategorySlug(string $meta_data_slug, string $category_slug): MetadataCategoryData|null
+    public function findByMetaDataSlugAndCategorySlug(string $meta_data_slug, string $category_slug): MetadataCategoryData|Throwable
     {
         try {
             $meta_data_category_data = Repository::whereHas(
@@ -159,7 +159,7 @@ class MetaDataCategoryRepository implements MetaDataCategoryRepositoryInterface
         }
     }
 
-    public function delete(int $meta_data_id, int $category_id): bool
+    public function delete(int $meta_data_id, int $category_id): bool|Throwable
     {
         try {
             $repository = Repository::where('meta_data_id', $meta_data_id)

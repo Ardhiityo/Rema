@@ -15,7 +15,7 @@ use App\Repositories\Contratcs\StudyProgramRepositoryInterface;
 
 class StudyProgramRepository implements StudyProgramRepositoryInterface
 {
-    public function create(CreateStudyProgramData $create_study_program_data): StudyProgramData
+    public function create(CreateStudyProgramData $create_study_program_data): StudyProgramData|Throwable
     {
         try {
             $study_program = StudyProgram::create([
@@ -29,7 +29,7 @@ class StudyProgramRepository implements StudyProgramRepositoryInterface
         }
     }
 
-    public function findById(int $study_program_id): StudyProgramData|null
+    public function findById(int $study_program_id): StudyProgramData|Throwable
     {
         try {
             $study_program = StudyProgram::findOrFail($study_program_id);
@@ -40,7 +40,7 @@ class StudyProgramRepository implements StudyProgramRepositoryInterface
         }
     }
 
-    public function update($study_program_id, UpdateStudyProgramData $update_study_program_data): StudyProgramData|null
+    public function update($study_program_id, UpdateStudyProgramData $update_study_program_data): StudyProgramData|Throwable
     {
         try {
             $study_program = StudyProgram::findOrFail($study_program_id);
@@ -56,7 +56,7 @@ class StudyProgramRepository implements StudyProgramRepositoryInterface
         }
     }
 
-    public function delete(int $study_program_id): bool
+    public function delete(int $study_program_id): bool|Throwable
     {
         try {
             $study_program = StudyProgram::findOrFail($study_program_id);
@@ -92,8 +92,8 @@ class StudyProgramRepository implements StudyProgramRepositoryInterface
             }
 
             return $study_program->delete();
-        } catch (\Throwable $th) {
-            return false;
+        } catch (Throwable $th) {
+            throw $th;
         }
     }
 

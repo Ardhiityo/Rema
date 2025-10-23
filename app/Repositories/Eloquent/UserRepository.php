@@ -15,7 +15,7 @@ use App\Repositories\Contratcs\UserRepositoryInterface;
 
 class UserRepository implements UserRepositoryInterface
 {
-    public function create(CreateUserData $create_user_data): UserData
+    public function create(CreateUserData $create_user_data): UserData|Throwable
     {
         try {
             $user = User::create([
@@ -37,18 +37,18 @@ class UserRepository implements UserRepositoryInterface
         }
     }
 
-    public function findById(int $user_id): UserData|null
+    public function findById(int $user_id): UserData|Throwable
     {
         try {
             $user = User::findOrFail($user_id);
 
             return UserData::fromModel($user);
-        } catch (\Throwable $th) {
-            return null;
+        } catch (Throwable $th) {
+            throw $th;
         }
     }
 
-    public function update(int $user_id, UpdateUserData $update_user_data): UserData|null
+    public function update(int $user_id, UpdateUserData $update_user_data): UserData|Throwable
     {
         try {
             $user = User::findOrFail($user_id);
@@ -83,7 +83,7 @@ class UserRepository implements UserRepositoryInterface
         }
     }
 
-    public function delete(int $user_id): bool
+    public function delete(int $user_id): bool|Throwable
     {
         try {
             $user = User::findOrFail($user_id);
