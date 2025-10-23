@@ -8,7 +8,7 @@ use Livewire\Attributes\Computed;
 use Illuminate\Support\Facades\Auth;
 use App\Repositories\Contratcs\MetaDataRepositoryInterface;
 
-class RepositoryTable extends Component
+class MetaDataCategoryTable extends Component
 {
     public int|null $meta_data_id = null;
     public bool $is_approve = false;
@@ -62,6 +62,6 @@ class RepositoryTable extends Component
 
     public function render()
     {
-        return view('livewire.repository-table');
+        return view('livewire.meta-data-category-table');
     }
 }

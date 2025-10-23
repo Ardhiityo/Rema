@@ -12,7 +12,7 @@ use App\Repositories\Contratcs\MetaDataCategoryRepositoryInterface;
 class RepositoryForm extends Component
 {
     public bool $is_update = false;
-    public bool $is_edit_repository_category_form = false;
+    public bool $is_edit_meta_data_category_form = false;
     public int|null $meta_data_id = null;
     public bool $is_approve = false;
     public bool $is_categories_empty = false;
@@ -69,15 +69,15 @@ class RepositoryForm extends Component
             ->findByMetaDataSlugAndCategorySlug($meta_data_slug, $category_slug);
 
         if ($metadata_categories_exist) {
-            $this->is_edit_repository_category_form = true;
+            $this->is_edit_meta_data_category_form = true;
 
-            return $this->showRepositoryCategoryFrom;
+            return $this->showMetaDataCategoryForm;
         }
     }
 
     #[Computed()]
     #[On('refresh-meta-data-session')]
-    public function showRepositoryCategoryFrom()
+    public function showMetaDataCategoryForm()
     {
         if ($this->is_update) {
             return $this->is_approve && Auth::user()->hasRole('contributor') ? false : true;
@@ -88,7 +88,7 @@ class RepositoryForm extends Component
 
     #[Computed()]
     #[On('refresh-repository-table')]
-    public function showRepositoriesTable()
+    public function showMetaDataCategoryTable()
     {
         $relations = ['categories'];
 

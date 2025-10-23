@@ -15,7 +15,7 @@ use App\Repositories\Contratcs\CategoryRepositoryInterface;
 use App\Repositories\Contratcs\MetaDataRepositoryInterface;
 use App\Repositories\Contratcs\MetaDataCategoryRepositoryInterface;
 
-class RepositoryCategoryForm extends Component
+class MetaDataCategoryForm extends Component
 {
     use WithFileUploads;
 
@@ -225,6 +225,6 @@ class RepositoryCategoryForm extends Component
     {
         $categories = $this->categoryRepository->all();
 
-        return view('livewire.repository-category-form', compact('categories'));
+        return view('livewire.meta-data-category-form', compact('categories'));
     }
 }
