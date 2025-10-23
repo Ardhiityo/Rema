@@ -2,11 +2,12 @@
 
 namespace App\Livewire;
 
+use Throwable;
 use Livewire\Component;
 use Livewire\Attributes\On;
-use Livewire\Attributes\Computed;
 use App\Data\Note\CreateNoteData;
 use App\Data\Note\UpdateNoteData;
+use Livewire\Attributes\Computed;
 use App\Repositories\Contratcs\NoteRepositoryInterface;
 
 class NoteForm extends Component
@@ -51,45 +52,57 @@ class NoteForm extends Component
     {
         $validated = $this->validate();
 
-        $validated['meta_data_id'] = $this->meta_data_id;
+        try {
+            $validated['meta_data_id'] = $this->meta_data_id;
 
-        $create_note_data = CreateNoteData::from($validated);
+            $create_note_data = CreateNoteData::from($validated);
 
-        $this->noteRepository->create($create_note_data);
+            $this->noteRepository->create($create_note_data);
 
-        $this->resetInput();
+            $this->resetInput();
 
-        $this->dispatch('refresh-notes');
+            $this->dispatch('refresh-notes');
 
-        return session()->flash('message', 'The note was successfully created.');
+            session()->flash('note-success', 'The note was successfully created.');
+        } catch (Throwable $th) {
+            session()->flash('note-failed', $th->getMessage());
+        }
     }
 
     #[On('note-edit')]
     public function edit($note_id)
     {
-        $note = $this->noteRepository->findById($note_id);
+        try {
+            $note = $this->noteRepository->findById($note_id);
 
-        $this->note_id = $note_id;
-        $this->message = $note->message;
+            $this->note_id = $note_id;
+            $this->message = $note->message;
 
-        $this->is_update = true;
+            $this->is_update = true;
+        } catch (Throwable $th) {
+            session()->flash('note-failed', $th->getMessage());
+        }
     }
 
     public function update()
     {
-        $validated = $this->validate();
+        try {
+            $validated = $this->validate();
 
-        $update_note_data = UpdateNoteData::from($validated);
+            $update_note_data = UpdateNoteData::from($validated);
 
-        $this->noteRepository->update($update_note_data, $this->note_id);
+            $this->noteRepository->update($update_note_data, $this->note_id);
 
-        $this->resetInput();
+            $this->resetInput();
 
-        $this->is_update = false;
+            $this->is_update = false;
 
-        $this->dispatch('refresh-notes');
+            $this->dispatch('refresh-notes');
 
-        return session()->flash('message', 'The note was successfully updated.');
+            session()->flash('note-success', 'The note was successfully updated.');
+        } catch (Throwable $th) {
+            session()->flash('note-failed', $th->getMessage());
+        }
     }
 
     #[On('note-delete-confirm')]
@@ -101,11 +114,15 @@ class NoteForm extends Component
     #[On('note-delete')]
     public function delete()
     {
-        $this->noteRepository->delete($this->note_id);
+        try {
+            $this->noteRepository->delete($this->note_id);
 
-        $this->dispatch('refresh-notes');
+            $this->dispatch('refresh-notes');
 
-        return session()->flash('message', 'The note was successfully deleted.');
+            session()->flash('note-success', 'The note was successfully deleted.');
+        } catch (Throwable $th) {
+            session()->flash('note-failed', $th->getMessage());
+        }
     }
 
     public function render()

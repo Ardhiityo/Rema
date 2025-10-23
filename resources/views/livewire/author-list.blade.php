@@ -84,12 +84,13 @@
                 </tbody>
             </table>
         </div>
-        @if ($this->authors->isNotEmpty())
+        @if ($this->authors->total() > $this->authors->perPage())
             <div class="p-3 pt-4">
                 {{ $this->authors->links() }}
             </div>
         @endif
     </div>
+
     <!--BorderLess Modal Modal -->
     <div wire:ignore.self class="text-left modal fade modal-borderless" id="border-less" tabindex="-1" role="dialog"
         aria-labelledby="myModalLabel1" aria-hidden="true">

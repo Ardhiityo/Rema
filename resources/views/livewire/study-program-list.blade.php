@@ -54,7 +54,7 @@
                  </tbody>
              </table>
          </div>
-         @if ($this->study_programs->isNotEmpty())
+         @if ($this->study_programs->total() > $this->study_programs->perPage())
              <div class="p-3 pt-4">
                  {{ $this->study_programs->links() }}
              </div>

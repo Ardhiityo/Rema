@@ -3,9 +3,14 @@
          <h4 class="card-title">{{ $this->formTitle }}</h4>
      </div>
      <div class="card-body">
-         @if (session()->has('message'))
+         @if (session()->has('note-success'))
              <div class="alert-success alert">
-                 {{ session('message') }}
+                 {{ session('note-success') }}
+             </div>
+         @endif
+         @if (session()->has('note-failed'))
+             <div class="alert-danger alert">
+                 {{ session('note-failed') }}
              </div>
          @endif
          <div class="mb-4 row">

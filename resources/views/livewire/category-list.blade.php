@@ -54,7 +54,7 @@
                  </tbody>
              </table>
          </div>
-         @if ($this->categories->isNotEmpty())
+         @if ($this->categories->total() > $this->categories->perPage())
              <div class="p-3 pt-4">
                  {{ $this->categories->links() }}
              </div>

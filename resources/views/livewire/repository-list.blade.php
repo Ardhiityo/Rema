@@ -122,7 +122,7 @@
                     </tbody>
                 </table>
             </div>
-            @if ($meta_data->isNotEmpty())
+            @if ($meta_data->total() > $meta_data->perPage())
                 <div class="p-3 pt-4">
                     {{ $meta_data->links() }}
                 </div>

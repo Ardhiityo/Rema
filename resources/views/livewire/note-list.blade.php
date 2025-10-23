@@ -40,7 +40,7 @@
                      <p>There are currently no notes <i class="bi bi-emoji-frown"></i></p>
                  </div>
              @endforelse
-             @if ($this->notes->isNotEmpty())
+             @if ($this->notes->total() > 1)
                  <div class="p-3 pt-4">
                      {{ $this->notes->links() }}
                  </div>
