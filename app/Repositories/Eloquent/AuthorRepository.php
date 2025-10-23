@@ -74,7 +74,7 @@ class AuthorRepository implements AuthorRepositoryInterface
         );
     }
 
-    public function findByFilters(string $status_filter = 'approve', string|null $keyword = null): LengthAwarePaginator
+    public function findByFilters(string $status_filter = 'approve', string|null $keyword = null, string|null $study_program_slug = null): LengthAwarePaginator
     {
         $query = Author::query();
 
@@ -86,6 +86,10 @@ class AuthorRepository implements AuthorRepositoryInterface
                 fn($query) => $query->whereLike('name', "%$keyword%")
             )
                 ->orWhere('nim', $keyword);
+        }
+
+        if ($study_program_slug) {
+            $query->whereHas('studyProgram', fn($query) => $query->where('slug', $study_program_slug));
         }
 
         return AuthorListData::collect($query->orderByDesc('id')->paginate(10));

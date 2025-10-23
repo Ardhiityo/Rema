@@ -1,14 +1,14 @@
 <div class="card">
     <div class="card-header">
         <div class="gap-3 row d-flex gap-md-0">
-            <div class="col-md-5">
+            <div class="col-md-4">
                 <div class="input-group">
-                    <label class="input-group-text" for="status">Keyword</label>
-                    <input type="text" wire:model.live.debounce.250ms='keyword' autofocus class="form-control"
-                        id="status" placeholder="Search...">
+                    <label class="input-group-text" for="keyword">Keyword</label>
+                    <input name="keyword" type="text" wire:model.live.debounce.250ms='keyword' autofocus
+                        class="form-control" id="status" placeholder="NIM or Name">
                 </div>
             </div>
-            <div class="col-md-5">
+            <div class="col-md-3">
                 <div class="input-group">
                     <label class="input-group-text" for="status">Status</label>
                     <select name="status" id="status" class="form-select" wire:model.live='status_filter'>
@@ -18,7 +18,21 @@
                     </select>
                 </div>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-4">
+                <div class="input-group">
+                    <label class="input-group-text" for="study_program_slug">Study Programs</label>
+                    <select name="study_program_slug" id="study_program_slug" class="form-select"
+                        wire:model.live='study_program_slug'>
+                        <option value="">All</option>
+                        @foreach ($study_programs as $study_program)
+                            <option value="{{ $study_program->slug }}">
+                                {{ $study_program->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-1">
                 <button class="btn btn-primary w-100" wire:click='resetInput' wire:target='resetInput'
                     wire:loading.attr='disabled'>
                     <span wire:target='resetInput' wire:loading.class='d-none'><i

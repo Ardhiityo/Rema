@@ -19,5 +19,9 @@ interface AuthorRepositoryInterface
 
     public function findByApprovals(array|null $relations = null): DataCollection;
 
-    public function findByFilters(string $status_filter = 'approve', string|null $keyword = null): LengthAwarePaginator;
+    public function findByFilters(
+        string $status_filter = 'approve',
+        string|null $keyword = null,
+        string|null $study_program_slug = null
+    ): LengthAwarePaginator;
 }

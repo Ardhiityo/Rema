@@ -6,6 +6,8 @@ use Livewire\Component;
 use Livewire\Attributes\On;
 use Livewire\WithPagination;
 use App\Repositories\Contratcs\AuthorRepositoryInterface;
+use App\Repositories\Contratcs\StudyProgramRepositoryInterface;
+use Livewire\Attributes\Computed;
 
 class AuthorList extends Component
 {
@@ -14,24 +16,38 @@ class AuthorList extends Component
     protected $paginationTheme = 'bootstrap';
 
     public string $status_filter = 'approve';
+    public string $study_program_slug = '';
     public string $keyword = '';
 
     #[On('refresh-authors')]
     public function getAuthorsProperty(AuthorRepositoryInterface $authorRepository)
     {
-        return $authorRepository->findByFilters($this->status_filter, $this->keyword);
+        return $authorRepository->findByFilters(
+            $this->status_filter,
+            $this->keyword,
+            $this->study_program_slug
+        );
     }
 
     public function resetInput()
     {
         $this->keyword = '';
         $this->status_filter = 'approve';
+        $this->study_program_slug = '';
 
         $this->resetPage();
     }
 
+    #[Computed()]
+    public function studyProgramRepository()
+    {
+        return app(StudyProgramRepositoryInterface::class);
+    }
+
     public function render()
     {
-        return view('livewire.author-list');
+        $study_programs = $this->studyProgramRepository()->all();
+
+        return view('livewire.author-list', compact('study_programs'));
     }
 }

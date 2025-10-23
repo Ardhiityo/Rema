@@ -99,7 +99,7 @@ class StudyProgramRepository implements StudyProgramRepositoryInterface
 
     public function all(): DataCollection
     {
-        return StudyProgramData::collect(StudyProgram::all(), DataCollection::class);
+        return StudyProgramData::collect(StudyProgram::orderByDesc('id')->get(), DataCollection::class);
     }
 
     public function findByFilters(string|null $keyword = null): LengthAwarePaginator
