@@ -88,12 +88,12 @@
                                     {{-- Study Program --}}
 
                                     {{-- Email --}}
-                                    <div class="col-12">
+                                    <div class="mt-1 col-12">
                                         <div class="form-group">
                                             <label for="email" class="form-label">Email <sup>*</sup>
                                             </label>
                                             <input type="email" id="email" class="form-control" wire:model='email'
-                                                name="email" {{ $is_author ? 'disabled' : '' }}>
+                                                name="email">
                                             @error('email')
                                                 <span class="badge bg-danger text-wrap">
                                                     <small>{{ $message }}</small>

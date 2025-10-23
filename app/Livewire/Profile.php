@@ -40,7 +40,6 @@ class Profile extends Component
     public Author $author;
     public string $status;
     public string $role = '';
-    public bool $is_author = false;
 
     public function mount()
     {
@@ -50,7 +49,6 @@ class Profile extends Component
         if ($user->hasRole('contributor')) {
             $user->load('author');
             $this->author = $user->author;
-            $this->is_author = true;
 
             $author_data = AuthorData::fromModel($user->author);
             $this->nim = $author_data->nim;
@@ -72,8 +70,8 @@ class Profile extends Component
             'nim' => ['required_if:role,contributor', new ProfileNimRule()],
             'study_program_id' => ['required_if:role,contributor', new ProfileStudyProgramRule()],
             'avatar' => [Rule::requiredIf($this->user->avatar == null), new ProfileAvatarRule()],
-            'email' => ['required_if:role,admin', 'email'],
-            'password' => ['nullable', 'min:8', 'max:100'],
+            'email' => ['required', 'email:dns', 'unique:users,email,' . $this->user->id],
+            'password' => ['nullable', 'min:8', 'max:100']
         ];
     }
 
@@ -143,10 +141,6 @@ class Profile extends Component
                 $update_author_data = UpdateAuthorData::from($validated);
 
                 $this->authorRepository->update($author_data->id, $update_author_data);
-            }
-
-            if ($this->is_author) {
-                $validated['email'] = $user_data->email;
             }
 
             $update_user_data = UpdateUserData::from($validated);
