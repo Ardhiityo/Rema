@@ -65,6 +65,7 @@ class MetaDataRepository implements MetaDataRepositoryInterface
 
             return MetadataData::fromModel($meta_data);
         } catch (Throwable $th) {
+            logger(json_encode($th->getMessage()));
             throw $th;
         }
     }

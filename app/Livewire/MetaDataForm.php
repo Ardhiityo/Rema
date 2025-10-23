@@ -82,16 +82,17 @@ class MetaDataForm extends Component
     #[Computed()]
     public function metaDataSession()
     {
-        if (session()->has('meta_data')) {
-            $meta_data_session = session()->get('meta_data');
-            if ($this->metaDataRepository->findById($meta_data_session->id)) {
-                return $meta_data_session;
-            } else {
-                return $this->createNewForm();
+        try {
+            if (session()->has('meta_data')) {
+                $meta_data_session = session()->get('meta_data');
+                if ($this->metaDataRepository->findById($meta_data_session->id)) {
+                    return $meta_data_session;
+                }
             }
+        } catch (Throwable $th) {
+            $this->createNewForm();
+            return false;
         }
-
-        return false;
     }
 
     #[Computed()]

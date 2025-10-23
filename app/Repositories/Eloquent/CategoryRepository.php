@@ -79,7 +79,7 @@ class CategoryRepository implements CategoryRepositoryInterface
 
     public function all(): DataCollection
     {
-        return CategoryData::collect(Category::all(), DataCollection::class);
+        return CategoryData::collect(Category::orderByDesc('id')->get(), DataCollection::class);
     }
 
     public function findByFilters(string|null $keyword = null): LengthAwarePaginator

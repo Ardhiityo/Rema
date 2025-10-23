@@ -68,7 +68,10 @@ class AuthorRepository implements AuthorRepositoryInterface
 
         $authors->approve();
 
-        return AuthorListData::collect($authors->get(), DataCollection::class);
+        return AuthorListData::collect(
+            $authors->orderByDesc('id')->get(),
+            DataCollection::class
+        );
     }
 
     public function findByFilters(string $status_filter = 'approve', string|null $keyword = null): LengthAwarePaginator
