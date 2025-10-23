@@ -67,9 +67,9 @@
                     <thead>
                         <tr class="text-center text-nowrap">
                             <th>No</th>
-                            <th>Title</th>
+                            <th class="text-start">Title</th>
                             @if (!$is_author)
-                                <th>Author</th>
+                                <th class="text-start">Author</th>
                             @endif
                             <th>Visibility</th>
                             <th>Action</th>
@@ -79,9 +79,10 @@
                         @forelse ($meta_data as $data)
                             <tr class="text-center text-nowrap" wire:key='{{ $data->slug }}'>
                                 <td class="text-bold-500">{{ $loop->index + $meta_data->firstItem() }}</td>
-                                <td class="text-bold-500" title="{{ $data->title }}">{{ $data->short_title }}</td>
+                                <td class="text-bold-500 text-start" title="{{ $data->title }}">
+                                    {{ $data->short_title }}</td>
                                 @if (!$is_author)
-                                    <td>
+                                    <td class="text-start">
                                         @if ($data->avatar)
                                             <img src="{{ $data->avatar }}" alt="{{ $data->name }}"
                                                 style="width: 38px; height: 38px; border-radius: 100%;">
