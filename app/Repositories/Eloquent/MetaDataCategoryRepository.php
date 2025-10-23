@@ -3,7 +3,7 @@
 namespace App\Repositories\Eloquent;
 
 use Throwable;
-use App\Models\Repository;
+use App\Models\MetaDataCategory;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use App\Services\PdfWatermarkService;
@@ -46,13 +46,13 @@ class MetaDataCategoryRepository implements MetaDataCategoryRepositoryInterface
             // 7. Hapus file temp
             File::delete($tempStoragePath);
 
-            $repository = Repository::create([
+            $meta_data_category = MetaDataCategory::create([
                 'meta_data_id' => $create_metadata_category_data->meta_data_id,
                 'category_id' => $create_metadata_category_data->category_id,
                 'file_path' => $relativePath
             ]);
 
-            return MetadataCategoryData::fromModel($repository);
+            return MetadataCategoryData::fromModel($meta_data_category);
         } catch (Throwable $th) {
             throw $th;
         }
@@ -105,10 +105,10 @@ class MetaDataCategoryRepository implements MetaDataCategoryRepositoryInterface
                 $file_path = $metadata_category_data->file_path;
             }
 
-            $repository = Repository::where('meta_data_id', $update_metadata_category_data->meta_data_id)
+            $meta_data_category = MetaDataCategory::where('meta_data_id', $update_metadata_category_data->meta_data_id)
                 ->where('category_id', $current_category_id);
 
-            $repository->update([
+            $meta_data_category->update([
                 'category_id' => $update_metadata_category_data->category_id,
                 'file_path' => $file_path
             ]);
@@ -125,10 +125,10 @@ class MetaDataCategoryRepository implements MetaDataCategoryRepositoryInterface
     public function findByMetaDataIdAndCategoryId(int $meta_data_id, int $category_id): MetadataCategoryData|Throwable
     {
         try {
-            $metadata_category_data = Repository::where('meta_data_id', $meta_data_id)
+            $meta_data_category = MetaDataCategory::where('meta_data_id', $meta_data_id)
                 ->where('category_id', $category_id)->firstOrFail();
 
-            return MetadataCategoryData::fromModel($metadata_category_data);
+            return MetadataCategoryData::fromModel($meta_data_category);
         } catch (Throwable $th) {
             throw $th;
         }
@@ -137,7 +137,7 @@ class MetaDataCategoryRepository implements MetaDataCategoryRepositoryInterface
     public function findByMetaDataSlugAndCategorySlug(string $meta_data_slug, string $category_slug): MetadataCategoryData|Throwable
     {
         try {
-            $meta_data_category_data = Repository::whereHas(
+            $meta_data_category = MetaDataCategory::whereHas(
                 'category',
                 fn($query) => $query->where('slug', $category_slug)
             )
@@ -153,7 +153,7 @@ class MetaDataCategoryRepository implements MetaDataCategoryRepositoryInterface
                 )
                 ->firstOrFail();
 
-            return MetadataCategoryData::fromModel($meta_data_category_data);
+            return MetadataCategoryData::fromModel($meta_data_category);
         } catch (Throwable $th) {
             throw $th;
         }
@@ -162,7 +162,7 @@ class MetaDataCategoryRepository implements MetaDataCategoryRepositoryInterface
     public function delete(int $meta_data_id, int $category_id): bool|Throwable
     {
         try {
-            $repository = Repository::where('meta_data_id', $meta_data_id)
+            $repository = MetaDataCategory::where('meta_data_id', $meta_data_id)
                 ->where('category_id', $category_id);
 
             if ($repo = $repository->firstOrFail()) {
@@ -182,7 +182,7 @@ class MetaDataCategoryRepository implements MetaDataCategoryRepositoryInterface
 
     public function read(string $category_slug, string $meta_data_slug): BinaryFileResponse
     {
-        $repository = Repository::whereHas(
+        $repository = MetaDataCategory::whereHas(
             'category',
             fn($query)
             => $query->where('slug', $category_slug)

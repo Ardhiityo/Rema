@@ -2,7 +2,7 @@
 
 namespace App\Data\MetadataCategory;
 
-use App\Models\Repository;
+use App\Models\MetaDataCategory;
 use Spatie\LaravelData\Data;
 
 class MetadataCategoryData extends Data
@@ -13,7 +13,7 @@ class MetadataCategoryData extends Data
         public string $file_path
     ) {}
 
-    public static function fromModel(Repository $repository): self
+    public static function fromModel(MetaDataCategory $repository): self
     {
         return new self(
             $repository->meta_data_id,

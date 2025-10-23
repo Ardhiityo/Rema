@@ -2,11 +2,11 @@
 
 namespace App\Rules;
 
-use App\Models\Repository;
 use Closure;
+use App\Models\MetaDataCategory;
 use Illuminate\Contracts\Validation\ValidationRule;
 
-class RepositoryCategoryCreateRule implements ValidationRule
+class MetaDataCategoryCreateRule implements ValidationRule
 {
     public function __construct(public int $meta_data_id) {}
 
@@ -17,7 +17,7 @@ class RepositoryCategoryCreateRule implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        $repository_already_exists = Repository::where('meta_data_id', $this->meta_data_id)
+        $repository_already_exists = MetaDataCategory::where('meta_data_id', $this->meta_data_id)
             ->where('category_id', $value)->exists();
 
         if ($repository_already_exists) {

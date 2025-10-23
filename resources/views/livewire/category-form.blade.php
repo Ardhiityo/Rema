@@ -19,7 +19,7 @@
                     <label for="category" class="form-label">Category
                         <sup>*</sup>
                     </label>
-                    <input type="text" required class="form-control" id="category" wire:model='name'
+                    <input type="text" required class="form-control" name="category" id="category" wire:model='name'
                         placeholder="ex: Skripsi">
                     @error('slug')
                         <span class="badge bg-danger">

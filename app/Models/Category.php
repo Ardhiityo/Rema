@@ -10,6 +10,6 @@ class Category extends Model
 
     public function metadata()
     {
-        return $this->belongsToMany(MetaData::class, 'repositories', 'category_id', 'meta_data_id')->withPivot('file_path');
+        return $this->belongsToMany(MetaData::class, 'meta_data_category', 'category_id', 'meta_data_id')->withPivot('file_path');
     }
 }

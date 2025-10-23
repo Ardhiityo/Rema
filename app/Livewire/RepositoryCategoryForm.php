@@ -7,8 +7,8 @@ use Livewire\Component;
 use Livewire\Attributes\On;
 use Livewire\WithFileUploads;
 use Livewire\Attributes\Computed;
-use App\Rules\RepositoryCategoryCreateRule;
-use App\Rules\RepositoryCategoryUpdateRule;
+use App\Rules\MetaDataCategoryCreateRule;
+use App\Rules\MetaDataCategoryUpdateRule;
 use App\Data\MetadataCategory\CreateMetadataCategoryData;
 use App\Data\MetadataCategory\UpdateMetadataCategoryData;
 use App\Repositories\Contratcs\CategoryRepositoryInterface;
@@ -55,7 +55,7 @@ class RepositoryCategoryForm extends Component
             'category_id' => [
                 'required',
                 'exists:categories,id',
-                new RepositoryCategoryCreateRule($this->meta_data_id)
+                new MetaDataCategoryCreateRule($this->meta_data_id)
             ],
             'meta_data_id' => ['required', 'exists:meta_data,id']
         ];
@@ -68,7 +68,7 @@ class RepositoryCategoryForm extends Component
             'category_id' => [
                 'required',
                 'exists:categories,id',
-                new RepositoryCategoryUpdateRule($this->meta_data_id, $this->category_id_update)
+                new MetaDataCategoryUpdateRule($this->meta_data_id, $this->category_id_update)
             ],
             'meta_data_id' => ['required', 'exists:meta_data,id']
         ];

@@ -5,9 +5,9 @@ namespace App\Models;
 use App\Models\MetaData;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class Repository extends Pivot
+class MetaDataCategory extends Pivot
 {
-    protected $table = 'repositories';
+    protected $table = 'meta_data_category';
 
     public function metadata()
     {
