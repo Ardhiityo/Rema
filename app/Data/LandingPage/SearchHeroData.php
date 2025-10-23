@@ -15,7 +15,8 @@ class SearchHeroData extends Data
         public string $category_slug,
         public string $metadata_slug,
         public string $category_name,
-        public string $year
+        public string $year,
+        public int $views
     ) {}
 
     public static function fromModel(MetaData $meta_data): self
@@ -28,7 +29,8 @@ class SearchHeroData extends Data
             $meta_data->categories->first()->slug,
             $meta_data->slug,
             $meta_data->categories->first()->name,
-            $meta_data->year
+            $meta_data->year,
+            $meta_data->activities()->where('category_id', $meta_data->categories->first()->id)->count()
         );
     }
 }

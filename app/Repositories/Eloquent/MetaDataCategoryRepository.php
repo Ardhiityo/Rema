@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Eloquent;
 
+use App\Data\Activity\CreateActivityData;
 use Throwable;
 use App\Models\MetaDataCategory;
 use Illuminate\Support\Facades\Auth;
@@ -12,12 +13,16 @@ use App\Data\MetadataCategory\MetadataCategoryData;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use App\Data\MetadataCategory\CreateMetadataCategoryData;
 use App\Data\MetadataCategory\UpdateMetadataCategoryData;
+use App\Repositories\Contratcs\ActivityRepositoryInterface;
 use App\Repositories\Contratcs\MetaDataRepositoryInterface;
 use App\Repositories\Contratcs\MetaDataCategoryRepositoryInterface;
 
 class MetaDataCategoryRepository implements MetaDataCategoryRepositoryInterface
 {
-    public function __construct(protected MetaDataRepositoryInterface $metaDataRepository) {}
+    public function __construct(
+        protected MetaDataRepositoryInterface $metaDataRepository,
+        protected ActivityRepositoryInterface $activityRepository
+    ) {}
 
     public function create(CreateMetadataCategoryData $create_metadata_category_data): MetadataCategoryData|Throwable
     {
@@ -184,12 +189,23 @@ class MetaDataCategoryRepository implements MetaDataCategoryRepositoryInterface
     {
         $repository = MetaDataCategory::whereHas(
             'category',
-            fn($query)
-            => $query->where('slug', $category_slug)
+            fn($query) => $query->where('slug', $category_slug)
         )->whereHas(
             'metadata',
             fn($query) => $query->where('slug', $meta_data_slug)
         )->firstOrFail();
+
+        $request = request();
+
+        $create_activity_data = CreateActivityData::from([
+            'ip' => $request->ip(),
+            'user_agent' => $request->userAgent(),
+            'user_id' => $request->user()?->id ?? null,
+            'meta_data_id' => $repository->metadata->id,
+            'category_id' => $repository->category->id
+        ]);
+
+        $this->activityRepository->create($create_activity_data);
 
         $path = storage_path('app/public/' . $repository->file_path);
 

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
@@ -50,5 +51,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function author()
     {
         return $this->hasOne(Author::class, 'user_id', 'id');
+    }
+
+    public function activities(): HasMany
+    {
+        return $this->hasMany(Activity::class, 'user_id', 'id');
     }
 }

@@ -25,6 +25,7 @@ class MetadataListData extends Data
         public string $name,
         public string $visibility,
         public string $slug,
+        public int $views
     ) {
         $this->short_title = Str::limit($title, 35, '...');
         $this->short_name = Str::limit($name, 15, '...');
@@ -38,7 +39,8 @@ class MetadataListData extends Data
             $meta_data->author->user->avatar ? Storage::url($meta_data->author->user->avatar) : false,
             $meta_data->author->user->name,
             $meta_data->visibility,
-            $meta_data->slug
+            $meta_data->slug,
+            $meta_data->activities()->count()
         );
     }
 }

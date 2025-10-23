@@ -89,7 +89,7 @@ class MetaDataRepository implements MetaDataRepositoryInterface
         $query = MetaData::query();
         $user = Auth::user();
 
-        $query->with(['author', 'author.user', 'author.studyProgram', 'categories']);
+        $query->with(['author', 'author.user', 'author.studyProgram', 'categories', 'activities']);
 
         if ($user->hasRole('contributor')) {
             if ($is_author) {

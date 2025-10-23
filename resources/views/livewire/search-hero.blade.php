@@ -102,8 +102,14 @@
                               <div>
                                   <p>
                                       <small>
+                                          <i class="fas fa-tags fa-xs me-1"></i>
                                           {{ $repository->category_name }}
-                                          <sup> <i class="fas fa-tags fa-xs"></i></sup>
+                                      </small>
+                                  </p>
+                                  <p>
+                                      <small>
+                                          <i class="fas fa-chart-bar me-1"></i>
+                                          {{ $repository->views }} Views
                                       </small>
                                   </p>
                                   <p>

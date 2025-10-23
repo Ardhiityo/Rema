@@ -72,6 +72,9 @@
                                 <th class="text-start">Author</th>
                             @endif
                             <th>Visibility</th>
+                            @if (!$is_author)
+                                <th>Views</th>
+                            @endif
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -95,6 +98,9 @@
                                     </td>
                                 @endif
                                 <td class="text-bold-500">{{ $data->visibility_ucfirst }}</td>
+                                @if (!$is_author)
+                                    <td class="text-bold-500">{{ $data->views }}</td>
+                                @endif
                                 <td class="gap-3 d-flex justify-content-center align-items-center">
                                     <a href="{{ route('repository.show', ['meta_data' => $data->slug]) }}"
                                         class="btn btn-info">
