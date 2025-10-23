@@ -56,38 +56,34 @@
                </li>
                {{-- Dashboard --}}
 
-               {{-- Study Program --}}
                @hasrole('admin')
+                   {{-- Categories --}}
                    <li class="sidebar-item {{ request()->is('categories*') ? 'active' : '' }}">
                        <a href="{{ route('category.index') }}" class='sidebar-link'>
                            <i class="bi bi-tags"></i>
                            <span>Categories</span>
                        </a>
                    </li>
-               @endhasrole
-               {{-- Study Program --}}
+                   {{-- Categories --}}
 
-               {{-- Study Program --}}
-               @hasrole('admin')
+                   {{-- Study Program --}}
                    <li class="sidebar-item {{ request()->is('study-programs*') ? 'active' : '' }}">
                        <a href="{{ route('study-program.index') }}" class='sidebar-link'>
                            <i class="bi bi-mortarboard"></i>
                            <span>Study Programs</span>
                        </a>
                    </li>
-               @endhasrole
-               {{-- Study Program --}}
+                   {{-- Study Program --}}
 
-               {{-- Author --}}
-               @hasrole('admin')
+                   {{-- Author --}}
                    <li class="sidebar-item {{ request()->is('authors*') ? 'active' : '' }}">
                        <a href="{{ route('author.index') }}" class='sidebar-link'>
                            <i class="bi bi-person-lines-fill"></i>
                            <span>Authors</span>
                        </a>
                    </li>
+                   {{-- Author --}}
                @endhasrole
-               {{-- Author --}}
 
                {{-- Repositories --}}
                <li class="sidebar-item has-sub {{ request()->is('repositories*') ? 'active' : '' }}">
@@ -115,6 +111,17 @@
                </li>
                {{-- Repositories --}}
 
+               {{-- Activities --}}
+               @hasrole('admin')
+                   <li class="sidebar-item {{ request()->is('activities*') ? 'active' : '' }}">
+                       <a href="{{ route('activity.index') }}" class='sidebar-link'>
+                           <i class="bi bi-bar-chart"></i>
+                           <span>Activities</span>
+                       </a>
+                   </li>
+               @endhasrole
+               {{-- Activities --}}
+
                {{-- Profile --}}
                <li class="sidebar-item {{ request()->is('profile*') ? 'active' : '' }}">
                    <a href="{{ route('profile.index') }}" class='sidebar-link'>
@@ -141,8 +148,8 @@
        @csrf
    </form>
 
-   <div class="text-left modal fade modal-borderless" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true"
-       id="logoutModal" tabindex="-1" data-bs-backdrop="false" aria-hidden="true">
+   <div class="text-left modal fade modal-borderless" role="dialog" aria-labelledby="myModalLabel1"
+       aria-hidden="true" id="logoutModal" tabindex="-1" data-bs-backdrop="false" aria-hidden="true">
        <div class="modal-dialog modal-dialog-scrollable" role="document">
            <div class="modal-content">
                <div class="modal-header">

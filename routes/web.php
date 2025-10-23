@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LandingPageController;
 use App\Http\Middleware\ValidateAuthorMiddleware;
+use App\Livewire\Activity;
 
 Route::controller(LandingPageController::class)->group(function () {
     Route::get('/', 'index')->name('landing_page.index');
@@ -18,9 +19,12 @@ Route::controller(LandingPageController::class)->group(function () {
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/categories', Category::class)->name('category.index');
-    Route::get('/study-programs', StudyProgram::class)->name('study-program.index');
-    Route::get('/authors', Author::class)->name('author.index');
+    Route::middleware(['role:admin'])->group(function () {
+        Route::get('/categories', Category::class)->name('category.index');
+        Route::get('/study-programs', StudyProgram::class)->name('study-program.index');
+        Route::get('/authors', Author::class)->name('author.index');
+        Route::get('/activities', Activity::class)->name('activity.index');
+    });
 
     Route::middleware(ValidateAuthorMiddleware::class)->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])

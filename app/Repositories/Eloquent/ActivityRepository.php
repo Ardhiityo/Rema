@@ -4,7 +4,9 @@ namespace App\Repositories\Eloquent;
 
 use Throwable;
 use App\Models\Activity;
+use App\Data\Activity\ActivityData;
 use App\Data\Activity\CreateActivityData;
+use Illuminate\Pagination\LengthAwarePaginator;
 use App\Repositories\Contratcs\ActivityRepositoryInterface;
 
 class ActivityRepository implements ActivityRepositoryInterface
@@ -22,5 +24,16 @@ class ActivityRepository implements ActivityRepositoryInterface
         } catch (Throwable $th) {
             logger($th->getMessage());
         }
+    }
+
+    public function all(): LengthAwarePaginator
+    {
+        $activities = Activity::query();
+
+        $activities->with(['user']);
+
+        return ActivityData::collect(
+            $activities->orderByDesc('id')->paginate(10)
+        );
     }
 }
