@@ -94,4 +94,15 @@ class CategoryRepository implements CategoryRepositoryInterface
             $query->orderByDesc('id')->paginate(10)
         );
     }
+
+    public function first(): CategoryData|null
+    {
+        try {
+            $category = Category::firstOrFail();
+
+            return CategoryData::fromModel($category);
+        } catch (Throwable $th) {
+            return null;
+        }
+    }
 }

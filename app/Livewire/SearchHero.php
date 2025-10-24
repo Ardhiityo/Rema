@@ -16,7 +16,7 @@ class SearchHero extends Component
     protected $paginationTheme = 'bootstrap';
 
     public string $title = '';
-    public string $category = 'skripsi';
+    public string $category = '';
     public string $year = '';
     public string $author = '';
 
@@ -38,9 +38,18 @@ class SearchHero extends Component
         ];
     }
 
+    public function mount()
+    {
+        $this->category = $this->categoryRepository->first()?->slug ?? '';
+    }
+
     public function resetInput()
     {
-        $this->reset();
+        $this->title = '';
+        $this->year = '';
+        $this->author = '';
+        $this->category = $this->categoryRepository->first()?->slug ?? '';
+
         $this->resetPage();
     }
 

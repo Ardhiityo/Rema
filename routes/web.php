@@ -24,6 +24,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/study-programs', StudyProgram::class)->name('study-program.index');
         Route::get('/authors', Author::class)->name('author.index');
         Route::get('/activities', Activity::class)->name('activity.index');
+        Route::get('/activities/{category_slug}/{meta_data_slug}', Activity::class)->name('activity.show');
     });
 
     Route::middleware(ValidateAuthorMiddleware::class)->group(function () {

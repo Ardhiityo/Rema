@@ -13,12 +13,41 @@
     <div class="card">
         <div class="card-header">
             <div class="gap-3 row d-flex gap-md-0">
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <div class="input-group">
                         <label class="input-group-text" for="keyword">Title</label>
                         <input type="text" wire:model.live.debounce.250ms='title' autofocus class="form-control"
                             id="keyword">
                     </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <label class="input-group-text" for="category">Category</label>
+                        <select name="category" id="category" class="form-select" wire:model.live='category'>
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->slug }}">{{ $category->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <label class="input-group-text" for="sort_by">Sort By</label>
+                        <select name="sort_by" id="sort_by" class="form-select" wire:model.live='sort_by'>
+                            <option value="popular">Popular</option>
+                            <option value="unpopular">Unpopular</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-primary w-100" wire:click='resetInput' wire:target='resetInput'
+                        wire:loading.attr='disabled'>
+                        <span wire:target='resetInput' wire:loading.class='d-none'><i
+                                class="bi bi-arrow-clockwise"></i></span>
+                        <span wire:loading wire:target='resetInput'>
+                            <span class="spinner-border spinner-border-sm text-light" role="status"></span>
+                        </span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -26,41 +55,33 @@
             <div class="table-responsive">
                 <table class="table mb-0 table-lg">
                     <thead>
-                        <tr class="text-center text-nowrap">
+                        <tr class="text-nowrap">
                             <th>No</th>
-                            <th class="text-start">IP</th>
-                            <th class="text-start">User Agent</th>
-                            <th class="text-start">User</th>
-                            <th class="text-start">Meta Data</th>
-                            <th class="text-start">Category</th>
-                            <th>Action</th>
+                            <th>Meta Data</th>
+                            <th class="text-center">Category</th>
+                            <th class="text-center">Views</th>
+                            <th class="text-center">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($activities as  $activity)
-                            <tr class="text-center text-nowrap" wire:key='{{ $activity->id }}'>
+                        @forelse ($activities as $key => $activity)
+                            <tr class="text-nowrap" wire:key='{{ $key }}'>
                                 <td class="text-bold-500">{{ $loop->index + $activities->firstItem() }}</td>
-                                <td class="text-bold-500 text-start" title="{{ $activity->ip }}">
-                                    {{ $activity->short_ip }}
+                                <td class="text-bold-500" title="{{ $activity->meta_data }}">
+                                    {{ $activity->meta_data }}
                                 </td>
-                                <td class="text-bold-500 text-start" title="{{ $activity->user_agent }}">
-                                    {{ $activity->short_user_agent }}
+                                <td class="text-center text-bold-500" title="{{ $activity->category }}">
+                                    {{ $activity->category }}
                                 </td>
-                                <td class="text-bold-500 text-start" title="{{ $activity->name }}">
-                                    {{ $activity->short_name }}
+                                <td class="text-center text-bold-500">
+                                    {{ $activity->views }}
                                 </td>
-                                <td class="text-bold-500 text-start" title="{{ $activity->meta_data }}">
-                                    {{ $activity->short_meta_data }}
-                                </td>
-                                <td class="text-bold-500 text-start" title="{{ $activity->category }}">
-                                    {{ $activity->short_category }}
-                                </td>
-                                <td class="gap-3 d-flex justify-content-center align-items-center">
-                                    <button type="button" wire:click="deleteConfirm('{{ $activity->id }}')"
-                                        class="block btn btn-danger" data-bs-toggle="modal"
-                                        data-bs-target="#border-less">
-                                        <i class="bi bi-trash3"></i>
-                                    </button>
+                                <td class="text-center text-bold-500">
+                                    <a href="{{ route('activity.show', [
+                                        'category_slug' => $activity->category_slug,
+                                        'meta_data_slug' => $activity->meta_data_slug,
+                                    ]) }}"
+                                        class="btn btn-info"><i class="bi bi-eye-fill"></i></a>
                                 </td>
                             </tr>
                         @empty

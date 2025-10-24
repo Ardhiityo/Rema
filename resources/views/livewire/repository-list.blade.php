@@ -66,7 +66,7 @@
                 <table class="table mb-0 table-lg">
                     <thead>
                         <tr class="text-center text-nowrap">
-                            <th>No</th>
+                            <th class="text-start">No</th>
                             <th class="text-start">Title</th>
                             @if (!$is_author)
                                 <th class="text-start">Author</th>
@@ -81,7 +81,7 @@
                     <tbody>
                         @forelse ($meta_data as $data)
                             <tr class="text-center text-nowrap" wire:key='{{ $data->slug }}'>
-                                <td class="text-bold-500">{{ $loop->index + $meta_data->firstItem() }}</td>
+                                <td class="text-bold-500 text-start">{{ $loop->index + $meta_data->firstItem() }}</td>
                                 <td class="text-bold-500 text-start" title="{{ $data->title }}">
                                     {{ $data->short_title }}</td>
                                 @if (!$is_author)
