@@ -6,6 +6,7 @@ use Throwable;
 use App\Models\Activity;
 use Illuminate\Support\Facades\DB;
 use App\Data\Activity\ActivityData;
+use App\Data\Activity\ActivityDetailData;
 use App\Data\Activity\CreateActivityData;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Repositories\Contratcs\ActivityRepositoryInterface;
@@ -71,5 +72,20 @@ class ActivityRepository implements ActivityRepositoryInterface
         $activities = $activities->paginate(10);
 
         return ActivityData::collect($activities);
+    }
+
+    public function findByMetaDataSlugAndCategorySlug(string $category_slug, string $meta_data_slug): LengthAwarePaginator
+    {
+        $activities = Activity::with(['user.author.studyProgram'])
+            ->whereHas(
+                'metadata',
+                fn($query) => $query->where('slug', $meta_data_slug)
+            )->whereHas(
+                'category',
+                fn($query) => $query->where('slug', $category_slug)
+            )
+            ->paginate(10);
+
+        return ActivityDetailData::collect($activities);
     }
 }

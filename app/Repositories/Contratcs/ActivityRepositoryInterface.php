@@ -12,4 +12,6 @@ interface ActivityRepositoryInterface
     public function all(): LengthAwarePaginator;
 
     public function findByFilters(string $meta_data_title, string $category_slug, string $sort_by): LengthAwarePaginator;
+
+    public function findByMetaDataSlugAndCategorySlug(string $category_slug, string $meta_data_slug): LengthAwarePaginator;
 }

@@ -3,7 +3,9 @@
 use App\Livewire\Author;
 use App\Livewire\Profile;
 use App\Livewire\Category;
+use App\Livewire\Activity;
 use App\Livewire\StudyProgram;
+use App\Livewire\ActivityDetail;
 use App\Livewire\RepositoryForm;
 use App\Livewire\RepositoryList;
 use App\Livewire\RepositoryDetail;
@@ -11,7 +13,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LandingPageController;
 use App\Http\Middleware\ValidateAuthorMiddleware;
-use App\Livewire\Activity;
 
 Route::controller(LandingPageController::class)->group(function () {
     Route::get('/', 'index')->name('landing_page.index');
@@ -24,7 +25,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/study-programs', StudyProgram::class)->name('study-program.index');
         Route::get('/authors', Author::class)->name('author.index');
         Route::get('/activities', Activity::class)->name('activity.index');
-        Route::get('/activities/{category_slug}/{meta_data_slug}', Activity::class)->name('activity.show');
+        Route::get('/activities/{category_slug}/{meta_data_slug}', ActivityDetail::class)->name('activity.show');
     });
 
     Route::middleware(ValidateAuthorMiddleware::class)->group(function () {
