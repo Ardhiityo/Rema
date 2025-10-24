@@ -3,10 +3,17 @@
 namespace App\Livewire;
 
 use Livewire\Component;
+use App\Exports\ActivityExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ActivityReport extends Component
 {
     public string $year = '';
+
+    public function mount()
+    {
+        $this->year = now()->year;
+    }
 
     public function rules()
     {
@@ -24,6 +31,12 @@ class ActivityReport extends Component
     public function download()
     {
         $this->validate();
+
+        return Excel::download(
+            new ActivityExport($this->year),
+            'invoices.pdf',
+            \Maatwebsite\Excel\Excel::MPDF
+        );
     }
 
     public function render()

@@ -2,17 +2,20 @@
 
 namespace App\Repositories\Eloquent;
 
+use Exception;
 use Throwable;
 use App\Models\MetaData;
+use Illuminate\Support\Facades\DB;
 use App\Data\Metadata\MetadataData;
 use Illuminate\Support\Facades\Auth;
 use App\Data\MetaData\UpdateMetaData;
+use Spatie\LaravelData\DataCollection;
 use App\Data\Metadata\MetadataListData;
 use Illuminate\Support\Facades\Storage;
 use App\Data\Metadata\CreateMetadataData;
+use App\Data\MetaData\MetadataReportData;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Repositories\Contratcs\MetaDataRepositoryInterface;
-use Exception;
 
 class MetaDataRepository implements MetaDataRepositoryInterface
 {
@@ -135,5 +138,25 @@ class MetaDataRepository implements MetaDataRepositoryInterface
         } catch (Throwable $th) {
             throw $th;
         }
+    }
+
+    public function reports(int|string $year): DataCollection
+    {
+        $meta_data = MetaData::with([
+            'author:id,user_id,nim,study_program_id',
+            'author.studyProgram:id,name',
+            'author.user:id,name',
+            'activities' => function ($query) {
+                $query->with(['category:id,name'])
+                    ->select('meta_data_id', 'category_id', DB::raw('COUNT(*) AS total'))
+                    ->groupBy('meta_data_id', 'category_id');
+            }
+        ])
+            ->where('year', $year)
+            ->where('status', 'approve')
+            ->select('id', 'title', 'author_id', 'year')
+            ->get();
+
+        return MetadataReportData::collect($meta_data, DataCollection::class);
     }
 }

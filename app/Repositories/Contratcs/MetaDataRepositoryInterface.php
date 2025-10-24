@@ -6,6 +6,7 @@ use App\Data\Metadata\MetadataData;
 use App\Data\MetaData\UpdateMetaData;
 use App\Data\Metadata\CreateMetadataData;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Spatie\LaravelData\DataCollection;
 use Throwable;
 
 interface MetaDataRepositoryInterface
@@ -21,4 +22,6 @@ interface MetaDataRepositoryInterface
     public function findByFilters(string $title, string $status, string $year, string $visibility, bool $is_author = false): LengthAwarePaginator;
 
     public function delete(int $meta_data_id): bool|Throwable;
+
+    public function reports(string|int $year): DataCollection;
 }
