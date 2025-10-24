@@ -24,4 +24,6 @@ interface AuthorRepositoryInterface
         string|null $keyword = null,
         string|null $study_program_slug = null
     ): LengthAwarePaginator;
+
+    public function reports(string|int $year, array $includes = []): DataCollection;
 }

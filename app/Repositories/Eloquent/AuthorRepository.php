@@ -6,6 +6,7 @@ use Throwable;
 use App\Models\Author;
 use App\Data\Author\AuthorData;
 use App\Data\Author\AuthorListData;
+use App\Data\Author\AuthorReportData;
 use App\Data\Author\CreateAuthorData;
 use App\Data\Author\UpdateAuthorData;
 use Spatie\LaravelData\DataCollection;
@@ -93,5 +94,22 @@ class AuthorRepository implements AuthorRepositoryInterface
         }
 
         return AuthorListData::collect($query->orderByDesc('id')->paginate(10));
+    }
+
+    public function reports(int|string $year, array $includes = []): DataCollection
+    {
+        $authors = Author::query()
+            ->where('status', 'approve');
+
+        if (empty($includes)) {
+            $authors = $authors
+                ->whereDoesntHave('metadata')
+                ->orWhereHas(
+                    'metadata',
+                    fn($query) => $query->whereDoesntHave('categories')
+                );
+        }
+
+        return AuthorReportData::collect($authors->get(), DataCollection::class);
     }
 }

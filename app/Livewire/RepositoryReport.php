@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Repositories\Contratcs\AuthorRepositoryInterface;
 use Livewire\Component;
 use Livewire\Attributes\Computed;
 use App\Repositories\Contratcs\CategoryRepositoryInterface;
@@ -37,6 +38,12 @@ class RepositoryReport extends Component
         return app(CategoryRepositoryInterface::class);
     }
 
+    #[Computed()]
+    public function authorRepository()
+    {
+        return app(AuthorRepositoryInterface::class);
+    }
+
     public function resetInput()
     {
         $this->year = '';
@@ -47,7 +54,11 @@ class RepositoryReport extends Component
     {
         $this->validate();
 
-        dd($this->includes);
+        $res = $this->authorRepository->reports($this->year, $this->includes);
+
+        logger(json_encode($res, JSON_PRETTY_PRINT));
+
+        dd($res);
     }
 
     public function render()
