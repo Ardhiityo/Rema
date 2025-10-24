@@ -111,16 +111,25 @@
                </li>
                {{-- Repositories --}}
 
-               {{-- Activities --}}
                @hasrole('admin')
+                   {{-- Activities --}}
                    <li class="sidebar-item {{ request()->is('activities*') ? 'active' : '' }}">
                        <a href="{{ route('activity.index') }}" class='sidebar-link'>
                            <i class="bi bi-bar-chart"></i>
                            <span>Activities</span>
                        </a>
                    </li>
+                   {{-- Activities --}}
+
+                   {{-- Reports --}}
+                   <li class="sidebar-item {{ request()->is('report*') ? 'active' : '' }}">
+                       <a href="{{ route('report.index') }}" class='sidebar-link'>
+                           <i class="bi bi-journal-bookmark-fill"></i>
+                           <span>Reports</span>
+                       </a>
+                   </li>
+                   {{-- Reports --}}
                @endhasrole
-               {{-- Activities --}}
 
                {{-- Profile --}}
                <li class="sidebar-item {{ request()->is('profile*') ? 'active' : '' }}">

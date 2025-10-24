@@ -1,6 +1,7 @@
 <?php
 
 use App\Livewire\Author;
+use App\Livewire\Report;
 use App\Livewire\Profile;
 use App\Livewire\Category;
 use App\Livewire\Activity;
@@ -26,6 +27,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/authors', Author::class)->name('author.index');
         Route::get('/activities', Activity::class)->name('activity.index');
         Route::get('/activities/{category_slug}/{meta_data_slug}', ActivityDetail::class)->name('activity.show');
+        Route::get('/reports', Report::class)->name('report.index');
     });
 
     Route::middleware(ValidateAuthorMiddleware::class)->group(function () {
