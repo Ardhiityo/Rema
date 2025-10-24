@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-header">
-        <h4 class="card-title">Activity</h4>
+        <h4 class="card-title">Repository</h4>
     </div>
     <div class="card-body">
         <div class="mb-4 row">
@@ -23,6 +23,32 @@
                         @enderror
                     </div>
                     {{-- Year of Graduation --}}
+
+                    {{-- Categories --}}
+                    <div class="mt-2">
+                        <label class="mb-2">Includes <sup>*</sup> </label>
+                        <div class="gap-2 d-flex flex-column">
+                            @foreach ($categories as $category)
+                                <div class="form-check">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox"
+                                            class="form-check-input form-check-primary form-check-glow" name="includes"
+                                            wire:model='includes' value="{{ $category->slug }}"
+                                            id="{{ $category->slug }}">
+                                        <label class="form-check-label"
+                                            for="{{ $category->slug }}">{{ $category->name }}
+                                        </label>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                        @error('includes.*')
+                            <span class="mt-3 badge bg-danger">
+                                <small>{{ $message }}</small>
+                            </span>
+                        @enderror
+                    </div>
+                    {{-- Categories --}}
                 </div>
             </div>
             <div class="gap-3 mt-4 d-flex">

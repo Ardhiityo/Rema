@@ -18,7 +18,7 @@ class ActivityReport extends Component
     public function rules()
     {
         return [
-            'year' => ['required', 'date_format:Y']
+            'year' => ['required', 'date_format:Y', 'exists:meta_data,year']
         ];
     }
 
