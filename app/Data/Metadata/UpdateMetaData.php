@@ -18,6 +18,6 @@ class UpdateMetaData extends Data
         public string $year,
         public string $status
     ) {
-        $this->title_formatted = ucwords(strtolower($title));
+        $this->title_formatted = ucfirst(strtolower($title));
     }
 }

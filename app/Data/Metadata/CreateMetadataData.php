@@ -18,6 +18,6 @@ class CreateMetadataData extends Data
         public string $slug,
         public string $status
     ) {
-        $this->title_formatted = ucwords(strtolower($title));
+        $this->title_formatted = ucfirst(strtolower($title));
     }
 }
