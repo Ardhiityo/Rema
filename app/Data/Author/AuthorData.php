@@ -10,6 +10,7 @@ class AuthorData extends Data
     public function __construct(
         public int $id,
         public int $user_id,
+        public string|null $name,
         public int|null $nim,
         public int|null $study_program_id,
         public string $status
@@ -20,6 +21,7 @@ class AuthorData extends Data
         return new self(
             $author->id,
             $author->user_id,
+            $author->user?->name,
             $author->nim,
             $author->study_program_id,
             $author->status

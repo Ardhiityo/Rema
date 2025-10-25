@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Data\Author\AuthorData;
 use Throwable;
 use Livewire\Component;
 use Illuminate\Support\Str;
@@ -12,6 +13,7 @@ use App\Data\Metadata\UpdateMetaData;
 use App\Data\Metadata\CreateMetadataData;
 use App\Repositories\Contratcs\AuthorRepositoryInterface;
 use App\Repositories\Contratcs\MetaDataRepositoryInterface;
+use Spatie\LaravelData\DataCollection;
 
 class MetaDataForm extends Component
 {
@@ -24,6 +26,7 @@ class MetaDataForm extends Component
     public string $slug = '';
     // End Form
 
+    public string $keyword = '';
     public int|null $meta_data_id = null;
     public bool $is_update = false;
     public bool $is_approve = false;
@@ -41,6 +44,7 @@ class MetaDataForm extends Component
             $this->author_id = $meta_data_data->author_id;
             $this->status = $meta_data_data->status;
             $this->visibility = $meta_data_data->visibility;
+            $this->updatedAuthorId($meta_data_data->author_id);
             $this->is_approve = $meta_data_data->status == 'approve' ? true : false;
         }
 
@@ -52,6 +56,7 @@ class MetaDataForm extends Component
             $this->author_id = $meta_data_session->author_id;
             $this->status = $meta_data_session->status;
             $this->visibility = $meta_data_session->visibility;
+            $this->updatedAuthorId($meta_data_session->id);
         }
 
         if (is_null($meta_data_id)) {
@@ -133,6 +138,13 @@ class MetaDataForm extends Component
         ];
     }
 
+    public function updatedAuthorId($value)
+    {
+        $author_data = $this->authorRepository->findById($value, ['user']);
+
+        $this->keyword = $author_data->nim . ' - ' . $author_data->name;
+    }
+
     #[Computed()]
     public function metaDataRepository()
     {
@@ -143,6 +155,16 @@ class MetaDataForm extends Component
     public function authorRepository()
     {
         return app(AuthorRepositoryInterface::class);
+    }
+
+    #[Computed()]
+    public function authors()
+    {
+        if ($this->keyword) {
+            return $this->authorRepository->findByNameOrNim($this->keyword);
+        }
+
+        return AuthorData::collect([], DataCollection::class);
     }
 
     public function createMetaData()
@@ -227,10 +249,6 @@ class MetaDataForm extends Component
 
     public function render()
     {
-        $relations = ['user'];
-
-        $authors = AuthorListData::collect($this->authorRepository->findByApprovals($relations));
-
-        return view('livewire.meta-data-form', compact('authors'));
+        return view('livewire.meta-data-form');
     }
 }

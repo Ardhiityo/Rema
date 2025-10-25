@@ -51,23 +51,33 @@
                     {{-- Author --}}
                     @hasrole('admin')
                         <div class="mt-4">
-                            <div class="input-group">
-                                <label class="input-group-text" for="author_id">
-                                    Author <sup class="ms-1">*</sup>
-                                </label>
-                                <select class="form-select" id="author_id" wire:model='author_id'>
-                                    <option value="">Choose...</option>
-                                    @foreach ($authors as $author)
-                                        <option value="{{ $author->id }}">{{ $author->name }} - {{ $author->nim }}
-                                        </option>
-                                    @endforeach
-                                </select>
+                            <label for="keyword" class="form-label">Author's <sup>*</sup> </label>
+                            <div class="position-relative">
+                                <input type="text" class="form-control" id="keyword"
+                                    wire:model.live.debounce.250ms='keyword' placeholder="Search..."
+                                    {{ $this->islockForm ? 'disabled' : '' }}>
+                                <span class="top-0 mt-2 me-2 position-absolute end-0" wire:loading wire:target='keyword'>
+                                    <span class="spinner-border spinner-border-sm text-primary" role="status"></span>
+                                </span>
                             </div>
                             @error('author_id')
                                 <span class="badge bg-danger text-wrap">
                                     <small>{{ $message }}</small>
                                 </span>
                             @enderror
+                            @if ($this->authors->toCollection()->isNotEmpty())
+                                <ul class="my-1 form-control">
+                                    @foreach ($this->authors as $author)
+                                        <li class="py-1 list-group-item">
+                                            <input type="radio" name="author_id" value="{{ $author->id }}"
+                                                id="{{ $author->id }}" class="d-none" wire:model.live='author_id'>
+                                            <label for="{{ $author->id }}" class="w-100" style="cursor: pointer">
+                                                {{ $author->nim }} - {{ $author->name }}
+                                            </label>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            @endif
                         </div>
                     @endhasrole
                     {{-- Author --}}

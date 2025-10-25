@@ -31,10 +31,14 @@ class AuthorRepository implements AuthorRepositoryInterface
         }
     }
 
-    public function findById(int $author_id): AuthorData|Throwable
+    public function findById(int $author_id, array $relations = []): AuthorData|Throwable
     {
         try {
             $author = Author::findOrFail($author_id);
+
+            if (!empty($relations)) {
+                $author = $author->load($relations);
+            }
 
             return AuthorData::fromModel($author);
         } catch (Throwable $th) {
@@ -128,6 +132,25 @@ class AuthorRepository implements AuthorRepositoryInterface
 
         return AuthorReportData::collect(
             $authors->orderBy('nim', 'asc')->get(),
+            DataCollection::class
+        );
+    }
+
+    public function findByNameOrNim(string $keyword = ''): DataCollection
+    {
+        $authors = Author::query()->with('user');
+
+        if ($keyword) {
+            $authors = $authors
+                ->where('nim', $keyword)
+                ->orWhereHas(
+                    'user',
+                    fn($query) => $query->whereLike('name', "%$keyword%")
+                );
+        }
+
+        return AuthorListData::collect(
+            $authors->orderBy('nim')->limit(5)->get(),
             DataCollection::class
         );
     }

@@ -13,7 +13,7 @@ interface AuthorRepositoryInterface
 {
     public function create(CreateAuthorData $create_author_data): AuthorData|Throwable;
 
-    public function findById(int $author_id): AuthorData|Throwable;
+    public function findById(int $author_id, array $relation = []): AuthorData|Throwable;
 
     public function update($author_id, UpdateAuthorData $update_author_data): AuthorData|Throwable;
 
@@ -26,4 +26,6 @@ interface AuthorRepositoryInterface
     ): LengthAwarePaginator;
 
     public function reports(string|int $year, array $includes = []): DataCollection;
+
+    public function findByNameOrNim(string $keyword = ''): DataCollection;
 }
