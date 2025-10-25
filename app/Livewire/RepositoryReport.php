@@ -2,9 +2,11 @@
 
 namespace App\Livewire;
 
-use App\Repositories\Contratcs\AuthorRepositoryInterface;
 use Livewire\Component;
+use App\Exports\RepositoryExport;
 use Livewire\Attributes\Computed;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Repositories\Contratcs\AuthorRepositoryInterface;
 use App\Repositories\Contratcs\CategoryRepositoryInterface;
 
 class RepositoryReport extends Component
@@ -54,11 +56,13 @@ class RepositoryReport extends Component
     {
         $this->validate();
 
-        $res = $this->authorRepository->reports($this->year, $this->includes);
+        $year = $this->year;
 
-        logger(json_encode($res, JSON_PRETTY_PRINT));
-
-        dd($res);
+        return Excel::download(
+            new RepositoryExport($year, $this->includes),
+            "Repositories $year" . '.pdf',
+            \Maatwebsite\Excel\Excel::MPDF
+        );
     }
 
     public function render()

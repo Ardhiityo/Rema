@@ -99,6 +99,7 @@ class AuthorRepository implements AuthorRepositoryInterface
     public function reports(int|string $year, array $includes = []): DataCollection
     {
         $authors = Author::query()
+            ->with(['metadata.categories', 'studyProgram', 'user'])
             ->where('status', 'approve');
 
         if (empty($includes)) {
@@ -106,10 +107,28 @@ class AuthorRepository implements AuthorRepositoryInterface
                 ->whereDoesntHave('metadata')
                 ->orWhereHas(
                     'metadata',
-                    fn($query) => $query->whereDoesntHave('categories')
+                    fn($query) => $query
+                        ->where('year', $year)
+                        ->where('status', '!=', 'approve')
+                        ->whereDoesntHave('categories')
                 );
         }
 
-        return AuthorReportData::collect($authors->get(), DataCollection::class);
+        if (!empty($includes)) {
+            $authors = $authors->whereHas('metadata', function ($query) use ($year, $includes) {
+                $query
+                    ->where('year', $year)
+                    ->where('status', 'approve')
+                    ->whereHas(
+                        'categories',
+                        fn($query) => $query->whereIn('slug', $includes)
+                    );
+            });
+        }
+
+        return AuthorReportData::collect(
+            $authors->orderBy('nim', 'asc')->get(),
+            DataCollection::class
+        );
     }
 }

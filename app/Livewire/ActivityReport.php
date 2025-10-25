@@ -32,9 +32,11 @@ class ActivityReport extends Component
     {
         $this->validate();
 
+        $year = $this->year;
+
         return Excel::download(
-            new ActivityExport($this->year),
-            'invoices.pdf',
+            new ActivityExport($year),
+            "Activities $year" . '.pdf',
             \Maatwebsite\Excel\Excel::MPDF
         );
     }
