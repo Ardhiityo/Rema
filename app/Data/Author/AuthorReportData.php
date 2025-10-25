@@ -22,9 +22,9 @@ class AuthorReportData extends Data
             $author->user->name,
             $author->nim,
             $author->studyProgram->name,
-            $author?->metadata()->orderByDesc('id')->first()?->title ?? '-',
-            $author?->metadata()->orderByDesc('id')->first()?->categories?->pluck('name')->implode(', ') ?? '-',
-            ucfirst($author?->metadata()->orderByDesc('id')->first()?->status ?? '-')
+            $author?->metadata->sortByDesc('id')->first()?->title ?? '-',
+            $author?->metadata->sortByDesc('id')->first()?->categories?->pluck('name')->implode(', ') ?? '-',
+            ucfirst($author?->metadata->sortByDesc('id')->first()?->status ?? '-')
         );
     }
 }

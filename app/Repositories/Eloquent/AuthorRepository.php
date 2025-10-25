@@ -103,7 +103,15 @@ class AuthorRepository implements AuthorRepositoryInterface
     public function reports(int|string $year, array $includes = []): DataCollection
     {
         $authors = Author::query()
-            ->with(['metadata.categories', 'studyProgram', 'user'])
+            ->with([
+                'metadata.categories' => function ($query) use ($includes) {
+                    if (!empty($includes)) {
+                        $query->whereIn('slug', $includes);
+                    }
+                },
+                'studyProgram',
+                'user'
+            ])
             ->where('status', 'approve');
 
         if (empty($includes)) {
@@ -130,10 +138,9 @@ class AuthorRepository implements AuthorRepositoryInterface
             });
         }
 
-        return AuthorReportData::collect(
-            $authors->orderBy('nim', 'asc')->get(),
-            DataCollection::class
-        );
+        $authors = $authors->orderBy('nim', 'asc')->get();
+
+        return AuthorReportData::collect($authors, DataCollection::class);
     }
 
     public function findByNameOrNim(string $keyword = ''): DataCollection
