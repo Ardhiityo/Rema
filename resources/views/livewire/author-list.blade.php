@@ -3,9 +3,9 @@
         <div class="gap-3 row d-flex gap-md-0">
             <div class="col-md-4">
                 <div class="input-group">
-                    <label class="input-group-text" for="keyword">Keyword</label>
+                    <label class="input-group-text" for="keyword">NIM / Name</label>
                     <input name="keyword" type="text" wire:model.live.debounce.250ms='keyword' autofocus
-                        class="form-control" id="status" placeholder="NIM or Name">
+                        class="form-control" id="status" placeholder="Search...">
                 </div>
             </div>
             <div class="col-md-3">

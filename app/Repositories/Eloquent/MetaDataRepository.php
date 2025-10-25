@@ -87,7 +87,7 @@ class MetaDataRepository implements MetaDataRepositoryInterface
         throw new Exception('Meta data slug not found');
     }
 
-    public function findByFilters(string $title, string $status, string $year, string $visibility, bool $is_author = false): LengthAwarePaginator
+    public function findByFilters(string $keyword, string $status, string $year, string $visibility, bool $is_author = false): LengthAwarePaginator
     {
         $query = MetaData::query();
         $user = Auth::user();
@@ -106,8 +106,12 @@ class MetaDataRepository implements MetaDataRepositoryInterface
 
         $query->where('visibility', $visibility);
 
-        if ($title) {
-            $query->whereLike('title', "%$title%");
+        if ($keyword) {
+            $query->whereLike('title', "%$keyword%")
+                ->orWhereHas(
+                    'author.user',
+                    fn($query) => $query->whereLike('name', "%$keyword%")
+                );
         }
 
         if ($year) {

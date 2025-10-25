@@ -13,11 +13,11 @@
     <div class="card">
         <div class="card-header">
             <div class="gap-3 row d-flex gap-md-0">
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <div class="input-group">
-                        <label class="input-group-text" for="keyword">Title</label>
-                        <input type="text" wire:model.live.debounce.250ms='title' autofocus class="form-control"
-                            id="keyword">
+                        <label class="input-group-text" for="keyword">Title / Author</label>
+                        <input type="text" wire:model.live.debounce.250ms='keyword' autofocus class="form-control"
+                            id="keyword" placeholder="Search...">
                     </div>
                 </div>
                 @if ($is_author || $is_admin)
@@ -43,11 +43,11 @@
                         </div>
                     </div>
                 @endif
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <div class="input-group">
                         <label class="input-group-text" for="year">Year</label>
                         <input type="number" wire:model.live.debounce.250ms='year' autofocus class="form-control"
-                            id="year">
+                            id="year" placeholder="Search...">
                     </div>
                 </div>
                 <div class="mt-3 col-12">

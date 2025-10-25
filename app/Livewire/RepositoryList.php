@@ -17,7 +17,7 @@ class RepositoryList extends Component
     protected $paginationTheme = 'bootstrap';
 
     // Form Start
-    public string $title = '';
+    public string $keyword = '';
     public string $year = '';
     public string $visibility = 'public';
     public string $status_filter = 'approve';
@@ -69,7 +69,7 @@ class RepositoryList extends Component
 
     public function resetInput()
     {
-        $this->title = '';
+        $this->keyword = '';
         $this->year = '';
         $this->status_filter = 'approve';
         $this->visibility = 'public';
@@ -80,7 +80,7 @@ class RepositoryList extends Component
     public function render()
     {
         $meta_data = $this->metaDataRepository->findByFilters(
-            $this->title,
+            $this->keyword,
             $this->status_filter,
             $this->year,
             $this->visibility,
