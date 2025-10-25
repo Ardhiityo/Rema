@@ -23,7 +23,7 @@ class MetaDataRepository implements MetaDataRepositoryInterface
     {
         try {
             $meta_data = MetaData::create([
-                'title' => ucwords(strtolower($create_meta_data->title)),
+                'title' => $create_meta_data->title_formatted,
                 'author_id' => $create_meta_data->author_id,
                 'visibility' => $create_meta_data->visibility,
                 'year' => $create_meta_data->year,
@@ -43,7 +43,7 @@ class MetaDataRepository implements MetaDataRepositoryInterface
             $meta_data = MetaData::findOrFail($meta_data_id);
 
             $meta_data->update([
-                'title' => $update_meta_data->title,
+                'title' => $update_meta_data->title_formatted,
                 'author_id' => $update_meta_data->author_id,
                 'visibility' => $update_meta_data->visibility,
                 'year' => $update_meta_data->year,
