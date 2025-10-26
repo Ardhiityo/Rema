@@ -68,7 +68,7 @@
                             <tr class="text-nowrap" wire:key='{{ $key }}'>
                                 <td class="text-bold-500">{{ $loop->index + $activities->firstItem() }}</td>
                                 <td class="text-bold-500" title="{{ $activity->meta_data }}">
-                                    {{ $activity->meta_data }}
+                                    {{ $activity->short_meta_data }}
                                 </td>
                                 <td class="text-center text-bold-500" title="{{ $activity->category }}">
                                     {{ $activity->category }}
