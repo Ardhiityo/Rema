@@ -11,7 +11,9 @@ class CoordinatorData extends Data
         public int $id,
         public string $name,
         public int $nidn,
-        public string $position
+        public string $position,
+        public int $study_program_id,
+        public string $study_program
     ) {}
 
     public static function fromModel(Coordinator $coordinator): self
@@ -20,7 +22,9 @@ class CoordinatorData extends Data
             $coordinator->id,
             $coordinator->name,
             $coordinator->nidn,
-            $coordinator->position
+            $coordinator->position,
+            $coordinator->studyProgram->id,
+            $coordinator->studyProgram->name
         );
     }
 }

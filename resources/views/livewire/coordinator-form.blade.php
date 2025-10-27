@@ -48,6 +48,32 @@
                     </div>
                     {{-- Coordinator --}}
 
+                    {{-- Study Program --}}
+                    <div>
+                        <div class="input-group">
+                            <label class="input-group-text" for="study_program_id">
+                                Study Program
+                                <sup class="ms-1">
+                                    *
+                                </sup>
+                            </label>
+                            <select class="form-select" id="study_program_id" wire:model='study_program_id'>
+                                <option selected value="">Choose...</option>
+                                @foreach ($study_programs as $study_program)
+                                    <option value="{{ $study_program->id }}">
+                                        {{ $study_program->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        @error('study_program_id')
+                            <span class="badge bg-danger">
+                                <small>{{ $message }}</small>
+                            </span>
+                        @enderror
+                    </div>
+                    {{-- Study Program --}}
+
                     {{-- Position --}}
                     <div>
                         <label for="position" class="form-label">

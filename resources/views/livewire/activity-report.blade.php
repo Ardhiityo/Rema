@@ -38,7 +38,7 @@
                             </sup>
                         </label>
                         <select class="form-select" id="coordinator_id" wire:model='coordinator_id'>
-                            <option selected>Choose...</option>
+                            <option selected value="">Choose...</option>
                             @foreach ($coordinators as $coordinator)
                                 <option value="{{ $coordinator->id }}">
                                     {{ $coordinator->nidn }} - {{ $coordinator->name }}

@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('nidn');
             $table->string('name');
             $table->string('position');
+            $table->unsignedBigInteger('study_program_id')->unique();
+            $table->foreign('study_program_id')->references('id')->on('study_programs');
             $table->timestamps();
         });
     }

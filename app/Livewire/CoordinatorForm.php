@@ -8,12 +8,14 @@ use Livewire\Attributes\Computed;
 use App\Data\Coordinator\CreateCoordinatorData;
 use App\Data\Coordinator\UpdateCoordinatorData;
 use App\Repositories\Contratcs\CoordinatorRepositoryInterface;
+use App\Repositories\Contratcs\StudyProgramRepositoryInterface;
 use Livewire\Attributes\On;
 
 class CoordinatorForm extends Component
 {
     // Form Start
     public string|int $nidn = '';
+    public string|int $study_program_id = '';
     public string $name = '';
     public string $position = '';
     // Form End
@@ -34,7 +36,8 @@ class CoordinatorForm extends Component
         return [
             'name' => ['required', 'min:3'],
             'position' => ['required', 'min:3'],
-            'nidn' => ['required', 'numeric', $this->is_update ? 'unique:coordinators,nidn,' . $this->coordinator_id : 'unique:coordinators,nidn']
+            'nidn' => ['required', 'numeric', $this->is_update ? 'unique:coordinators,nidn,' . $this->coordinator_id : 'unique:coordinators,nidn'],
+            'study_program_id' => ['required', 'exists:study_programs,id', $this->is_update ? 'unique:coordinators,study_program_id,' . $this->coordinator_id : 'unique:coordinators,study_program_id']
         ];
     }
 
@@ -42,6 +45,19 @@ class CoordinatorForm extends Component
     public function coordinatorRepository()
     {
         return app(CoordinatorRepositoryInterface::class);
+    }
+
+    #[Computed()]
+    public function studyProgramRepository()
+    {
+        return app(StudyProgramRepositoryInterface::class);
+    }
+
+    protected function validationAttributes()
+    {
+        return [
+            'study_program_id' => 'study program'
+        ];
     }
 
     public function create()
@@ -72,6 +88,7 @@ class CoordinatorForm extends Component
             $this->nidn = $coordinator_data->nidn;
             $this->name = $coordinator_data->name;
             $this->position = $coordinator_data->position;
+            $this->study_program_id = $coordinator_data->study_program_id;
             $this->is_update = true;
         } catch (Throwable $th) {
             session()->flash('coordinator-failed', $th->getMessage());
@@ -143,6 +160,8 @@ class CoordinatorForm extends Component
 
     public function render()
     {
-        return view('livewire.coordinator-form');
+        $study_programs = $this->studyProgramRepository->all();
+
+        return view('livewire.coordinator-form', compact('study_programs'));
     }
 }

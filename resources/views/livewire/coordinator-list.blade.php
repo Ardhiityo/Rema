@@ -28,6 +28,7 @@
                          <th>NIDN</th>
                          <th>Coordinator</th>
                          <th>Position</th>
+                         <th>Study Program</th>
                          <th>Action</th>
                      </tr>
                  </thead>
@@ -38,6 +39,7 @@
                              <td class="text-bold-500">{{ $coordinator->nidn }}</td>
                              <td class="text-bold-500">{{ $coordinator->name }}</td>
                              <td class="text-bold-500">{{ $coordinator->position }}</td>
+                             <td class="text-bold-500">{{ $coordinator->study_program }}</td>
                              <td>
                                  <div class="gap-3 d-flex justify-content-center align-items-center">
                                      <button
@@ -56,7 +58,7 @@
                          </tr>
                      @empty
                          <tr>
-                             <td colspan="5" class="text-center">Data Not Found</td>
+                             <td colspan="6" class="text-center">Data Not Found</td>
                          </tr>
                      @endforelse
                      <tr>

@@ -52,7 +52,8 @@ class CoordinatorRepository implements CoordinatorRepositoryInterface
             $coordinator = Coordinator::create([
                 'name' => $create_coordinator_data->name,
                 'nidn' => $create_coordinator_data->nidn,
-                'position' => $create_coordinator_data->position
+                'position' => $create_coordinator_data->position,
+                'study_program_id' => $create_coordinator_data->study_program_id
             ]);
 
             return CoordinatorData::fromModel($coordinator);
@@ -69,7 +70,8 @@ class CoordinatorRepository implements CoordinatorRepositoryInterface
             $coordinator->update([
                 'name' =>  $updateCoordinatorData->name,
                 'nidn' => $updateCoordinatorData->nidn,
-                'position' => $updateCoordinatorData->position
+                'position' => $updateCoordinatorData->position,
+                'study_program_id' => $updateCoordinatorData->study_program_id
             ]);
 
             return CoordinatorData::fromModel($coordinator->refresh());
