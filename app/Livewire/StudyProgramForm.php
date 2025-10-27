@@ -72,9 +72,9 @@ class StudyProgramForm extends Component
     #[On('study-program-edit')]
     public function edit($study_program_id)
     {
-        $study_program_data = $this->studyProgramRepository->findById($study_program_id);
-
         try {
+            $study_program_data = $this->studyProgramRepository->findById($study_program_id);
+
             $this->study_program_id = $study_program_data->id;
 
             $this->name = $study_program_data->name;

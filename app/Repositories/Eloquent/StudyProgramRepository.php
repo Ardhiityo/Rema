@@ -40,7 +40,7 @@ class StudyProgramRepository implements StudyProgramRepositoryInterface
         }
     }
 
-    public function update($study_program_id, UpdateStudyProgramData $update_study_program_data): StudyProgramData|Throwable
+    public function update(int $study_program_id, UpdateStudyProgramData $update_study_program_data): StudyProgramData|Throwable
     {
         try {
             $study_program = StudyProgram::findOrFail($study_program_id);

@@ -15,7 +15,7 @@ interface StudyProgramRepositoryInterface
 
     public function findById(int $study_program_id): StudyProgramData|Throwable;
 
-    public function update($study_program_id, UpdateStudyProgramData $update_study_program_data): StudyProgramData|Throwable;
+    public function update(int $study_program_id, UpdateStudyProgramData $update_study_program_data): StudyProgramData|Throwable;
 
     public function delete(int $study_program_id): bool|Throwable;
 

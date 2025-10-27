@@ -22,7 +22,7 @@
                             NIDN
                             <sup>*</sup>
                         </label>
-                        <input type="text" required class="form-control" id="basicInput" wire:model='nidn'
+                        <input type="number" required class="form-control" id="basicInput" wire:model='nidn'
                             placeholder="ex: 22040004" name="nidn">
                         @error('nidn')
                             <span class="badge bg-danger">

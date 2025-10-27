@@ -4,7 +4,7 @@ namespace App\Data\Coordinator;
 
 use Spatie\LaravelData\Data;
 
-class CreateCoordinatorData extends Data
+class UpdateCoordinatorData extends Data
 {
     public function __construct(
         public string $name,
