@@ -9,6 +9,7 @@ use App\Data\Author\AuthorListData;
 use App\Data\Author\AuthorReportData;
 use App\Data\Author\CreateAuthorData;
 use App\Data\Author\UpdateAuthorData;
+use App\Models\Coordinator;
 use Spatie\LaravelData\DataCollection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Repositories\Contratcs\AuthorRepositoryInterface;
@@ -100,8 +101,10 @@ class AuthorRepository implements AuthorRepositoryInterface
         return AuthorListData::collect($query->orderByDesc('id')->paginate(10));
     }
 
-    public function reports(int|string $year, array $includes = []): DataCollection
+    public function reports(int|string $year, array $includes = [], int $coordinator_id): DataCollection
     {
+        $coordinator = Coordinator::find($coordinator_id);
+
         $authors = Author::query()
             ->with([
                 'metadata.categories' => function ($query) use ($includes) {
@@ -112,7 +115,11 @@ class AuthorRepository implements AuthorRepositoryInterface
                 'studyProgram',
                 'user'
             ])
-            ->where('status', 'approve');
+            ->where('status', 'approve')
+            ->whereHas(
+                'studyProgram',
+                fn($query) => $query->where('slug', $coordinator->studyProgram->slug)
+            );
 
         if (empty($includes)) {
             $authors = $authors

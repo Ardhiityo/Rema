@@ -24,8 +24,9 @@ class RepositoryExport implements FromView
     {
         $year = $this->year;
         $includes = $this->includes;
+        $coordinator_data = $this->coordinator_data;
 
-        $authors = $this->authorRepository()->reports($year, $includes);
+        $authors = $this->authorRepository()->reports($year, $includes, $coordinator_data->id);
 
         $sub_title = '';
 
@@ -42,16 +43,9 @@ class RepositoryExport implements FromView
             $sub_title = "Author's Report In $year That Has Been Completed " . implode(', ', $includes);
         }
 
-        $coordinator_data = $this->coordinator_data;
-
         return view(
             'reports.repository',
-            compact(
-                'year',
-                'authors',
-                'sub_title',
-                'coordinator_data'
-            )
+            compact('year', 'authors', 'sub_title', 'coordinator_data')
         );
     }
 }
