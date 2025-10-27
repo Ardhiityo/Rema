@@ -61,6 +61,9 @@ class RepositoryReport extends Component
     {
         $this->year = '';
         $this->includes = [];
+        $this->coordinator_id = '';
+
+        $this->resetErrorBag();
     }
 
     public function download()

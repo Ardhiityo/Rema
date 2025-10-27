@@ -28,30 +28,6 @@
                         @enderror
                     </div>
                     {{-- Year of Graduation --}}
-
-                    {{-- Coordinator --}}
-                    <div>
-                        <label for="year" class="form-label">
-                            Coordinator
-                            <sup>
-                                *
-                            </sup>
-                        </label>
-                        <select class="form-select" id="coordinator_id" wire:model='coordinator_id'>
-                            <option selected value="">Choose...</option>
-                            @foreach ($coordinators as $coordinator)
-                                <option value="{{ $coordinator->id }}">
-                                    {{ $coordinator->nidn }} - {{ $coordinator->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('coordinator_id')
-                            <span class="badge bg-danger">
-                                <small>{{ $message }}</small>
-                            </span>
-                        @enderror
-                    </div>
-                    {{-- Coordinator --}}
                 </div>
             </div>
             <div class="gap-3 mt-4 d-flex">

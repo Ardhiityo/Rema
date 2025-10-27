@@ -12,7 +12,6 @@ use App\Repositories\Contratcs\CoordinatorRepositoryInterface;
 class ActivityReport extends Component
 {
     public string $year = '';
-    public string|int $coordinator_id = '';
 
     public function mount()
     {
@@ -22,15 +21,7 @@ class ActivityReport extends Component
     public function rules()
     {
         return [
-            'year' => ['required', 'date_format:Y', 'exists:meta_data,year'],
-            'coordinator_id' => ['required', 'exists:coordinators,id']
-        ];
-    }
-
-    protected function validationAttributes()
-    {
-        return [
-            'coordinator_id' => 'coordinator'
+            'year' => ['required', 'date_format:Y', 'exists:meta_data,year']
         ];
     }
 
@@ -54,14 +45,9 @@ class ActivityReport extends Component
         try {
             $year = $this->year;
 
-            $coordinator_id = $validated['coordinator_id'];
-
-            $coordinator_data = $this->coordinatorRepository->findById($coordinator_id);
-
             return Excel::download(
                 export: new ActivityExport(
-                    year: $year,
-                    coordinator_data: $coordinator_data
+                    year: $year
                 ),
                 fileName: "Activities $year" . '.pdf',
                 writerType: \Maatwebsite\Excel\Excel::MPDF
