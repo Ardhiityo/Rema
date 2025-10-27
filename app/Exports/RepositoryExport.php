@@ -2,13 +2,18 @@
 
 namespace App\Exports;
 
+use App\Data\Coordinator\CoordinatorData;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
 use App\Repositories\Contratcs\AuthorRepositoryInterface;
 
 class RepositoryExport implements FromView
 {
-    public function __construct(public string|int $year, public array $includes) {}
+    public function __construct(
+        public string|int $year,
+        public array $includes,
+        public CoordinatorData $coordinator_data
+    ) {}
 
     public function authorRepository()
     {
@@ -37,6 +42,16 @@ class RepositoryExport implements FromView
             $sub_title = "Author's Report In $year That Has Been Completed " . implode(', ', $includes);
         }
 
-        return view('reports.repository', compact('year', 'authors', 'sub_title'));
+        $coordinator_data = $this->coordinator_data;
+
+        return view(
+            'reports.repository',
+            compact(
+                'year',
+                'authors',
+                'sub_title',
+                'coordinator_data'
+            )
+        );
     }
 }

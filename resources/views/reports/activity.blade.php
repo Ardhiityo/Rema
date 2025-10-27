@@ -106,10 +106,40 @@
     <tr>
         <td colspan="1"></td>
         <td colspan="4"></td>
-        <td colspan="12"></td>
-        <td colspan="4" style="font-weight: bold; text-align: center;">
-            Cilegon, {{ Carbon\Carbon::parse(now())->locale('id')->isoFormat('DD MMMM YYYY') }}
+        <td colspan="10"></td>
+        <td colspan="7" style="font-weight: bold; text-align: center;">
+            <h3>Cilegon, {{ Carbon\Carbon::parse(now())->locale('id')->isoFormat('DD MMMM YYYY') }}</h3>
         </td>
+    </tr>
+    <tr></tr>
+    <tr></tr>
+    <tr>
         <td colspan="1"></td>
+        <td colspan="4"></td>
+        <td colspan="10"></td>
+        <td colspan="7" style="font-weight: bold; text-align: center;">
+            <h3>{{ $coordinator_data->position }}</h3>
+        </td>
+    </tr>
+    <tr></tr>
+    <tr></tr>
+    <tr></tr>
+    <tr></tr>
+    <tr></tr>
+    <tr>
+        <td colspan="1"></td>
+        <td colspan="4"></td>
+        <td colspan="10"></td>
+        <td colspan="7" style="font-weight: bold; text-align: center; text-decoration: underline;">
+            <h3>{{ $coordinator_data->name }}</h3>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="1"></td>
+        <td colspan="4"></td>
+        <td colspan="10"></td>
+        <td colspan="7" style="font-weight: bold; text-align: center;">
+            <h3>NIDN. {{ $coordinator_data->nidn }}</h3>
+        </td>
     </tr>
 </table>

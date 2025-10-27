@@ -2,13 +2,14 @@
 
 namespace App\Exports;
 
-use App\Repositories\Contratcs\MetaDataRepositoryInterface;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
+use App\Data\Coordinator\CoordinatorData;
+use App\Repositories\Contratcs\MetaDataRepositoryInterface;
 
 class ActivityExport implements FromView
 {
-    public function __construct(public string|int $year) {}
+    public function __construct(public string|int $year, public CoordinatorData $coordinator_data) {}
 
     public function metaDataRepository()
     {
@@ -19,8 +20,15 @@ class ActivityExport implements FromView
     {
         $year = $this->year;
 
-        $meta_data = $this->metaDataRepository()->reports($year);
+        $meta_data = $this->metaDataRepository()
+            ->reports($year);
 
-        return view('reports.activity', compact('meta_data', 'year'));
+        $coordinator_data = $this->coordinator_data;
+
+        return view('reports.activity', compact(
+            'meta_data',
+            'year',
+            'coordinator_data'
+        ));
     }
 }

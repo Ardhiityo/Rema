@@ -2,17 +2,20 @@
 
 namespace App\Livewire;
 
+use Throwable;
 use Livewire\Component;
 use App\Exports\RepositoryExport;
 use Livewire\Attributes\Computed;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Repositories\Contratcs\AuthorRepositoryInterface;
 use App\Repositories\Contratcs\CategoryRepositoryInterface;
+use App\Repositories\Contratcs\CoordinatorRepositoryInterface;
 
 class RepositoryReport extends Component
 {
     public string|int $year = '';
     public array $includes = [];
+    public string|int $coordinator_id = '';
 
     public function mount()
     {
@@ -23,14 +26,16 @@ class RepositoryReport extends Component
     {
         return [
             'year' => ['required', 'date_format:Y', 'exists:meta_data,year'],
-            'includes.*' => ['nullable', 'exists:categories,slug']
+            'includes.*' => ['nullable', 'exists:categories,slug'],
+            'coordinator_id' => ['required', 'exists:coordinators,id']
         ];
     }
 
     protected function validationAttributes()
     {
         return [
-            'includes.*' => 'includes'
+            'includes.*' => 'includes',
+            'coordinator_id' => 'coordinator'
         ];
     }
 
@@ -41,9 +46,15 @@ class RepositoryReport extends Component
     }
 
     #[Computed()]
-    public function authorRepository()
+    public function authorRepository(): AuthorRepositoryInterface
     {
         return app(AuthorRepositoryInterface::class);
+    }
+
+    #[Computed()]
+    public function coordinatorRepository(): CoordinatorRepositoryInterface
+    {
+        return app(CoordinatorRepositoryInterface::class);
     }
 
     public function resetInput()
@@ -54,21 +65,37 @@ class RepositoryReport extends Component
 
     public function download()
     {
-        $this->validate();
+        $validated = $this->validate();
 
-        $year = $this->year;
+        try {
+            $year = $this->year;
 
-        return Excel::download(
-            new RepositoryExport($year, $this->includes),
-            "Repositories $year" . '.pdf',
-            \Maatwebsite\Excel\Excel::MPDF
-        );
+            $coordinator_id = $validated['coordinator_id'];
+
+            $coordinator_data = $this->coordinatorRepository->findById($coordinator_id);
+
+            return Excel::download(
+                export: new RepositoryExport(
+                    year: $year,
+                    includes: $this->includes,
+                    coordinator_data: $coordinator_data
+                ),
+                fileName: "Repositories $year" . '.pdf',
+                writerType: \Maatwebsite\Excel\Excel::MPDF
+            );
+        } catch (Throwable $th) {
+            session()->flash('repository-failed', $th->getMessage());
+        }
     }
 
     public function render()
     {
         $categories = $this->categoryRepository->all();
+        $coordinators = $this->coordinatorRepository->all();
 
-        return view('livewire.repository-report', compact('categories'));
+        return view(
+            'livewire.repository-report',
+            compact('categories', 'coordinators')
+        );
     }
 }
