@@ -61,6 +61,9 @@ class PdfWatermarkService
             File::ensureDirectoryExists(dirname($publicPath));
             File::move($tempOutput, $publicPath);
 
+            // Hapus file temp setelah dipindahkan
+            File::delete($tempOutput);
+
             return $relativePath;
         } catch (\Exception $e) {
             throw $e;
