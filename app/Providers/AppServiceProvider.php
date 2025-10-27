@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Repositories\Contratcs\ActivityRepositoryInterface;
 use App\Repositories\Contratcs\AuthorRepositoryInterface;
 use App\Repositories\Contratcs\CategoryRepositoryInterface;
+use App\Repositories\Contratcs\CoordinatorRepositoryInterface;
 use App\Repositories\Contratcs\DashboardRepositoryInterface;
 use App\Repositories\Contratcs\LandingPageRepositoryInterface;
 use App\Repositories\Contratcs\MetaDataCategoryRepositoryInterface;
@@ -15,6 +16,7 @@ use App\Repositories\Contratcs\UserRepositoryInterface;
 use App\Repositories\Eloquent\ActivityRepository;
 use App\Repositories\Eloquent\AuthorRepository;
 use App\Repositories\Eloquent\CategoryRepository;
+use App\Repositories\Eloquent\CoordinatorRepository;
 use App\Repositories\Eloquent\DashboardRepository;
 use App\Repositories\Eloquent\LandingPageRepository;
 use App\Repositories\Eloquent\MetaDataCategoryRepository;
@@ -42,6 +44,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(NoteRepositoryInterface::class, NoteRepository::class);
         $this->app->bind(LandingPageRepositoryInterface::class, LandingPageRepository::class);
         $this->app->bind(ActivityRepositoryInterface::class, ActivityRepository::class);
+        $this->app->bind(CoordinatorRepositoryInterface::class, CoordinatorRepository::class);
     }
 
     /**

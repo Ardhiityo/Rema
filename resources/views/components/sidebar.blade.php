@@ -122,6 +122,15 @@
                    {{-- Activities --}}
 
                    {{-- Reports --}}
+                   <li class="sidebar-item {{ request()->is('coordinator*') ? 'active' : '' }}">
+                       <a href="{{ route('coordinator.index') }}" class='sidebar-link'>
+                           <i class="bi bi-person-vcard"></i>
+                           <span>Coordinators</span>
+                       </a>
+                   </li>
+                   {{-- Reports --}}
+
+                   {{-- Reports --}}
                    <li class="sidebar-item {{ request()->is('report*') ? 'active' : '' }}">
                        <a href="{{ route('report.index') }}" class='sidebar-link'>
                            <i class="bi bi-journal-bookmark-fill"></i>

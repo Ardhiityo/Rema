@@ -5,6 +5,7 @@ use App\Livewire\Report;
 use App\Livewire\Profile;
 use App\Livewire\Category;
 use App\Livewire\Activity;
+use App\Livewire\Coordinator;
 use App\Livewire\StudyProgram;
 use App\Livewire\ActivityDetail;
 use App\Livewire\RepositoryForm;
@@ -28,6 +29,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/activities', Activity::class)->name('activity.index');
         Route::get('/activities/{category_slug}/{meta_data_slug}', ActivityDetail::class)->name('activity.show');
         Route::get('/reports', Report::class)->name('report.index');
+        Route::get('/coordinators', Coordinator::class)->name('coordinator.index');
     });
 
     Route::middleware(ValidateAuthorMiddleware::class)->group(function () {
