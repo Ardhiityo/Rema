@@ -6,8 +6,8 @@
                       <div class="col-lg-7 animated fadeInLeft">
                           <div class="text-sm-center text-md-start">
                               <h4 class="mb-4 text-white text-uppercase fw-bold">Welcome To Rema FIK</h4>
-                              <h1 class="mb-4 text-white display-1">Satu Repository, Ribuan Inspirasi</h1>
-                              <p class="mb-5 fs-5">Rema FIK adalah repository digital mahasiswa yang menyimpan skripsi,
+                              <h1 class="mb-4 text-white display-1">Satu Repositori, Ribuan Inspirasi</h1>
+                              <p class="mb-5 fs-5">Rema FIK adalah repositori digital mahasiswa yang menyimpan skripsi,
                                   tugas
                                   akhir, dan manual book secara terstruktur dan mudah diakses.
                               </p>
@@ -45,8 +45,8 @@
                       <div class="col-lg-7 animated fadeInRight">
                           <div class="text-sm-center text-md-end">
                               <h4 class="mb-4 text-white text-uppercase fw-bold">Welcome To Rema FIK</h4>
-                              <h1 class="mb-4 text-white display-1">Satu Repository, Ribuan Inspirasi</h1>
-                              <p class="mb-5 fs-5">Rema FIK adalah repository digital mahasiswa yang menyimpan skripsi,
+                              <h1 class="mb-4 text-white display-1">Satu Repositori, Ribuan Inspirasi</h1>
+                              <p class="mb-5 fs-5">Rema FIK adalah repositori digital mahasiswa yang menyimpan skripsi,
                                   tugas akhir, dan manual book secara terstruktur dan mudah diakses.
                               </p>
                               <div class="flex-shrink-0 mb-4 d-flex justify-content-center justify-content-md-end">

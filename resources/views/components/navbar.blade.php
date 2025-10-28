@@ -10,7 +10,7 @@
                                  <span class="fw-bold">Rema FIK</span>
                              </div>
                              <small class="fs-6">
-                                 <small>Repository Mahasiswa</small>
+                                 <small>Repositori Mahasiswa</small>
                              </small>
                          </div>
                      </div>
