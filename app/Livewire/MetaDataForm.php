@@ -7,7 +7,6 @@ use Throwable;
 use Livewire\Component;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Computed;
-use App\Data\Author\AuthorListData;
 use Illuminate\Support\Facades\Auth;
 use App\Data\Metadata\UpdateMetaData;
 use App\Data\Metadata\CreateMetadataData;
@@ -243,6 +242,7 @@ class MetaDataForm extends Component
         $this->author_id = '';
         $this->status = '';
         $this->visibility = '';
+        $this->keyword = '';
 
         $this->resetErrorBag();
     }

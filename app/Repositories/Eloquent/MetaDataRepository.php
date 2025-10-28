@@ -13,7 +13,7 @@ use Spatie\LaravelData\DataCollection;
 use App\Data\Metadata\MetadataListData;
 use Illuminate\Support\Facades\Storage;
 use App\Data\Metadata\CreateMetadataData;
-use App\Data\MetaData\MetadataReportData;
+use App\Data\Metadata\MetadataReportData;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Repositories\Contratcs\MetaDataRepositoryInterface;
 
