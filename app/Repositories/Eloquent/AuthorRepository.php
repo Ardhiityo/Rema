@@ -152,7 +152,8 @@ class AuthorRepository implements AuthorRepositoryInterface
 
     public function findByNameOrNim(string $keyword = ''): DataCollection
     {
-        $authors = Author::query()->with('user');
+        $authors = Author::query()
+            ->with('user');
 
         if ($keyword) {
             $authors = $authors
@@ -163,9 +164,11 @@ class AuthorRepository implements AuthorRepositoryInterface
                 );
         }
 
-        return AuthorListData::collect(
-            $authors->orderBy('nim')->limit(5)->get(),
-            DataCollection::class
-        );
+        $authors = $authors->where('status', 'approve')
+            ->orderBy('nim')
+            ->limit(5)
+            ->get();
+
+        return AuthorListData::collect($authors, DataCollection::class);
     }
 }

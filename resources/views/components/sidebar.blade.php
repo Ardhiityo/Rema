@@ -1,4 +1,4 @@
-   <div class="sidebar-wrapper active">
+   <div class="sidebar-wrapper active" style="height: 100dvh; overflow-y:auto;">
        <div class="sidebar-header position-relative">
            <div class="gap-3 flex-column d-flex justify-content-between align-items-center">
                <div class="logo">

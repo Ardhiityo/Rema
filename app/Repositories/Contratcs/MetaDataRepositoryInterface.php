@@ -19,7 +19,7 @@ interface MetaDataRepositoryInterface
 
     public function update(int $meta_data_id, UpdateMetaData $update_meta_data): MetadataData|Throwable;
 
-    public function findByFilters(string $keyword, string $status, string $year, string $visibility, bool $is_author = false): LengthAwarePaginator;
+    public function findByFilters(string $keyword, string $status, string $year, string $visibility, bool $is_master_data = false): LengthAwarePaginator;
 
     public function delete(int $meta_data_id): bool|Throwable;
 

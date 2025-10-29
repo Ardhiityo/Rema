@@ -32,13 +32,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/coordinators', Coordinator::class)->name('coordinator.index');
     });
 
+    Route::middleware(['role:contributor'])->group(function () {
+        Route::get('/repositories/authors', RepositoryList::class)
+            ->name('repository.author.index');
+    });
+
     Route::middleware(ValidateAuthorMiddleware::class)->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])
             ->name('dashboard');
         Route::get('/repositories', RepositoryList::class)
             ->name('repository.index');
-        Route::get('/repositories/authors', RepositoryList::class)
-            ->name('repository.author.index');
         Route::get('/repositories/create', RepositoryForm::class)
             ->name('repository.create');
         Route::get('/repositories/{meta_data:slug}/show', RepositoryDetail::class)

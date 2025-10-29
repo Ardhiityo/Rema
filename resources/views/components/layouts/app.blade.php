@@ -15,11 +15,11 @@
 <body>
     <script src="{{ asset('assets/static/js/initTheme.js') }}"></script>
 
-    <div id="app">
+    <div id="app" style="min-height: 100dvh">
         <div id="sidebar">
             <x-sidebar />
         </div>
-        <div id="main" style="min-height: 100dvh" class="d-flex flex-column justify-content-between">
+        <div id="main" class="d-flex flex-column justify-content-between">
             <section>
                 <x-header />
                 {{ $slot }}

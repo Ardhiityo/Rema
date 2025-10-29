@@ -15,7 +15,11 @@
             <div class="gap-3 row d-flex gap-md-0">
                 <div class="col-md-4">
                     <div class="input-group">
-                        <label class="input-group-text" for="keyword">Title / Author</label>
+                        <label class="input-group-text" for="keyword">
+                            Title @if ($is_master_data)
+                                /Author
+                            @endif
+                        </label>
                         <input type="text" wire:model.live.debounce.250ms='keyword' autofocus class="form-control"
                             id="keyword" placeholder="Search...">
                     </div>

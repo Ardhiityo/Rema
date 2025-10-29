@@ -87,40 +87,70 @@ class MetaDataRepository implements MetaDataRepositoryInterface
         throw new Exception('Meta data slug not found');
     }
 
-    public function findByFilters(string $keyword, string $status, string $year, string $visibility, bool $is_author = false): LengthAwarePaginator
+    public function findByFilters(string $keyword, string $status, string $year, string $visibility, bool $is_master_data = false): LengthAwarePaginator
     {
-        $query = MetaData::query();
         $user = Auth::user();
 
-        $query->with(['author', 'author.user', 'author.studyProgram', 'categories', 'activities']);
+        $query = MetaData::query()
+            ->with(['author', 'author.user', 'author.studyProgram', 'categories', 'activities'])
+            ->when(
+                $year,
+                function ($query) use ($year) {
+                    $query->where('year', $year);
+                }
+            );
 
         if ($user->hasRole('contributor')) {
-            if ($is_author) {
-                $query->where('author_id', $user->author->id);
+            if ($is_master_data) {
+                $query = $query->where('visibility', '!=', 'private')
+                    ->when(
+                        $keyword,
+                        function ($query) use ($keyword) {
+                            $query
+                                ->whereLike('title', "%$keyword%")
+                                ->orWhereHas(
+                                    'author.user',
+                                    fn($query) => $query->whereLike('name', "%$keyword%")
+                                );
+                        }
+                    );
             } else {
-                $query->where('visibility', '!=', 'private');
+                $query = $query
+                    ->where('author_id', $user->author->id)
+                    ->where('status', $status)
+                    ->where('visibility', $visibility)
+                    ->when(
+                        $keyword,
+                        function ($query) use ($keyword) {
+                            $query
+                                ->whereLike('title', "%$keyword%");
+                        }
+                    );
+            }
+        } else {
+            if ($is_master_data) {
+                $query = $query
+                    ->where('status', $status)
+                    ->where('visibility', $visibility)
+                    ->when(
+                        $keyword,
+                        function ($query) use ($keyword) {
+                            $query
+                                ->whereLike('title', "%$keyword%")
+                                ->orWhereHas(
+                                    'author.user',
+                                    fn($query) => $query->whereLike('name', "%$keyword%")
+                                );
+                        }
+                    );
             }
         }
 
-        $query->where('status', $status);
+        $meta_data = $query
+            ->orderByDesc('id')
+            ->paginate(10);
 
-        $query->where('visibility', $visibility);
-
-        if ($keyword) {
-            $query->whereLike('title', "%$keyword%")
-                ->orWhereHas(
-                    'author.user',
-                    fn($query) => $query->whereLike('name', "%$keyword%")
-                );
-        }
-
-        if ($year) {
-            $query->where('year', $year);
-        }
-
-        return MetadataListData::collect(
-            $query->orderByDesc('id')->paginate(10)
-        );
+        return MetadataListData::collect($meta_data);
     }
 
     public function delete(int $meta_data_id): bool|Throwable

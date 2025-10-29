@@ -26,6 +26,7 @@ class RepositoryList extends Component
     public int|null $meta_data_id = null;
     public bool $is_author = false;
     public bool $is_admin = false;
+    public bool $is_master_data = false;
 
     public function mount()
     {
@@ -33,6 +34,10 @@ class RepositoryList extends Component
 
         if (Route::is('repository.author.index')) {
             $this->is_author = true;
+        }
+
+        if (Route::is('repository.index')) {
+            $this->is_master_data = true;
         }
 
         if ($user->hasRole('admin')) {
@@ -84,7 +89,7 @@ class RepositoryList extends Component
             $this->status_filter,
             $this->year,
             $this->visibility,
-            $this->is_author
+            $this->is_master_data
         );
 
         return view('livewire.repository-list', compact('meta_data'));
