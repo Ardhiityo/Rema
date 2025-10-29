@@ -26,7 +26,7 @@
                       </div>
                       <div class="col-lg-5 animated fadeInRight d-flex align-items-center justify-content-center">
                           <div class="calrousel-img" style="object-fit: cover;">
-                              <img src="{{ asset('img/carousel-unival.png') }}" class="img-fluid w-100" alt="unival">
+                              <img src="{{ asset('img/carousel-hero.png') }}" class="img-fluid w-100" alt="unival">
                           </div>
                       </div>
                   </div>
@@ -39,7 +39,7 @@
                   <div class="row gy-4 gy-lg-0 gx-0 gx-lg-5 align-items-center">
                       <div class="col-lg-5 animated fadeInLeft d-flex align-items-center justify-content-center">
                           <div class="calrousel-img">
-                              <img src="{{ asset('img/carousel-unival.png') }}" class="img-fluid w-100" alt="unival">
+                              <img src="{{ asset('img/carousel-hero.png') }}" class="img-fluid w-100" alt="unival">
                           </div>
                       </div>
                       <div class="col-lg-7 animated fadeInRight">
