@@ -24,6 +24,8 @@
                      <a href="#home" class="nav-item nav-link">Home</a>
                      <a href="#repositories" class="nav-item nav-link">Repositories</a>
                      <a href="#contact" class="nav-item nav-link">Contact</a>
+                     <a href="{{ route('login') }}" class="nav-item nav-link">Sign In</a>
+                     <a href="{{ route('register') }}" class="nav-item nav-link">Sign Up</a>
                  </div>
              </div>
              <div class="flex-shrink-0 d-none d-xl-flex ps-4">
