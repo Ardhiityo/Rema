@@ -9,10 +9,11 @@ use Livewire\Attributes\Computed;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Repositories\Contratcs\MetaDataRepositoryInterface;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class RepositoryList extends Component
 {
-    use WithPagination;
+    use WithPagination, AuthorizesRequests;
 
     protected $paginationTheme = 'bootstrap';
 
@@ -65,7 +66,12 @@ class RepositoryList extends Component
     public function delete()
     {
         try {
+            $meta_data = $this->metaDataRepository->findById($this->meta_data_id);
+
+            $this->authorize('delete', $meta_data->toModel());
+
             $this->metaDataRepository->delete($this->meta_data_id);
+
             session()->flash('repository-list-success', 'The repository was successfully deleted.');
         } catch (Throwable $th) {
             session()->flash('repository-list-failed', $th->getMessage());

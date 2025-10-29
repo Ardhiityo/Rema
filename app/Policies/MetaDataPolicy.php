@@ -50,7 +50,10 @@ class MetaDataPolicy
      */
     public function delete(User $user, MetaData $meta_data): bool
     {
-        return false;
+        if ($user->hasRole('contributor')) {
+            return $user->author->id == $meta_data->author_id;
+        }
+        return true;
     }
 
     /**

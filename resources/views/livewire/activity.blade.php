@@ -111,14 +111,12 @@
                 <div class="modal-body">
                     <p>Are you sure you want to delete the data?</p>
                 </div>
-                <div class="gap-2 modal-footer d-flex">
+                <div class="gap-2 modal-footer d-flex align-items-center">
                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
-                        <i class="bx bx-x d-block d-sm-none"></i>
-                        <span class="d-none d-sm-block">Close</span>
+                        <span>Close</span>
                     </button>
                     <button type="button" class="btn btn-danger ms-1" wire:click='delete' data-bs-dismiss="modal">
-                        <i class="bx bx-check d-block d-sm-none"></i>
-                        <span class="d-none d-sm-block">Accept</span>
+                        <span>Accept</span>
                     </button>
                 </div>
             </div>
