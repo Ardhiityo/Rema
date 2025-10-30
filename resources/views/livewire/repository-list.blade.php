@@ -111,56 +111,61 @@
                                         <i class="bi bi-eye-fill"></i>
                                     </a>
                                     @if ($is_admin || $is_author)
-                                        <a
-                                            @if ($data->status != 'approve') href="{{ route('repository.edit', ['meta_data_slug' => $data->slug]) }}" @endif>
-                                            <button class="btn btn-warning" @disabled($data->status == 'approve')>
+                                        <a @if ($is_author) @if ($data->status != 'approve') href="{{ route('repository.edit', ['meta_data_slug' => $data->slug]) }}" @endif
+                                        @else
+                                            href="{{ route('repository.edit', ['meta_data_slug' => $data->slug]) }}"
+                                            @endif>
+                                            <button class="btn btn-warning"
+                                                @if ($is_author) @disabled($data->status == 'approve') @endif>
                                                 <i class="bi bi-pencil-square"></i>
                                             </button>
                                         </a>
-                                        <button type="button" @disabled($data->status == 'approve') class="block btn btn-danger"
-                                            data-bs-toggle="modal" data-bs-target="#border-less"
+                                        <button type="button"
+                                            @if ($is_author) @disabled($data->status == 'approve') @endif
+                                            class="block btn btn-danger" data-bs-toggle="modal"
+                                            data-bs-target="#border-less"
                                             wire:click="deleteConfirm('{{ $data->slug }}')">
                                             <i class="bi bi-trash3"></i>
                                         </button>
                                     @endif
                                 </td>
                             </tr>
-                        @empty
-                            <tr>
-                                <td colspan="6" class="text-center">Data Not Found</td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            </div>
-            @if ($meta_data->total() > $meta_data->perPage())
-                <div class="p-3 pt-4">
-                    {{ $meta_data->links() }}
+                            @empty
+                                <tr>
+                                    <td colspan="6" class="text-center">Data Not Found</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
                 </div>
-            @endif
+                @if ($meta_data->total() > $meta_data->perPage())
+                    <div class="p-3 pt-4">
+                        {{ $meta_data->links() }}
+                    </div>
+                @endif
+            </div>
         </div>
-    </div>
 
-    <!--BorderLess Modal Modal -->
-    <div wire:ignore.self class="text-left modal fade modal-borderless" id="border-less" tabindex="-1" role="dialog"
-        aria-labelledby="myModalLabel1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-scrollable" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Confirm deletion</h5>
-                </div>
-                <div class="modal-body">
-                    <p>Are you sure you want to delete the data?</p>
-                </div>
-                <div class="gap-2 modal-footer d-flex align-items-center">
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
-                        <span>Close</span>
-                    </button>
-                    <button type="button" class="btn btn-danger ms-1" wire:click='delete' data-bs-dismiss="modal">
-                        <span>Accept</span>
-                    </button>
+        <!--BorderLess Modal Modal -->
+        <div wire:ignore.self class="text-left modal fade modal-borderless" id="border-less" tabindex="-1" role="dialog"
+            aria-labelledby="myModalLabel1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Confirm deletion</h5>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to delete the data?</p>
+                    </div>
+                    <div class="gap-2 modal-footer d-flex align-items-center">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+                            <span>Close</span>
+                        </button>
+                        <button type="button" class="btn btn-danger ms-1" wire:click='delete' data-bs-dismiss="modal">
+                            <span>Accept</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
