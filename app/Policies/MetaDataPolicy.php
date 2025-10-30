@@ -51,7 +51,7 @@ class MetaDataPolicy
     public function delete(User $user, MetaData $meta_data): bool
     {
         if ($user->hasRole('contributor')) {
-            return $user->author->id == $meta_data->author_id;
+            return $user->author->id == $meta_data->author_id && $meta_data->status != 'approve';
         }
         return true;
     }

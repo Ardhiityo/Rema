@@ -44,6 +44,7 @@ class MetadataData extends Data
 
         $meta_data->fill([
             'author_id' =>  $this->author_id,
+            'status' => $this->status
         ]);
 
         return $meta_data;

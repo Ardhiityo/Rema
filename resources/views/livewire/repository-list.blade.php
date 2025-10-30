@@ -111,13 +111,15 @@
                                         <i class="bi bi-eye-fill"></i>
                                     </a>
                                     @if ($is_admin || $is_author)
-                                        <a href="{{ route('repository.edit', ['meta_data_slug' => $data->slug]) }}"
-                                            class="btn btn-warning">
-                                            <i class="bi bi-pencil-square"></i>
+                                        <a
+                                            @if ($data->status != 'approve') href="{{ route('repository.edit', ['meta_data_slug' => $data->slug]) }}" @endif>
+                                            <button class="btn btn-warning" @disabled($data->status == 'approve')>
+                                                <i class="bi bi-pencil-square"></i>
+                                            </button>
                                         </a>
-                                        <button type="button" wire:click="deleteConfirm('{{ $data->slug }}')"
-                                            class="block btn btn-danger" data-bs-toggle="modal"
-                                            data-bs-target="#border-less">
+                                        <button type="button" @disabled($data->status == 'approve') class="block btn btn-danger"
+                                            data-bs-toggle="modal" data-bs-target="#border-less"
+                                            wire:click="deleteConfirm('{{ $data->slug }}')">
                                             <i class="bi bi-trash3"></i>
                                         </button>
                                     @endif
