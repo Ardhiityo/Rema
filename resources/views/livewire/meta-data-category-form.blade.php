@@ -70,18 +70,16 @@
 
         <div class="gap-3 d-flex">
             @if ($is_update)
-                <button wire:click='updateRepository' wire:loading.attr='disabled' class="btn btn-primary"
-                    wire:target='updateRepository'>
-                    <span wire:target='updateRepository' wire:loading.class='d-none'>Update</span>
-                    <span wire:loading wire:target='updateRepository'>
+                <button wire:click='updateRepository' wire:loading.attr='disabled' class="btn btn-primary">
+                    <span wire:loading.class='d-none'>Update</span>
+                    <span wire:loading>
                         <span class="spinner-border spinner-border-sm text-light" role="status"></span>
                     </span>
                 </button>
             @else
-                <button wire:click='createRepository' wire:loading.attr='disabled' class="btn btn-primary"
-                    wire:target='createRepository'>
-                    <span wire:target='createRepository' wire:loading.class='d-none'>Add</span>
-                    <span wire:loading wire:target='createRepository'>
+                <button wire:click='createRepository' wire:loading.attr='disabled' class="btn btn-primary">
+                    <span wire:loading.class='d-none'>Add</span>
+                    <span wire:loading>
                         <span class="spinner-border spinner-border-sm text-light" role="status"></span>
                     </span>
                 </button>

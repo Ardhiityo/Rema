@@ -55,7 +55,7 @@ class MetaDataForm extends Component
             $this->author_id = $meta_data_session->author_id;
             $this->status = $meta_data_session->status;
             $this->visibility = $meta_data_session->visibility;
-            $this->updatedAuthorId($meta_data_session->id);
+            $this->updatedAuthorId($meta_data_session->author_id);
         }
 
         if (is_null($meta_data_id)) {
@@ -140,7 +140,6 @@ class MetaDataForm extends Component
     public function updatedAuthorId($value)
     {
         $author_data = $this->authorRepository->findById($value, ['user']);
-
         $this->keyword = $author_data->nim . ' - ' . $author_data->name;
     }
 
