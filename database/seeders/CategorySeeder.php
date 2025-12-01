@@ -15,8 +15,8 @@ class CategorySeeder extends Seeder
     public function run(): void
     {
         Category::create([
-            'name' => 'Teknik Informatika',
-            'slug' => Str::slug('Teknik Informatika')
+            'name' => 'Skripsi',
+            'slug' => Str::slug('Skripsi')
         ]);
     }
 }

@@ -25,14 +25,14 @@ test('form title', function () {
 
 test('create success', function () {
     categoryForm()
-        ->set('name', 'Cyber Security')
-        ->assertSet('name', 'Cyber Security')
+        ->set('name', 'Journal')
+        ->assertSet('name', 'Journal')
         ->call('create')
         ->assertHasNoErrors();
 
     $this->assertDatabaseHas('categories', [
-        'name' => 'Cyber Security',
-        'slug' => Str::slug('Cyber Security')
+        'name' => 'Journal',
+        'slug' => Str::slug('Journal')
     ]);
 });
 
@@ -53,8 +53,8 @@ test('create failed validation already exists', function () {
     $this->seed(DatabaseSeeder::class);
 
     categoryForm()
-        ->set('name', 'Teknik Informatika')
-        ->assertSet('name', 'Teknik Informatika')
+        ->set('name', 'Skripsi')
+        ->assertSet('name', 'Skripsi')
         ->call('create')
         ->assertHasErrors([
             'slug' => 'unique'
@@ -63,8 +63,8 @@ test('create failed validation already exists', function () {
     $this->assertDatabaseCount('categories', 1);
 
     $this->assertDatabaseHas('categories', [
-        'name' => 'Teknik Informatika',
-        'slug' => Str::slug('Teknik Informatika')
+        'name' => 'Skripsi',
+        'slug' => Str::slug('Skripsi')
     ]);
 });
 
@@ -92,35 +92,35 @@ test('update success', function () {
 
     categoryForm()
         ->set('category_id', $category->id)
-        ->set('name', 'Cyber Security')
+        ->set('name', 'Journal')
         ->call('update')
         ->assertDispatched('refresh-categories');
 
     $this->assertDatabaseCount('categories', 1);
 
     $this->assertDatabaseHas('categories', [
-        'name' => 'Cyber Security',
-        'slug' => Str::slug('Cyber Security')
+        'name' => 'Journal',
+        'slug' => Str::slug('Journal')
     ]);
 
     $this->assertDatabaseMissing('categories', [
-        'name' => 'Teknik Informatika',
-        'slug' => Str::slug('Teknik Informatika')
+        'name' => 'Skripsi',
+        'slug' => Str::slug('Skripsi')
     ]);
 });
 
 test('update failed not found', function () {
     categoryForm()
         ->set('category_id', 1)
-        ->set('name', 'Cyber Security')
+        ->set('name', 'Journal')
         ->call('update')
         ->assertNotDispatched('refresh-categories');
 
     $this->assertDatabaseCount('categories', 0);
 
     $this->assertDatabaseMissing('categories', [
-        'name' => 'Cyber Security',
-        'slug' => Str::slug('Cyber Security')
+        'name' => 'Journal',
+        'slug' => Str::slug('Journal')
     ]);
 });
 
@@ -165,14 +165,14 @@ test('delete failed not found', function () {
 
 test('reset input success', function () {
     categoryForm()
-        ->set('name', 'Cyber Security')
-        ->set('slug', 'Cyber Security')
-        ->set('keyword', 'Cyber Security')
+        ->set('name', 'Journal')
+        ->set('slug', 'Journal')
+        ->set('keyword', 'Journal')
         ->set('is_update', true)
         ->call('resetInput')
-        ->assertNotSet('name', 'Cyber Security')
-        ->assertNotSet('slug', 'Cyber Security')
-        ->assertNotSet('keyword', 'Cyber Security')
+        ->assertNotSet('name', 'Journal')
+        ->assertNotSet('slug', 'Journal')
+        ->assertNotSet('keyword', 'Journal')
         ->assertNotSet('is_update', true)
         ->assertSet('name', '')
         ->assertSet('slug', '')
