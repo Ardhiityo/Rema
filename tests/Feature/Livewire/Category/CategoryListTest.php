@@ -7,9 +7,9 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 test('reset input success', function () {
     categoryForm()
-        ->set('keyword', 'Cyber Security')
+        ->set('keyword', 'Skripsi')
         ->call('resetInput')
-        ->assertNotSet('keyword', 'Cyber Security')
+        ->assertNotSet('keyword', 'Skripsi')
         ->assertSet('keyword', '');
 });
 

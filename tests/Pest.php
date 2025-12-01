@@ -13,7 +13,7 @@
 
 use Livewire\Livewire;
 use App\Livewire\CategoryForm;
-
+use App\Livewire\StudyProgramForm;
 
 pest()->extend(Tests\TestCase::class)
     ->use(Illuminate\Foundation\Testing\RefreshDatabase::class)
@@ -48,4 +48,9 @@ expect()->extend('toBeOne', function () {
 function categoryForm()
 {
     return Livewire::test(CategoryForm::class);
+}
+
+function studyProgramForm()
+{
+    return Livewire::test(StudyProgramForm::class);
 }

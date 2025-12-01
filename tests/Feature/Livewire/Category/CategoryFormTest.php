@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 
-test('form title', function () {
+test('form title success', function () {
     // is_update = true
     $component = categoryForm()
         ->set('is_update', true)
