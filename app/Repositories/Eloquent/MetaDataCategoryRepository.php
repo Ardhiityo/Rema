@@ -73,7 +73,7 @@ class MetaDataCategoryRepository implements MetaDataCategoryRepositoryInterface
 
             $file_path = $update_metadata_category_data->file_path;
 
-            if (!is_null($file_path)) {
+            if (!empty($file_path)) {
                 // 1. Ambil path file mentah dari hasil validasi
                 $tempPath = $update_metadata_category_data->file_path->getRealPath();
 

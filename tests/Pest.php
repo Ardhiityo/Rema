@@ -11,6 +11,10 @@
 |
 */
 
+use Livewire\Livewire;
+use App\Livewire\CategoryForm;
+
+
 pest()->extend(Tests\TestCase::class)
     ->use(Illuminate\Foundation\Testing\RefreshDatabase::class)
     ->in('Feature');
@@ -41,7 +45,7 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function something()
+function categoryForm()
 {
-    // ..
+    return Livewire::test(CategoryForm::class);
 }

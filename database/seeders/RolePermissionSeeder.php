@@ -3,10 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use App\Services\AvatarGenerator;
 use Illuminate\Database\Seeder;
+use App\Services\AvatarGenerator;
 use Spatie\Permission\Models\Role;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class RolePermissionSeeder extends Seeder
 {
