@@ -37,6 +37,8 @@ class RolePermissionSeeder extends Seeder
 
         $user->assignRole('contributor');
 
-        $user->author()->create();
+        $user->author()->create([
+            'nim' => 22040004
+        ]);
     }
 }

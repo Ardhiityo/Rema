@@ -60,6 +60,7 @@ class AuthorRepository implements AuthorRepositoryInterface
 
             return AuthorData::fromModel($author->refresh());
         } catch (Throwable $th) {
+            logger($th->getMessage(), ['Author Repository' => 'update']);
             throw $th;
         }
     }

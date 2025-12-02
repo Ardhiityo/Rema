@@ -11,6 +11,7 @@
 |
 */
 
+use App\Livewire\AuthorForm;
 use Livewire\Livewire;
 use App\Livewire\CategoryForm;
 use App\Livewire\StudyProgramForm;
@@ -53,4 +54,9 @@ function categoryForm()
 function studyProgramForm()
 {
     return Livewire::test(StudyProgramForm::class);
+}
+
+function authorForm()
+{
+    return Livewire::test(AuthorForm::class);
 }

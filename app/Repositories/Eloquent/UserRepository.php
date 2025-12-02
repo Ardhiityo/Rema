@@ -33,6 +33,7 @@ class UserRepository implements UserRepositoryInterface
 
             return UserData::fromModel($user);
         } catch (Throwable $th) {
+            logger($th->getMessage(), ['User Repository' => 'Create']);
             throw $th;
         }
     }
@@ -79,6 +80,7 @@ class UserRepository implements UserRepositoryInterface
 
             return UserData::fromModel($user->refresh());
         } catch (Throwable $th) {
+            logger($th->getMessage(), ['User Repository' => 'update']);
             throw $th;
         }
     }

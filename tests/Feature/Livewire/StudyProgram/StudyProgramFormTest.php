@@ -19,7 +19,6 @@ test('form title success', function () {
     expect($component->formTitle)->toBe('Create New Study Program');
 });
 
-
 test('create failed validation', function () {
     studyProgramForm()
         ->set('name', '')
@@ -108,7 +107,6 @@ test('update failed not found', function () {
         'slug' => Str::slug('Cyber Security')
     ]);
 });
-
 
 test('delete confirm success', function () {
     $this->seed(DatabaseSeeder::class);
