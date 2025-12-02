@@ -1,11 +1,9 @@
 <?php
 
-use App\Models\User;
 use App\Models\Author;
 use App\Models\StudyProgram;
 use Illuminate\Http\UploadedFile;
 use Database\Seeders\DatabaseSeeder;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);

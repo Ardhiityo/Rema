@@ -3,8 +3,8 @@
 use Livewire\Livewire;
 use App\Livewire\Category;
 
-test('render category success', function () {
+test('render success', function () {
     Livewire::test(Category::class)
         ->assertSeeText('Categories')
-        ->assertSeeText('All categories data listed.');
+        ->assertSeeText('All Categories Data Listed.');
 });

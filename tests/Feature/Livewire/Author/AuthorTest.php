@@ -1,7 +1,10 @@
 <?php
 
-test('example', function () {
-    $response = $this->get('/');
+use Livewire\Livewire;
+use App\Livewire\Author;
 
-    $response->assertStatus(200);
+test('render success', function () {
+    Livewire::test(Author::class)
+        ->assertSeeText('Authors')
+        ->assertSeeText('All Authors Data Listed.');
 });
