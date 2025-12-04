@@ -2,17 +2,18 @@
 
 namespace App\Livewire;
 
-use App\Data\Author\AuthorData;
 use Throwable;
 use Livewire\Component;
 use Illuminate\Support\Str;
+use App\Data\Author\AuthorData;
 use Livewire\Attributes\Computed;
 use Illuminate\Support\Facades\Auth;
 use App\Data\Metadata\UpdateMetaData;
+use Spatie\LaravelData\DataCollection;
+use Illuminate\Support\Facades\Session;
 use App\Data\Metadata\CreateMetadataData;
 use App\Repositories\Contratcs\AuthorRepositoryInterface;
 use App\Repositories\Contratcs\MetaDataRepositoryInterface;
-use Spatie\LaravelData\DataCollection;
 
 class MetaDataForm extends Component
 {
@@ -74,7 +75,7 @@ class MetaDataForm extends Component
 
     public function createNewForm()
     {
-        session()->forget('meta_data');
+        Session::forget('meta_data');
 
         $this->is_update = false;
 
@@ -87,8 +88,8 @@ class MetaDataForm extends Component
     public function metaDataSession()
     {
         try {
-            if (session()->has('meta_data')) {
-                $meta_data_session = session()->get('meta_data');
+            if (Session::has('meta_data')) {
+                $meta_data_session = Session::get('meta_data');
                 if ($this->metaDataRepository->findById($meta_data_session->id)) {
                     return $meta_data_session;
                 }
@@ -140,6 +141,7 @@ class MetaDataForm extends Component
     public function updatedAuthorId($value)
     {
         $author_data = $this->authorRepository->findById($value, ['user']);
+
         $this->keyword = $author_data->nim . ' - ' . $author_data->name;
     }
 
@@ -213,7 +215,6 @@ class MetaDataForm extends Component
         $validated = $this->validate();
 
         try {
-
             $update_meta_data_data = UpdateMetaData::from($validated);
 
             $meta_data_data = $this->metaDataRepository->update(
@@ -222,7 +223,7 @@ class MetaDataForm extends Component
             );
 
             if (!$this->is_update) {
-                session()->put('meta_data', $meta_data_data);
+                Session::put('meta_data', $meta_data_data);
             }
 
             session()->flash('meta-data-success', 'The meta data was successfully updated.');

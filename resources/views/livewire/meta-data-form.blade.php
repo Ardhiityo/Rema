@@ -40,7 +40,7 @@
                         <label for="year" class="form-label">Year of Graduation <sup>*</sup> </label>
                         <input type="number" required class="form-control" id="year" wire:model='year'
                             placeholder="ex: 2025" {{ $this->islockForm ? 'disabled' : '' }}>
-                        @error('slug')
+                        @error('year')
                             <span class="badge bg-danger text-wrap">
                                 <small>{{ $message }}</small>
                             </span>

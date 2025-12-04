@@ -3,6 +3,7 @@
 namespace App\Repositories\Eloquent;
 
 use App\Data\Activity\CreateActivityData;
+use Exception;
 use Throwable;
 use App\Models\MetaDataCategory;
 use Illuminate\Support\Facades\Auth;
@@ -160,7 +161,7 @@ class MetaDataCategoryRepository implements MetaDataCategoryRepositoryInterface
 
             return MetadataCategoryData::fromModel($meta_data_category);
         } catch (Throwable $th) {
-            throw $th;
+            throw new Exception('Sorry, repository not found.');
         }
     }
 

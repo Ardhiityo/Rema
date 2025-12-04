@@ -41,7 +41,7 @@ class PdfWatermarkService
                     ->save($tempOutput);
             } catch (\Exception $inner) {
                 // Tangkap error dari FPDI
-                logger($inner->getMessage());
+                logger($inner->getMessage(), ['Pdf Watermark Service' => 'Apply']);
                 if (str_contains($inner->getMessage(), 'compression technique')) {
                     throw new \Exception(
                         "File PDF ini menggunakan kompresi yang tidak didukung FPDI. " .

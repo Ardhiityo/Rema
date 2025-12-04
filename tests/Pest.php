@@ -14,6 +14,9 @@
 use App\Livewire\AuthorForm;
 use Livewire\Livewire;
 use App\Livewire\CategoryForm;
+use App\Livewire\MetaDataForm;
+use App\Livewire\RepositoryForm;
+use App\Livewire\RepositoryList;
 use App\Livewire\StudyProgramForm;
 
 pest()->extend(Tests\TestCase::class)
@@ -59,4 +62,19 @@ function studyProgramForm()
 function authorForm()
 {
     return Livewire::test(AuthorForm::class);
+}
+
+function repositoryList()
+{
+    return Livewire::test(RepositoryList::class);
+}
+
+function repositoryForm(array $param = [])
+{
+    return Livewire::test(RepositoryForm::class, $param);
+}
+
+function metaDataForm(array $param = [])
+{
+    return Livewire::test(MetaDataForm::class, $param);
 }

@@ -75,16 +75,13 @@ class MetaDataRepository implements MetaDataRepositoryInterface
 
     public function findBySlug(string $meta_data_slug, array|null $relations = null): MetadataData|Throwable
     {
-        $meta_data = MetaData::firstWhere('slug', $meta_data_slug);
+        $meta_data = MetaData::where('slug', $meta_data_slug)->firstOrFail();
 
-        if ($meta_data) {
-            if ($relations) {
-                $meta_data->load($relations);
-            }
-            return MetadataData::fromModel($meta_data);
+        if ($relations) {
+            $meta_data->load($relations);
         }
 
-        throw new Exception('Meta data slug not found');
+        return MetadataData::fromModel($meta_data);
     }
 
     public function findByFilters(string $keyword, string $status, string $year, string $visibility, bool $is_master_data = false): LengthAwarePaginator
@@ -170,6 +167,7 @@ class MetaDataRepository implements MetaDataRepositoryInterface
 
             return $meta_data->delete();
         } catch (Throwable $th) {
+            logger($th->getMessage(), ['Meta Data Repository' => 'delete']);
             throw $th;
         }
     }

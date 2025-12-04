@@ -15,7 +15,7 @@ class RepositoryDetail extends Component
     public function mount(MetaData $meta_data)
     {
         $meta_data->load(
-            'author',
+            'author.user',
             'author.studyProgram',
             'categories'
         );

@@ -15,7 +15,8 @@
                         <span>{{ $meta_data->author->user->name }}</span>
                     </h4>
                     <p>
-                        <small>{{ $meta_data->author->nim }} | {{ $meta_data->author->studyProgram->name }}</small>
+                        <small>{{ $meta_data->author->nim }} |
+                            {{ $meta_data->author->studyProgram?->name ?? '-' }}</small>
                     </p>
                 </div>
                 <h5 class="card-text">

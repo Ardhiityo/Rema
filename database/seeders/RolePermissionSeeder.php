@@ -38,7 +38,8 @@ class RolePermissionSeeder extends Seeder
         $user->assignRole('contributor');
 
         $user->author()->create([
-            'nim' => 22040004
+            'nim' => 22040004,
+            // 'study_program_id' => StudyProgram::first()->id
         ]);
     }
 }
