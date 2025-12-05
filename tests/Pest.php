@@ -14,6 +14,7 @@
 use App\Livewire\AuthorForm;
 use Livewire\Livewire;
 use App\Livewire\CategoryForm;
+use App\Livewire\MetaDataCategoryForm;
 use App\Livewire\MetaDataForm;
 use App\Livewire\RepositoryForm;
 use App\Livewire\RepositoryList;
@@ -77,4 +78,9 @@ function repositoryForm(array $param = [])
 function metaDataForm(array $param = [])
 {
     return Livewire::test(MetaDataForm::class, $param);
+}
+
+function metaDataCategoryForm(array $param = [])
+{
+    return Livewire::test(MetaDataCategoryForm::class, $param);
 }

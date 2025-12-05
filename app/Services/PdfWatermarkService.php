@@ -2,10 +2,8 @@
 
 namespace App\Services;
 
-use setasign\Fpdi\Fpdi;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\File;
-use setasign\Fpdi\PdfReader\PdfReaderException;
+use Illuminate\Support\Facades\Storage;
 use Gutti3k\PdfWatermarker\Watermarkers\ImageWatermarker;
 
 
@@ -57,11 +55,13 @@ class PdfWatermarkService
 
             // Pindahkan file hasil
             $relativePath = 'repositories/' . $filename;
-            $publicPath = storage_path('app/public/' . $relativePath);
-            File::ensureDirectoryExists(dirname($publicPath));
-            File::move($tempOutput, $publicPath);
 
-            // Hapus file temp setelah dipindahkan
+            $publicPath = storage_path('app/public/' . $relativePath);
+
+            File::ensureDirectoryExists(dirname($publicPath));
+
+            Storage::disk('public')->put($relativePath, File::get($tempOutput));
+
             File::delete($tempOutput);
 
             return $relativePath;

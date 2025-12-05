@@ -18,5 +18,9 @@ class CategorySeeder extends Seeder
             'name' => 'Skripsi',
             'slug' => Str::slug('Skripsi')
         ]);
+        Category::create([
+            'name' => 'Journal',
+            'slug' => Str::slug('Journal')
+        ]);
     }
 }

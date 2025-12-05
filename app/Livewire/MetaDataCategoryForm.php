@@ -7,6 +7,7 @@ use Livewire\Component;
 use Livewire\Attributes\On;
 use Livewire\WithFileUploads;
 use Livewire\Attributes\Computed;
+use Illuminate\Support\Facades\Session;
 use App\Rules\MetaDataCategoryCreateRule;
 use App\Rules\MetaDataCategoryUpdateRule;
 use App\Data\MetadataCategory\CreateMetadataCategoryData;
@@ -25,10 +26,8 @@ class MetaDataCategoryForm extends Component
     public $file_path = null;
     // End Form
 
-    public string|null $file_path_update = null;
     public int|null $category_id_update = null;
     public int|null $category_id_delete = null;
-    public int|string $repository_id = '';
     public bool $is_update = false;
 
     public function mount($meta_data_id = null)
@@ -104,8 +103,10 @@ class MetaDataCategoryForm extends Component
     #[Computed()]
     public function metaDataSession()
     {
-        if (session()->has('meta_data')) {
-            $meta_data_session = session()->get('meta_data');
+        if (Session::has('meta_data')) {
+
+            $meta_data_session = Session::get('meta_data');
+
             if ($this->metaDataRepository->findById($meta_data_session->id)) {
                 return $meta_data_session;
             }
@@ -198,10 +199,8 @@ class MetaDataCategoryForm extends Component
 
             $meta_data_data = $this->metaDataRepository->findById($this->meta_data_id, ['categories']);
 
-            if ($meta_data_data) {
-                if ($meta_data_data->categories->toCollection()->isEmpty()) {
-                    $this->resetInput();
-                }
+            if ($meta_data_data->categories->toCollection()->isEmpty()) {
+                $this->resetInput();
             }
 
             $this->dispatch('refresh-repository-table');
