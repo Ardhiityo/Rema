@@ -1,7 +1,10 @@
 <?php
 
-test('example', function () {
-    $response = $this->get('/');
+use Livewire\Livewire;
+use App\Livewire\Report;
 
-    $response->assertStatus(200);
+test('example', function () {
+    Livewire::test(Report::class)
+        ->assertSeeText('Reports')
+        ->assertSeeText('Generate All Reports.');
 });

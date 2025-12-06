@@ -22,7 +22,7 @@ use App\Livewire\RepositoryList;
 use App\Livewire\StudyProgramForm;
 use App\Livewire\MetaDataCategoryForm;
 use App\Livewire\MetaDataCategoryTable;
-
+use App\Livewire\Profile;
 
 pest()->extend(Tests\TestCase::class)
     ->use(Illuminate\Foundation\Testing\RefreshDatabase::class)
@@ -102,4 +102,9 @@ function activity()
 function coordinatorForm()
 {
     return Livewire::test(CoordinatorForm::class);
+}
+
+function profile()
+{
+    return Livewire::test(Profile::class);
 }
