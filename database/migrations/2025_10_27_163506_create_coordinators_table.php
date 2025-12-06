@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('position');
             $table->unsignedBigInteger('study_program_id')->unique();
-            $table->foreign('study_program_id')->references('id')->on('study_programs');
+            $table->foreign('study_program_id')->references('id')->on('study_programs')->cascadeOnDelete();
             $table->timestamps();
         });
     }

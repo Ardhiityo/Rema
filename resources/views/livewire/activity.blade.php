@@ -1,5 +1,5 @@
 <div>
-    <x-page-title :title="'Activity Lists'" :content="'All Activities data listed.'" />
+    <x-page-title :title="'Activity Lists'" :content="'All Activities Data Listed.'" />
     @if (session()->has('activity-success'))
         <div class="alert-success alert">
             {{ session('activity-success') }}

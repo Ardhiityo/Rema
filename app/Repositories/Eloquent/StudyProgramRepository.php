@@ -93,6 +93,7 @@ class StudyProgramRepository implements StudyProgramRepositoryInterface
 
             return $study_program->delete();
         } catch (Throwable $th) {
+            logger($th->getMessage(), ['Study Program Repository' => 'delete']);
             throw $th;
         }
     }

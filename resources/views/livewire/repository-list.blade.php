@@ -1,5 +1,5 @@
 <div>
-    <x-page-title :title="'Repository Lists'" :content="'All Repositories data listed.'" />
+    <x-page-title :title="'Repository Lists'" :content="'All Repositories Data Listed.'" />
     @if (session()->has('repository-list-success'))
         <div class="alert-success alert">
             {{ session('repository-list-success') }}

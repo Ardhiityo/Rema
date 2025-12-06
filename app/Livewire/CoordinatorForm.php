@@ -150,6 +150,7 @@ class CoordinatorForm extends Component
         $this->name = '';
         $this->position = '';
         $this->nidn = '';
+        $this->study_program_id = '';
 
         if ($this->is_update) {
             $this->is_update = false;

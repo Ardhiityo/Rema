@@ -15,6 +15,7 @@ use Livewire\Livewire;
 use App\Livewire\Activity;
 use App\Livewire\AuthorForm;
 use App\Livewire\CategoryForm;
+use App\Livewire\CoordinatorForm;
 use App\Livewire\MetaDataForm;
 use App\Livewire\RepositoryForm;
 use App\Livewire\RepositoryList;
@@ -96,4 +97,9 @@ function metaDataCategoryTable(array $param = [])
 function activity()
 {
     return Livewire::test(Activity::class);
+}
+
+function coordinatorForm()
+{
+    return Livewire::test(CoordinatorForm::class);
 }

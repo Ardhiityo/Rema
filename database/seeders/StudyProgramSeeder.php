@@ -18,5 +18,9 @@ class StudyProgramSeeder extends Seeder
             'name' => 'Teknik Informatika',
             'slug' => Str::slug('Teknik Informatika')
         ]);
+        StudyProgram::create([
+            'name' => 'Manajemen Informatika',
+            'slug' => Str::slug('Manajemen Informatika')
+        ]);
     }
 }

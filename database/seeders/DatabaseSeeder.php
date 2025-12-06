@@ -24,7 +24,8 @@ class DatabaseSeeder extends Seeder
             RolePermissionSeeder::class,
             CategorySeeder::class,
             MetaDataSeeder::class,
-            ActivitySeeder::class
+            ActivitySeeder::class,
+            CoordinatorSeeder::class
         ]);
     }
 }

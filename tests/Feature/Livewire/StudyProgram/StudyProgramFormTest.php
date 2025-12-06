@@ -46,7 +46,7 @@ test('create failed validation already exists', function () {
             'slug' => 'unique'
         ]);
 
-    $this->assertDatabaseCount('study_programs', 1);
+    $this->assertDatabaseCount('study_programs', 2);
 
     $this->assertDatabaseHas('study_programs', [
         'name' => 'Teknik Informatika',
@@ -84,7 +84,7 @@ test('update success', function () {
         ->call('update')
         ->assertDispatched('refresh-study-programs');
 
-    $this->assertDatabaseCount('study_programs', 1);
+    $this->assertDatabaseCount('study_programs', 2);
 
     $this->assertDatabaseHas('study_programs', [
         'name' => 'Cyber Security',
@@ -136,7 +136,7 @@ test('delete success', function () {
         ->assertSet('is_update', false)
         ->assertDispatched('refresh-study-programs');
 
-    $this->assertDatabaseCount('study_programs', 0);
+    $this->assertDatabaseCount('study_programs', 1);
 });
 
 test('delete failed not found', function () {
