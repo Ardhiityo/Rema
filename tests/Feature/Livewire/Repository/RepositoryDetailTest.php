@@ -1,14 +1,17 @@
 <?php
 
 use Livewire\Livewire;
-use App\Livewire\RepositoryDetail;
 use App\Models\MetaData;
+use App\Livewire\RepositoryDetail;
 use Database\Seeders\DatabaseSeeder;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 
 test('render success', function () {
+    Storage::fake('public');
+
     $this->seed(DatabaseSeeder::class);
 
     $meta_data = MetaData::first();

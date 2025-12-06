@@ -4,6 +4,7 @@ use App\Models\Author;
 use App\Models\StudyProgram;
 use Illuminate\Http\UploadedFile;
 use Database\Seeders\DatabaseSeeder;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
@@ -21,7 +22,6 @@ test('form title success', function () {
 });
 
 test('updated avatar success', function () {
-
     $image = UploadedFile::fake()->image('photo.jpg');
 
     authorForm()
@@ -30,6 +30,8 @@ test('updated avatar success', function () {
 });
 
 test('create success', function () {
+    Storage::fake('public');
+
     $this->seed(DatabaseSeeder::class);
 
     $study_program = StudyProgram::first();
@@ -64,6 +66,8 @@ test('create success', function () {
 });
 
 test('create failed validation', function () {
+    Storage::fake('public');
+
     $this->seed(DatabaseSeeder::class);
 
     $study_program = StudyProgram::first();
@@ -96,6 +100,8 @@ test('create failed validation', function () {
 });
 
 test('create failed validation already exists', function () {
+    Storage::fake('public');
+
     $this->seed(DatabaseSeeder::class);
 
     $study_program = StudyProgram::first();
@@ -132,6 +138,8 @@ test('create failed validation already exists', function () {
 });
 
 test('edit success', function () {
+    Storage::fake('public');
+
     $this->seed(DatabaseSeeder::class);
 
     $author = Author::first();
@@ -151,6 +159,8 @@ test('edit failed failed not found', function () {
 });
 
 test('update success', function () {
+    Storage::fake('public');
+
     $this->seed(DatabaseSeeder::class);
 
     $author = Author::first();
@@ -187,6 +197,8 @@ test('update success', function () {
 });
 
 test('update avatar success', function () {
+    Storage::fake('public');
+
     $this->seed(DatabaseSeeder::class);
 
     $author = Author::first();
@@ -230,6 +242,8 @@ test('update avatar success', function () {
 });
 
 test('update failed validation', function () {
+    Storage::fake('public');
+
     $this->seed(DatabaseSeeder::class);
 
     $author = Author::first();
@@ -266,6 +280,8 @@ test('update failed validation', function () {
 });
 
 test('delete confirm success', function () {
+    Storage::fake('public');
+
     $this->seed(DatabaseSeeder::class);
 
     $author = Author::first();
@@ -284,6 +300,8 @@ test('delete confirm failed not found', function () {
 });
 
 test('delete success', function () {
+    Storage::fake('public');
+
     $this->seed(DatabaseSeeder::class);
 
     $author = Author::first();

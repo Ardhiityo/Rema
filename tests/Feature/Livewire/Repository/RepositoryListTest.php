@@ -5,11 +5,14 @@ use App\Models\MetaData;
 use Illuminate\Support\Str;
 use function Pest\Laravel\actingAs;
 use Database\Seeders\DatabaseSeeder;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 
 test('delete confirm success', function () {
+    Storage::fake('public');
+
     $this->seed(DatabaseSeeder::class);
 
     $meta_data = MetaData::first();
@@ -25,6 +28,8 @@ test('delete confirm success', function () {
 });
 
 test('delete confirm failed not found', function () {
+    Storage::fake('public');
+
     $this->seed(DatabaseSeeder::class);
 
     $meta_data = MetaData::first();
@@ -40,6 +45,8 @@ test('delete confirm failed not found', function () {
 });
 
 test('delete success', function () {
+    Storage::fake('public');
+
     $this->seed(DatabaseSeeder::class);
 
     $meta_data = MetaData::first();
@@ -61,6 +68,8 @@ test('delete success', function () {
 });
 
 test('delete failed not found', function () {
+    Storage::fake('public');
+
     $this->seed(DatabaseSeeder::class);
 
     $meta_data = MetaData::first();
@@ -82,6 +91,8 @@ test('delete failed not found', function () {
 });
 
 test('reset input success', function () {
+    Storage::fake('public');
+
     $this->seed(DatabaseSeeder::class);
 
     $user = User::where('email', 'contributor@gmail.com')->first();
@@ -101,6 +112,8 @@ test('reset input success', function () {
 });
 
 test('render success', function () {
+    Storage::fake('public');
+
     $this->seed(DatabaseSeeder::class);
 
     $user = User::where('email', 'contributor@gmail.com')->first();

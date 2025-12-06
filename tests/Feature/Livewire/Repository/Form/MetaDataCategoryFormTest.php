@@ -98,7 +98,6 @@ test('create repository success', function () {
 });
 
 test('create repository failed validation', function () {
-    $this->markTestIncomplete();
     Storage::fake('public');
 
     $this->seed(DatabaseSeeder::class);
@@ -107,8 +106,6 @@ test('create repository failed validation', function () {
     $category = Category::where('slug', 'journal')->first();
 
     expect('journal')->toBe($category->slug);
-
-    expect(1)->toBe($meta_data->id);
 
     $meta_data = MetaData::first();
 

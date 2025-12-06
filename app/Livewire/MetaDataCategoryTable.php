@@ -6,6 +6,7 @@ use Livewire\Component;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Computed;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use App\Repositories\Contratcs\MetaDataRepositoryInterface;
 
 class MetaDataCategoryTable extends Component
@@ -40,18 +41,20 @@ class MetaDataCategoryTable extends Component
     #[On('refresh-repository-table')]
     public function repositories()
     {
-        $relations = ['categories'];
-
         if ($meta_data_id = $this->metaDataSession ? $this->metaDataSession->id : $this->meta_data_id) {
-            return $this->metaDataRepository->findById($meta_data_id, $relations);
+            return $this->metaDataRepository->findById(
+                meta_data_id: $meta_data_id,
+                relations: ['categories']
+            );
         }
     }
 
     #[Computed()]
     public function metaDataSession()
     {
-        if (session()->has('meta_data')) {
-            $meta_data_session = session()->get('meta_data');
+        if (Session::has('meta_data')) {
+            $meta_data_session = Session::get('meta_data');
+
             if ($this->metaDataRepository->findById($meta_data_session->id)) {
                 return $meta_data_session;
             }

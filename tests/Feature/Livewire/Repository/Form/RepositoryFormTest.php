@@ -1,15 +1,17 @@
 <?php
 
-use App\Models\MetaData;
 use App\Models\User;
-use Database\Seeders\DatabaseSeeder;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-
+use App\Models\MetaData;
 use function Pest\Laravel\actingAs;
+use Database\Seeders\DatabaseSeeder;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 
 test('mount edit success', function () {
+    Storage::fake('public');
+
     $this->seed(DatabaseSeeder::class);
 
     $user = User::whereEmail('contributor@gmail.com')->first();
@@ -28,6 +30,8 @@ test('mount edit success', function () {
 });
 
 test('mount edit failed not found', function () {
+    Storage::fake('public');
+
     $this->seed(DatabaseSeeder::class);
 
     $user = User::whereEmail('contributor@gmail.com')->first();
@@ -44,6 +48,8 @@ test('mount edit failed not found', function () {
 });
 
 test('mount create success', function () {
+    Storage::fake('public');
+
     $this->seed(DatabaseSeeder::class);
 
     $user = User::whereEmail('contributor@gmail.com')->first();
@@ -62,6 +68,8 @@ test('mount create success', function () {
 });
 
 test('mount create failed not found', function () {
+    Storage::fake('public');
+
     $this->seed(DatabaseSeeder::class);
 
     $user = User::whereEmail('contributor@gmail.com')->first();

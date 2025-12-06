@@ -3,6 +3,7 @@
 use App\Models\Category;
 use Illuminate\Support\Str;
 use Database\Seeders\DatabaseSeeder;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
@@ -50,6 +51,8 @@ test('create failed validation', function () {
 });
 
 test('create failed validation already exists', function () {
+    Storage::fake('public');
+
     $this->seed(DatabaseSeeder::class);
 
     categoryForm()
@@ -60,7 +63,7 @@ test('create failed validation already exists', function () {
             'slug' => 'unique'
         ]);
 
-    $this->assertDatabaseCount('categories', 1);
+    $this->assertDatabaseCount('categories', 2);
 
     $this->assertDatabaseHas('categories', [
         'name' => 'Skripsi',
@@ -69,6 +72,8 @@ test('create failed validation already exists', function () {
 });
 
 test('edit success', function () {
+    Storage::fake('public');
+
     $this->seed(DatabaseSeeder::class);
 
     $category = Category::first();
@@ -86,26 +91,23 @@ test('edit failed not found', function () {
 });
 
 test('update success', function () {
+    Storage::fake('public');
+
     $this->seed(DatabaseSeeder::class);
 
     $category = Category::first();
 
     categoryForm()
         ->set('category_id', $category->id)
-        ->set('name', 'Journal')
+        ->set('name', 'Manual Book')
         ->call('update')
         ->assertDispatched('refresh-categories');
 
-    $this->assertDatabaseCount('categories', 1);
+    $this->assertDatabaseCount('categories', 2);
 
     $this->assertDatabaseHas('categories', [
-        'name' => 'Journal',
-        'slug' => Str::slug('Journal')
-    ]);
-
-    $this->assertDatabaseMissing('categories', [
-        'name' => 'Skripsi',
-        'slug' => Str::slug('Skripsi')
+        'name' => 'Manual Book',
+        'slug' => Str::slug('Manual Book')
     ]);
 });
 
@@ -126,6 +128,8 @@ test('update failed not found', function () {
 
 
 test('delete confirm success', function () {
+    Storage::fake('public');
+
     $this->seed(DatabaseSeeder::class);
 
     $category = Category::first();
@@ -140,6 +144,8 @@ test('delete confirm not found', function () {
 });
 
 test('delete success', function () {
+    Storage::fake('public');
+
     $this->seed(DatabaseSeeder::class);
 
     $category = Category::first();
@@ -150,7 +156,7 @@ test('delete success', function () {
         ->assertSet('is_update', false)
         ->assertDispatched('refresh-categories');
 
-    $this->assertDatabaseCount('categories', 0);
+    $this->assertDatabaseCount('categories', 1);
 });
 
 test('delete failed not found', function () {

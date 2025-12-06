@@ -3,6 +3,7 @@
 use Livewire\Livewire;
 use App\Livewire\StudyProgramList;
 use Database\Seeders\DatabaseSeeder;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 test('reset input success', function () {
@@ -14,6 +15,8 @@ test('reset input success', function () {
 });
 
 test('filter category by keyword success', function () {
+    Storage::fake('public');
+
     $this->seed(DatabaseSeeder::class);
 
     $component = Livewire::test(StudyProgramList::class)

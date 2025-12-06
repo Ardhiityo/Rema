@@ -1,10 +1,13 @@
 <?php
 
+use Livewire\Livewire;
 use App\Livewire\AuthorList;
 use Database\Seeders\DatabaseSeeder;
-use Livewire\Livewire;
+use Illuminate\Support\Facades\Storage;
 
 test('get authors property success', function () {
+    Storage::fake('public');
+
     $this->seed(DatabaseSeeder::class);
 
     $component = Livewire::test(AuthorList::class)

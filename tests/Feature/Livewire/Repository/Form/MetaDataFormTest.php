@@ -8,12 +8,15 @@ use App\Data\Author\AuthorData;
 use function Pest\Laravel\actingAs;
 use Database\Seeders\DatabaseSeeder;
 use Spatie\LaravelData\DataCollection;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 uses(RefreshDatabase::class);
 
 test('mount edit success', function () {
+    Storage::fake('public');
+
     $this->seed(DatabaseSeeder::class);
 
     $user = User::whereEmail('contributor@gmail.com')->first();
@@ -36,6 +39,8 @@ test('mount edit success', function () {
 });
 
 test('mount edit failed not found', function () {
+    Storage::fake('public');
+
     $this->seed(DatabaseSeeder::class);
 
     $user = User::whereEmail('contributor@gmail.com')->first();
@@ -59,6 +64,8 @@ test('mount edit failed not found', function () {
 });
 
 test('mount create success', function () {
+    Storage::fake('public');
+
     $this->seed(DatabaseSeeder::class);
 
     $user = User::whereEmail('contributor@gmail.com')->first();
@@ -80,6 +87,8 @@ test('mount create success', function () {
 });
 
 test('create new form success', function () {
+    Storage::fake('public');
+
     $this->seed(DatabaseSeeder::class);
 
     $user = User::whereEmail('contributor@gmail.com')->first();
@@ -96,6 +105,8 @@ test('create new form success', function () {
 });
 
 test('is lock form success', function () {
+    Storage::fake('public');
+
     $this->seed(DatabaseSeeder::class);
 
     $user = User::whereEmail('contributor@gmail.com')->first();
@@ -109,6 +120,8 @@ test('is lock form success', function () {
 });
 
 test('meta data title true success', function () {
+    Storage::fake('public');
+
     $this->seed(DatabaseSeeder::class);
 
     $user = User::whereEmail('contributor@gmail.com')->first();
@@ -121,6 +134,8 @@ test('meta data title true success', function () {
 });
 
 test('meta data title false success', function () {
+    Storage::fake('public');
+
     $this->seed(DatabaseSeeder::class);
 
     $user = User::whereEmail('contributor@gmail.com')->first();
@@ -133,6 +148,8 @@ test('meta data title false success', function () {
 });
 
 test('updated author id success', function () {
+    Storage::fake('public');
+
     $this->seed(DatabaseSeeder::class);
 
     $user = User::whereEmail('contributor@gmail.com')->first();
@@ -146,6 +163,8 @@ test('updated author id success', function () {
 });
 
 test('get authors without keyword', function () {
+    Storage::fake('public');
+
     $this->seed(DatabaseSeeder::class);
 
     $user = User::whereEmail('admin@gmail.com')->first();
@@ -159,6 +178,8 @@ test('get authors without keyword', function () {
 });
 
 test('get authors with keyword', function () {
+    Storage::fake('public');
+
     $this->seed(DatabaseSeeder::class);
 
     $user = User::whereEmail('admin@gmail.com')->first();
@@ -174,6 +195,8 @@ test('get authors with keyword', function () {
 });
 
 test('create meta data admin success', function () {
+    Storage::fake('public');
+
     $this->seed(DatabaseSeeder::class);
 
     $user = User::whereEmail('admin@gmail.com')->first();
@@ -205,6 +228,8 @@ test('create meta data admin success', function () {
 });
 
 test('create meta data admin failed validation', function () {
+    Storage::fake('public');
+
     $this->seed(DatabaseSeeder::class);
 
     $user = User::whereEmail('admin@gmail.com')->first();
@@ -238,6 +263,8 @@ test('create meta data admin failed validation', function () {
 });
 
 test('create meta data contributor success', function () {
+    Storage::fake('public');
+
     $this->seed(DatabaseSeeder::class);
 
     $user = User::whereEmail('contributor@gmail.com')->first();
@@ -264,6 +291,8 @@ test('create meta data contributor success', function () {
 });
 
 test('create meta data contributor failed validation', function () {
+    Storage::fake('public');
+
     $this->seed(DatabaseSeeder::class);
 
     $user = User::whereEmail('contributor@gmail.com')->first();
@@ -292,6 +321,8 @@ test('create meta data contributor failed validation', function () {
 });
 
 test('update meta data admin success', function () {
+    Storage::fake('public');
+
     $this->seed(DatabaseSeeder::class);
 
     $user = User::whereEmail('admin@gmail.com')->first();
@@ -325,6 +356,8 @@ test('update meta data admin success', function () {
 });
 
 test('update meta data admin failed validation', function () {
+    Storage::fake('public');
+
     $this->seed(DatabaseSeeder::class);
 
     $user = User::whereEmail('admin@gmail.com')->first();
@@ -360,6 +393,8 @@ test('update meta data admin failed validation', function () {
 });
 
 test('update meta data contributor success', function () {
+    Storage::fake('public');
+
     $this->seed(DatabaseSeeder::class);
 
     $user = User::whereEmail('contributor@gmail.com')->first();
@@ -388,6 +423,8 @@ test('update meta data contributor success', function () {
 });
 
 test('update meta data contributor failed validation', function () {
+    Storage::fake('public');
+
     $this->seed(DatabaseSeeder::class);
 
     $user = User::whereEmail('contributor@gmail.com')->first();
@@ -418,6 +455,8 @@ test('update meta data contributor failed validation', function () {
 });
 
 test('reset input success', function () {
+    Storage::fake('public');
+
     $this->seed(DatabaseSeeder::class);
 
     $user = User::whereEmail('admin@gmail.com')->first();

@@ -3,6 +3,7 @@
 use Illuminate\Support\Str;
 use App\Models\StudyProgram;
 use Database\Seeders\DatabaseSeeder;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
@@ -33,6 +34,8 @@ test('create failed validation', function () {
 });
 
 test('create failed validation already exists', function () {
+    Storage::fake('public');
+
     $this->seed(DatabaseSeeder::class);
 
     studyProgramForm()
@@ -52,6 +55,8 @@ test('create failed validation already exists', function () {
 });
 
 test('edit success', function () {
+    Storage::fake('public');
+
     $this->seed(DatabaseSeeder::class);
 
     $study_program = StudyProgram::first();
@@ -69,27 +74,21 @@ test('edit failed not found', function () {
 });
 
 test('update success', function () {
-    $this->markTestIncomplete('');
     $this->seed(DatabaseSeeder::class);
 
     $study_program = StudyProgram::first();
 
     studyProgramForm()
         ->set('study_program_id', $study_program->id)
-        ->set('name', 'Teknik Informatika')
+        ->set('name', 'Cyber Security')
         ->call('update')
         ->assertDispatched('refresh-study-programs');
 
     $this->assertDatabaseCount('study_programs', 1);
 
     $this->assertDatabaseHas('study_programs', [
-        'name' => 'Teknik Informatika',
-        'slug' => Str::slug('Teknik Informatika')
-    ]);
-
-    $this->assertDatabaseMissing('study_programs', [
-        'name' => 'Teknik Informatika',
-        'slug' => Str::slug('Teknik Informatika')
+        'name' => 'Cyber Security',
+        'slug' => Str::slug('Cyber Security')
     ]);
 });
 
@@ -109,6 +108,8 @@ test('update failed not found', function () {
 });
 
 test('delete confirm success', function () {
+    Storage::fake('public');
+
     $this->seed(DatabaseSeeder::class);
 
     $study_program = StudyProgram::first();
@@ -123,6 +124,8 @@ test('delete confirm not found', function () {
 });
 
 test('delete success', function () {
+    Storage::fake('public');
+
     $this->seed(DatabaseSeeder::class);
 
     $study_program = StudyProgram::first();
