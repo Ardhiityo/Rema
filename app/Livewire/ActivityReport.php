@@ -5,9 +5,7 @@ namespace App\Livewire;
 use Throwable;
 use Livewire\Component;
 use App\Exports\ActivityExport;
-use Livewire\Attributes\Computed;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Repositories\Contratcs\CoordinatorRepositoryInterface;
 
 class ActivityReport extends Component
 {
@@ -32,15 +30,9 @@ class ActivityReport extends Component
         $this->resetErrorBag();
     }
 
-    #[Computed()]
-    public function coordinatorRepository()
-    {
-        return app(CoordinatorRepositoryInterface::class);
-    }
-
     public function download()
     {
-        $validated = $this->validate();
+        $this->validate();
 
         try {
             $year = $this->year;
@@ -59,8 +51,6 @@ class ActivityReport extends Component
 
     public function render()
     {
-        $coordinators = $this->coordinatorRepository->all();
-
-        return view('livewire.activity-report', compact('coordinators'));
+        return view('livewire.activity-report');
     }
 }
