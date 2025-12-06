@@ -11,15 +11,17 @@
 |
 */
 
-use App\Livewire\AuthorForm;
 use Livewire\Livewire;
+use App\Livewire\Activity;
+use App\Livewire\AuthorForm;
 use App\Livewire\CategoryForm;
-use App\Livewire\MetaDataCategoryForm;
-use App\Livewire\MetaDataCategoryTable;
 use App\Livewire\MetaDataForm;
 use App\Livewire\RepositoryForm;
 use App\Livewire\RepositoryList;
 use App\Livewire\StudyProgramForm;
+use App\Livewire\MetaDataCategoryForm;
+use App\Livewire\MetaDataCategoryTable;
+
 
 pest()->extend(Tests\TestCase::class)
     ->use(Illuminate\Foundation\Testing\RefreshDatabase::class)
@@ -89,4 +91,9 @@ function metaDataCategoryForm(array $param = [])
 function metaDataCategoryTable(array $param = [])
 {
     return Livewire::test(MetaDataCategoryTable::class, $param);
+}
+
+function activity()
+{
+    return Livewire::test(Activity::class);
 }
