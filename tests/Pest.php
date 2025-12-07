@@ -22,6 +22,7 @@ use App\Livewire\RepositoryList;
 use App\Livewire\StudyProgramForm;
 use App\Livewire\MetaDataCategoryForm;
 use App\Livewire\MetaDataCategoryTable;
+use App\Livewire\NoteForm;
 use App\Livewire\Profile;
 
 pest()->extend(Tests\TestCase::class)
@@ -107,4 +108,9 @@ function coordinatorForm()
 function profile()
 {
     return Livewire::test(Profile::class);
+}
+
+function noteForm(array $param = [])
+{
+    return Livewire::test(NoteForm::class, $param);
 }

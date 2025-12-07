@@ -25,7 +25,8 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             MetaDataSeeder::class,
             ActivitySeeder::class,
-            CoordinatorSeeder::class
+            CoordinatorSeeder::class,
+            NoteSeeder::class
         ]);
     }
 }

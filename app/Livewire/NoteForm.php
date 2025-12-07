@@ -15,7 +15,6 @@ class NoteForm extends Component
     public string $message = '';
     public int $note_id;
     public bool $is_update = false;
-
     public int $meta_data_id;
 
     public function mount($meta_data_id)
@@ -86,9 +85,9 @@ class NoteForm extends Component
 
     public function update()
     {
-        try {
-            $validated = $this->validate();
+        $validated = $this->validate();
 
+        try {
             $update_note_data = UpdateNoteData::from($validated);
 
             $this->noteRepository->update($update_note_data, $this->note_id);
