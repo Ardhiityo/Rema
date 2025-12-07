@@ -1,7 +1,7 @@
 <?php
 
 use Livewire\Livewire;
-use App\Livewire\Author;
+use App\Livewire\Author\Author;
 
 test('render success', function () {
     Livewire::test(Author::class)

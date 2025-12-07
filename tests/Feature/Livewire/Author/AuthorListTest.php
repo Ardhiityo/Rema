@@ -1,7 +1,7 @@
 <?php
 
 use Livewire\Livewire;
-use App\Livewire\AuthorList;
+use App\Livewire\Author\AuthorList;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Support\Facades\Storage;
 

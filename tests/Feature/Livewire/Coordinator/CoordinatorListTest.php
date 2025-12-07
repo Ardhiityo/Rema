@@ -1,11 +1,11 @@
 <?php
 
-use App\Livewire\CoordinatorList;
+use Livewire\Livewire;
 use App\Models\Coordinator;
 use Database\Seeders\DatabaseSeeder;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Storage;
-use Livewire\Livewire;
+use App\Livewire\Coordinator\CoordinatorList;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 

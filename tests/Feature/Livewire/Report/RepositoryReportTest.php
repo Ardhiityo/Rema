@@ -1,10 +1,10 @@
 <?php
 
 use Livewire\Livewire;
-use App\Livewire\RepositoryReport;
 use App\Models\Coordinator;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Support\Facades\Storage;
+use App\Livewire\Report\RepositoryReport;
 
 test('mount success', function () {
     Storage::fake('public');

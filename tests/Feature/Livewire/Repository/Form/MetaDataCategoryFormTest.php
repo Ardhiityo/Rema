@@ -10,7 +10,6 @@ use function Pest\Laravel\actingAs;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Support\Facades\Storage;
 use App\Rules\MetaDataCategoryCreateRule;
-use App\Rules\MetaDataCategoryUpdateRule;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);

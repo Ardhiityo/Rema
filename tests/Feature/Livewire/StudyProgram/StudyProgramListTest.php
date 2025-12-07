@@ -1,9 +1,9 @@
 <?php
 
 use Livewire\Livewire;
-use App\Livewire\StudyProgramList;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Support\Facades\Storage;
+use App\Livewire\StudyProgram\StudyProgramList;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 test('reset input success', function () {

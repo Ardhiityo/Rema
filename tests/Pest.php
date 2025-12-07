@@ -12,18 +12,18 @@
 */
 
 use Livewire\Livewire;
-use App\Livewire\Activity;
-use App\Livewire\AuthorForm;
-use App\Livewire\CategoryForm;
-use App\Livewire\CoordinatorForm;
-use App\Livewire\MetaDataForm;
-use App\Livewire\RepositoryForm;
-use App\Livewire\RepositoryList;
-use App\Livewire\StudyProgramForm;
-use App\Livewire\MetaDataCategoryForm;
-use App\Livewire\MetaDataCategoryTable;
-use App\Livewire\NoteForm;
 use App\Livewire\Profile;
+use App\Livewire\Note\NoteForm;
+use App\Livewire\Activity\Activity;
+use App\Livewire\Author\AuthorForm;
+use App\Livewire\Category\CategoryForm;
+use App\Livewire\Repository\RepositoryList;
+use App\Livewire\Coordinator\CoordinatorForm;
+use App\Livewire\Repository\Form\MetaDataForm;
+use App\Livewire\StudyProgram\StudyProgramForm;
+use App\Livewire\Repository\Form\RepositoryForm;
+use App\Livewire\Repository\MetaDataCategoryTable;
+use App\Livewire\Repository\Form\MetaDataCategoryForm;
 
 pest()->extend(Tests\TestCase::class)
     ->use(Illuminate\Foundation\Testing\RefreshDatabase::class)

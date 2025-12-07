@@ -2,9 +2,9 @@
 
 use Livewire\Livewire;
 use App\Models\MetaData;
-use App\Livewire\RepositoryDetail;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Support\Facades\Storage;
+use App\Livewire\Repository\RepositoryDetail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);

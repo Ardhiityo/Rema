@@ -1,13 +1,13 @@
 <?php
 
-use App\Livewire\ActivityDetail;
+use Livewire\Livewire;
 use App\Models\Activity;
 use App\Models\Category;
 use App\Models\MetaData;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Support\Facades\Storage;
+use App\Livewire\Activity\ActivityDetail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Livewire\Livewire;
 
 uses(RefreshDatabase::class);
 

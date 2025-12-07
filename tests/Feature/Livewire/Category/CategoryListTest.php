@@ -1,8 +1,8 @@
 <?php
 
 use Livewire\Livewire;
-use App\Livewire\CategoryList;
 use Database\Seeders\DatabaseSeeder;
+use App\Livewire\Category\CategoryList;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Pagination\LengthAwarePaginator;
 

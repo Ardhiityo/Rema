@@ -1,12 +1,12 @@
 <?php
 
-use App\Livewire\NoteList;
-use App\Models\MetaData;
 use App\Models\Note;
-use Database\Seeders\DatabaseSeeder;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
+use App\Models\MetaData;
+use App\Livewire\Note\NoteList;
+use Database\Seeders\DatabaseSeeder;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 

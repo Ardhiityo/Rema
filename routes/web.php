@@ -1,19 +1,19 @@
 <?php
 
-use App\Livewire\Author;
-use App\Livewire\Report;
 use App\Livewire\Profile;
-use App\Livewire\Category;
-use App\Livewire\Activity;
-use App\Livewire\Coordinator;
-use App\Livewire\StudyProgram;
-use App\Livewire\ActivityDetail;
-use App\Livewire\RepositoryForm;
-use App\Livewire\RepositoryList;
-use App\Livewire\RepositoryDetail;
+use App\Livewire\Author\Author;
+use App\Livewire\Report\Report;
+use App\Livewire\Activity\Activity;
+use App\Livewire\Category\Category;
 use Illuminate\Support\Facades\Route;
+use App\Livewire\Activity\ActivityDetail;
+use App\Livewire\Coordinator\Coordinator;
+use App\Livewire\Repository\RepositoryList;
+use App\Livewire\StudyProgram\StudyProgram;
 use App\Http\Controllers\DashboardController;
+use App\Livewire\Repository\RepositoryDetail;
 use App\Http\Controllers\LandingPageController;
+use App\Livewire\Repository\Form\RepositoryForm;
 use App\Http\Middleware\ValidateAuthorMiddleware;
 
 Route::controller(LandingPageController::class)->group(function () {

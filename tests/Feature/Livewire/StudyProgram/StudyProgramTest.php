@@ -1,7 +1,7 @@
 <?php
 
 use Livewire\Livewire;
-use App\Livewire\StudyProgram;
+use App\Livewire\StudyProgram\StudyProgram;
 
 test('render success', function () {
     Livewire::test(StudyProgram::class)

@@ -1,8 +1,8 @@
 <?php
 
 use Livewire\Livewire;
-use App\Livewire\ActivityReport;
 use Database\Seeders\DatabaseSeeder;
+use App\Livewire\Report\ActivityReport;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 

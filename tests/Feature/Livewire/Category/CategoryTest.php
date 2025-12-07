@@ -1,7 +1,7 @@
 <?php
 
 use Livewire\Livewire;
-use App\Livewire\Category;
+use App\Livewire\Category\Category;
 
 test('render success', function () {
     Livewire::test(Category::class)
