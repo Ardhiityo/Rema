@@ -13,8 +13,6 @@ class AuthorList extends Component
 {
     use WithPagination;
 
-    protected $paginationTheme = 'bootstrap';
-
     public string $status_filter = 'approve';
     public string $study_program_slug = '';
     public string $keyword = '';

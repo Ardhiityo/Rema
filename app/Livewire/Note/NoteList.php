@@ -11,8 +11,6 @@ class NoteList extends Component
 {
     use WithPagination;
 
-    protected $paginationTheme = 'bootstrap';
-
     public int $meta_data_id;
 
     public function mount($meta_data_id)

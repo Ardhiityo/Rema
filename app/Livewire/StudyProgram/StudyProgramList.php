@@ -11,8 +11,6 @@ class StudyProgramList extends Component
 {
     use WithPagination;
 
-    protected $paginationTheme = 'bootstrap';
-
     public string $keyword = '';
 
     public function resetInput()

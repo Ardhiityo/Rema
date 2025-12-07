@@ -15,8 +15,6 @@ class RepositoryList extends Component
 {
     use WithPagination, AuthorizesRequests;
 
-    protected $paginationTheme = 'bootstrap';
-
     // Form Start
     public string $keyword = '';
     public string $year = '';
