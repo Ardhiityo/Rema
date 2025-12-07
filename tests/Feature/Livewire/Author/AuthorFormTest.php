@@ -22,6 +22,8 @@ test('form title success', function () {
 });
 
 test('updated avatar success', function () {
+    Storage::fake('public');
+
     $image = UploadedFile::fake()->image('photo.jpg');
 
     authorForm()

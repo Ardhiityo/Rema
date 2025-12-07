@@ -21,8 +21,6 @@ test('mount with value success', function () {
 });
 
 test('mount without value success', function () {
-    Storage::fake('public');
-
     activity()
         ->assertSet('category', '');
 });

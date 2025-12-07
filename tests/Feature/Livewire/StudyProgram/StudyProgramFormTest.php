@@ -74,6 +74,8 @@ test('edit failed not found', function () {
 });
 
 test('update success', function () {
+    Storage::fake('public');
+
     $this->seed(DatabaseSeeder::class);
 
     $study_program = StudyProgram::first();
