@@ -86,8 +86,8 @@
                     {{ $data->study_program }}
                 </td>
                 <td style="border: 1px solid black; text-align: center; vertical-align: middle;" colspan="3">
-                    @foreach ($data->activities as $activity)
-                        <span>{{ $activity->category }} {{ $activity->total }}</span>,
+                    @foreach ($data->activities->items as $item)
+                        <span>{{ $item->category }} {{ $item->total }}</span>,
                     @endforeach
                     <br>
                     Total : {{ $data->total_views }}

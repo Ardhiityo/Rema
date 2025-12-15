@@ -2,30 +2,32 @@
 
 namespace App\Providers;
 
-use App\Repositories\Contratcs\ActivityRepositoryInterface;
-use App\Repositories\Contratcs\AuthorRepositoryInterface;
-use App\Repositories\Contratcs\CategoryRepositoryInterface;
-use App\Repositories\Contratcs\CoordinatorRepositoryInterface;
-use App\Repositories\Contratcs\DashboardRepositoryInterface;
-use App\Repositories\Contratcs\LandingPageRepositoryInterface;
-use App\Repositories\Contratcs\MetaDataCategoryRepositoryInterface;
-use App\Repositories\Contratcs\MetaDataRepositoryInterface;
-use App\Repositories\Contratcs\NoteRepositoryInterface;
-use App\Repositories\Contratcs\StudyProgramRepositoryInterface;
-use App\Repositories\Contratcs\UserRepositoryInterface;
-use App\Repositories\Eloquent\ActivityRepository;
-use App\Repositories\Eloquent\AuthorRepository;
-use App\Repositories\Eloquent\CategoryRepository;
-use App\Repositories\Eloquent\CoordinatorRepository;
-use App\Repositories\Eloquent\DashboardRepository;
-use App\Repositories\Eloquent\LandingPageRepository;
-use App\Repositories\Eloquent\MetaDataCategoryRepository;
-use App\Repositories\Eloquent\MetaDataRepository;
-use App\Repositories\Eloquent\NoteRepository;
-use App\Repositories\Eloquent\StudyProgramRepository;
-use App\Repositories\Eloquent\UserRepository;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
+use App\Repositories\Eloquent\NoteRepository;
+use App\Repositories\Eloquent\UserRepository;
+use Illuminate\Database\Events\QueryExecuted;
+use App\Repositories\Eloquent\AuthorRepository;
+use App\Repositories\Eloquent\ActivityRepository;
+use App\Repositories\Eloquent\CategoryRepository;
+use App\Repositories\Eloquent\MetaDataRepository;
+use App\Repositories\Eloquent\DashboardRepository;
+use App\Repositories\Eloquent\CoordinatorRepository;
+use App\Repositories\Eloquent\LandingPageRepository;
+use App\Repositories\Eloquent\StudyProgramRepository;
+use App\Repositories\Contratcs\NoteRepositoryInterface;
+use App\Repositories\Contratcs\UserRepositoryInterface;
+use App\Repositories\Contratcs\AuthorRepositoryInterface;
+use App\Repositories\Eloquent\MetaDataCategoryRepository;
+use App\Repositories\Contratcs\ActivityRepositoryInterface;
+use App\Repositories\Contratcs\CategoryRepositoryInterface;
+use App\Repositories\Contratcs\MetaDataRepositoryInterface;
+use App\Repositories\Contratcs\DashboardRepositoryInterface;
+use App\Repositories\Contratcs\CoordinatorRepositoryInterface;
+use App\Repositories\Contratcs\LandingPageRepositoryInterface;
+use App\Repositories\Contratcs\StudyProgramRepositoryInterface;
+use App\Repositories\Contratcs\MetaDataCategoryRepositoryInterface;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -52,6 +54,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // DB::listen(function (QueryExecuted $q) {
+        //     logger($q->sql);
+        // });
+
         Model::unguard();
     }
 }

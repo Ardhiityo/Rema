@@ -52,10 +52,13 @@ test('render success', function () {
 
     $this->seed(DatabaseSeeder::class);
 
-    $meta_data = MetaData::first();
+    $meta_data = MetaData::first()->title;
+
+    $category1 = Category::first()->name;
+    $category2 = Category::whereSlug('journal')->first()->name;
 
     activity()
-        ->assertSeeText(Category::first()->name)
-        ->assertSeeText(Category::whereSlug('journal')->first()->name)
-        ->assertSeeText($meta_data->title);
+        ->assertSeeText($category1)
+        ->assertSeeText($category2)
+        ->assertSeeText($meta_data);
 });
