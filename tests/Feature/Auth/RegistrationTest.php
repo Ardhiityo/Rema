@@ -1,19 +1,26 @@
 <?php
 
-// test('registration screen can be rendered', function () {
-//     $response = $this->get('/register');
+use Illuminate\Support\Facades\Storage;
+use Database\Seeders\RolePermissionSeeder;
 
-//     $response->assertStatus(200);
-// });
+test('registration screen can be rendered', function () {
+    $response = $this->get(route('register'));
 
-// test('new users can register', function () {
-//     $response = $this->post('/register', [
-//         'name' => 'Test User',
-//         'email' => 'test@example.com',
-//         'password' => 'password',
-//         'password_confirmation' => 'password',
-//     ]);
+    $response->assertStatus(200);
+});
 
-//     $this->assertAuthenticated();
-//     $response->assertRedirect(route('dashboard', absolute: false));
-// });
+test('new users can register', function () {
+    Storage::fake('public');
+
+    $this->seed(RolePermissionSeeder::class);
+
+    $response = $this->post(route('register'), [
+        'name' => 'Arya Adhi Prasetyo',
+        'email' => 'aryaadi229@gmail.com',
+        'password' => 'password',
+        'password_confirmation' => 'password',
+    ]);
+
+    $this->assertAuthenticated();
+    $response->assertRedirect(route('dashboard', absolute: false));
+});
