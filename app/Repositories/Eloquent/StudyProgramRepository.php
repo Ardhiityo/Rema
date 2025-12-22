@@ -5,6 +5,7 @@ namespace App\Repositories\Eloquent;
 use Throwable;
 use App\Models\Author;
 use App\Models\StudyProgram;
+use Illuminate\Support\Facades\Cache;
 use Spatie\LaravelData\DataCollection;
 use Illuminate\Support\Facades\Storage;
 use App\Data\StudyProgram\StudyProgramData;
@@ -100,7 +101,12 @@ class StudyProgramRepository implements StudyProgramRepositoryInterface
 
     public function all(): DataCollection
     {
-        return StudyProgramData::collect(StudyProgram::orderByDesc('id')->get(), DataCollection::class);
+        return Cache::rememberForever('study_program.all', function () {
+            return StudyProgramData::collect(
+                StudyProgram::orderByDesc('id')->get(),
+                DataCollection::class
+            );
+        });
     }
 
     public function findByFilters(string|null $keyword = null): LengthAwarePaginator

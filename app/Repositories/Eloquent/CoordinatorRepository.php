@@ -4,6 +4,7 @@ namespace App\Repositories\Eloquent;
 
 use Throwable;
 use App\Models\Coordinator;
+use Illuminate\Support\Facades\Cache;
 use Spatie\LaravelData\DataCollection;
 use App\Data\Coordinator\CoordinatorData;
 use App\Data\Coordinator\CreateCoordinatorData;
@@ -15,10 +16,12 @@ class CoordinatorRepository implements CoordinatorRepositoryInterface
 {
     public function all(): DataCollection
     {
-        return CoordinatorData::collect(
-            Coordinator::orderByDesc('id')->get(),
-            DataCollection::class
-        );
+        return Cache::rememberForever('coordinator.all', function () {
+            return CoordinatorData::collect(
+                Coordinator::orderByDesc('id')->get(),
+                DataCollection::class
+            );
+        });
     }
 
     public function findById(int $coordinator_id): CoordinatorData|Throwable

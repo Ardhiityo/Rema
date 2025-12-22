@@ -4,7 +4,7 @@ use App\Models\User;
 use App\Models\Author;
 use App\Models\MetaData;
 use Illuminate\Support\Str;
-use App\Data\Author\AuthorData;
+use App\Data\Author\AuthorListData;
 use function Pest\Laravel\actingAs;
 use Database\Seeders\DatabaseSeeder;
 use Spatie\LaravelData\DataCollection;
@@ -174,7 +174,7 @@ test('get authors without keyword', function () {
     $component = metaDataForm();
 
     expect($component->instance()->authors())
-        ->toEqual(AuthorData::collect([], DataCollection::class));
+        ->toEqual(AuthorListData::collect([], DataCollection::class));
 });
 
 test('get authors with keyword', function () {

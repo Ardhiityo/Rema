@@ -2,9 +2,17 @@
 
 namespace App\Providers;
 
+use App\Models\Author;
 use App\Models\Category;
+use App\Models\Coordinator;
+use App\Models\MetaData;
+use App\Models\StudyProgram;
+use App\Observers\AuthorObserver;
 use Illuminate\Support\Facades\DB;
 use App\Observers\CategoryObserver;
+use App\Observers\CoordinatorObserver;
+use App\Observers\MetaDataObserver;
+use App\Observers\StudyProgramObserver;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 use App\Repositories\Eloquent\NoteRepository;
@@ -63,5 +71,9 @@ class AppServiceProvider extends ServiceProvider
         Model::unguard();
 
         Category::observe(CategoryObserver::class);
+        StudyProgram::observe(StudyProgramObserver::class);
+        Coordinator::observe(CoordinatorObserver::class);
+        Author::observe(AuthorObserver::class);
+        MetaData::observe(MetaDataObserver::class);
     }
 }

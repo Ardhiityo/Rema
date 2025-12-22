@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Activity;
 use App\Models\Category;
 use App\Models\MetaData;
 use Database\Seeders\CategorySeeder;

@@ -4,12 +4,13 @@ namespace App\Repositories\Eloquent;
 
 use Throwable;
 use App\Models\Author;
+use App\Models\Coordinator;
 use App\Data\Author\AuthorData;
 use App\Data\Author\AuthorListData;
 use App\Data\Author\AuthorReportData;
 use App\Data\Author\CreateAuthorData;
 use App\Data\Author\UpdateAuthorData;
-use App\Models\Coordinator;
+use Illuminate\Support\Facades\Cache;
 use Spatie\LaravelData\DataCollection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Repositories\Contratcs\AuthorRepositoryInterface;
@@ -67,18 +68,20 @@ class AuthorRepository implements AuthorRepositoryInterface
 
     public function findByApprovals(array|null $relations = null): DataCollection
     {
-        $authors = Author::query();
+        return Cache::rememberForever('author.findByApprovals', function () use ($relations) {
+            $authors = Author::query();
 
-        if ($relations) {
-            $authors->with($relations);
-        }
+            if ($relations) {
+                $authors->with($relations);
+            }
 
-        $authors->approve();
+            $authors->approve();
 
-        return AuthorListData::collect(
-            $authors->orderByDesc('id')->get(),
-            DataCollection::class
-        );
+            return AuthorListData::collect(
+                $authors->orderByDesc('id')->get(),
+                DataCollection::class
+            );
+        });
     }
 
     public function findByFilters(string $status_filter = 'approve', string|null $keyword = null, string|null $study_program_slug = null): LengthAwarePaginator
@@ -166,7 +169,7 @@ class AuthorRepository implements AuthorRepositoryInterface
         }
 
         $authors = $authors->where('status', 'approve')
-            ->orderBy('nim')
+            ->orderByDesc('id')
             ->limit(5)
             ->get();
 
