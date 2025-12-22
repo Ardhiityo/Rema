@@ -45,7 +45,7 @@ class ActivityReport extends Component
                 writerType: \Maatwebsite\Excel\Excel::MPDF
             );
         } catch (Throwable $th) {
-            logger(json_encode($th->getMessage(), JSON_PRETTY_PRINT));
+            logger($th->getMessage(), ['Activity Report' => 'download']);
             session()->flash('activity-failed', $th->getMessage());
         }
     }

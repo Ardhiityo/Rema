@@ -25,7 +25,7 @@ class MetadataReportData extends Data
             $meta_data->author->nim,
             $meta_data->author->studyProgram->name,
             ActivityReportData::fromActivities($meta_data->activities),
-            $meta_data->activities()->count(),
+            $meta_data->activities->count(),
         );
     }
 }

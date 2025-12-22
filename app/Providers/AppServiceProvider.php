@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Category;
 use Illuminate\Support\Facades\DB;
+use App\Observers\CategoryObserver;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 use App\Repositories\Eloquent\NoteRepository;
@@ -54,10 +56,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // DB::listen(function (QueryExecuted $q) {
-        //     logger($q->sql);
+        // DB::listen(function (QueryExecuted $query) {
+        //     logger(json_encode($query->sql, JSON_PRETTY_PRINT));
         // });
 
         Model::unguard();
+
+        Category::observe(CategoryObserver::class);
     }
 }

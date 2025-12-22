@@ -2,7 +2,6 @@
 
 namespace App\Repositories\Eloquent;
 
-use Exception;
 use Throwable;
 use App\Models\MetaData;
 use Illuminate\Support\Facades\DB;

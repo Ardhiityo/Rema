@@ -2,15 +2,16 @@
 
 namespace App\Repositories\Eloquent;
 
+use Throwable;
 use App\Models\Category;
 use App\Data\Category\CategoryData;
+use Illuminate\Support\Facades\Cache;
 use Spatie\LaravelData\DataCollection;
 use Illuminate\Support\Facades\Storage;
 use App\Data\Category\CreateCategoryData;
 use App\Data\Category\UpdateCategoryData;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Repositories\Contratcs\CategoryRepositoryInterface;
-use Throwable;
 
 class CategoryRepository implements CategoryRepositoryInterface
 {
@@ -79,7 +80,12 @@ class CategoryRepository implements CategoryRepositoryInterface
 
     public function all(): DataCollection
     {
-        return CategoryData::collect(Category::orderByDesc('id')->get(), DataCollection::class);
+        return Cache::rememberForever('category.all', function () {
+            return CategoryData::collect(
+                Category::orderByDesc('id')->get(),
+                DataCollection::class
+            );
+        });
     }
 
     public function findByFilters(string|null $keyword = null): LengthAwarePaginator

@@ -5,6 +5,7 @@ namespace App\Data\Activity;
 use Spatie\LaravelData\Data;
 use Illuminate\Support\Collection;
 use Spatie\LaravelData\DataCollection;
+use App\Data\Activity\ActivityCategoryData;
 use Spatie\LaravelData\Attributes\DataCollectionOf;
 use App\Repositories\Contratcs\CategoryRepositoryInterface;
 
@@ -13,6 +14,8 @@ class ActivityReportData extends Data
     public function __construct(
         #[DataCollectionOf(ActivityCategoryData::class)] public DataCollection $items
     ) {}
+
+    private static $cachedCategories = null;
 
     public static function fromActivities(Collection $activities): self
     {
@@ -34,6 +37,12 @@ class ActivityReportData extends Data
 
     public static function getCategories()
     {
-        return app(CategoryRepositoryInterface::class)->all()->toCollection();
+        if (is_null(self::$cachedCategories)) {
+            self::$cachedCategories = app(
+                CategoryRepositoryInterface::class
+            )->all()->toCollection();
+        }
+
+        return self::$cachedCategories;
     }
 }
