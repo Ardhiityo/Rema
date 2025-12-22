@@ -1,57 +1,33 @@
 <table>
-    <tr>
-        <th rowspan="4">
-            <img src="{{ public_path('assets/logo/favicon.png') }}" width="100" height="100">
-        </th>
-        <th style="font-size: 14px; font-weight: bold; text-align: left;" colspan="10">
-            UNIVERSITAS AL-KHAIRIYAH
-        </th>
-    </tr>
-    <tr>
-        <td>
-            Website
-        </td>
-        <td colspan="14">
-            : www.unival-cilegon.ac.id
-        </td>
-        <td style="font-size: 14px; font-weight: bold; text-align: right;" colspan="6">
-            FAKULTAS ILMU KOMPUTER
-        </td>
-    </tr>
-    <tr>
-        <td>
-            e-Mail
-        </td>
-        <td colspan="14">
-            : humas@unival-cilegon.ac.id
-        </td>
-        <td style="font-size: 12px; font-weight: bold; text-align: right;" colspan="6">TEKNIK INFORMATIKA</td>
-    </tr>
-    <tr>
-        <td>
-            Alamat
-        </td>
-        <td colspan="8">
-            : Jalan Kh. Ahmad Dahlan Kel. Citangkil Kota Cilegon
-        </td>
-        <td style="font-size: 12px; font-weight: bold; text-align: right;" colspan="12">MANAJEMEN INFORMATIKA</td>
-    </tr>
+    <thead>
+        <tr>
+            <th style=" text-align: center; vertical-align: middle;">
+                <img src="{{ public_path('assets/logo/favicon.png') }}" width="100" height="100">
+            </th>
+            <th style="text-align: center; vertical-align: middle; font-size: 12px; font-weight: 500; " colspan="11">
+                <h1>Kementrian Pendidikan Tinggi, Sains, dan Teknologi</h1>
+                <h1>Universitas Al-Khairiyah</h1>
+                <h1>Fakultas Ilmu Komputer</h1>
+                <p>Alamat : Jl.K.H. Enggus Arja No. 1 Citangkil Kota Cilegon, Banten 42441</p>
+                <p>No. Telpon: (0254) 7877057 Website: unival-cilegon.ac.id</p>
+            </th>
+        </tr>
+        <tr>
+            <th style="border-top: 2px double black;" colspan="12"></th>
+        </tr>
+    </thead>
 </table>
 
 <table>
-    <tr>
-        <td colspan="22" style="border-top: 2px double black;"></td>
-    </tr>
-    <tr></tr>
     <tr></tr>
     <tr></tr>
     <tr>
-        <td colspan="22" style="text-align: center; font-weight: bold; font-size: 14px;">
-            REPOSITORIES IN {{ $year }}
+        <td colspan="12" style="text-align: center; font-weight: bold; font-size: 11px;">
+            Repositories In {{ $year }}
         </td>
     </tr>
     <tr>
-        <td colspan="22" style="text-align: center; font-weight: bold; font-size: 12px;">
+        <td colspan="12" style="text-align: center; font-weight: bold; font-size: 10px;">
             {{ $sub_title }}
         </td>
     </tr>
@@ -62,39 +38,47 @@
 <table>
     <thead>
         <tr>
-            <th style="font-weight: bold; border: 1px solid black; text-align: center;">NO</th>
-            <th style="font-weight: bold; border: 1px solid black; text-align: center;" colspan="4">AUTHOR</th>
-            <th style="font-weight: bold; border: 1px solid black; text-align: center;" colspan="2">NIM</th>
-            <th style="font-weight: bold; border: 1px solid black; text-align: center;" colspan="3">
-                STUDY PROGRAM
+            <th style="font-weight: bold; border: 1px solid black; text-align: center; vertical-align: middle; font-size: 10px"
+                colspan="1">No</th>
+            <th style="font-weight: bold; border: 1px solid black; text-align: center; vertical-align: middle; font-size: 10px"
+                colspan="2">Author</th>
+            <th style="font-weight: bold; border: 1px solid black; text-align: center; vertical-align: middle; font-size: 10px"
+                colspan="2">
+                Study Program
             </th>
-            <th style="font-weight: bold; border: 1px solid black; text-align: center;" colspan="7">META DATA</th>
-            <th style="font-weight: bold; border: 1px solid black; text-align: center;" colspan="3">CATEGORIES</th>
-            <th style="font-weight: bold; border: 1px solid black; text-align: center;" colspan="2">STATUS</th>
+            <th style="font-weight: bold; border: 1px solid black; text-align: center; vertical-align: middle; font-size: 10px"
+                colspan="4">Meta Data</th>
+            <th style="font-weight: bold; border: 1px solid black; text-align: center; vertical-align: middle; font-size: 10px"
+                colspan="2">Categories</th>
+            <th style="font-weight: bold; border: 1px solid black; text-align: center; vertical-align: middle; font-size: 10px"
+                colspan="1">Status</th>
         </tr>
     </thead>
     <tbody>
         @foreach ($authors as $author)
             <tr>
-                <td style="border: 1px solid black; text-align: center; vertical-align: middle;">
+                <td style="border: 1px solid black; text-align: center; vertical-align: middle; font-size: 10px"
+                    colspan="1">
                     {{ $loop->iteration }}
                 </td>
-                <td style="border: 1px solid black; text-align: center; vertical-align: middle;" colspan="4">
-                    {{ $author->name }}
+                <td style="border: 1px solid black; text-align: center; vertical-align: middle; font-size: 10px"
+                    colspan="2">
+                    {{ $author->name }} ({{ $author->nim }})
                 </td>
-                <td style="border: 1px solid black; text-align: center; vertical-align: middle;" colspan="2">
-                    {{ $author->nim }}
-                </td>
-                <td style="border: 1px solid black; text-align: center; vertical-align: middle;" colspan="3">
+                <td style="border: 1px solid black; text-align: center; vertical-align: middle; font-size: 10px"
+                    colspan="2">
                     {{ $author->study_program }}
                 </td>
-                <td style="border: 1px solid black; text-align: center; vertical-align: middle;" colspan="7">
+                <td style="border: 1px solid black; text-align: center; vertical-align: middle; font-size: 10px"
+                    colspan="4">
                     {{ $author->meta_data }}
                 </td>
-                <td style="border: 1px solid black; text-align: center; vertical-align: middle;" colspan="3">
+                <td style="border: 1px solid black; text-align: center; vertical-align: middle; font-size: 10px"
+                    colspan="2">
                     {{ $author->categories }}
                 </td>
-                <td style="border: 1px solid black; text-align: center; vertical-align: middle;" colspan="2">
+                <td style="border: 1px solid black; text-align: center; vertical-align: middle; font-size: 10px"
+                    colspan="1">
                     {{ $author->status }}
                 </td>
             </tr>
@@ -109,20 +93,16 @@
 
 <table>
     <tr>
-        <td colspan="1"></td>
-        <td colspan="4"></td>
-        <td colspan="10"></td>
-        <td colspan="7" style="font-weight: bold; text-align: center;">
+        <td colspan="5"></td>
+        <td colspan="7" style="font-weight: bold; text-align: center; font-size: 10px;">
             <h3>Cilegon, {{ Carbon\Carbon::parse(now())->locale('id')->isoFormat('DD MMMM YYYY') }}</h3>
         </td>
     </tr>
     <tr></tr>
     <tr></tr>
     <tr>
-        <td colspan="1"></td>
-        <td colspan="4"></td>
-        <td colspan="10"></td>
-        <td colspan="7" style="font-weight: bold; text-align: center;">
+        <td colspan="5"></td>
+        <td colspan="7" style="font-weight: bold; text-align: center; font-size: 10px;">
             <h3>{{ $coordinator_data->position }}</h3>
         </td>
     </tr>
@@ -132,18 +112,14 @@
     <tr></tr>
     <tr></tr>
     <tr>
-        <td colspan="1"></td>
-        <td colspan="4"></td>
-        <td colspan="10"></td>
-        <td colspan="7" style="font-weight: bold; text-align: center; text-decoration: underline;">
+        <td colspan="5"></td>
+        <td colspan="7" style="font-weight: bold; text-align: center; text-decoration: underline; font-size: 10px;">
             <h3>{{ $coordinator_data->name }}</h3>
         </td>
     </tr>
     <tr>
-        <td colspan="1"></td>
-        <td colspan="4"></td>
-        <td colspan="10"></td>
-        <td colspan="7" style="font-weight: bold; text-align: center;">
+        <td colspan="5"></td>
+        <td colspan="7" style="font-weight: bold; text-align: center; font-size: 10px;">
             <h3>NIDN. {{ $coordinator_data->nidn }}</h3>
         </td>
     </tr>

@@ -160,11 +160,7 @@ class MetaDataForm extends Component
     #[Computed()]
     public function authors()
     {
-        if ($this->keyword) {
-            return $this->authorRepository->findByNameOrNim($this->keyword);
-        }
-
-        return AuthorData::collect([], DataCollection::class);
+        return $this->authorRepository->findByNameOrNim($this->keyword);
     }
 
     public function createMetaData()
