@@ -22,7 +22,7 @@
     <tr></tr>
     <tr></tr>
     <tr>
-        <td colspan="12" style="text-align: center; font-weight: bold; font-size: 11px;">
+        <td colspan="12" style="text-align: center; font-weight: bold; font-size: 10px;">
             Repositories In {{ $year }}
         </td>
     </tr>

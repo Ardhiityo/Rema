@@ -21,7 +21,7 @@
 <table>
     <tr></tr>
     <tr>
-        <td colspan="12" style="text-align: center; font-weight: bold; font-size: 12px;">
+        <td colspan="12" style="text-align: center; font-weight: bold; font-size: 10px;">
             Repository Activities In {{ $year }}
         </td>
     </tr>
