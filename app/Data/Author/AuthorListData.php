@@ -16,7 +16,7 @@ class AuthorListData extends Data
     public string $short_name;
 
     public function __construct(
-        public int $id,
+        public int|string $id,
         public int|null|string $nim,
         public string $name,
         public string|null $study_program,

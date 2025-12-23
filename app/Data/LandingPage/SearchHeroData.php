@@ -18,7 +18,7 @@ class SearchHeroData extends Data
         public string $metadata_slug,
         public string $category_name,
         public string $year,
-        public int $views
+        public int|string $views
     ) {}
 
     public static function fromModel(MetaData $meta_data): self

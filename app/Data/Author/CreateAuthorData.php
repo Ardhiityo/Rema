@@ -9,9 +9,9 @@ use Spatie\LaravelData\Data;
 class CreateAuthorData extends Data
 {
     public function __construct(
-        public int $user_id,
-        public int $nim,
-        public int $study_program_id,
+        public int|string $user_id,
+        public int|string $nim,
+        public int|string $study_program_id,
         public string $status
     ) {}
 }

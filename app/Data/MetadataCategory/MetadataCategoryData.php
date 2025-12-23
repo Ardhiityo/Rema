@@ -10,8 +10,8 @@ use Spatie\LaravelData\Data;
 class MetadataCategoryData extends Data
 {
     public function __construct(
-        public int $meta_data_id,
-        public int $category_id,
+        public int|string $meta_data_id,
+        public int|string $category_id,
         public string $file_path
     ) {}
 

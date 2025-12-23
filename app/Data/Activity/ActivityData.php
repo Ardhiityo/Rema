@@ -19,7 +19,7 @@ class ActivityData extends Data
         public string $meta_data_slug,
         public string $category,
         public string $category_slug,
-        public int $views,
+        public int|string $views,
     ) {
         $this->short_meta_data = Str::limit($meta_data, 55, '...');
     }

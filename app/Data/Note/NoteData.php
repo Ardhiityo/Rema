@@ -10,7 +10,7 @@ use Spatie\LaravelData\Data;
 class NoteData extends Data
 {
     public function __construct(
-        public int $id,
+        public int|string $id,
         public string $message,
         public string $created_at
     ) {}

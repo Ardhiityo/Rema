@@ -15,7 +15,7 @@ class MetricData extends Data
 
     public function __construct(
         public string $study_program,
-        public int $total
+        public int|string $total
     ) {
         $this->short_study_program = Str::limit($study_program, 21, '...');
     }

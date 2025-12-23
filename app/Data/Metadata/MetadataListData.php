@@ -27,7 +27,7 @@ class MetadataListData extends Data
         public string $name,
         public string $visibility,
         public string $slug,
-        public int $views,
+        public int|string $views,
         public string $status
     ) {
         $this->short_title = Str::limit($title, 35, '...');

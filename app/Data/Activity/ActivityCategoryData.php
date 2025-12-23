@@ -10,7 +10,7 @@ class ActivityCategoryData extends Data
 {
     public function __construct(
         public string $category,
-        public int $total
+        public int|string $total
     ) {}
 
     public static function fromModel($item): self

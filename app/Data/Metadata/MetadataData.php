@@ -15,11 +15,11 @@ use Spatie\LaravelData\Attributes\DataCollectionOf;
 class MetadataData extends Data
 {
     public function __construct(
-        public int $id,
+        public int|string $id,
         public string $title,
-        public int $author_id,
+        public int|string $author_id,
         public string $visibility,
-        public int $year,
+        public int|string $year,
         public string $slug,
         public string $status,
         #[DataCollectionOf(CategoryData::class)]

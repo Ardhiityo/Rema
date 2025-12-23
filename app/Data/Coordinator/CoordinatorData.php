@@ -10,11 +10,11 @@ use Spatie\LaravelData\Data;
 class CoordinatorData extends Data
 {
     public function __construct(
-        public int $id,
+        public int|string $id,
         public string $name,
-        public int $nidn,
+        public int|string $nidn,
         public string $position,
-        public int $study_program_id,
+        public int|string $study_program_id,
         public string $study_program
     ) {}
 
@@ -23,7 +23,7 @@ class CoordinatorData extends Data
         return new self(
             $coordinator->id,
             $coordinator->name,
-            (int)$coordinator->nidn,
+            $coordinator->nidn,
             $coordinator->position,
             $coordinator->studyProgram->id,
             $coordinator->studyProgram->name

@@ -20,9 +20,9 @@ class DetailMetadataData extends Data
     public string $badge_ucfirst = '';
 
     public function __construct(
-        public int $id,
+        public int|string $id,
         public string $title,
-        public int $author_id,
+        public int|string $author_id,
         public string $visibility,
         public int|string $year,
         public string $slug,

@@ -10,8 +10,8 @@ class CreateCoordinatorData extends Data
 {
     public function __construct(
         public string $name,
-        public int $nidn,
+        public int|string $nidn,
         public string $position,
-        public int $study_program_id
+        public int|string $study_program_id
     ) {}
 }

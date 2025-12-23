@@ -14,7 +14,7 @@ class CreateMetadataData extends Data
 
     public function __construct(
         public string $title,
-        public int $author_id,
+        public int|string $author_id,
         public string $visibility,
         public int|string $year,
         public string $slug,
