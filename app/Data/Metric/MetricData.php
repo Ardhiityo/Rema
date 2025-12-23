@@ -19,4 +19,12 @@ class MetricData extends Data
     ) {
         $this->short_study_program = Str::limit($study_program, 21, '...');
     }
+
+    public static function fromModel($metrics): self
+    {
+        return new self(
+            $metrics['study_program'],
+            $metrics['total']
+        );
+    }
 }
