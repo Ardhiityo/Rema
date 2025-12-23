@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Data\Metric;
 
 use Illuminate\Support\Str;
