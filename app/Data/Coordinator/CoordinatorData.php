@@ -23,7 +23,7 @@ class CoordinatorData extends Data
         return new self(
             $coordinator->id,
             $coordinator->name,
-            $coordinator->nidn,
+            (int)$coordinator->nidn,
             $coordinator->position,
             $coordinator->studyProgram->id,
             $coordinator->studyProgram->name
