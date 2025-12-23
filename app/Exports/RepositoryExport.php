@@ -40,7 +40,7 @@ class RepositoryExport implements FromView
                 return ucwords(str_replace('-', ' ', $item));
             }, $includes);
 
-            $sub_title = "Author's Report In $year That Has Been Completed " . implode(', ', $includes);
+            $sub_title = "Author's Report In $year With The Category Of " . implode(', ', $includes);
         }
 
         return view(

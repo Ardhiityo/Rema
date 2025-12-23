@@ -109,21 +109,19 @@ class AuthorRepository implements AuthorRepositoryInterface
     {
         $coordinator = Coordinator::find($coordinator_id);
 
-        $authors = Author::query()
-            ->with([
-                'metadata.categories' => function ($query) use ($includes) {
-                    if (!empty($includes)) {
-                        $query->whereIn('slug', $includes);
-                    }
-                },
-                'studyProgram',
-                'user'
-            ])
-            ->where('status', 'approve')
-            ->whereHas(
-                'studyProgram',
-                fn($query) => $query->where('slug', $coordinator->studyProgram->slug)
-            );
+        $authors = Author::query()->with([
+            'metadata.categories' => function ($query) use ($includes) {
+                if (!empty($includes)) {
+                    $query->whereIn('slug', $includes);
+                }
+            },
+            'studyProgram',
+            'user'
+        ])->whereHas(
+            'studyProgram',
+            fn($query) =>
+            $query->where('slug', $coordinator->studyProgram->slug)
+        );
 
         if (empty($includes)) {
             $authors = $authors
@@ -134,19 +132,25 @@ class AuthorRepository implements AuthorRepositoryInterface
                         ->where('year', $year)
                         ->where('status', '!=', 'approve')
                         ->whereDoesntHave('categories')
+                        ->orWhereHas('categories')
                 );
         }
 
         if (!empty($includes)) {
-            $authors = $authors->whereHas('metadata', function ($query) use ($year, $includes) {
-                $query
-                    ->where('year', $year)
-                    ->where('status', 'approve')
-                    ->whereHas(
-                        'categories',
-                        fn($query) => $query->whereIn('slug', $includes)
-                    );
-            });
+            $authors = $authors
+                ->whereDoesntHave('metadata')
+                ->OrwhereHas(
+                    'metadata',
+                    function ($query) use ($year, $includes) {
+                        $query
+                            ->where('year', $year)
+                            ->whereDoesntHave('categories')
+                            ->OrwhereHas(
+                                'categories',
+                                fn($query) => $query->whereIn('slug', $includes)
+                            );
+                    }
+                );
         }
 
         $authors = $authors->orderBy('nim', 'asc')->get();
