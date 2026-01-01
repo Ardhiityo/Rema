@@ -2,14 +2,15 @@
 
 namespace App\Repositories\Eloquent;
 
-use App\Data\Activity\CreateActivityData;
 use Exception;
 use Throwable;
 use App\Models\MetaDataCategory;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use App\Services\PdfWatermarkService;
 use Illuminate\Support\Facades\Storage;
+use App\Data\Activity\CreateActivityData;
 use App\Data\MetadataCategory\MetadataCategoryData;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use App\Data\MetadataCategory\CreateMetadataCategoryData;
@@ -60,6 +61,23 @@ class MetaDataCategoryRepository implements MetaDataCategoryRepositoryInterface
 
             return MetadataCategoryData::fromModel($meta_data_category);
         } catch (Throwable $th) {
+            Log::info(json_encode([
+                'user' => [
+                    'id' => Auth::user()->id,
+                    'name' => Auth::user()->name,
+                ],
+                'details' => [
+                    'source' => [
+                        'class' => 'MetaDataCategoryRepository',
+                        'method' => 'create',
+                    ],
+                    'data' => [
+                        'create_metadata_category_data' => $create_metadata_category_data,
+                    ]
+                ],
+                'message' => $th->getMessage()
+            ], JSON_PRETTY_PRINT));
+
             throw $th;
         }
     }
@@ -124,6 +142,23 @@ class MetaDataCategoryRepository implements MetaDataCategoryRepositoryInterface
                 $update_metadata_category_data->category_id
             );
         } catch (Throwable $th) {
+            Log::info(json_encode([
+                'user' => [
+                    'id' => Auth::user()->id,
+                    'name' => Auth::user()->name,
+                ],
+                'details' => [
+                    'source' => [
+                        'class' => 'MetaDataCategoryRepository',
+                        'method' => 'update',
+                    ],
+                    'data' => [
+                        'update_metadata_category_data' => $update_metadata_category_data,
+                        'current_category_id' => $current_category_id,
+                    ]
+                ],
+                'message' => $th->getMessage()
+            ], JSON_PRETTY_PRINT));
             throw $th;
         }
     }
@@ -136,6 +171,24 @@ class MetaDataCategoryRepository implements MetaDataCategoryRepositoryInterface
 
             return MetadataCategoryData::fromModel($meta_data_category);
         } catch (Throwable $th) {
+            Log::info(json_encode([
+                'user' => [
+                    'id' => Auth::user()->id,
+                    'name' => Auth::user()->name,
+                ],
+                'details' => [
+                    'source' => [
+                        'class' => 'MetaDataCategoryRepository',
+                        'method' => 'findByMetaDataIdAndCategoryId',
+                    ],
+                    'data' => [
+                        'meta_data_id' => $meta_data_id,
+                        'category_id' => $category_id,
+                    ]
+                ],
+                'message' => $th->getMessage()
+            ], JSON_PRETTY_PRINT));
+
             throw $th;
         }
     }
@@ -161,6 +214,24 @@ class MetaDataCategoryRepository implements MetaDataCategoryRepositoryInterface
 
             return MetadataCategoryData::fromModel($meta_data_category);
         } catch (Throwable $th) {
+            Log::info(json_encode([
+                'user' => [
+                    'id' => Auth::user()->id,
+                    'name' => Auth::user()->name,
+                ],
+                'details' => [
+                    'source' => [
+                        'class' => 'MetaDataCategoryRepository',
+                        'method' => 'findByMetaDataSlugAndCategorySlug',
+                    ],
+                    'data' => [
+                        'meta_data_slug' => $meta_data_slug,
+                        'category_slug' => $category_slug,
+                    ]
+                ],
+                'message' => $th->getMessage()
+            ], JSON_PRETTY_PRINT));
+
             throw new Exception('Sorry, repository not found.');
         }
     }
@@ -181,7 +252,24 @@ class MetaDataCategoryRepository implements MetaDataCategoryRepositoryInterface
 
             return $repository->delete();
         } catch (Throwable $th) {
-            logger(json_encode($th->getMessage()));
+            Log::info(json_encode([
+                'user' => [
+                    'id' => Auth::user()->id,
+                    'name' => Auth::user()->name,
+                ],
+                'details' => [
+                    'source' => [
+                        'class' => 'MetaDataCategoryRepository',
+                        'method' => 'delete',
+                    ],
+                    'data' => [
+                        'meta_data_id' => $meta_data_id,
+                        'category_id' => $category_id,
+                    ]
+                ],
+                'message' => $th->getMessage()
+            ], JSON_PRETTY_PRINT));
+
             throw $th;
         }
     }

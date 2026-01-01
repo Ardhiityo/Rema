@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Gutti3k\PdfWatermarker\Watermarkers\ImageWatermarker;
@@ -66,6 +68,24 @@ class PdfWatermarkService
 
             return $relativePath;
         } catch (\Exception $e) {
+            Log::info(json_encode([
+                'user' => [
+                    'id' => Auth::user()->id,
+                    'name' => Auth::user()->name,
+                ],
+                'details' => [
+                    'source' => [
+                        'class' => 'PdfWatermarkService',
+                        'method' => 'apply',
+                    ],
+                    'data' => [
+                        'sourcePath' => $sourcePath,
+                        'relativePath' => $relativePath
+                    ]
+                ],
+                'message' => $e->getMessage()
+            ], JSON_PRETTY_PRINT));
+
             throw $e;
         }
     }

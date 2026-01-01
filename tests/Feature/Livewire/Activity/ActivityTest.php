@@ -1,11 +1,14 @@
 <?php
 
-use App\Models\Activity;
+use App\Models\User;
 use App\Models\Category;
 use App\Models\MetaData;
+use function Pest\Laravel\actingAs;
 use Database\Seeders\CategorySeeder;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Support\Facades\Storage;
+
+use Database\Seeders\RolePermissionSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
@@ -22,6 +25,14 @@ test('mount with value success', function () {
 });
 
 test('mount without value success', function () {
+    Storage::fake('public');
+
+    $this->seed(RolePermissionSeeder::class);
+
+    $user = User::first();
+
+    actingAs($user);
+
     activity()
         ->assertSet('category', '');
 });

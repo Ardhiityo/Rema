@@ -6,6 +6,7 @@ use Throwable;
 use App\Models\MetaData;
 use Illuminate\Support\Facades\DB;
 use App\Data\Metadata\MetadataData;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use App\Data\MetaData\UpdateMetaData;
 use Spatie\LaravelData\DataCollection;
@@ -32,6 +33,22 @@ class MetaDataRepository implements MetaDataRepositoryInterface
 
             return MetadataData::fromModel($meta_data);
         } catch (Throwable $th) {
+            Log::info(json_encode([
+                'user' => [
+                    'id' => Auth::user()->id,
+                    'name' => Auth::user()->name,
+                ],
+                'details' => [
+                    'source' => [
+                        'class' => 'MetaDataRepository',
+                        'method' => 'create',
+                    ],
+                    'data' => [
+                        'create_meta_data' => $create_meta_data,
+                    ]
+                ],
+                'message' => $th->getMessage()
+            ], JSON_PRETTY_PRINT));
             throw $th;
         }
     }
@@ -52,6 +69,24 @@ class MetaDataRepository implements MetaDataRepositoryInterface
 
             return MetadataData::fromModel($meta_data->refresh());
         } catch (Throwable $th) {
+            Log::info(json_encode([
+                'user' => [
+                    'id' => Auth::user()->id,
+                    'name' => Auth::user()->name,
+                ],
+                'details' => [
+                    'source' => [
+                        'class' => 'MetaDataRepository',
+                        'method' => 'update',
+                    ],
+                    'data' => [
+                        'meta_data_id' => $meta_data_id,
+                        'update_meta_data' => $update_meta_data,
+                    ]
+                ],
+                'message' => $th->getMessage()
+            ], JSON_PRETTY_PRINT));
+
             throw $th;
         }
     }
@@ -67,7 +102,23 @@ class MetaDataRepository implements MetaDataRepositoryInterface
 
             return MetadataData::fromModel($meta_data);
         } catch (Throwable $th) {
-            logger(json_encode($th->getMessage()));
+            Log::info(json_encode([
+                'user' => [
+                    'id' => Auth::user()->id,
+                    'name' => Auth::user()->name,
+                ],
+                'details' => [
+                    'source' => [
+                        'class' => 'MetaDataRepository',
+                        'method' => 'findById',
+                    ],
+                    'data' => [
+                        'meta_data_id' => $meta_data_id,
+                    ]
+                ],
+                'message' => $th->getMessage()
+            ], JSON_PRETTY_PRINT));
+
             throw $th;
         }
     }
@@ -166,7 +217,23 @@ class MetaDataRepository implements MetaDataRepositoryInterface
 
             return $meta_data->delete();
         } catch (Throwable $th) {
-            logger($th->getMessage(), ['Meta Data Repository' => 'delete']);
+            Log::info(json_encode([
+                'user' => [
+                    'id' => Auth::user()->id,
+                    'name' => Auth::user()->name,
+                ],
+                'details' => [
+                    'source' => [
+                        'class' => 'MetaDataRepository',
+                        'method' => 'delete',
+                    ],
+                    'data' => [
+                        'meta_data_id' => $meta_data_id,
+                    ]
+                ],
+                'message' => $th->getMessage()
+            ], JSON_PRETTY_PRINT));
+
             throw $th;
         }
     }

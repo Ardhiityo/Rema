@@ -7,6 +7,8 @@ use App\Models\Author;
 use App\Models\Coordinator;
 use App\Data\Author\AuthorData;
 use App\Data\Author\AuthorListData;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use App\Data\Author\AuthorReportData;
 use App\Data\Author\CreateAuthorData;
 use App\Data\Author\UpdateAuthorData;
@@ -29,6 +31,23 @@ class AuthorRepository implements AuthorRepositoryInterface
 
             return AuthorData::fromModel($author);
         } catch (Throwable $th) {
+            Log::info(json_encode([
+                'user' => [
+                    'id' => Auth::user()->id,
+                    'name' => Auth::user()->name,
+                ],
+                'details' => [
+                    'source' => [
+                        'class' => 'AuthorRepository',
+                        'method' => 'create',
+                    ],
+                    'data' => [
+                        'create_author_data' => $create_author_data,
+                    ]
+                ],
+                'message' => $th->getMessage()
+            ], JSON_PRETTY_PRINT));
+
             throw $th;
         }
     }
@@ -44,6 +63,24 @@ class AuthorRepository implements AuthorRepositoryInterface
 
             return AuthorData::fromModel($author);
         } catch (Throwable $th) {
+            Log::info(json_encode([
+                'user' => [
+                    'id' => Auth::user()->id,
+                    'name' => Auth::user()->name,
+                ],
+                'details' => [
+                    'source' => [
+                        'class' => 'AuthorRepository',
+                        'method' => 'findById',
+                    ],
+                    'data' => [
+                        'author_id' => $author_id,
+                        'relations' => $relations,
+                    ]
+                ],
+                'message' => $th->getMessage()
+            ], JSON_PRETTY_PRINT));
+
             throw $th;
         }
     }
@@ -61,7 +98,24 @@ class AuthorRepository implements AuthorRepositoryInterface
 
             return AuthorData::fromModel($author->refresh());
         } catch (Throwable $th) {
-            logger($th->getMessage(), ['Author Repository' => 'update']);
+            Log::info(json_encode([
+                'user' => [
+                    'id' => Auth::user()->id,
+                    'name' => Auth::user()->name,
+                ],
+                'details' => [
+                    'source' => [
+                        'class' => 'AuthorRepository',
+                        'method' => 'update',
+                    ],
+                    'data' => [
+                        'author_id' => $author_id,
+                        'update_author_data' => $update_author_data,
+                    ]
+                ],
+                'message' => $th->getMessage()
+            ], JSON_PRETTY_PRINT));
+
             throw $th;
         }
     }

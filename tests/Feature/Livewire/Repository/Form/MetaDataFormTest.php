@@ -77,7 +77,7 @@ test('mount create success', function () {
     metaDataForm()
         ->assertSet('is_approve', false)
         ->assertSet('keyword', '')
-        ->assertSet('year', $meta_data->year)
+        ->assertSet('year', now()->year)
         ->assertNotSet('is_update', true)
         ->assertNotSet('meta_data_id', $meta_data->id)
         ->assertNotSet('title', $meta_data->title)

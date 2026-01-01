@@ -4,6 +4,8 @@ namespace App\Repositories\Eloquent;
 
 use Throwable;
 use App\Models\Coordinator;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Spatie\LaravelData\DataCollection;
 use App\Data\Coordinator\CoordinatorData;
@@ -31,6 +33,23 @@ class CoordinatorRepository implements CoordinatorRepositoryInterface
 
             return CoordinatorData::fromModel($coordinator);
         } catch (Throwable $th) {
+            Log::info(json_encode([
+                'user' => [
+                    'id' => Auth::user()->id,
+                    'name' => Auth::user()->name,
+                ],
+                'details' => [
+                    'source' => [
+                        'class' => 'CoordinatorRepository',
+                        'method' => 'findById',
+                    ],
+                    'data' => [
+                        'coordinator_id' => $coordinator_id,
+                    ]
+                ],
+                'message' => $th->getMessage()
+            ], JSON_PRETTY_PRINT));
+
             throw $th;
         }
     }
@@ -61,6 +80,23 @@ class CoordinatorRepository implements CoordinatorRepositoryInterface
 
             return CoordinatorData::fromModel($coordinator);
         } catch (Throwable $th) {
+            Log::info(json_encode([
+                'user' => [
+                    'id' => Auth::user()->id,
+                    'name' => Auth::user()->name,
+                ],
+                'details' => [
+                    'source' => [
+                        'class' => 'CoordinatorRepository',
+                        'method' => 'create',
+                    ],
+                    'data' => [
+                        'create_coordinator_data' => $create_coordinator_data,
+                    ]
+                ],
+                'message' => $th->getMessage()
+            ], JSON_PRETTY_PRINT));
+
             throw $th;
         }
     }
@@ -79,6 +115,23 @@ class CoordinatorRepository implements CoordinatorRepositoryInterface
 
             return CoordinatorData::fromModel($coordinator->refresh());
         } catch (Throwable $th) {
+            Log::info(json_encode([
+                'user' => [
+                    'id' => Auth::user()->id,
+                    'name' => Auth::user()->name,
+                ],
+                'details' => [
+                    'source' => [
+                        'class' => 'CoordinatorRepository',
+                        'method' => 'update',
+                    ],
+                    'data' => [
+                        'update_coordinator_data' => $updateCoordinatorData,
+                    ]
+                ],
+                'message' => $th->getMessage()
+            ], JSON_PRETTY_PRINT));
+
             throw $th;
         }
     }
@@ -90,6 +143,22 @@ class CoordinatorRepository implements CoordinatorRepositoryInterface
 
             return $coordinator->delete();
         } catch (Throwable $th) {
+            Log::info(json_encode([
+                'user' => [
+                    'id' => Auth::user()->id,
+                    'name' => Auth::user()->name,
+                ],
+                'details' => [
+                    'source' => [
+                        'class' => 'CoordinatorRepository',
+                        'method' => 'delete',
+                    ],
+                    'data' => [
+                        'coordinator_id' => $coordinator_id,
+                    ]
+                ],
+                'message' => $th->getMessage()
+            ], JSON_PRETTY_PRINT));
             throw $th;
         }
     }

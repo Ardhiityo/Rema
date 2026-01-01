@@ -6,6 +6,8 @@ use Throwable;
 use App\Models\Activity;
 use Illuminate\Support\Facades\DB;
 use App\Data\Activity\ActivityData;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use App\Data\Activity\ActivityDetailData;
 use App\Data\Activity\CreateActivityData;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -24,7 +26,24 @@ class ActivityRepository implements ActivityRepositoryInterface
                 'category_id' => $create_activity_data->category_id,
             ]);
         } catch (Throwable $th) {
-            logger($th->getMessage());
+            Log::info(json_encode([
+                'user' => [
+                    'id' => Auth::user()->id,
+                    'name' => Auth::user()->name,
+                ],
+                'details' => [
+                    'source' => [
+                        'class' => 'ActivityRepository',
+                        'method' => 'create',
+                    ],
+                    'data' => [
+                        'create_activity_data' => $create_activity_data,
+                    ]
+                ],
+                'message' => $th->getMessage()
+            ], JSON_PRETTY_PRINT));
+
+            throw $th;
         }
     }
 

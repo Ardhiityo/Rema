@@ -9,6 +9,8 @@ use App\Data\User\UserData;
 use App\Data\User\CreateUserData;
 use App\Data\User\UpdateUserData;
 use App\Services\AvatarGenerator;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use App\Repositories\Contratcs\UserRepositoryInterface;
@@ -33,7 +35,23 @@ class UserRepository implements UserRepositoryInterface
 
             return UserData::fromModel($user);
         } catch (Throwable $th) {
-            logger($th->getMessage(), ['User Repository' => 'Create']);
+            Log::info(json_encode([
+                'user' => [
+                    'id' => Auth::user()->id,
+                    'name' => Auth::user()->name,
+                ],
+                'details' => [
+                    'source' => [
+                        'class' => 'UserRepository',
+                        'method' => 'create',
+                    ],
+                    'data' => [
+                        'create_user_data' => $create_user_data->except('password', 'avatar'),
+                    ]
+                ],
+                'message' => $th->getMessage()
+            ], JSON_PRETTY_PRINT));
+
             throw $th;
         }
     }
@@ -45,6 +63,23 @@ class UserRepository implements UserRepositoryInterface
 
             return UserData::fromModel($user);
         } catch (Throwable $th) {
+            Log::info(json_encode([
+                'user' => [
+                    'id' => Auth::user()->id,
+                    'name' => Auth::user()->name,
+                ],
+                'details' => [
+                    'source' => [
+                        'class' => 'UserRepository',
+                        'method' => 'findById',
+                    ],
+                    'data' => [
+                        'user_id' => $user_id,
+                    ]
+                ],
+                'message' => $th->getMessage()
+            ], JSON_PRETTY_PRINT));
+
             throw $th;
         }
     }
@@ -80,7 +115,24 @@ class UserRepository implements UserRepositoryInterface
 
             return UserData::fromModel($user->refresh());
         } catch (Throwable $th) {
-            logger($th->getMessage(), ['User Repository' => 'update']);
+            Log::info(json_encode([
+                'user' => [
+                    'id' => Auth::user()->id,
+                    'name' => Auth::user()->name,
+                ],
+                'details' => [
+                    'source' => [
+                        'class' => 'UserRepository',
+                        'method' => 'update',
+                    ],
+                    'data' => [
+                        'user_id' => $user_id,
+                        'update_user_data' => $update_user_data->except('password', 'avatar'),
+                    ]
+                ],
+                'message' => $th->getMessage()
+            ], JSON_PRETTY_PRINT));
+
             throw $th;
         }
     }
@@ -118,6 +170,23 @@ class UserRepository implements UserRepositoryInterface
 
             return $user->delete();
         } catch (Throwable $th) {
+            Log::info(json_encode([
+                'user' => [
+                    'id' => Auth::user()->id,
+                    'name' => Auth::user()->name,
+                ],
+                'details' => [
+                    'source' => [
+                        'class' => 'UserRepository',
+                        'method' => 'delete',
+                    ],
+                    'data' => [
+                        'user_id' => $user_id
+                    ]
+                ],
+                'message' => $th->getMessage()
+            ], JSON_PRETTY_PRINT));
+
             throw $th;
         }
     }

@@ -6,6 +6,7 @@ use Throwable;
 use Livewire\Component;
 use App\Exports\RepositoryExport;
 use Livewire\Attributes\Computed;
+use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Repositories\Contratcs\AuthorRepositoryInterface;
 use App\Repositories\Contratcs\CategoryRepositoryInterface;
@@ -87,6 +88,26 @@ class RepositoryReport extends Component
                 writerType: \Maatwebsite\Excel\Excel::MPDF
             );
         } catch (Throwable $th) {
+            Log::info(json_encode([
+                'user' => [
+                    'id' => Auth::user()->id,
+                    'name' => Auth::user()->name,
+                ],
+                'details' => [
+                    'source' => [
+                        'class' => 'RepositoryReport',
+                        'method' => 'download',
+                    ],
+                    'data' => [
+                        'year' => $this->year,
+                        'includes' => $this->includes,
+                        'coordinator_id' => $this->coordinator_id,
+                        'coordinator_data' => $this->coordinator_data,
+                    ]
+                ],
+                'message' => $th->getMessage()
+            ], JSON_PRETTY_PRINT));
+
             session()->flash('repository-failed', $th->getMessage());
         }
     }

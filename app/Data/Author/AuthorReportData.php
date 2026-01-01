@@ -22,8 +22,8 @@ class AuthorReportData extends Data
     {
         return new self(
             $author->user->name,
-            $author->nim,
-            $author->studyProgram->name,
+            $author?->nim ?? '-',
+            $author?->studyProgram?->name ?? '-',
             $author?->metadata->sortByDesc('id')->first()?->title ?? '-',
             $author?->metadata->sortByDesc('id')->first()?->categories?->pluck('name')->implode(', ') ?? '-',
             ucfirst($author?->metadata->sortByDesc('id')->first()?->status ?? '-')

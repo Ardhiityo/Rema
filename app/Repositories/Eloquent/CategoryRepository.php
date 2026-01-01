@@ -5,6 +5,8 @@ namespace App\Repositories\Eloquent;
 use Throwable;
 use App\Models\Category;
 use App\Data\Category\CategoryData;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Spatie\LaravelData\DataCollection;
 use Illuminate\Support\Facades\Storage;
@@ -25,6 +27,23 @@ class CategoryRepository implements CategoryRepositoryInterface
 
             return CategoryData::fromModel($category);
         } catch (Throwable $th) {
+            Log::info(json_encode([
+                'user' => [
+                    'id' => Auth::user()->id,
+                    'name' => Auth::user()->name,
+                ],
+                'details' => [
+                    'source' => [
+                        'class' => 'CategoryRepository',
+                        'method' => 'create',
+                    ],
+                    'data' => [
+                        'category' => $category,
+                    ]
+                ],
+                'message' => $th->getMessage()
+            ], JSON_PRETTY_PRINT));
+
             throw $th;
         }
     }
@@ -36,6 +55,23 @@ class CategoryRepository implements CategoryRepositoryInterface
 
             return CategoryData::fromModel($category);
         } catch (Throwable $th) {
+            Log::info(json_encode([
+                'user' => [
+                    'id' => Auth::user()->id,
+                    'name' => Auth::user()->name,
+                ],
+                'details' => [
+                    'source' => [
+                        'class' => 'CategoryRepository',
+                        'method' => 'findById',
+                    ],
+                    'data' => [
+                        'category_id' => $category_id,
+                    ]
+                ],
+                'message' => $th->getMessage()
+            ], JSON_PRETTY_PRINT));
+
             throw $th;
         }
     }
@@ -52,6 +88,24 @@ class CategoryRepository implements CategoryRepositoryInterface
 
             return CategoryData::fromModel($category->refresh());
         } catch (Throwable $th) {
+            Log::info(json_encode([
+                'user' => [
+                    'id' => Auth::user()->id,
+                    'name' => Auth::user()->name,
+                ],
+                'details' => [
+                    'source' => [
+                        'class' => 'CategoryRepository',
+                        'method' => 'update',
+                    ],
+                    'data' => [
+                        'category_id' => $category_id,
+                        'update_category_data' => $update_category_data,
+                    ]
+                ],
+                'message' => $th->getMessage()
+            ], JSON_PRETTY_PRINT));
+
             throw $th;
         }
     }
@@ -74,6 +128,23 @@ class CategoryRepository implements CategoryRepositoryInterface
 
             return $category->delete();
         } catch (Throwable $th) {
+            Log::info(json_encode([
+                'user' => [
+                    'id' => Auth::user()->id,
+                    'name' => Auth::user()->name,
+                ],
+                'details' => [
+                    'source' => [
+                        'class' => 'CategoryRepository',
+                        'method' => 'delete',
+                    ],
+                    'data' => [
+                        'category_id' => $category_id,
+                    ]
+                ],
+                'message' => $th->getMessage()
+            ], JSON_PRETTY_PRINT));
+
             throw $th;
         }
     }

@@ -5,6 +5,8 @@ namespace App\Repositories\Eloquent;
 use Throwable;
 use App\Models\Author;
 use App\Models\StudyProgram;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Spatie\LaravelData\DataCollection;
 use Illuminate\Support\Facades\Storage;
@@ -26,6 +28,23 @@ class StudyProgramRepository implements StudyProgramRepositoryInterface
 
             return StudyProgramData::fromModel($study_program);
         } catch (Throwable $th) {
+            Log::info(json_encode([
+                'user' => [
+                    'id' => Auth::user()->id,
+                    'name' => Auth::user()->name,
+                ],
+                'details' => [
+                    'source' => [
+                        'class' => 'StudyProgramRepository',
+                        'method' => 'create',
+                    ],
+                    'data' => [
+                        'study_program' => $create_study_program_data,
+                    ]
+                ],
+                'message' => $th->getMessage()
+            ], JSON_PRETTY_PRINT));
+
             throw $th;
         }
     }
@@ -37,6 +56,23 @@ class StudyProgramRepository implements StudyProgramRepositoryInterface
 
             return StudyProgramData::fromModel($study_program);
         } catch (Throwable $th) {
+            Log::info(json_encode([
+                'user' => [
+                    'id' => Auth::user()->id,
+                    'name' => Auth::user()->name,
+                ],
+                'details' => [
+                    'source' => [
+                        'class' => 'StudyProgramRepository',
+                        'method' => 'findById',
+                    ],
+                    'data' => [
+                        'study_program_id' => $study_program_id,
+                    ]
+                ],
+                'message' => $th->getMessage()
+            ], JSON_PRETTY_PRINT));
+
             throw $th;
         }
     }
@@ -53,6 +89,24 @@ class StudyProgramRepository implements StudyProgramRepositoryInterface
 
             return StudyProgramData::fromModel($study_program->refresh());
         } catch (Throwable $th) {
+            Log::info(json_encode([
+                'user' => [
+                    'id' => Auth::user()->id,
+                    'name' => Auth::user()->name,
+                ],
+                'details' => [
+                    'source' => [
+                        'class' => 'StudyProgramRepository',
+                        'method' => 'update',
+                    ],
+                    'data' => [
+                        'study_program_id' => $study_program_id,
+                        'update_study_program_data' => $update_study_program_data,
+                    ]
+                ],
+                'message' => $th->getMessage()
+            ], JSON_PRETTY_PRINT));
+
             throw $th;
         }
     }
@@ -94,7 +148,23 @@ class StudyProgramRepository implements StudyProgramRepositoryInterface
 
             return $study_program->delete();
         } catch (Throwable $th) {
-            logger($th->getMessage(), ['Study Program Repository' => 'delete']);
+            Log::info(json_encode([
+                'user' => [
+                    'id' => Auth::user()->id,
+                    'name' => Auth::user()->name,
+                ],
+                'details' => [
+                    'source' => [
+                        'class' => 'StudyProgramRepository',
+                        'method' => 'delete',
+                    ],
+                    'data' => [
+                        'study_program_id' => $study_program_id,
+                    ]
+                ],
+                'message' => $th->getMessage()
+            ], JSON_PRETTY_PRINT));
+
             throw $th;
         }
     }
