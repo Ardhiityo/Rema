@@ -23,13 +23,12 @@ class ActivityDetailData extends Data
     public static function fromModel(Activity $activity): self
     {
         return new self(
-            is_null($activity->user?->avatar)
-                ? asset('assets/compiled/jpg/anonym.jpg') : Storage::url($activity->user->avatar),
-            $activity->user?->name ?? 'Anonym',
-            $activity->user->author?->nim ?? '-',
-            $activity->user->author->studyProgram?->name ?? '-',
+            $activity?->user?->avatar ? asset('assets/compiled/jpg/anonym.jpg') : Storage::url($activity->user->avatar),
+            $activity?->user?->name ?? 'Anonym',
+            $activity?->user->author?->nim ?? '-',
+            $activity?->user?->author?->studyProgram?->name ?? '-',
             $activity->ip,
-            $activity->user_agent,
+            $activity?->user_agent,
             $activity->created_at->format('d F Y H:i:s')
         );
     }

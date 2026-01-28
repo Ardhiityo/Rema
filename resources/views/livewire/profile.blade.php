@@ -32,8 +32,7 @@
                                         <div class="form-group">
                                             <label for="first-name-column" class="form-label">Name <sup>*</sup> </label>
                                             <input type="text" id="first-name-column" class="form-control"
-                                                placeholder="ex: Arya Adhi Prasetyo" name="name" wire:model='name'
-                                                {{ $this->isLockForm ? 'disabled' : '' }}>
+                                                placeholder="ex: Arya Adhi Prasetyo" name="name" wire:model='name'>
                                             @error('name')
                                                 <span class="badge bg-danger text-wrap">
                                                     <small>{{ $message }}</small>
@@ -44,13 +43,12 @@
                                     {{-- Name --}}
 
                                     {{-- NIM --}}
-                                    @hasrole('contributor')
+                                    @hasrole('author')
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label for="first-name-column" class="form-label">NIM <sup>*</sup></label>
                                                 <input type="text" id="first-name-column" class="form-control"
-                                                    placeholder="ex: 22040004" name="nim" wire:model='nim'
-                                                    {{ $this->isLockForm ? 'disabled' : '' }}>
+                                                    placeholder="ex: 22040004" name="nim" wire:model='nim'>
                                                 @error('nim')
                                                     <span class="badge bg-danger text-wrap">
                                                         <small>{{ $message }}</small>
@@ -62,14 +60,14 @@
                                     {{-- NIM --}}
 
                                     {{-- Study Program --}}
-                                    @hasrole('contributor')
+                                    @hasrole('author')
                                         <div class="my-2 col-12">
                                             <div class="input-group">
                                                 <label class="input-group-text" for="inputGroupSelect01" class="form-label">
                                                     Study Program <sup class="ms-1">*</sup>
                                                 </label>
                                                 <select class="form-select" id="inputGroupSelect01"
-                                                    wire:model='study_program_id' {{ $this->isLockForm ? 'disabled' : '' }}>
+                                                    wire:model='study_program_id'>
                                                     <option selected>Choose...</option>
                                                     @foreach ($study_programs as $study_program)
                                                         <option value="{{ $study_program->id }}">
@@ -124,8 +122,7 @@
                                         <div class="form-group">
                                             <label for="country-floating" class="form-label">Avatar</label>
                                             <input class="form-control" type="file" id="formFile"
-                                                accept=".jpg,.jpeg,.png" wire:model='avatar'
-                                                {{ $this->isLockForm ? 'disabled' : '' }}>
+                                                accept=".jpg,.jpeg,.png" wire:model='avatar'>
                                             @error('avatar')
                                                 <span class="badge bg-danger text-wrap">
                                                     <small>{{ $message }}</small>

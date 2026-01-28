@@ -11,6 +11,12 @@ class MetaDataCategory extends Pivot
 {
     protected $table = 'meta_data_category';
 
+    protected $fillable = [
+        'meta_data_id',
+        'category_id',
+        'file_path'
+    ];
+
     public function metadata()
     {
         return $this->belongsTo(MetaData::class, 'meta_data_id', 'id');

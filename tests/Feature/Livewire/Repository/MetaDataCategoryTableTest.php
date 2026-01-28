@@ -21,51 +21,13 @@ test('mount success', function () {
 
     $meta_data = MetaData::first();
 
-    metaDataCategoryTable(['meta_data_id' => $meta_data->id, 'is_approve' => true])
-        ->assertSet('is_approve', true)
+    metaDataCategoryTable([
+        'meta_data_id' => $meta_data->id
+    ])
         ->assertSet('meta_data_id', $meta_data->id);
 
     metaDataCategoryTable(['meta_data_id' => $meta_data->id])
-        ->assertSet('is_approve', false)
         ->assertSet('meta_data_id', $meta_data->id);
-});
-
-test('is lock form false contributor success', function () {
-    Storage::fake('public');
-
-    $this->seed(DatabaseSeeder::class);
-
-    $user = User::whereEmail('contributor@gmail.com')->first();
-
-    actingAs($user);
-
-    $meta_data = MetaData::first();
-
-    $component = metaDataCategoryTable(['meta_data_id' => $meta_data->id])
-        ->assertSet('is_approve', false)
-        ->assertSet('meta_data_id', $meta_data->id);
-
-    expect(false)
-        ->toBe($component->instance()->islockForm());
-});
-
-test('is lock form true contributor success', function () {
-    Storage::fake('public');
-
-    $this->seed(DatabaseSeeder::class);
-
-    $user = User::whereEmail('contributor@gmail.com')->first();
-
-    actingAs($user);
-
-    $meta_data = MetaData::first();
-
-    $component = metaDataCategoryTable(['meta_data_id' => $meta_data->id, 'is_approve' => true])
-        ->assertSet('is_approve', true)
-        ->assertSet('meta_data_id', $meta_data->id);
-
-    expect(true)
-        ->toBe($component->instance()->islockForm());
 });
 
 test('get repositories success', function () {
@@ -73,7 +35,7 @@ test('get repositories success', function () {
 
     $this->seed(DatabaseSeeder::class);
 
-    $user = User::whereEmail('contributor@gmail.com')->first();
+    $user = User::whereEmail('author@gmail.com')->first();
 
     actingAs($user);
 
@@ -89,11 +51,10 @@ test('get repositories failed not found', function () {
 
     $this->seed(DatabaseSeeder::class);
 
-    $user = User::whereEmail('contributor@gmail.com')->first();
+    $user = User::whereEmail('author@gmail.com')->first();
 
     actingAs($user);
 
-    $this->expectException(ModelNotFoundException::class);
-
-    metaDataCategoryTable(['meta_data_id' => 100]);
+    metaDataCategoryTable(['meta_data_id' => 100])
+        ->assertSet('meta_data_id', 100);
 });

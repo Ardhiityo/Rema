@@ -15,7 +15,7 @@ test('users can authenticate using the login screen', function () {
 
     $this->seed(DatabaseSeeder::class);
 
-    $user = User::whereEmail('contributor@gmail.com')->first();
+    $user = User::whereEmail('author@gmail.com')->first();
 
     expect($user->email)->not()->toBeNull();
     expect($user->password)->not()->toBeNull();
@@ -35,7 +35,7 @@ test('users can not authenticate with invalid password', function () {
 
     $this->seed(DatabaseSeeder::class);
 
-    $user = User::whereEmail('contributor@gmail.com')->first();
+    $user = User::whereEmail('author@gmail.com')->first();
 
     expect($user->email)->not()->toBeNull();
     expect($user->password)->not()->toBeNull();

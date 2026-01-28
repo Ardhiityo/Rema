@@ -23,9 +23,9 @@ class MetadataReportData extends Data
     {
         return new self(
             $meta_data->title,
-            $meta_data->author->user->name,
-            $meta_data->author->nim,
-            $meta_data->author->studyProgram->name,
+            $meta_data->author_name,
+            $meta_data->author_nim,
+            $meta_data->author_study_program,
             ActivityReportData::fromActivities($meta_data->activities),
             $meta_data->activities->count(),
         );

@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Auth;
 use App\Data\Author\AuthorReportData;
 use App\Data\Author\CreateAuthorData;
 use App\Data\Author\UpdateAuthorData;
-use Illuminate\Support\Facades\Cache;
 use Spatie\LaravelData\DataCollection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Repositories\Contratcs\AuthorRepositoryInterface;
@@ -26,7 +25,6 @@ class AuthorRepository implements AuthorRepositoryInterface
                 'nim' => $create_author_data->nim,
                 'user_id' => $create_author_data->user_id,
                 'study_program_id' => $create_author_data->study_program_id,
-                'status' => $create_author_data->status
             ]);
 
             return AuthorData::fromModel($author);
@@ -92,8 +90,7 @@ class AuthorRepository implements AuthorRepositoryInterface
 
             $author->update([
                 'nim' => $update_author_data->nim,
-                'study_program_id' => $update_author_data->study_program_id,
-                'status' => $update_author_data->status
+                'study_program_id' => $update_author_data->study_program_id
             ]);
 
             return AuthorData::fromModel($author->refresh());
@@ -120,48 +117,30 @@ class AuthorRepository implements AuthorRepositoryInterface
         }
     }
 
-    public function findByApprovals(array|null $relations = null): DataCollection
-    {
-        return Cache::rememberForever('author.findByApprovals', function () use ($relations) {
-            $authors = Author::query();
-
-            if ($relations) {
-                $authors->with($relations);
-            }
-
-            $authors->approve();
-
-            return AuthorListData::collect(
-                $authors->orderByDesc('id')->get(),
-                DataCollection::class
-            );
-        });
-    }
-
-    public function findByFilters(string $status_filter = 'approve', string|null $keyword = null, string|null $study_program_slug = null): LengthAwarePaginator
+    public function findByFilters(string|null $keyword = null, string|null $study_program_slug = null): LengthAwarePaginator
     {
         $query = Author::query();
-
-        $query->where('status', $status_filter);
 
         if ($keyword) {
             $query->whereHas(
                 'user',
                 fn($query) => $query->whereLike('name', "%$keyword%")
-            )
-                ->orWhere('nim', $keyword);
+            )->orWhere('nim', $keyword);
         }
 
         if ($study_program_slug) {
-            $query->whereHas('studyProgram', fn($query) => $query->where('slug', $study_program_slug));
+            $query->whereHas(
+                'studyProgram',
+                fn($query) => $query->where('slug', $study_program_slug)
+            );
         }
 
         return AuthorListData::collect($query->orderByDesc('id')->paginate(10));
     }
 
-    public function reports(int|string $year, array $includes = [], int $coordinator_id): DataCollection
+    public function reports(int|string $year, array $includes = [], int $nidn): DataCollection
     {
-        $coordinator = Coordinator::find($coordinator_id);
+        $coordinator = Coordinator::where('nidn', $nidn)->first();
 
         $authors = Author::query()->with([
             'metadata.categories' => function ($query) use ($includes) {
@@ -212,25 +191,8 @@ class AuthorRepository implements AuthorRepositoryInterface
         return AuthorReportData::collect($authors, DataCollection::class);
     }
 
-    public function findByNameOrNim(string $keyword = ''): DataCollection
+    public function authorCount(): int
     {
-        $authors = Author::query()
-            ->with('user');
-
-        if ($keyword) {
-            $authors = $authors
-                ->where('nim', $keyword)
-                ->orWhereHas(
-                    'user',
-                    fn($query) => $query->whereLike('name', "%$keyword%")
-                );
-        }
-
-        $authors = $authors->where('status', 'approve')
-            ->orderByDesc('id')
-            ->limit(5)
-            ->get();
-
-        return AuthorListData::collect($authors, DataCollection::class);
+        return Author::count();
     }
 }

@@ -26,6 +26,34 @@ class CoordinatorRepository implements CoordinatorRepositoryInterface
         });
     }
 
+    public function findByNidn(int $nidn): CoordinatorData|Throwable
+    {
+        try {
+            $coordinator = Coordinator::where('nidn', $nidn)->firstOrFail();
+
+            return CoordinatorData::fromModel($coordinator);
+        } catch (Throwable $th) {
+            Log::info(json_encode([
+                'user' => [
+                    'id' => Auth::user()->id,
+                    'name' => Auth::user()->name,
+                ],
+                'details' => [
+                    'source' => [
+                        'class' => 'CoordinatorRepository',
+                        'method' => 'findByNidn',
+                    ],
+                    'data' => [
+                        'nidn' => $nidn,
+                    ]
+                ],
+                'message' => $th->getMessage()
+            ], JSON_PRETTY_PRINT));
+
+            throw $th;
+        }
+    }
+
     public function findById(int $coordinator_id): CoordinatorData|Throwable
     {
         try {

@@ -2,22 +2,19 @@
 
 namespace App\Providers;
 
-use App\Models\Author;
-use App\Models\Category;
-use App\Models\Coordinator;
-use App\Models\MetaData;
-use App\Models\StudyProgram;
-use App\Observers\AuthorObserver;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Events\QueryExecuted;
+use App\Models\Category;
+use App\Models\MetaData;
+use App\Models\Coordinator;
+use App\Models\StudyProgram;
 use App\Observers\CategoryObserver;
-use App\Observers\CoordinatorObserver;
 use App\Observers\MetaDataObserver;
+use App\Observers\CoordinatorObserver;
 use App\Observers\StudyProgramObserver;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 use App\Repositories\Eloquent\NoteRepository;
 use App\Repositories\Eloquent\UserRepository;
-use Illuminate\Database\Events\QueryExecuted;
 use App\Repositories\Eloquent\AuthorRepository;
 use App\Repositories\Eloquent\ActivityRepository;
 use App\Repositories\Eloquent\CategoryRepository;
@@ -68,12 +65,9 @@ class AppServiceProvider extends ServiceProvider
         //     logger(json_encode($query->sql, JSON_PRETTY_PRINT));
         // });
 
-        Model::unguard();
-
         Category::observe(CategoryObserver::class);
         StudyProgram::observe(StudyProgramObserver::class);
         Coordinator::observe(CoordinatorObserver::class);
-        Author::observe(AuthorObserver::class);
         MetaData::observe(MetaDataObserver::class);
     }
 }

@@ -10,6 +10,11 @@ class Note extends Model
 {
     protected $table = 'notes';
 
+    protected $fillable = [
+        'meta_data_id',
+        'message',
+    ];
+
     public function repository()
     {
         return $this->belongsTo(MetaData::class, 'meta_data_id', 'id');

@@ -13,8 +13,6 @@ class SearchHero extends Component
 {
     use WithPagination;
 
-    protected $paginationTheme = 'bootstrap';
-
     public string $title = '';
     public string $category = '';
     public string $year = '';

@@ -13,6 +13,7 @@ interface CoordinatorRepositoryInterface
 {
     public function all(): DataCollection;
     public function findById(int $coordinator_id): CoordinatorData|Throwable;
+    public function findByNidn(int $nidn): CoordinatorData|Throwable;
     public function delete(int $coordinator_id): bool|Throwable;
     public function findByFilters(string $keyword): LengthAwarePaginator;
     public function create(CreateCoordinatorData $create_coordinator_data): CoordinatorData|Throwable;

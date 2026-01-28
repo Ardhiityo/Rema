@@ -17,7 +17,7 @@ test('delete confirm success', function () {
 
     $meta_data = MetaData::first();
 
-    $user = User::where('email', 'contributor@gmail.com')->first();
+    $user = User::where('email', 'author@gmail.com')->first();
 
     actingAs($user);
 
@@ -34,7 +34,7 @@ test('delete confirm failed not found', function () {
 
     $meta_data = MetaData::first();
 
-    $user = User::where('email', 'contributor@gmail.com')->first();
+    $user = User::where('email', 'author@gmail.com')->first();
 
     actingAs($user);
 
@@ -51,7 +51,7 @@ test('delete success', function () {
 
     $meta_data = MetaData::first();
 
-    $user = User::where('email', 'contributor@gmail.com')->first();
+    $user = User::where('email', 'author@gmail.com')->first();
 
     actingAs($user);
 
@@ -74,7 +74,7 @@ test('delete failed not found', function () {
 
     $meta_data = MetaData::first();
 
-    $user = User::where('email', 'contributor@gmail.com')->first();
+    $user = User::where('email', 'author@gmail.com')->first();
 
     actingAs($user);
 
@@ -95,7 +95,7 @@ test('reset input success', function () {
 
     $this->seed(DatabaseSeeder::class);
 
-    $user = User::where('email', 'contributor@gmail.com')->first();
+    $user = User::where('email', 'author@gmail.com')->first();
 
     actingAs($user);
 
@@ -116,14 +116,14 @@ test('render success', function () {
 
     $this->seed(DatabaseSeeder::class);
 
-    $user = User::where('email', 'contributor@gmail.com')->first();
+    $user = User::where('email', 'author@gmail.com')->first();
 
     actingAs($user);
 
     $meta_data = MetaData::first();
 
     repositoryList()
-        ->set('status_filter', 'pending')
+        ->set('status_filter', 'process')
         ->assertSeeText(Str::limit($meta_data->title, 35, '...'))
         ->assertSeeText(Str::limit($meta_data->author->user->name, 15, '...'));
 });

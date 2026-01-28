@@ -4,8 +4,6 @@ namespace App\Livewire\Report;
 
 use Throwable;
 use Livewire\Component;
-use App\Exports\ActivityExport;
-use Maatwebsite\Excel\Facades\Excel;
 
 class ActivityReport extends Component
 {
@@ -26,7 +24,6 @@ class ActivityReport extends Component
     public function resetInput()
     {
         $this->year = '';
-
         $this->resetErrorBag();
     }
 
@@ -36,14 +33,8 @@ class ActivityReport extends Component
 
         try {
             $year = $this->year;
-
-            return Excel::download(
-                export: new ActivityExport(
-                    year: $year
-                ),
-                fileName: "Activities $year" . '.pdf',
-                writerType: \Maatwebsite\Excel\Excel::MPDF
-            );
+            $this->resetInput();
+            return redirect()->route('reports.activities.download', ['year' => $year]);
         } catch (Throwable $th) {
             logger($th->getMessage(), ['Activity Report' => 'download']);
             session()->flash('activity-failed', $th->getMessage());

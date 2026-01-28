@@ -6,17 +6,13 @@
             <div class="card-body">
                 <div class="mb-2 flex-column d-flex">
                     <h4 class="gap-2 card-title d-flex align-items-center">
-                        @if ($meta_data->author->user->avatar)
-                            <img src="{{ Storage::url($meta_data->author->user->avatar) }}"
-                                alt="{{ $meta_data->author->user->name }}" class="rounded-pill" style="max-width: 38px">
-                        @else
-                            -
-                        @endif
-                        <span>{{ $meta_data->author->user->name }}</span>
+                        <img src="{{ $avatar }}" alt="{{ $meta_data->author_name }}" class="rounded-pill"
+                            style="max-width: 38px">
+                        <span>{{ $meta_data->author_name }}</span>
                     </h4>
                     <p>
-                        <small>{{ $meta_data->author->nim }} |
-                            {{ $meta_data->author->studyProgram?->name ?? '-' }}</small>
+                        <small>{{ $meta_data->author_nim }} |
+                            {{ $meta_data->author_study_program }}</small>
                     </p>
                 </div>
                 <h5 class="card-text">

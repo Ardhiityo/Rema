@@ -26,7 +26,7 @@ class ProfileNimRule implements ValidationRule
             $attribute => []
         ];
 
-        if ($user->hasRole('contributor')) {
+        if ($user->hasRole('author')) {
             if (is_null($user->author->nim)) {
                 $rules[$attribute] = ['numeric', 'digits_between:8,15', 'unique:authors,nim'];
             } else {

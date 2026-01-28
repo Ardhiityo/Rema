@@ -13,7 +13,6 @@ class AuthorList extends Component
 {
     use WithPagination;
 
-    public string $status_filter = 'approve';
     public string $study_program_slug = '';
     public string $keyword = '';
 
@@ -21,7 +20,6 @@ class AuthorList extends Component
     public function getAuthorsProperty(AuthorRepositoryInterface $authorRepository)
     {
         return $authorRepository->findByFilters(
-            $this->status_filter,
             $this->keyword,
             $this->study_program_slug
         );
@@ -30,7 +28,6 @@ class AuthorList extends Component
     public function resetInput()
     {
         $this->keyword = '';
-        $this->status_filter = 'approve';
         $this->study_program_slug = '';
 
         $this->resetPage();

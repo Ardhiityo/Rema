@@ -10,9 +10,7 @@
                         <th>No</th>
                         <th>Category</th>
                         <th>File</th>
-                        @if (!$this->islockForm)
-                            <th>Action</th>
-                        @endif
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -29,27 +27,25 @@
                                     <i class="bi bi-eye-fill"></i>
                                 </a>
                             </td>
-                            @if (!$this->islockForm)
-                                <td>
-                                    <div class="gap-3 d-flex justify-content-center align-items-center">
-                                        <button class="btn btn-warning"
-                                            wire:click="$dispatch('edit-repository-category', {
+                            <td>
+                                <div class="gap-3 d-flex justify-content-center align-items-center">
+                                    <button class="btn btn-warning"
+                                        wire:click="$dispatch('edit-repository-category', {
                                                 meta_data_slug: @js($this->repositories->slug),
                                                 category_slug: @js($category->slug)
                                                 })">
-                                            <i class="bi bi-pencil-square"></i>
-                                        </button>
-                                        <button type="button" class="block btn btn-danger"
-                                            wire:click="$dispatch('delete-confirm-repository-category', {
+                                        <i class="bi bi-pencil-square"></i>
+                                    </button>
+                                    <button type="button" class="block btn btn-danger"
+                                        wire:click="$dispatch('delete-confirm-repository-category', {
                                                 meta_data_slug: @js($this->repositories->slug),
                                                 category_slug: @js($category->slug)
                                             })"
-                                            data-bs-toggle="modal" data-bs-target="#border-less">
-                                            <i class="bi bi-trash3"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            @endif
+                                        data-bs-toggle="modal" data-bs-target="#border-less">
+                                        <i class="bi bi-trash3"></i>
+                                    </button>
+                                </div>
+                            </td>
                         </tr>
                     @empty
                         <tr>

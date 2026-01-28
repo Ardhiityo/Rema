@@ -45,13 +45,11 @@ test('create success', function () {
         ->set('name', $name)
         ->set('nim', $nim)
         ->set('study_program_id', $study_program->id)
-        ->set('status', 'approve')
         ->call('create')
         ->assertHasNoErrors()
         ->assertSet('name', '')
         ->assertSet('nim', '')
         ->assertSet('study_program_id', '')
-        ->assertSet('status', '')
         ->assertDispatched('refresh-authors');
 
     $this->assertDatabaseCount('users', 3);
@@ -62,8 +60,7 @@ test('create success', function () {
     $this->assertDatabaseCount('authors', 2);
     $this->assertDatabaseHas('authors', [
         'nim' => $nim,
-        'study_program_id' => $study_program->id,
-        'status' => 'approve'
+        'study_program_id' => $study_program->id
     ]);
 });
 
@@ -79,14 +76,12 @@ test('create failed validation', function () {
     authorForm()
         ->set('name', $name)
         ->set('study_program_id', $study_program->id)
-        ->set('status', 'approve')
         ->call('create')
         ->assertHasErrors([
             'nim' => 'required'
         ])
         ->assertNotSet('name', '')
         ->assertNotSet('study_program_id', '')
-        ->assertNotSet('status', '')
         ->assertNotDispatched('refresh-authors');
 
     $this->assertDatabaseCount('users', 2);
@@ -96,8 +91,7 @@ test('create failed validation', function () {
 
     $this->assertDatabaseCount('authors', 1);
     $this->assertDatabaseMissing('authors', [
-        'study_program_id' => $study_program->id,
-        'status' => 'approve'
+        'study_program_id' => $study_program->id
     ]);
 });
 
@@ -114,7 +108,6 @@ test('create failed validation already exists', function () {
     authorForm()
         ->set('name', $name)
         ->set('study_program_id', $study_program->id)
-        ->set('status', 'approve')
         ->set('nim', $nim)
         ->call('create')
         ->assertHasErrors([
@@ -123,7 +116,6 @@ test('create failed validation already exists', function () {
         ->assertNotSet('name', '')
         ->assertNotSet('nim', '')
         ->assertNotSet('study_program_id', '')
-        ->assertNotSet('status', '')
         ->assertNotDispatched('refresh-authors');
 
     $this->assertDatabaseCount('users', 2);
@@ -134,7 +126,6 @@ test('create failed validation already exists', function () {
     $this->assertDatabaseCount('authors', 1);
     $this->assertDatabaseMissing('authors', [
         'study_program_id' => $study_program->id,
-        'status' => 'approve',
         'nim' => $nim
     ]);
 });
@@ -150,7 +141,6 @@ test('edit success', function () {
         ->call('edit', $author->id)
         ->assertSet('name', $author->user->name)
         ->assertSet('study_program_id', '')
-        ->assertSet('status', 'pending')
         ->assertSet('nim', $author->nim);
 });
 
@@ -171,7 +161,6 @@ test('update success', function () {
     authorForm()
         ->set('name', 'Budi Kurniawan')
         ->set('study_program_id', $study_program->first()->id)
-        ->set('status', 'approve')
         ->set('email', $author->user->email)
         ->set('nim', 22040003)
         ->set('author_id', $author->id)
@@ -182,15 +171,13 @@ test('update success', function () {
         ->assertSet('display_avatar', false)
         ->assertSet('name', '')
         ->assertSet('study_program_id', '')
-        ->assertSet('status', '')
         ->assertSet('nim', '')
         ->assertSet('author_id', $author->id)
         ->assertDispatched('refresh-authors');
 
     $this->assertDatabaseHas('authors', [
         'nim' => 22040003,
-        'study_program_id' => $study_program->id,
-        'status' => 'approve',
+        'study_program_id' => $study_program->id
     ]);
     $this->assertDatabaseHas('users', [
         'name' => 'Budi Kurniawan',
@@ -210,7 +197,6 @@ test('update avatar success', function () {
     authorForm()
         ->set('name', 'Budi Kurniawan')
         ->set('study_program_id', $study_program->first()->id)
-        ->set('status', 'approve')
         ->set('email', $author->user->email)
         ->set('nim', 22040003)
         ->set('avatar', UploadedFile::fake()->image('avatar.jpg'))
@@ -222,7 +208,6 @@ test('update avatar success', function () {
         ->assertSet('display_avatar', false)
         ->assertSet('name', '')
         ->assertSet('study_program_id', '')
-        ->assertSet('status', '')
         ->assertSet('nim', '')
         ->assertSet('author_id', $author->id)
         ->assertDispatched('refresh-authors');
@@ -233,8 +218,7 @@ test('update avatar success', function () {
 
     $this->assertDatabaseHas('authors', [
         'nim' => 22040003,
-        'study_program_id' => $study_program->id,
-        'status' => 'approve',
+        'study_program_id' => $study_program->id
     ]);
     $this->assertDatabaseHas('users', [
         'name' => 'Budi Kurniawan',
@@ -254,7 +238,6 @@ test('update failed validation', function () {
     authorForm()
         ->set('name', 'Budi Kurniawan')
         ->set('study_program_id', $study_program->first()->id)
-        ->set('status', 'approve')
         ->set('email', $author->user->email)
         ->set('nim', '')
         ->set('author_id', $author->id)
@@ -267,13 +250,11 @@ test('update failed validation', function () {
         ->assertSet('author_id', $author->id)
         ->assertNotSet('name', '')
         ->assertNotSet('study_program_id', '')
-        ->assertNotSet('status', '')
         ->assertNotDispatched('refresh-authors');
 
     $this->assertDatabaseMissing('authors', [
         'nim' => 22040003,
         'study_program_id' => $study_program->id,
-        'status' => 'approve',
     ]);
     $this->assertDatabaseMissing('users', [
         'name' => 'Budi Kurniawan',
@@ -318,7 +299,6 @@ test('delete success', function () {
         ->assertSet('nim', '')
         ->assertSet('study_program_id', '')
         ->assertSet('email', '')
-        ->assertSet('status', '')
         ->assertSet('password', '')
         ->assertSet('avatar', '')
         ->assertSet('is_update', false);

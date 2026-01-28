@@ -11,17 +11,23 @@ class LandingPageRepository implements LandingPageRepositoryInterface
 {
     public function searchHero(string $title, string $year, string $author, string $category): LengthAwarePaginator
     {
-        $query = MetaData::query()->with([
-            'author',
-            'categories' => fn($query) => $query->where('slug', $category),
-            'author.user',
-            'author.studyProgram'
-        ]);
+        $query = MetaData::query()
+            ->with([
+                'categories' => fn($query) => $query->where('slug', $category)
+            ])
+            ->withCount([
+                'activities' => fn($query) => $query->whereHas(
+                    'category',
+                    fn($query) => $query->where('slug', $category)
+                )
+            ]);
 
-        $query->where('status', 'approve')->where('visibility', 'public');
+        $query
+            ->where('status', 'approve')
+            ->where('visibility', 'public');
 
         if ($title) {
-            $query->whereLike('title', "%$title%");
+            $query->whereLike('title', "$title%");
         }
 
         $query->whereHas(
@@ -34,10 +40,7 @@ class LandingPageRepository implements LandingPageRepositoryInterface
         }
 
         if ($author) {
-            $query->whereHas(
-                'author.user',
-                fn($query) => $query->whereLike('name', "%$author%")
-            );
+            $query->whereLike('author_name', "$author%");
         }
 
         return SearchHeroData::collect(

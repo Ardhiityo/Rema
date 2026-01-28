@@ -14,7 +14,9 @@ class UpdateMetaData extends Data
 
     public function __construct(
         public string $title,
-        public int|string $author_id,
+        public int|string $author_name,
+        public int|string $author_nim,
+        public int|string $author_study_program,
         public string $visibility,
         public string $slug,
         public string $year,

@@ -14,13 +14,12 @@ return new class extends Migration
         Schema::create('authors', function (Blueprint $table) {
             $table->id();
             $table->string('nim')->nullable();
-            $table->enum('status', ['pending', 'approve', 'reject'])
-                ->default('pending');
             $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
             $table->unsignedBigInteger('study_program_id')->nullable();
-            $table->foreign('study_program_id')->references('id')->on('study_programs')->cascadeOnDelete();
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
+            $table->foreign('study_program_id')->references('id')->on('study_programs')->cascadeOnDelete();
         });
     }
 

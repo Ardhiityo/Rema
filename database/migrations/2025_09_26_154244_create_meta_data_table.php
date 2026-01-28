@@ -15,14 +15,24 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->year('year');
-            $table->enum('visibility', ['private', 'protected', 'public'])
-                ->default('private');
+            $table->enum('visibility', ['private', 'public'])->default('private');
             $table->string('slug')->unique();
-            $table->enum('status', ['approve', 'reject', 'pending', 'revision'])
-                ->default('pending');
-            $table->unsignedBigInteger('author_id');
-            $table->foreign('author_id')->references('id')->on('authors')->cascadeOnDelete();
+            $table->enum('status', ['approve', 'reject', 'process', 'revision'])->default('process');
+            $table->string('author_name');
+            $table->string('author_nim');
+            $table->string('author_study_program');
+            $table->unsignedBigInteger('author_id')->nullable();
             $table->timestamps();
+
+            $table->foreign('author_id')->references('id')->on('authors')->cascadeOnDelete();
+            // Composite index untuk filter tetap
+            $table->index(['status', 'visibility']);
+            // Composite index untuk pencarian utama
+            $table->index(['title', 'author_name', 'year']);
+            // Index terpisah untuk fleksibilitas
+            $table->index('title');
+            $table->index('author_name');
+            $table->index('year');
         });
     }
 

@@ -14,12 +14,18 @@ test('mount success', function () {
 });
 
 test('reset input success', function () {
+    Storage::fake('public');
+
+    $this->seed(DatabaseSeeder::class);
+
+    $coordinator = Coordinator::first();
+
     Livewire::test(RepositoryReport::class)
         ->set('includes', ['skripsi', 'journal'])
-        ->set('coordinator_id', 1)
+        ->set('nidn', $coordinator->nidn)
         ->call('resetInput')
         ->assertSet('includes', [])
-        ->assertSet('coordinator_id', '')
+        ->assertSet('nidn', '')
         ->assertSet('year', '');
 });
 
@@ -30,16 +36,22 @@ test('download success', function () {
 
     $coordinator = Coordinator::first();
 
-    $component = Livewire::test(RepositoryReport::class)
+    Livewire::test(RepositoryReport::class)
         ->set('year', 2025)
         ->set('includes', ['skripsi'])
-        ->set('coordinator_id', $coordinator->id)
-        ->instance();
-
-    $response = $component->download();
-
-    expect($response->headers->get('content-disposition'))
-        ->toBe('attachment; filename="Repositories 2025.pdf"');
+        ->set('nidn', $coordinator->nidn)
+        ->call('download')
+        ->assertSet('year', '')
+        ->assertSet('includes', [])
+        ->assertSet('nidn', '')
+        ->assertRedirectToRoute(
+            'reports.repositories.download',
+            [
+                'nidn' => $coordinator->nidn,
+                'year' => 2025,
+                'includes' => json_encode(['skripsi'])
+            ]
+        );
 });
 
 test('download failed validation', function () {
@@ -52,7 +64,7 @@ test('download failed validation', function () {
     Livewire::test(RepositoryReport::class)
         ->set('year', 1995)
         ->set('includes', ['skripsi'])
-        ->set('coordinator_id', $coordinator->id)
+        ->set('nidn', $coordinator->nidn)
         ->call('download')
         ->assertHasErrors([
             'year' => 'exists'

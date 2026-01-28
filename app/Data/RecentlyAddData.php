@@ -20,8 +20,7 @@ class RecentlyAddData extends Data
 
     public function __construct(
         public string $name,
-        public string $avatar,
-        public string $categories,
+        public string|null $avatar,
         public string $slug,
         public string $title
     ) {
@@ -33,9 +32,8 @@ class RecentlyAddData extends Data
     public static function fromModel(MetaData $meta_data)
     {
         return new self(
-            $meta_data->author->user->name,
-            Storage::url($meta_data->author->user->avatar),
-            $meta_data->categories->pluck('name')->implode(', '),
+            $meta_data->author_name,
+            $meta_data?->author?->user?->avatar ? Storage::url($meta_data->author->user->avatar) : asset('assets/compiled/jpg/anonym.jpg'),
             $meta_data->slug,
             $meta_data->title
         );

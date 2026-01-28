@@ -1,24 +1,14 @@
 <div class="card">
     <div class="card-header">
         <div class="gap-3 row d-flex gap-md-0">
-            <div class="col-md-4">
+            <div class="col-md-5">
                 <div class="input-group">
                     <label class="input-group-text" for="keyword">NIM / Name</label>
                     <input name="keyword" type="text" wire:model.live.debounce.250ms='keyword' autofocus
                         class="form-control" id="status" placeholder="Search...">
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="input-group">
-                    <label class="input-group-text" for="status">Status</label>
-                    <select name="status" id="status" class="form-select" wire:model.live='status_filter'>
-                        <option value="pending">Pending</option>
-                        <option value="approve">Approve</option>
-                        <option value="reject">Reject</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-md-4">
+            <div class="col-md-5">
                 <div class="input-group">
                     <label class="input-group-text" for="study_program_slug">Study Programs</label>
                     <select name="study_program_slug" id="study_program_slug" class="form-select"
@@ -32,7 +22,7 @@
                     </select>
                 </div>
             </div>
-            <div class="col-md-1">
+            <div class="col-md-2">
                 <button class="btn btn-primary w-100" wire:click='resetInput' wire:target='resetInput'
                     wire:loading.attr='disabled'>
                     <span wire:target='resetInput' wire:loading.class='d-none'><i
@@ -66,12 +56,8 @@
                             <td class="text-bold-500">{{ $author->study_program ?? '-' }}</td>
                             <td>
                                 <div class="d-flex justify-content-center">
-                                    @if ($avatar = $author->avatar)
-                                        <img src="{{ $avatar }}" alt="{{ $author->name }}"
-                                            style="width: 38px; height: 38px; border-radius: 100%;">
-                                    @else
-                                        -
-                                    @endif
+                                    <img src="{{ $author->avatar }}" alt="{{ $author->name }}"
+                                        style="width: 38px; height: 38px; border-radius: 100%;">
                                 </div>
                             </td>
                             <td>

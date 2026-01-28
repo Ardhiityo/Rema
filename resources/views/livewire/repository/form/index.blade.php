@@ -8,6 +8,6 @@
     @endif
 
     @if ($this->showMetaDataCategoryTable)
-        <livewire:repository.meta-data-category-table :meta_data_id="$meta_data_id" :is_approve="$is_approve" />
+        <livewire:repository.form.meta-data-category-table :meta_data_id="$meta_data_id" />
     @endif
 </div>

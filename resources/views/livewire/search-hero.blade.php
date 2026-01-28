@@ -18,9 +18,11 @@
                       <input type="number" class="form-control" aria-label="Text input with dropdown button"
                           placeholder="Year" wire:model.live.debounce.250ms='year'>
                       <select class="form-select" id="inputGroupSelect01" wire:model.live='category'>
-                          @foreach ($categories as $category)
+                          @forelse ($categories as $category)
                               <option value="{{ $category->slug }}">{{ $category->name }}</option>
-                          @endforeach
+                          @empty
+                              <option value="">No categories available</option>
+                          @endforelse
                       </select>
                       <button class="btn btn-primary d-flex align-items-center" wire:click='resetInput'
                           wire:loading.attr='disabled' wire:target='resetInput'>

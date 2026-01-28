@@ -12,6 +12,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
+use RyanChandler\LaravelCloudflareTurnstile\Rules\Turnstile;
 
 class RegisteredUserController extends Controller
 {
@@ -34,6 +35,7 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email:dns', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'cf-turnstile-response' => ['required', new Turnstile]
         ]);
 
         $user = User::create([
@@ -45,7 +47,7 @@ class RegisteredUserController extends Controller
 
         $user->author()->create();
 
-        $user->assignRole('contributor');
+        $user->assignRole('author');
 
         event(new Registered($user));
 

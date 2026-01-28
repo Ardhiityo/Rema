@@ -22,7 +22,6 @@ class DetailMetadataData extends Data
     public function __construct(
         public int|string $id,
         public string $title,
-        public int|string $author_id,
         public string $visibility,
         public int|string $year,
         public string $slug,
@@ -44,17 +43,16 @@ class DetailMetadataData extends Data
         return new self(
             $meta_data->id,
             $meta_data->title,
-            $meta_data->author_id,
             $meta_data->visibility,
             $meta_data->year,
             $meta_data->slug,
             $meta_data->status,
             Carbon::parse($meta_data->created_at)->format('d F Y'),
             CategoryData::collect($meta_data->categories, DataCollection::class),
-            $meta_data->author->user->name,
-            $meta_data->author->nim,
-            Storage::url($meta_data->author->user->avatar),
-            $meta_data->author->studyProgram?->name ?? '-'
+            $meta_data->author_name,
+            $meta_data->author_nim,
+            $meta_data?->author?->user?->avatar ? Storage::url($meta_data->author->user->avatar) : asset('assets/compiled/jpg/anonym.jpg'),
+            $meta_data->author_study_program
         );
     }
 }

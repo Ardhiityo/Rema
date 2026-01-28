@@ -16,12 +16,13 @@ return new class extends Migration
             $table->string('ip');
             $table->string('user_agent');
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
             $table->unsignedBigInteger('meta_data_id');
-            $table->foreign('meta_data_id')->references('id')->on('meta_data')->cascadeOnDelete();
             $table->unsignedBigInteger('category_id');
-            $table->foreign('category_id')->references('id')->on('categories')->cascadeOnDelete();
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
+            $table->foreign('meta_data_id')->references('id')->on('meta_data')->cascadeOnDelete();
+            $table->foreign('category_id')->references('id')->on('categories')->cascadeOnDelete();
         });
     }
 

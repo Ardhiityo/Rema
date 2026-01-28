@@ -37,15 +37,15 @@
                                 *
                             </sup>
                         </label>
-                        <select class="form-select" id="coordinator_id" wire:model='coordinator_id'>
+                        <select class="form-select" id="nidn" wire:model='nidn'>
                             <option selected value="">Choose...</option>
                             @foreach ($coordinators as $coordinator)
-                                <option value="{{ $coordinator->id }}">
+                                <option value="{{ $coordinator->nidn }}">
                                     {{ $coordinator->nidn }} - {{ $coordinator->name }}
                                 </option>
                             @endforeach
                         </select>
-                        @error('coordinator_id')
+                        @error('nidn')
                             <span class="badge bg-danger">
                                 <small>{{ $message }}</small>
                             </span>

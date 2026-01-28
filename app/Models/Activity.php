@@ -11,6 +11,14 @@ class Activity extends Model
 {
     protected $table = 'activities';
 
+    protected $fillable = [
+        'ip',
+        'user_id',
+        'meta_data_id',
+        'category_id',
+        'user_agent'
+    ];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id', 'id');

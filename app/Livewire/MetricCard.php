@@ -10,7 +10,7 @@ class MetricCard extends Component
 {
     public function getAuthorsCountProperty(AuthorRepositoryInterface $authorRepository)
     {
-        return $authorRepository->findByApprovals()->count();
+        return $authorRepository->authorCount();
     }
 
     public function getMetricsProperty(DashboardRepositoryInterface $dashboardRepository)

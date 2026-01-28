@@ -204,7 +204,7 @@ class MetaDataCategoryRepository implements MetaDataCategoryRepositoryInterface
                     'metadata',
                     function ($query) use ($meta_data_slug) {
                         $user = Auth::user();
-                        if ($user->hasRole('contributor')) {
+                        if ($user->hasRole('author')) {
                             $query->where('author_id', $user->author->id);
                         }
                         $query->where('slug', $meta_data_slug);

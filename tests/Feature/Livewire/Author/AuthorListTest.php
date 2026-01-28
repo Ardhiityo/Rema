@@ -10,8 +10,7 @@ test('get authors property success', function () {
 
     $this->seed(DatabaseSeeder::class);
 
-    $component = Livewire::test(AuthorList::class)
-        ->set('status_filter', 'pending');
+    $component = Livewire::test(AuthorList::class);
 
     expect($component->authors->total())->toBe(1);
     expect($component->authors->first()->nim)->toBe('22040004');
@@ -21,10 +20,8 @@ test('get authors property success', function () {
 test('reset input success', function () {
     Livewire::test(AuthorList::class)
         ->set('keyword', 'Arya')
-        ->set('status_filter', 'pending')
         ->set('study_program_slug', 'teknik-informatika')
         ->call('resetInput')
         ->assertNotSet('keyword', 'Arya')
-        ->assertNotSet('status_filter', 'pending')
         ->assertNotSet('study_program_slug', 'teknik-informatika');
 });

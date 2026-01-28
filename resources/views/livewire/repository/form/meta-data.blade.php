@@ -22,11 +22,38 @@
         <div class="card-body">
             <div class="mb-4 row">
                 <div class="form-group">
-                    {{-- Title --}}
+
+                    {{-- Author Name --}}
                     <div>
+                        <label for="author_name" class="form-label">Author <sup>*</sup> </label>
+                        <input type="text" required class="form-control" id="author_name" wire:model='author_name'
+                            placeholder="ex: Arya Adhi Prasetyo">
+                        @error('author_name')
+                            <span class="badge bg-danger text-wrap">
+                                <small>{{ $message }}</small>
+                            </span>
+                        @enderror
+                    </div>
+                    {{-- Author Name --}}
+
+                    {{-- Author NIM --}}
+                    <div class="mt-4">
+                        <label for="author_nim" class="form-label">NIM <sup>*</sup> </label>
+                        <input type="text" required class="form-control" id="author_nim" wire:model='author_nim'
+                            placeholder="ex: 22040004">
+                        @error('author_nim')
+                            <span class="badge bg-danger text-wrap">
+                                <small>{{ $message }}</small>
+                            </span>
+                        @enderror
+                    </div>
+                    {{-- Author NIM --}}
+
+                    {{-- Title --}}
+                    <div class="mt-4">
                         <label for="title" class="form-label">Title <sup>*</sup> </label>
                         <input type="text" required class="form-control" id="title" wire:model='title'
-                            placeholder="ex: Sistem Informasi Repository" {{ $this->islockForm ? 'disabled' : '' }}>
+                            placeholder="ex: Sistem Informasi Repository">
                         @error('slug')
                             <span class="badge bg-danger text-wrap">
                                 <small>{{ $message }}</small>
@@ -39,7 +66,7 @@
                     <div class="mt-4">
                         <label for="year" class="form-label">Year of Graduation <sup>*</sup> </label>
                         <input type="number" required class="form-control" id="year" wire:model='year'
-                            placeholder="ex: 2025" {{ $this->islockForm ? 'disabled' : '' }}>
+                            placeholder="ex: 2025">
                         @error('year')
                             <span class="badge bg-danger text-wrap">
                                 <small>{{ $message }}</small>
@@ -48,39 +75,30 @@
                     </div>
                     {{-- Graduation Year --}}
 
-                    {{-- Author --}}
-                    @hasrole('admin')
-                        <div class="mt-4">
-                            <label for="keyword" class="form-label">Author's <sup>*</sup> </label>
-                            <div class="position-relative">
-                                <input type="text" class="form-control" id="keyword"
-                                    wire:model.live.debounce.250ms='keyword' placeholder="Search..."
-                                    {{ $this->islockForm ? 'disabled' : '' }}>
-                                <span class="top-0 mt-2 me-2 position-absolute end-0" wire:loading wire:target='keyword'>
-                                    <span class="spinner-border spinner-border-sm text-primary" role="status"></span>
-                                </span>
-                            </div>
-                            @error('author_id')
-                                <span class="badge bg-danger text-wrap">
-                                    <small>{{ $message }}</small>
-                                </span>
-                            @enderror
-                            @if ($this->authors->toCollection()->isNotEmpty())
-                                <ul class="my-1 form-control">
-                                    @foreach ($this->authors as $author)
-                                        <li class="py-1 list-group-item">
-                                            <input type="radio" name="author_id" value="{{ $author->id }}"
-                                                id="{{ $author->id }}" class="d-none" wire:model.live='author_id'>
-                                            <label for="{{ $author->id }}" class="w-100" style="cursor: pointer">
-                                                {{ $author->nim }} - {{ $author->name }}
-                                            </label>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            @endif
+                    {{-- Author Study Program --}}
+                    <div class="mt-4">
+                        <div class="input-group">
+                            <label class="input-group-text" for="author_study_program" class="form-label">
+                                Study Program <sup class="ms-1">*</sup>
+                            </label>
+                            <select class="form-select" id="author_study_program" wire:model='author_study_program'>
+                                <option value="">
+                                    Choose...
+                                </option>
+                                @foreach ($study_programs as $study_program)
+                                    <option value="{{ $study_program->name }}">
+                                        {{ $study_program->name }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
-                    @endhasrole
-                    {{-- Author --}}
+                        @error('author_study_program')
+                            <span class="badge bg-danger text-wrap">
+                                <small>{{ $message }}</small>
+                            </span>
+                        @enderror
+                    </div>
+                    {{-- Author Study Program --}}
 
                     {{-- Status --}}
                     @hasrole('admin')
@@ -99,8 +117,8 @@
                                     <option value="revision">
                                         Revision
                                     </option>
-                                    <option value="pending">
-                                        Pending
+                                    <option value="process">
+                                        Process
                                     </option>
                                     <option value="reject">
                                         Reject
@@ -113,11 +131,9 @@
                                 </span>
                             @enderror
                         </div>
-                    @endhasrole
-                    {{-- Status --}}
+                        {{-- Status --}}
 
-                    {{-- Visibility --}}
-                    @hasrole('admin')
+                        {{-- Visibility --}}
                         <div class="mt-4">
                             <div class="input-group">
                                 <label class="input-group-text" for="status" class="form-label">
@@ -129,9 +145,6 @@
                                     </option>
                                     <option value="private">
                                         Private
-                                    </option>
-                                    <option value="protected">
-                                        Protected
                                     </option>
                                     <option value="public">
                                         Public
@@ -148,14 +161,15 @@
                     {{-- Visibility --}}
                 </div>
             </div>
+
             @if ($this->is_update)
                 {{-- Display Medium ++ only --}}
                 <div class="gap-3 align-items-center d-flex">
-                    @if (!$this->islockForm)
-                        <button wire:click='updateMetaData' wire:loading.attr='disabled' class="btn btn-primary"
-                            wire:target='updateMetaData'>
-                            <span wire:target='updateMetaData' wire:loading.class='d-none'>Update</span>
-                            <span wire:loading wire:target='updateMetaData'>
+                    @if ($this->metaDataSession)
+                        <button wire:click='update' wire:loading.attr='disabled' class="btn btn-primary"
+                            wire:target='update'>
+                            <span wire:target='update' wire:loading.class='d-none'>Update</span>
+                            <span wire:loading wire:target='update'>
                                 <span class="spinner-border spinner-border-sm text-light" role="status"></span>
                             </span>
                         </button>
@@ -166,8 +180,6 @@
                                 <span class="spinner-border spinner-border-sm text-primary" role="status"></span>
                             </span>
                         </button>
-                    @endif
-                    @if ($this->metaDataSession)
                         <button wire:click='createNewForm' wire:loading.attr='disabled' class="btn btn-danger"
                             wire:target='createNewForm'>
                             <span wire:target='createNewForm' wire:loading.class='d-none'>New</span>
@@ -175,34 +187,11 @@
                                 <span class="spinner-border spinner-border-sm text-light" role="status"></span>
                             </span>
                         </button>
-                    @endif
-                </div>
-                {{-- Display Medium ++ only --}}
-            @else
-                {{-- Display Medium ++ only --}}
-                <div class="gap-3 d-flex">
-                    @if ($is_update)
-                        @if (!$this->islockForm)
-                            <button wire:click='updateMetaData' wire:loading.attr='disabled' class="btn btn-primary"
-                                wire:target='updateMetaData'>
-                                <span wire:target='updateMetaData' wire:loading.class='d-none'>Update</span>
-                                <span wire:loading wire:target='updateMetaData'>
-                                    <span class="spinner-border spinner-border-sm text-light" role="status"></span>
-                                </span>
-                            </button>
-                            <button wire:click='resetInput' wire:target='resetInput' wire:click.attr='disabled'
-                                class="btn btn-warning">
-                                <span wire:target='resetInput' wire:loading.class='d-none'>Clear</span>
-                                <span wire:loading wire:target='resetInput'>
-                                    <span class="spinner-border spinner-border-sm text-primary" role="status"></span>
-                                </span>
-                            </button>
-                        @endif
                     @else
-                        <button wire:click='createMetaData' wire:loading.attr='disabled' class="btn btn-primary"
-                            wire:target='createMetaData'>
-                            <span wire:loading.class='d-none' wire:target='createMetaData'>Save</span>
-                            <span wire:loading wire:target='createMetaData'>
+                        <button wire:click='update' wire:loading.attr='disabled' class="btn btn-primary"
+                            wire:target='update'>
+                            <span wire:target='update' wire:loading.class='d-none'>Update</span>
+                            <span wire:loading wire:target='update'>
                                 <span class="spinner-border spinner-border-sm text-light" role="status"></span>
                             </span>
                         </button>
@@ -214,6 +203,25 @@
                             </span>
                         </button>
                     @endif
+                </div>
+                {{-- Display Medium ++ only --}}
+            @else
+                {{-- Display Medium ++ only --}}
+                <div class="gap-3 align-items-center d-flex">
+                    <button wire:click='create' wire:loading.attr='disabled' class="btn btn-primary"
+                        wire:target='create'>
+                        <span wire:loading.class='d-none' wire:target='create'>Save</span>
+                        <span wire:loading wire:target='create'>
+                            <span class="spinner-border spinner-border-sm text-light" role="status"></span>
+                        </span>
+                    </button>
+                    <button wire:click='resetInput' wire:target='resetInput' wire:click.attr='disabled'
+                        class="btn btn-warning">
+                        <span wire:target='resetInput' wire:loading.class='d-none'>Clear</span>
+                        <span wire:loading wire:target='resetInput'>
+                            <span class="spinner-border spinner-border-sm text-primary" role="status"></span>
+                        </span>
+                    </button>
                 </div>
                 {{-- Display Medium ++ only --}}
             @endif

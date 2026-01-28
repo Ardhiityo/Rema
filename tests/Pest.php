@@ -22,8 +22,8 @@ use App\Livewire\Coordinator\CoordinatorForm;
 use App\Livewire\Repository\Form\MetaDataForm;
 use App\Livewire\StudyProgram\StudyProgramForm;
 use App\Livewire\Repository\Form\RepositoryForm;
-use App\Livewire\Repository\MetaDataCategoryTable;
 use App\Livewire\Repository\Form\MetaDataCategoryForm;
+use App\Livewire\Repository\Form\MetaDataCategoryTable;
 
 pest()->extend(Tests\TestCase::class)
     ->use(Illuminate\Foundation\Testing\RefreshDatabase::class)

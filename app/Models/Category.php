@@ -11,6 +11,11 @@ class Category extends Model
 {
     protected $table = 'categories';
 
+    protected $fillable = [
+        'name',
+        'slug',
+    ];
+
     public function metadata()
     {
         return $this->belongsToMany(

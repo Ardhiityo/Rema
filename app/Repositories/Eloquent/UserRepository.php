@@ -31,7 +31,7 @@ class UserRepository implements UserRepositoryInterface
                 'email_verified_at' => now()
             ]);
 
-            $user->assignRole('contributor');
+            $user->assignRole('author');
 
             return UserData::fromModel($user);
         } catch (Throwable $th) {

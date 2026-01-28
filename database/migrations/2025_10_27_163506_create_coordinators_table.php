@@ -13,12 +13,13 @@ return new class extends Migration
     {
         Schema::create('coordinators', function (Blueprint $table) {
             $table->id();
-            $table->string('nidn');
+            $table->string('nidn')->unique();
             $table->string('name');
             $table->string('position');
             $table->unsignedBigInteger('study_program_id')->unique();
-            $table->foreign('study_program_id')->references('id')->on('study_programs')->cascadeOnDelete();
             $table->timestamps();
+
+            $table->foreign('study_program_id')->references('id')->on('study_programs')->cascadeOnDelete();
         });
     }
 

@@ -14,7 +14,7 @@ test('mount edit success', function () {
 
     $this->seed(DatabaseSeeder::class);
 
-    $user = User::whereEmail('contributor@gmail.com')->first();
+    $user = User::whereEmail('author@gmail.com')->first();
 
     actingAs($user);
 
@@ -34,7 +34,7 @@ test('mount edit failed not found', function () {
 
     $this->seed(DatabaseSeeder::class);
 
-    $user = User::whereEmail('contributor@gmail.com')->first();
+    $user = User::whereEmail('author@gmail.com')->first();
 
     actingAs($user);
 
@@ -52,7 +52,7 @@ test('mount create success', function () {
 
     $this->seed(DatabaseSeeder::class);
 
-    $user = User::whereEmail('contributor@gmail.com')->first();
+    $user = User::whereEmail('author@gmail.com')->first();
 
     actingAs($user);
 
@@ -72,7 +72,7 @@ test('mount create failed not found', function () {
 
     $this->seed(DatabaseSeeder::class);
 
-    $user = User::whereEmail('contributor@gmail.com')->first();
+    $user = User::whereEmail('author@gmail.com')->first();
 
     actingAs($user);
 

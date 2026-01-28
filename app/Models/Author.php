@@ -14,6 +14,12 @@ class Author extends Model
 {
     protected $table = 'authors';
 
+    protected $fillable = [
+        'nim',
+        'user_id',
+        'study_program_id'
+    ];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id', 'id');

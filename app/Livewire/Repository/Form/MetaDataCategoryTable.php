@@ -1,33 +1,21 @@
 <?php
 
-namespace App\Livewire\Repository;
+namespace App\Livewire\Repository\Form;
 
 use Livewire\Component;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Computed;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use App\Repositories\Contratcs\MetaDataRepositoryInterface;
 
 class MetaDataCategoryTable extends Component
 {
     public int|null $meta_data_id = null;
-    public bool $is_approve = false;
 
-    public function mount($meta_data_id = null, $is_approve = false)
+    public function mount($meta_data_id = null)
     {
-        $this->is_approve = $is_approve;
-
         if ($meta_data_id) {
             $this->meta_data_id = $meta_data_id;
-        }
-    }
-
-    #[Computed()]
-    public function islockForm()
-    {
-        if (Auth::user()->hasRole('contributor')) {
-            return $this->is_approve;
         }
     }
 
@@ -65,6 +53,6 @@ class MetaDataCategoryTable extends Component
 
     public function render()
     {
-        return view('livewire.repository.table');
+        return view('livewire.repository.form.table');
     }
 }

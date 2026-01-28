@@ -13,6 +13,18 @@ class MetaData extends Model
 {
     protected $table = 'meta_data';
 
+    protected $fillable = [
+        'title',
+        'author_id',
+        'author_nim',
+        'author_name',
+        'author_study_program',
+        'visibility',
+        'year',
+        'slug',
+        'status',
+    ];
+
     public function author(): BelongsTo
     {
         return $this->belongsTo(Author::class, 'author_id', 'id');

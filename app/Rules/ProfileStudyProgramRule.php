@@ -31,7 +31,7 @@ class ProfileStudyProgramRule implements ValidationRule
             $rules[$attribute] = ['nullable'];
         }
 
-        if ($user->hasRole('contributor')) {
+        if ($user->hasRole('author')) {
             $rules[$attribute] = ['required', 'exists:study_programs,id'];
         }
 

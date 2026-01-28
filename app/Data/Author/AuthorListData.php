@@ -32,7 +32,7 @@ class AuthorListData extends Data
             $author->nim ?? null,
             $author->user->name,
             $author->studyProgram->name ?? null,
-            $author->user->avatar ? Storage::url($author->user->avatar) : null
+            $author->user?->avatar ? Storage::url($author->user->avatar) : asset('assets/compiled/jpg/anonym.jpg')
         );
     }
 }

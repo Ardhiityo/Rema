@@ -35,7 +35,7 @@ class GoogleController extends Controller
 
         if (is_null($user->author)) {
             $user->author()->create();
-            $user->assignRole('contributor');
+            $user->assignRole('author');
         }
 
         return redirect()->route('dashboard');

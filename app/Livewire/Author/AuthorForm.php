@@ -26,7 +26,6 @@ class AuthorForm extends Component
     public string $password = '';
     public string $name = '';
     public int|string|null $study_program_id = '';
-    public string $status = '';
     public $avatar = null;
     // Form End
 
@@ -55,8 +54,7 @@ class AuthorForm extends Component
             'study_program_id' => ['required', 'exists:study_programs,id'],
             'avatar' => ['nullable', 'file', 'mimes:jpg,png', 'max:1000'],
             'email' => ['nullable', 'email:dns', 'unique:users,email'],
-            'password' =>  ['nullable', 'min:8', 'max:50'],
-            'status' => ['required', 'in:approve,reject,pending']
+            'password' =>  ['nullable', 'min:8', 'max:50']
         ];
     }
 
@@ -68,8 +66,7 @@ class AuthorForm extends Component
             'study_program_id' => ['required', 'exists:study_programs,id'],
             'avatar' => [new UpdateUserAvatarRule(user_id: $this->user_id, max_KB: 1000, allowedMimes: ['jpg', 'png'])],
             'email' => ['required', 'email:dns', 'unique:users,email,' . $this->user_id],
-            'password' => ['nullable', 'min:8', 'max:50'],
-            'status' => ['required', 'in:approve,reject,pending']
+            'password' => ['nullable', 'min:8', 'max:50']
         ];
     }
 
@@ -125,7 +122,6 @@ class AuthorForm extends Component
             $this->author_id = $author_data->id;
             $this->nim = $author_data->nim;
             $this->study_program_id = $author_data->study_program_id;
-            $this->status = $author_data->status;
 
             $user_data = $this->userRepository->findById($author_data->user_id);
             $this->user_id = $user_data->id;
@@ -203,7 +199,6 @@ class AuthorForm extends Component
         $this->study_program_id = '';
         $this->email = '';
         $this->password = '';
-        $this->status = '';
         $this->avatar = '';
         $this->display_avatar = false;
 

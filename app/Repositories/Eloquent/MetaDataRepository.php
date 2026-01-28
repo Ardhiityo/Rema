@@ -25,6 +25,9 @@ class MetaDataRepository implements MetaDataRepositoryInterface
             $meta_data = MetaData::create([
                 'title' => $create_meta_data->title_formatted,
                 'author_id' => $create_meta_data->author_id,
+                'author_name' => $create_meta_data->author_name,
+                'author_nim' => $create_meta_data->author_nim,
+                'author_study_program' => $create_meta_data->author_study_program,
                 'visibility' => $create_meta_data->visibility,
                 'year' => $create_meta_data->year,
                 'slug' => $create_meta_data->slug,
@@ -58,14 +61,23 @@ class MetaDataRepository implements MetaDataRepositoryInterface
         try {
             $meta_data = MetaData::findOrFail($meta_data_id);
 
-            $meta_data->update([
+            $data = [
                 'title' => $update_meta_data->title_formatted,
-                'author_id' => $update_meta_data->author_id,
-                'visibility' => $update_meta_data->visibility,
+                'author_nim' => $update_meta_data->author_nim,
+                'author_name' => $update_meta_data->author_name,
+                'author_study_program' => $update_meta_data->author_study_program,
                 'year' => $update_meta_data->year,
                 'slug' => $update_meta_data->slug,
+                'visibility' => $update_meta_data->visibility,
                 'status' => $update_meta_data->status
-            ]);
+            ];
+
+            if (Auth::user()->hasRole('author')) {
+                unset($data['status']);
+                unset($data['visibility']);
+            }
+
+            $meta_data->update($data);
 
             return MetadataData::fromModel($meta_data->refresh());
         } catch (Throwable $th) {
@@ -139,7 +151,7 @@ class MetaDataRepository implements MetaDataRepositoryInterface
         $user = Auth::user();
 
         $query = MetaData::query()
-            ->with(['author', 'author.user', 'author.studyProgram', 'categories', 'activities'])
+            ->with(['categories', 'activities'])
             ->when(
                 $year,
                 function ($query) use ($year) {
@@ -147,7 +159,7 @@ class MetaDataRepository implements MetaDataRepositoryInterface
                 }
             );
 
-        if ($user->hasRole('contributor')) {
+        if ($user->hasRole('author')) {
             if ($is_master_data) {
                 $query = $query->where('visibility', '!=', 'private')
                     ->when(
@@ -155,10 +167,7 @@ class MetaDataRepository implements MetaDataRepositoryInterface
                         function ($query) use ($keyword) {
                             $query
                                 ->whereLike('title', "%$keyword%")
-                                ->orWhereHas(
-                                    'author.user',
-                                    fn($query) => $query->whereLike('name', "%$keyword%")
-                                );
+                                ->orWhereLike('author_name', "%$keyword%");
                         }
                     );
             } else {
@@ -184,10 +193,7 @@ class MetaDataRepository implements MetaDataRepositoryInterface
                         function ($query) use ($keyword) {
                             $query
                                 ->whereLike('title', "%$keyword%")
-                                ->orWhereHas(
-                                    'author.user',
-                                    fn($query) => $query->whereLike('name', "%$keyword%")
-                                );
+                                ->orWhereLike('author_name', "%$keyword%");
                         }
                     );
             }
@@ -241,9 +247,6 @@ class MetaDataRepository implements MetaDataRepositoryInterface
     public function reports(int|string $year): DataCollection
     {
         $meta_data = MetaData::with([
-            'author:id,user_id,nim,study_program_id',
-            'author.studyProgram:id,name',
-            'author.user:id,name',
             'activities' => function ($query) {
                 $query->with(['category:id,name'])
                     ->select('meta_data_id', 'category_id', DB::raw('COUNT(*) AS total'))
@@ -252,7 +255,7 @@ class MetaDataRepository implements MetaDataRepositoryInterface
         ])
             ->where('year', $year)
             ->where('status', 'approve')
-            ->select('id', 'title', 'author_id', 'year')
+            ->select('id', 'title', 'year', 'author_name', 'author_nim', 'author_study_program')
             ->get();
 
         return MetadataReportData::collect($meta_data, DataCollection::class);

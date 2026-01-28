@@ -15,8 +15,9 @@ return new class extends Migration
             $table->id();
             $table->longText('message');
             $table->unsignedBigInteger('meta_data_id');
-            $table->foreign('meta_data_id')->references('id')->on('meta_data')->cascadeOnDelete();
             $table->timestamps();
+
+            $table->foreign('meta_data_id')->references('id')->on('meta_data')->cascadeOnDelete();
         });
     }
 

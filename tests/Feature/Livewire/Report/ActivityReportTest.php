@@ -13,14 +13,14 @@ test('download success', function () {
 
     $this->seed(DatabaseSeeder::class);
 
-    $component = Livewire::test(ActivityReport::class)
+    Livewire::test(ActivityReport::class)
         ->set('year', 2025)
-        ->instance();
-
-    $response = $component->download();
-
-    expect($response->headers->get('content-disposition'))
-        ->toBe('attachment; filename="Activities 2025.pdf"');
+        ->call('download')
+        ->assertSet('year', '')
+        ->assertRedirectToRoute(
+            'reports.activities.download',
+            ['year' => 2025]
+        );
 });
 
 test('download failed validation', function () {

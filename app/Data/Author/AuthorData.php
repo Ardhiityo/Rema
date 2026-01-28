@@ -14,8 +14,7 @@ class AuthorData extends Data
         public int|string $user_id,
         public string|null $name,
         public int|null|string $nim,
-        public int|null|string $study_program_id,
-        public string $status
+        public int|null|string $study_program_id
     ) {}
 
     public static function fromModel(Author $author)
@@ -25,8 +24,7 @@ class AuthorData extends Data
             $author->user_id,
             $author->user?->name,
             $author->nim,
-            $author->study_program_id,
-            $author->status
+            $author->study_program_id
         );
     }
 }

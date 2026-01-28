@@ -10,21 +10,22 @@ use Illuminate\Support\Facades\Auth;
 use App\Data\Metadata\UpdateMetaData;
 use Illuminate\Support\Facades\Session;
 use App\Data\Metadata\CreateMetadataData;
-use App\Repositories\Contratcs\AuthorRepositoryInterface;
 use App\Repositories\Contratcs\MetaDataRepositoryInterface;
+use App\Repositories\Contratcs\StudyProgramRepositoryInterface;
 
 class MetaDataForm extends Component
 {
     // Start Form
     public string $title = '';
-    public int|string $author_id = '';
-    public string $status = '';
+    public string|null $author_name = '';
+    public string|null $author_nim = '';
+    public string|null $author_study_program = '';
+    public string $status = 'approve';
     public string $year = '';
-    public string $visibility = '';
+    public string $visibility = 'public';
     public string $slug = '';
     // End Form
 
-    public string $keyword = '';
     public int|null $meta_data_id = null;
     public bool $is_update = false;
     public bool $is_approve = false;
@@ -38,11 +39,12 @@ class MetaDataForm extends Component
             $meta_data_data =  $this->metaDataRepository->findById($meta_data_id);
             $this->meta_data_id = $meta_data_data->id;
             $this->title = $meta_data_data->title;
+            $this->author_name = $meta_data_data->author_name;
+            $this->author_nim = $meta_data_data->author_nim;
+            $this->author_study_program = $meta_data_data->author_study_program;
             $this->year = $meta_data_data->year;
-            $this->author_id = $meta_data_data->author_id;
             $this->status = $meta_data_data->status;
             $this->visibility = $meta_data_data->visibility;
-            $this->updatedAuthorId($meta_data_data->author_id);
             $this->is_approve = $meta_data_data->status == 'approve' ? true : false;
         }
 
@@ -51,14 +53,21 @@ class MetaDataForm extends Component
 
             $this->meta_data_id = $meta_data_session->id;
             $this->title = $meta_data_session->title;
-            $this->author_id = $meta_data_session->author_id;
+            $this->author_name = $meta_data_session->author_name;
+            $this->author_nim = $meta_data_session->author_nim;
+            $this->author_study_program = $meta_data_session->author_study_program;
             $this->status = $meta_data_session->status;
             $this->visibility = $meta_data_session->visibility;
-            $this->updatedAuthorId($meta_data_session->author_id);
         }
 
         if (is_null($meta_data_id)) {
             $this->year = now()->year;
+            $user = Auth::user();
+            if ($user->hasRole('author')) {
+                $this->author_name = $user?->name;
+                $this->author_nim = $user?->author?->nim;
+                $this->author_study_program = $user?->author?->studyProgram?->name;
+            }
         }
     }
 
@@ -66,7 +75,6 @@ class MetaDataForm extends Component
     {
         return [
             'slug' => 'title',
-            'author_id' => 'author',
             'year' => 'year of graduation',
         ];
     }
@@ -99,16 +107,6 @@ class MetaDataForm extends Component
     }
 
     #[Computed()]
-    public function islockForm()
-    {
-        $user = Auth::user();
-
-        if ($user->hasRole('contributor')) {
-            return $this->is_approve;
-        }
-    }
-
-    #[Computed()]
     public function metaDataTitle()
     {
         if ($this->is_update) {
@@ -129,18 +127,13 @@ class MetaDataForm extends Component
                 'max:200',
                 $this->is_update ? 'unique:meta_data,slug,' . $this->meta_data_id : 'unique:meta_data,slug'
             ],
-            'author_id' => ['required', 'exists:authors,id'],
+            'author_name' => ['required', 'min:1', 'max:100'],
+            'author_nim' => ['required', 'min:8', 'max:15'],
+            'author_study_program' => ['required', 'exists:study_programs,name'],
             'year' => ['required', 'date_format:Y'],
-            'status' => ['required', 'in:approve,pending,reject,revision'],
-            'visibility' => ['required', 'in:private,protected,public']
+            'status' => ['required', 'in:approve,process,reject,revision'],
+            'visibility' => ['required', 'in:private,public']
         ];
-    }
-
-    public function updatedAuthorId($value)
-    {
-        $author_data = $this->authorRepository->findById($value, ['user']);
-
-        $this->keyword = $author_data->nim . ' - ' . $author_data->name;
     }
 
     #[Computed()]
@@ -149,25 +142,12 @@ class MetaDataForm extends Component
         return app(MetaDataRepositoryInterface::class);
     }
 
-    #[Computed()]
-    public function authorRepository()
-    {
-        return app(AuthorRepositoryInterface::class);
-    }
-
-    #[Computed()]
-    public function authors()
-    {
-        return $this->authorRepository->findByNameOrNim($this->keyword);
-    }
-
-    public function createMetaData()
+    public function create()
     {
         $user = Auth::user();
 
-        if ($user->hasRole('contributor')) {
-            $this->author_id = $user->author->id;
-            $this->status = 'pending';
+        if ($user->hasRole('author')) {
+            $this->status = 'process';
             $this->visibility = 'private';
         }
 
@@ -182,28 +162,20 @@ class MetaDataForm extends Component
 
             $this->meta_data_id = $meta_data_data->id;
 
-            session()->put('meta_data', $meta_data_data);
+            Session::put('meta_data', $meta_data_data);
 
             $this->is_update = true;
 
             $this->dispatch('refresh-meta-data-session');
 
-            session()->flash('meta-data-success', 'The meta data was successfully created.');
+            Session::flash('meta-data-success', 'The meta data was successfully created.');
         } catch (Throwable $th) {
-            session()->flash('meta-data-failed', $th->getMessage());
+            Session::flash('meta-data-failed', $th->getMessage());
         }
     }
 
-    public function updateMetaData()
+    public function update()
     {
-        $user = Auth::user();
-
-        if ($user->hasRole('contributor')) {
-            $this->author_id = $user->author->id;
-            $this->status = 'pending';
-            $this->visibility = 'private';
-        }
-
         $this->slug = Str::slug($this->title);
 
         $validated = $this->validate();
@@ -220,29 +192,32 @@ class MetaDataForm extends Component
                 Session::put('meta_data', $meta_data_data);
             }
 
-            session()->flash('meta-data-success', 'The meta data was successfully updated.');
+            Session::flash('meta-data-success', 'The meta data was successfully updated.');
 
             if ($this->is_update) {
                 return redirect()->route('repository.edit', ['meta_data_slug' => $meta_data_data->slug]);
             }
         } catch (Throwable $th) {
-            session()->flash('meta-data-failed', $th->getMessage());
+            Session::flash('meta-data-failed', $th->getMessage());
         }
     }
 
     public function resetInput()
     {
         $this->title = '';
-        $this->author_id = '';
+        $this->author_name = '';
+        $this->author_nim = '';
+        $this->author_study_program = '';
         $this->status = '';
         $this->visibility = '';
-        $this->keyword = '';
 
         $this->resetErrorBag();
     }
 
     public function render()
     {
-        return view('livewire.repository.form.meta-data');
+        $study_programs = app(StudyProgramRepositoryInterface::class)->all();
+
+        return view('livewire.repository.form.meta-data', compact('study_programs'));
     }
 }

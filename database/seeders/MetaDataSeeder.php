@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Author;
 use App\Models\Category;
 use App\Models\MetaData;
+use App\Models\StudyProgram;
 use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
 use Illuminate\Http\UploadedFile;
@@ -23,11 +24,14 @@ class MetaDataSeeder extends Seeder
 
         MetaData::create([
             'title' => $title,
+            'author_name' => $author->user->name,
+            'author_nim' => $author->nim,
+            'author_study_program' => StudyProgram::first()->name,
             'author_id' => $author->id,
             'visibility' => 'public',
             'year' => '2025',
             'slug' => Str::slug($title),
-            'status' => 'pending',
+            'status' => 'process',
             'created_at' => now()
         ])->categories()->attach(Category::first()->id, [
             'file_path' => UploadedFile::fake()

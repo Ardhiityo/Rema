@@ -11,6 +11,11 @@ class StudyProgram extends Model
 {
     protected $table = 'study_programs';
 
+    protected $fillable = [
+        'name',
+        'slug',
+    ];
+
     public function authors()
     {
         return $this->hasMany(Author::class, 'study_program_id', 'id');

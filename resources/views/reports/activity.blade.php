@@ -1,93 +1,111 @@
-<table>
-    <thead>
-        <tr>
-            <th style=" text-align: center; vertical-align: middle;">
-                <img src="{{ public_path('assets/logo/favicon.png') }}" width="100" height="100">
-            </th>
-            <th style="text-align: center; vertical-align: middle; font-size: 12px; font-weight: 500; " colspan="11">
-                <h1>Kementrian Pendidikan Tinggi, Sains, dan Teknologi</h1>
-                <h1>Universitas Al-Khairiyah</h1>
-                <h1>Fakultas Ilmu Komputer</h1>
-                <p>Alamat : Jl.K.H. Enggus Arja No. 1 Citangkil Kota Cilegon, Banten 42441</p>
-                <p>No. Telpon: (0254) 7877057 Website: unival-cilegon.ac.id</p>
-            </th>
-        </tr>
-        <tr>
-            <th style="border-top: 2px double black;" colspan="12"></th>
-        </tr>
-    </thead>
-</table>
+<!DOCTYPE html>
+<html lang="en">
 
-<table>
-    <tr></tr>
-    <tr>
-        <td colspan="12" style="text-align: center; font-weight: bold; font-size: 10px;">
-            Repository Activities In {{ $year }}
-        </td>
-    </tr>
-    <tr></tr>
-</table>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" href="{{ asset('assets/logo/favicon.png') }}" type="image/x-icon">
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <title>Activity Reports</title>
+</head>
 
-<table>
-    <thead>
-        <tr>
-            <th style="font-weight: bold; border: 1px solid black; text-align: center; vertical-align: middle; font-size: 10px;"
-                colspan="1">No</th>
-            <th style="font-weight: bold; border: 1px solid black; text-align: center; vertical-align: middle; font-size: 10px;"
-                colspan="5">Title</th>
-            <th style="font-weight: bold; border: 1px solid black; text-align: center; vertical-align: middle; font-size: 10px;"
-                colspan="2">Author</th>
-            <th style="font-weight: bold; border: 1px solid black; text-align: center; vertical-align: middle; font-size: 10px;"
-                colspan="2">
-                Study Program
-            </th>
-            <th style="font-weight: bold; border: 1px solid black; text-align: center; vertical-align: middle; font-size: 10px"
-                colspan="2">Views</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach ($meta_data as $data)
+<body>
+    <table class="text-center d-flex justify-content-center">
+        <thead>
             <tr>
-                <td style="border: 1px solid black; text-align: center; vertical-align: middle; font-size: 10px"
-                    colspan="1">
-                    {{ $loop->iteration }}
+                <td>
+                    <img src="{{ asset('assets/logo/favicon.png') }}" alt="unival" width="100px">
                 </td>
-                <td style="border: 1px solid black; text-align: center; vertical-align: middle; font-size: 10px"
-                    colspan="5">
-                    {{ $data->title }}
-                </td>
-                <td style="border: 1px solid black; text-align: center; vertical-align: middle; font-size: 10px"
-                    colspan="2">
-                    {{ $data->author }} ({{ $data->nim }})
-                </td>
-                <td style="border: 1px solid black; text-align: center; vertical-align: middle; font-size: 10px"
-                    colspan="2">
-                    {{ $data->study_program }}
-                </td>
-                <td style="border: 1px solid black; text-align: center; vertical-align: middle; font-size: 10px"
-                    colspan="2">
-                    @foreach ($data->activities->items as $item)
-                        <span>
-                            {{ $item->category }} {{ $item->total }}</span>
-                        <br>
-                    @endforeach
-                    Total : {{ $data->total_views }}
+                <td style="font-size: 15px">
+                    <h5 class="h-5">
+                        <strong>
+                            Kementerian Pendidikan Tinggi, Sains dan Teknologi
+                            <br>
+                            Universitas Al-Khairiyah <br>
+                            Fakultas Ilmu Komputer
+                        </strong>
+                    </h5>
+                    <p>Alamat : Jl.K.H.Enggus Arja No.1 Citangkil Kota
+                        Cilegon, Banten 42441 <br> No. telepon: (0254) 7877057 Website: unival-cilegon.ac.id </p>
                 </td>
             </tr>
-        @endforeach
-        <tr></tr>
-        <tr></tr>
-        <tr></tr>
-        <tr></tr>
-        <tr></tr>
-    </tbody>
-</table>
+        </thead>
+    </table>
 
-<table>
-    <tr>
-        <td colspan="5"></td>
-        <td colspan="7" style="font-weight: bold; text-align: right; font-size: 10px;">
-            <h3>Cilegon, {{ Carbon\Carbon::parse(now())->locale('id')->isoFormat('DD MMMM YYYY') }}</h3>
-        </td>
-    </tr>
-</table>
+    <div style="border-bottom: 2px double black;"></div>
+
+    <br>
+    <br>
+    <h6 class="h-6 text-center">
+        Repository Activities In {{ $year }}
+    </h6>
+    <br>
+    <br>
+
+    <main class="text-center d-flex justify-content-center">
+        <table>
+            <thead>
+                <tr>
+                    <th
+                        style="font-weight: bold; border: 1px solid black; text-align: center; vertical-align: middle; width: 35px">
+                        No
+                    </th>
+                    <th
+                        style="font-weight: bold; border: 1px solid black; text-align: center; vertical-align: middle; width: 200px;">
+                        Title
+                    </th>
+                    <th
+                        style="font-weight: bold; border: 1px solid black; text-align: center; vertical-align: middle; width: 170px;">
+                        Author
+                    </th>
+                    <th
+                        style="font-weight: bold; border: 1px solid black; text-align: center; vertical-align: middle; width: 110px;">
+                        Study Program
+                    </th>
+                    <th
+                        style="font-weight: bold; border: 1px solid black; text-align: center; vertical-align: middle; width: 110px;">
+                        Views
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($meta_data as $data)
+                    <tr>
+                        <td style="border: 1px solid black; text-align: center; vertical-align: middle;">
+                            {{ $loop->iteration }}
+                        </td>
+                        <td style="border: 1px solid black; text-align: center; vertical-align: middle;">
+                            {{ $data->title }}
+                        </td>
+                        <td style="border: 1px solid black; text-align: center; vertical-align: middle;">
+                            {{ $data->author }} ({{ $data->nim }})
+                        </td>
+                        <td style="border: 1px solid black; text-align: center; vertical-align: middle;">
+                            {{ $data->study_program }}
+                        </td>
+                        <td style="border: 1px solid black; text-align: center; vertical-align: middle;">
+                            @foreach ($data->activities->items as $item)
+                                <span>
+                                    {{ $item->category }} {{ $item->total }}</span>
+                                <br>
+                            @endforeach
+                            Total : {{ $data->total_views }}
+                        </td>
+
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </main>
+
+    <br>
+    <br>
+
+    <h6 class="h-6 text-end">
+        Cilegon, {{ Carbon\Carbon::parse(now())->locale('id')->isoFormat('DD MMMM YYYY') }}
+    </h6>
+
+</body>
+
+</html>

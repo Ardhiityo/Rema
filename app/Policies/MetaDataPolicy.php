@@ -20,7 +20,7 @@ class MetaDataPolicy
      */
     public function view(User $user, MetaData $meta_data): bool
     {
-        if ($user->hasRole('contributor')) {
+        if ($user->hasRole('author')) {
             return $user->author->id == $meta_data->author_id;
         }
         return true;
@@ -39,7 +39,7 @@ class MetaDataPolicy
      */
     public function update(User $user, MetaData $meta_data): bool
     {
-        if ($user->hasRole('contributor')) {
+        if ($user->hasRole('author')) {
             return $user->author->id == $meta_data->author_id && $meta_data->status != 'approve';
         }
         return true;
@@ -50,7 +50,7 @@ class MetaDataPolicy
      */
     public function delete(User $user, MetaData $meta_data): bool
     {
-        if ($user->hasRole('contributor')) {
+        if ($user->hasRole('author')) {
             return $user->author->id == $meta_data->author_id && $meta_data->status != 'approve';
         }
         return true;

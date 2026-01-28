@@ -18,7 +18,6 @@ test('render success', function () {
 
     $meta_data->load(
         'author.user',
-        'author.studyProgram',
         'categories'
     );
 
@@ -26,8 +25,8 @@ test('render success', function () {
         RepositoryDetail::class,
         ['meta_data' => $meta_data]
     )
-        ->assertSeeText($meta_data->author->user->name)
-        ->assertSeeText('-')
-        ->assertSeeText($meta_data->author->nim)
+        ->assertSeeText($meta_data->author_study_program)
+        ->assertSeeText($meta_data->author_name)
+        ->assertSeeText($meta_data->author_nim)
         ->assertSeeText($meta_data->year);
 });

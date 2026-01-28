@@ -13,43 +13,35 @@
                 </div>
                 <div class="col-12 col-lg-3">
                     <div class="card">
-                        <div class="px-4 py-4 card-body">
-                            <div class="d-flex align-items-center">
-                                <div class="avatar avatar-xl">
-                                    @if ($user_logged->avatar)
+                        <div class="px-4 py-3 card-body">
+                            <div class="row" style="height: 120px">
+                                <div class="d-flex align-items-center">
+                                    <div class="avatar avatar-xl">
                                         <img src="{{ $user_logged->avatar }}" alt="{{ $user_logged->name }}">
-                                    @else
-                                        <img src="{{ asset('assets/compiled/jpg/3.jpg') }}" alt="{{ $user_logged->name }}">
-                                    @endif
-                                </div>
-                                <div class="ms-3 name text-break">
-                                    <h5 class="font-bold">{{ $user_logged->short_name }}</h5>
-                                    <h6 class="mb-0 text-muted">{{ $user_logged->short_email }}</h6>
+                                    </div>
+                                    <div class="mt-2 ms-3 name text-break">
+                                        <h5 class="font-bold">{{ $user_logged->short_name }}</h5>
+                                        <h6 class="text-muted">{{ $user_logged->short_email }}</h6>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                     <div class="card">
                         <div class="card-header">
                             <h4>Recently Add</h4>
                         </div>
-                        <div class="pb-4 card-content">
+                        <div class="pb-3 card-content">
                             @forelse ($recently_adds as $recently_add)
                                 <a href="{{ route('repository.show', ['meta_data' => $recently_add->slug]) }}">
-                                    <div class="px-4 py-3 recent-message d-flex">
+                                    <div class="gap-2 px-4 py-2 d-flex align-items-center">
                                         <div class="avatar avatar-lg">
                                             <img src="{{ $recently_add->avatar }}">
                                         </div>
-                                        <div class="name ms-4">
-                                            <h6 class="mb-1" title="{{ $recently_add->name }}">
-                                                {{ $recently_add->short_name }}
-                                            </h6>
-                                            <h6 class="mb-0 text-muted">
-                                                <small>
-                                                    {{ $recently_add->categories }}
-                                                </small>
-                                            </h6>
-                                        </div>
+                                        <h6 title="{{ $recently_add->name }}">
+                                            {{ $recently_add->short_name }}
+                                        </h6>
                                     </div>
                                 </a>
                             @empty
@@ -60,70 +52,11 @@
                             @if ($recently_adds->isNotEmpty())
                                 <div class="px-4">
                                     <a href="{{ route('repository.index') }}"
-                                        class='mt-3 font-bold btn btn-block btn-xl btn-outline-primary'>
+                                        class='mt-2 font-bold btn btn-block btn-xl btn-outline-primary'>
                                         See more
                                     </a>
                                 </div>
                             @endif
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h4>Latest Repositories</h4>
-                                </div>
-                                <div class="card-body">
-                                    <div class="table-responsive">
-                                        <table class="table table-hover table-lg">
-                                            <thead>
-                                                <tr>
-                                                    <th>Author</th>
-                                                    <th>Title</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @forelse ($latest_repositories as $latest_repository)
-                                                    <tr class="text-nowrap">
-                                                        <td class="col-3">
-                                                            <a
-                                                                href="{{ route('repository.show', ['meta_data' => $latest_repository->slug]) }}">
-                                                                <div class="d-flex align-items-center">
-                                                                    <div class="avatar avatar-md">
-                                                                        <img src="{{ $latest_repository->avatar }}">
-                                                                    </div>
-                                                                    <p class="mb-0 font-bold ms-3"
-                                                                        title="{{ $latest_repository->name }}">
-                                                                        {{ $latest_repository->short_name }}</p>
-                                                                </div>
-                                                            </a>
-                                                        </td>
-                                                        <td class="col-auto">
-                                                            <a
-                                                                href="{{ route('repository.show', ['meta_data' => $latest_repository->slug]) }}">
-                                                                <p class="mb-0" title="{{ $latest_repository->title }}">
-                                                                    {{ $latest_repository->short_title }}
-                                                                </p>
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                @empty
-                                                    <tr>
-                                                        <td>
-                                                            No Author Available
-                                                        </td>
-                                                        <td>
-                                                            No Title Available
-                                                        </td>
-                                                    </tr>
-                                                @endforelse
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>

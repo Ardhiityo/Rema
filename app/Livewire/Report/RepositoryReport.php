@@ -4,10 +4,9 @@ namespace App\Livewire\Report;
 
 use Throwable;
 use Livewire\Component;
-use App\Exports\RepositoryExport;
 use Livewire\Attributes\Computed;
 use Illuminate\Support\Facades\Log;
-use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Auth;
 use App\Repositories\Contratcs\AuthorRepositoryInterface;
 use App\Repositories\Contratcs\CategoryRepositoryInterface;
 use App\Repositories\Contratcs\CoordinatorRepositoryInterface;
@@ -16,7 +15,7 @@ class RepositoryReport extends Component
 {
     public string|int $year = '';
     public array $includes = [];
-    public string|int $coordinator_id = '';
+    public string|int $nidn = '';
 
     public function mount()
     {
@@ -28,7 +27,7 @@ class RepositoryReport extends Component
         return [
             'year' => ['required', 'date_format:Y', 'exists:meta_data,year'],
             'includes.*' => ['nullable', 'exists:categories,slug'],
-            'coordinator_id' => ['required', 'exists:coordinators,id']
+            'nidn' => ['required', 'exists:coordinators,nidn']
         ];
     }
 
@@ -36,7 +35,7 @@ class RepositoryReport extends Component
     {
         return [
             'includes.*' => 'includes',
-            'coordinator_id' => 'coordinator'
+            'nidn' => 'coordinator'
         ];
     }
 
@@ -62,7 +61,7 @@ class RepositoryReport extends Component
     {
         $this->year = '';
         $this->includes = [];
-        $this->coordinator_id = '';
+        $this->nidn = '';
 
         $this->resetErrorBag();
     }
@@ -72,21 +71,12 @@ class RepositoryReport extends Component
         $validated = $this->validate();
 
         try {
-            $year = $this->year;
-
-            $coordinator_id = $validated['coordinator_id'];
-
-            $coordinator_data = $this->coordinatorRepository->findById($coordinator_id);
-
-            return Excel::download(
-                export: new RepositoryExport(
-                    year: $year,
-                    includes: $this->includes,
-                    coordinator_data: $coordinator_data
-                ),
-                fileName: "Repositories $year" . '.pdf',
-                writerType: \Maatwebsite\Excel\Excel::MPDF
-            );
+            $this->resetInput();
+            return redirect()->route('reports.repositories.download', [
+                'nidn' => $validated['nidn'],
+                'year' => $validated['year'],
+                'includes' => json_encode($validated['includes'])
+            ]);
         } catch (Throwable $th) {
             Log::info(json_encode([
                 'user' => [
@@ -101,8 +91,7 @@ class RepositoryReport extends Component
                     'data' => [
                         'year' => $this->year,
                         'includes' => $this->includes,
-                        'coordinator_id' => $this->coordinator_id,
-                        'coordinator_data' => $this->coordinator_data,
+                        'nidn' => $this->nidn,
                     ]
                 ],
                 'message' => $th->getMessage()

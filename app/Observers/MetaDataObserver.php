@@ -14,7 +14,6 @@ class MetaDataObserver
     {
         Cache::forget('metadata.repositories.charts');
         Cache::forget('metadata.repositories.recently_adds');
-        Cache::forget('metadata.repositories.latest_repositories');
         Cache::forget('metadata.metricCards');
     }
 
@@ -25,7 +24,6 @@ class MetaDataObserver
     {
         Cache::forget('metadata.repositories.charts');
         Cache::forget('metadata.repositories.recently_adds');
-        Cache::forget('metadata.repositories.latest_repositories');
         Cache::forget('metadata.metricCards');
     }
 
@@ -36,7 +34,6 @@ class MetaDataObserver
     {
         Cache::forget('metadata.repositories.charts');
         Cache::forget('metadata.repositories.recently_adds');
-        Cache::forget('metadata.repositories.latest_repositories');
         Cache::forget('metadata.metricCards');
     }
 
@@ -47,7 +44,6 @@ class MetaDataObserver
     {
         Cache::forget('metadata.repositories.charts');
         Cache::forget('metadata.repositories.recently_adds');
-        Cache::forget('metadata.repositories.latest_repositories');
         Cache::forget('metadata.metricCards');
     }
 
@@ -58,7 +54,6 @@ class MetaDataObserver
     {
         Cache::forget('metadata.repositories.charts');
         Cache::forget('metadata.repositories.recently_adds');
-        Cache::forget('metadata.repositories.latest_repositories');
         Cache::forget('metadata.metricCards');
     }
 }

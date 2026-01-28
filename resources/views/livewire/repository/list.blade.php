@@ -30,7 +30,7 @@
                             <label class="input-group-text" for="status">Status</label>
                             <select name="status" id="status" class="form-select" wire:model.live='status_filter'>
                                 <option value="approve">Approve</option>
-                                <option value="pending">Pending</option>
+                                <option value="process">Process</option>
                                 <option value="revision">Revision</option>
                                 <option value="reject">Reject</option>
                             </select>
@@ -41,7 +41,6 @@
                             <label class="input-group-text" for="visibility">Visibility</label>
                             <select name="visibility" id="visibility" class="form-select" wire:model.live='visibility'>
                                 <option value="public">Public</option>
-                                <option value="protected">Protected</option>
                                 <option value="private">Private</option>
                             </select>
                         </div>
@@ -73,11 +72,10 @@
                             <th class="text-start">No</th>
                             <th class="text-start">Title</th>
                             @if (!$is_author)
-                                <th class="text-start">Author</th>
+                                <th>Author</th>
                             @endif
-                            <th>Visibility</th>
                             @if (!$is_author)
-                                <th>Views</th>
+                                <th>NIM</th>
                             @endif
                             <th>Action</th>
                         </tr>
@@ -89,83 +87,71 @@
                                 <td class="text-bold-500 text-start" title="{{ $data->title }}">
                                     {{ $data->short_title }}</td>
                                 @if (!$is_author)
-                                    <td class="text-start">
-                                        @if ($data->avatar)
-                                            <img src="{{ $data->avatar }}" alt="{{ $data->name }}"
-                                                style="width: 38px; height: 38px; border-radius: 100%;">
-                                        @else
-                                            -
-                                        @endif
+                                    <td>
                                         <span class="text-bold-500 ms-1" title="{{ $data->name }}">
                                             {{ $data->short_name }}
                                         </span>
                                     </td>
                                 @endif
-                                <td class="text-bold-500">{{ $data->visibility_ucfirst }}</td>
                                 @if (!$is_author)
-                                    <td class="text-bold-500">{{ $data->views }}</td>
+                                    <td class="text-bold-500" title="{{ $data->nim }}">{{ $data->nim }}</td>
                                 @endif
                                 <td class="gap-3 d-flex justify-content-center align-items-center">
                                     <a href="{{ route('repository.show', ['meta_data' => $data->slug]) }}"
-                                        class="btn btn-info">
+                                        class="btn btn-info" title="view">
                                         <i class="bi bi-eye-fill"></i>
                                     </a>
-                                    @if ($is_admin || $is_author)
-                                        <a @if ($is_author) @if ($data->status != 'approve') href="{{ route('repository.edit', ['meta_data_slug' => $data->slug]) }}" @endif
-                                        @else
-                                            href="{{ route('repository.edit', ['meta_data_slug' => $data->slug]) }}"
-                                            @endif>
-                                            <button class="btn btn-warning"
-                                                @if ($is_author) @disabled($data->status == 'approve') @endif>
-                                                <i class="bi bi-pencil-square"></i>
-                                            </button>
+                                    @can('update', $data->toModel())
+                                        <a href="{{ route('repository.edit', ['meta_data_slug' => $data->slug]) }}"
+                                            class="btn btn-warning" title="edit">
+                                            <i class="bi bi-pencil-square"></i>
                                         </a>
-                                        <button type="button"
-                                            @if ($is_author) @disabled($data->status == 'approve') @endif
-                                            class="block btn btn-danger" data-bs-toggle="modal"
-                                            data-bs-target="#border-less"
-                                            wire:click="deleteConfirm('{{ $data->slug }}')">
+                                    @endcan
+                                    @can('delete', $data->toModel())
+                                        <button type="button" class="block btn btn-danger" data-bs-toggle="modal"
+                                            data-bs-target="#border-less" wire:click="deleteConfirm('{{ $data->slug }}')"
+                                            title="delete">
                                             <i class="bi bi-trash3"></i>
                                         </button>
-                                    @endif
+                                    @endcan
                                 </td>
                             </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="6" class="text-center">Data Not Found</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
-                @if ($meta_data->total() > $meta_data->perPage())
-                    <div class="p-3 pt-4">
-                        {{ $meta_data->links() }}
-                    </div>
-                @endif
+                        @empty
+                            <tr>
+                                <td colspan="6" class="text-center">Data Not Found</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
             </div>
+            @if ($meta_data->total() > $meta_data->perPage())
+                <div class="p-3 pt-4">
+                    {{ $meta_data->links() }}
+                </div>
+            @endif
         </div>
+    </div>
 
-        <!--BorderLess Modal Modal -->
-        <div wire:ignore.self class="text-left modal fade modal-borderless" id="border-less" tabindex="-1" role="dialog"
-            aria-labelledby="myModalLabel1" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-scrollable" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Confirm deletion</h5>
-                    </div>
-                    <div class="modal-body">
-                        <p>Are you sure you want to delete the data?</p>
-                    </div>
-                    <div class="gap-2 modal-footer d-flex align-items-center">
-                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
-                            <span>Close</span>
-                        </button>
-                        <button type="button" class="btn btn-danger ms-1" wire:click='delete' data-bs-dismiss="modal">
-                            <span>Accept</span>
-                        </button>
-                    </div>
+    <!--BorderLess Modal Modal -->
+    <div wire:ignore.self class="text-left modal fade modal-borderless" id="border-less" tabindex="-1" role="dialog"
+        aria-labelledby="myModalLabel1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirm deletion</h5>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete the data?</p>
+                </div>
+                <div class="gap-2 modal-footer d-flex align-items-center">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+                        <span>Close</span>
+                    </button>
+                    <button type="button" class="btn btn-danger ms-1" wire:click='delete' data-bs-dismiss="modal">
+                        <span>Accept</span>
+                    </button>
                 </div>
             </div>
         </div>
     </div>
+</div>

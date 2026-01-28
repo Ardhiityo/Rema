@@ -38,7 +38,6 @@ class Profile extends Component
 
     public User $user;
     public Author $author;
-    public string $status;
     public string $role = '';
 
     public function mount()
@@ -46,13 +45,12 @@ class Profile extends Component
         $user = Auth::user();
         $this->role = $user->getRoleNames()->first();
 
-        if ($user->hasRole('contributor')) {
+        if ($user->hasRole('author')) {
             $user->load('author');
             $this->author = $user->author;
 
             $author_data = AuthorData::fromModel($user->author);
             $this->nim = $author_data->nim;
-            $this->status = $author_data->status;
             $this->study_program_id = $author_data->study_program_id;
         }
 
@@ -67,8 +65,8 @@ class Profile extends Component
     {
         return [
             'name' => ['required', 'min:3', 'max:50'],
-            'nim' => ['required_if:role,contributor', new ProfileNimRule()],
-            'study_program_id' => ['required_if:role,contributor', new ProfileStudyProgramRule()],
+            'nim' => ['required_if:role,author', new ProfileNimRule()],
+            'study_program_id' => ['required_if:role,author', new ProfileStudyProgramRule()],
             'avatar' => [Rule::requiredIf($this->user->avatar == null), new ProfileAvatarRule()],
             'email' => ['required', 'email:dns', 'unique:users,email,' . $this->user->id],
             'password' => ['nullable', 'min:8', 'max:100']
@@ -85,14 +83,6 @@ class Profile extends Component
     public function updatedAvatar()
     {
         $this->display_avatar = false;
-    }
-
-    #[Computed()]
-    public function isLockForm()
-    {
-        if ($this->user->hasRole('contributor')) {
-            return $this->status == 'approve' ? true : false;
-        }
     }
 
     public function resetInput()
@@ -121,23 +111,14 @@ class Profile extends Component
     {
         $user_data = UserData::fromModel($this->user);
 
-        if ($this->user->hasRole('contributor')) {
+        if ($this->user->hasRole('author')) {
             $author_data = AuthorData::fromModel($this->author);
-        }
-
-        if ($this->isLockForm()) {
-            $this->name = $user_data->name;
-            $this->nim = $author_data->nim;
-            $this->study_program_id = $author_data->study_program_id;
-            $this->avatar = null;
         }
 
         $validated = $this->validate();
 
         try {
-            if ($this->user->hasRole('contributor')) {
-                $validated['status'] = $this->status;
-
+            if ($this->user->hasRole('author')) {
                 $update_author_data = UpdateAuthorData::from($validated);
 
                 $this->authorRepository->update($author_data->id, $update_author_data);
@@ -157,7 +138,7 @@ class Profile extends Component
     {
         $study_programs = [];
 
-        if ($this->user->hasRole('contributor')) {
+        if ($this->user->hasRole('author')) {
             $study_programs = $studyProgramRepository->all();
         }
 

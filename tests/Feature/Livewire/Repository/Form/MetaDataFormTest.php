@@ -4,10 +4,8 @@ use App\Models\User;
 use App\Models\Author;
 use App\Models\MetaData;
 use Illuminate\Support\Str;
-use App\Data\Author\AuthorListData;
 use function Pest\Laravel\actingAs;
 use Database\Seeders\DatabaseSeeder;
-use Spatie\LaravelData\DataCollection;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -19,7 +17,7 @@ test('mount edit success', function () {
 
     $this->seed(DatabaseSeeder::class);
 
-    $user = User::whereEmail('contributor@gmail.com')->first();
+    $user = User::whereEmail('author@gmail.com')->first();
 
     actingAs($user);
 
@@ -30,11 +28,9 @@ test('mount edit success', function () {
         ->assertSet('meta_data_id', $meta_data->id)
         ->assertSet('title', $meta_data->title)
         ->assertSet('year', $meta_data->year)
-        ->assertSet('author_id', $meta_data->author_id)
         ->assertSet('status', $meta_data->status)
         ->assertSet('visibility', $meta_data->visibility)
         ->assertSet('is_approve', false)
-        ->assertSet('keyword', $meta_data->author->nim . ' - ' . $meta_data->author->user->name)
         ->assertDispatched('refresh-meta-data-session');
 });
 
@@ -43,7 +39,7 @@ test('mount edit failed not found', function () {
 
     $this->seed(DatabaseSeeder::class);
 
-    $user = User::whereEmail('contributor@gmail.com')->first();
+    $user = User::whereEmail('author@gmail.com')->first();
 
     actingAs($user);
 
@@ -68,7 +64,7 @@ test('mount create success', function () {
 
     $this->seed(DatabaseSeeder::class);
 
-    $user = User::whereEmail('contributor@gmail.com')->first();
+    $user = User::whereEmail('author@gmail.com')->first();
 
     actingAs($user);
 
@@ -76,14 +72,15 @@ test('mount create success', function () {
 
     metaDataForm()
         ->assertSet('is_approve', false)
-        ->assertSet('keyword', '')
+        ->assertSet('author_name', $user->name)
+        ->assertSet('author_nim', $user->author->nim)
+        ->assertSet('author_study_program', null)
         ->assertSet('year', now()->year)
+        ->assertSet('visibility', $meta_data->visibility)
         ->assertNotSet('is_update', true)
         ->assertNotSet('meta_data_id', $meta_data->id)
         ->assertNotSet('title', $meta_data->title)
-        ->assertNotSet('author_id', $meta_data->author_id)
-        ->assertNotSet('status', $meta_data->status)
-        ->assertNotSet('visibility', $meta_data->visibility);
+        ->assertNotSet('status', $meta_data->status);
 });
 
 test('create new form success', function () {
@@ -91,7 +88,7 @@ test('create new form success', function () {
 
     $this->seed(DatabaseSeeder::class);
 
-    $user = User::whereEmail('contributor@gmail.com')->first();
+    $user = User::whereEmail('author@gmail.com')->first();
 
     actingAs($user);
 
@@ -104,27 +101,12 @@ test('create new form success', function () {
         ->assertNotSet('title', 'test 123');
 });
 
-test('is lock form success', function () {
-    Storage::fake('public');
-
-    $this->seed(DatabaseSeeder::class);
-
-    $user = User::whereEmail('contributor@gmail.com')->first();
-
-    actingAs($user);
-
-    $component = metaDataForm();
-
-    expect($component->instance()->isLockForm())
-        ->toBe(false);
-});
-
 test('meta data title true success', function () {
     Storage::fake('public');
 
     $this->seed(DatabaseSeeder::class);
 
-    $user = User::whereEmail('contributor@gmail.com')->first();
+    $user = User::whereEmail('author@gmail.com')->first();
 
     actingAs($user);
 
@@ -138,60 +120,13 @@ test('meta data title false success', function () {
 
     $this->seed(DatabaseSeeder::class);
 
-    $user = User::whereEmail('contributor@gmail.com')->first();
+    $user = User::whereEmail('author@gmail.com')->first();
 
     actingAs($user);
 
     $component = metaDataForm();
 
     expect($component->instance()->metaDataTitle())->toBe('Create Meta Data');
-});
-
-test('updated author id success', function () {
-    Storage::fake('public');
-
-    $this->seed(DatabaseSeeder::class);
-
-    $user = User::whereEmail('contributor@gmail.com')->first();
-
-    actingAs($user);
-
-    $meta_data = MetaData::first();
-
-    metaDataForm(['meta_data_id' => $meta_data->id])
-        ->assertSet('keyword', $meta_data->author->nim . ' - ' . $meta_data->author->user->name);
-});
-
-test('get authors without keyword', function () {
-    Storage::fake('public');
-
-    $this->seed(DatabaseSeeder::class);
-
-    $user = User::whereEmail('admin@gmail.com')->first();
-
-    actingAs($user);
-
-    $component = metaDataForm();
-
-    expect($component->instance()->authors())
-        ->toEqual(AuthorListData::collect([], DataCollection::class));
-});
-
-test('get authors with keyword', function () {
-    Storage::fake('public');
-
-    $this->seed(DatabaseSeeder::class);
-
-    $user = User::whereEmail('admin@gmail.com')->first();
-
-    actingAs($user);
-
-    $component = metaDataForm()
-        ->set('keyword', 22040004);
-
-    expect($component->instance()->authors())->toBeInstanceOf(DataCollection::class);
-
-    expect(count($component->instance()->authors()))->toBe(1);
 });
 
 test('create meta data admin success', function () {
@@ -207,11 +142,13 @@ test('create meta data admin success', function () {
 
     metaDataForm()
         ->set('title', 'tes admin 123')
+        ->set('author_name', 'Arya Adhi Prasetyo')
+        ->set('author_nim', 22040004)
+        ->set('author_study_program', 'Teknik Informatika')
         ->set('year', 2025)
-        ->set('author_id', $author->id)
         ->set('status', 'approve')
         ->set('visibility', 'public')
-        ->call('createMetaData')
+        ->call('create')
         ->assertHasNoErrors()
         ->assertSet('is_update', true)
         ->assertDispatched('refresh-meta-data-session');
@@ -219,7 +156,9 @@ test('create meta data admin success', function () {
     $this->assertDatabaseCount('meta_data', 2);
     $this->assertDatabaseHas('meta_data', [
         'title' => 'tes admin 123',
-        'author_id' => $author->id,
+        'author_name' => 'Arya Adhi Prasetyo',
+        'author_nim' => 22040004,
+        'author_study_program' => 'Teknik Informatika',
         'visibility' => 'public',
         'year' => 2025,
         'slug' => Str::slug('tes admin 123'),
@@ -240,11 +179,13 @@ test('create meta data admin failed validation', function () {
 
     metaDataForm()
         ->set('title', 'tes admin 123')
-        ->set('author_id', $author->id)
+        ->set('author_name', 'Arya Adhi Prasetyo')
+        ->set('author_nim', 22040004)
+        ->set('author_study_program', 'Teknik Informatika')
         ->set('status', 'approve')
         ->set('year', '')
         ->set('visibility', 'public')
-        ->call('createMetaData')
+        ->call('create')
         ->assertHasErrors([
             'year' => 'required'
         ])
@@ -254,55 +195,68 @@ test('create meta data admin failed validation', function () {
     $this->assertDatabaseCount('meta_data', 1);
     $this->assertDatabaseMissing('meta_data', [
         'title' => 'tes admin 123',
-        'author_id' => $author->id,
+        'author_nim' => 22040004,
+        'author_study_program' => 'Teknik Informatika',
+        'author_name' => 'Arya Adhi Prasetyo',
         'visibility' => 'public',
-        'year' => 2025,
+        'year' => '',
         'slug' => Str::slug('tes admin 123'),
         'status' => 'approve'
     ]);
 });
 
-test('create meta data contributor success', function () {
+test('create meta data author success', function () {
     Storage::fake('public');
 
     $this->seed(DatabaseSeeder::class);
 
-    $user = User::whereEmail('contributor@gmail.com')->first();
+    $user = User::whereEmail('author@gmail.com')->first();
 
     actingAs($user);
 
     metaDataForm()
-        ->set('title', 'tes contributor 123')
+        ->set('title', 'tes author 123')
         ->set('year', 2025)
-        ->call('createMetaData')
+        ->set('author_name', $user->name)
+        ->set('author_nim', $user->author->nim)
+        ->set('author_study_program', 'Teknik Informatika')
+        ->set('status', 'approve')
+        ->set('visibility', 'public')
+        ->call('create')
         ->assertHasNoErrors()
         ->assertSet('is_update', true)
         ->assertDispatched('refresh-meta-data-session');
 
     $this->assertDatabaseCount('meta_data', 2);
+
     $this->assertDatabaseHas('meta_data', [
-        'title' => 'tes contributor 123',
-        'author_id' => $user->author->id,
+        'title' => 'tes author 123',
+        'author_name' => $user->name,
+        'author_nim' => $user->author->nim,
+        'author_study_program' => 'Teknik Informatika',
         'visibility' => 'private',
+        'status' => 'process',
         'year' => 2025,
-        'slug' => Str::slug('tes contributor 123'),
-        'status' => 'pending'
+        'slug' => Str::slug('tes author 123')
     ]);
 });
 
-test('create meta data contributor failed validation', function () {
+test('create meta data author failed validation', function () {
     Storage::fake('public');
 
     $this->seed(DatabaseSeeder::class);
 
-    $user = User::whereEmail('contributor@gmail.com')->first();
+    $user = User::whereEmail('author@gmail.com')->first();
 
     actingAs($user);
 
     metaDataForm()
-        ->set('title', 'tes contributor 123')
+        ->set('title', 'tes author 123')
         ->set('year', '')
-        ->call('createMetaData')
+        ->set('author_name', $user->name)
+        ->set('author_nim', $user->author->nim)
+        ->set('author_study_program', 'Teknik Informatika')
+        ->call('create')
         ->assertHasErrors([
             'year' => 'required'
         ])
@@ -310,13 +264,16 @@ test('create meta data contributor failed validation', function () {
         ->assertNotDispatched('refresh-meta-data-session');
 
     $this->assertDatabaseCount('meta_data', 1);
+
     $this->assertDatabaseMissing('meta_data', [
-        'title' => 'tes contributor 123',
-        'author_id' => $user->author->id,
+        'title' => 'tes author 123',
+        'author_name' => $user->name,
+        'author_nim' => $user->author->nim,
+        'author_study_program' => 'Teknik Informatika',
         'visibility' => 'private',
         'year' => 2025,
-        'slug' => Str::slug('tes contributor 123'),
-        'status' => 'pending'
+        'slug' => Str::slug('tes author 123'),
+        'status' => 'process'
     ]);
 });
 
@@ -337,17 +294,21 @@ test('update meta data admin success', function () {
         ->set('meta_data_id', $meta_data->id)
         ->set('title', 'tes update admin 123')
         ->set('year', 2026)
-        ->set('author_id', $author->id)
+        ->set('author_name', $author->user->name)
+        ->set('author_nim', $author->user->author->nim)
+        ->set('author_study_program', 'Manajemen Informatika')
         ->set('status', 'approve')
         ->set('visibility', 'public')
-        ->call('updateMetaData')
+        ->call('update')
         ->assertHasNoErrors()
         ->assertSet('is_update', true);
 
     $this->assertDatabaseCount('meta_data', 1);
     $this->assertDatabaseHas('meta_data', [
         'title' => 'tes update admin 123',
-        'author_id' => $author->id,
+        'author_name' => $author->user->name,
+        'author_nim' => $author->user->author->nim,
+        'author_study_program' => 'Manajemen Informatika',
         'visibility' => 'public',
         'year' => 2026,
         'slug' => Str::slug('tes update admin 123'),
@@ -372,10 +333,12 @@ test('update meta data admin failed validation', function () {
         ->set('meta_data_id', $meta_data->id)
         ->set('title', 'tes update admin 123')
         ->set('year', '')
-        ->set('author_id', $author->id)
+        ->set('author_name', 'Budiyanto')
+        ->set('author_nim', '22040004')
+        ->set('author_study_program', 'Manajemen Informatika')
         ->set('status', 'approve')
         ->set('visibility', 'public')
-        ->call('updateMetaData')
+        ->call('update')
         ->assertHasErrors([
             'year' => 'required'
         ])
@@ -384,20 +347,22 @@ test('update meta data admin failed validation', function () {
     $this->assertDatabaseCount('meta_data', 1);
     $this->assertDatabaseMissing('meta_data', [
         'title' => 'tes update admin 123',
-        'author_id' => $author->id,
+        'author_name' => 'Budiyanto',
+        'author_nim' => '22040004',
+        'author_study_program' => 'Manajemen Informatika',
         'visibility' => 'public',
-        'year' => 2026,
+        'year' => '',
         'slug' => Str::slug('tes update admin 123'),
         'status' => 'approve'
     ]);
 });
 
-test('update meta data contributor success', function () {
+test('update meta data author success', function () {
     Storage::fake('public');
 
     $this->seed(DatabaseSeeder::class);
 
-    $user = User::whereEmail('contributor@gmail.com')->first();
+    $user = User::whereEmail('author@gmail.com')->first();
 
     actingAs($user);
 
@@ -405,29 +370,32 @@ test('update meta data contributor success', function () {
 
     metaDataForm(['meta_data_id' => $meta_data->id])
         ->set('meta_data_id', $meta_data->id)
-        ->set('title', 'tes update contributor 123')
+        ->set('title', 'tes update author 123')
         ->set('year', 2027)
-        ->call('updateMetaData')
+        ->call('update')
         ->assertHasNoErrors()
         ->assertSet('is_update', true);
 
     $this->assertDatabaseCount('meta_data', 1);
+
     $this->assertDatabaseHas('meta_data', [
-        'title' => 'tes update contributor 123',
-        'author_id' => $user->author->id,
-        'visibility' => 'private',
+        'title' => 'tes update author 123',
+        'author_name' => $meta_data->author_name,
+        'author_nim' => $meta_data->author_nim,
+        'author_study_program' => $meta_data->author_study_program,
+        'visibility' => $meta_data->visibility,
         'year' => 2027,
-        'slug' => Str::slug('tes update contributor 123'),
-        'status' => 'pending'
+        'slug' => Str::slug('tes update author 123'),
+        'status' => $meta_data->status
     ]);
 });
 
-test('update meta data contributor failed validation', function () {
+test('update meta data author failed validation', function () {
     Storage::fake('public');
 
     $this->seed(DatabaseSeeder::class);
 
-    $user = User::whereEmail('contributor@gmail.com')->first();
+    $user = User::whereEmail('author@gmail.com')->first();
 
     actingAs($user);
 
@@ -435,22 +403,19 @@ test('update meta data contributor failed validation', function () {
 
     metaDataForm(['meta_data_id' => $meta_data->id])
         ->set('meta_data_id', $meta_data->id)
-        ->set('title', 'tes update contributor 123')
+        ->set('title', 'tes update author 123')
         ->set('year', '')
-        ->call('updateMetaData')
+        ->call('update')
         ->assertHasErrors([
             'year' => 'required'
         ])
         ->assertSet('is_update', true);
 
     $this->assertDatabaseCount('meta_data', 1);
+
     $this->assertDatabaseMissing('meta_data', [
-        'title' => 'tes update contributor 123',
-        'author_id' => $user->author->id,
-        'visibility' => 'private',
-        'year' => 2026,
-        'slug' => Str::slug('tes update contributor 123'),
-        'status' => 'pending'
+        'title' => 'tes update author 123',
+        'year' => '',
     ]);
 });
 
@@ -465,14 +430,10 @@ test('reset input success', function () {
 
     metaDataForm()
         ->set('title', 'Hello world')
-        ->set('author_id', Author::first()->id)
         ->set('status', 'approve')
         ->set('visibility', 'public')
-        ->set('keyword', 22040004)
         ->call('resetInput')
         ->assertNotSet('title', 'Hello world')
-        ->assertNotSet('author_id', 1)
         ->assertNotSet('status', 'approve')
-        ->assertNotSet('visibility', 'public')
-        ->assertNotSet('keyword', 22040004);
+        ->assertNotSet('visibility', 'public');
 });

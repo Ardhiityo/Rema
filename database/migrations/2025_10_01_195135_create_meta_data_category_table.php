@@ -14,13 +14,12 @@ return new class extends Migration
         Schema::create('meta_data_category', function (Blueprint $table) {
             $table->string('file_path');
             $table->unsignedBigInteger('meta_data_id');
-            $table->foreign('meta_data_id')->references('id')->on('meta_data')
-                ->cascadeOnDelete();
             $table->unsignedBigInteger('category_id');
-            $table->foreign('category_id')->references('id')->on('categories')
-                ->cascadeOnDelete();
-            $table->primary(['category_id', 'meta_data_id']);
             $table->timestamps();
+
+            $table->foreign('meta_data_id')->references('id')->on('meta_data')->cascadeOnDelete();
+            $table->foreign('category_id')->references('id')->on('categories')->cascadeOnDelete();
+            $table->primary(['category_id', 'meta_data_id']);
         });
     }
 

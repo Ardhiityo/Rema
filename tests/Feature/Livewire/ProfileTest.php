@@ -29,17 +29,17 @@ test('mount admin success', function () {
         ->assertSet('display_avatar', '/storage/' . $user->avatar);
 });
 
-test('mount contributor success', function () {
+test('mount author success', function () {
     Storage::fake('public');
 
     $this->seed(DatabaseSeeder::class);
 
-    $user = User::whereEmail('contributor@gmail.com')->first();
+    $user = User::whereEmail('author@gmail.com')->first();
 
     actingAs($user);
 
     profile()
-        ->assertSet('role', 'contributor')
+        ->assertSet('role', 'author')
         ->assertSet('user', $user)
         ->assertSet('author', $user->author)
         ->assertSet('name', $user->name)
@@ -55,7 +55,7 @@ test('updated avatar success', function () {
 
     $this->seed(DatabaseSeeder::class);
 
-    $user = User::whereEmail('contributor@gmail.com')->first();
+    $user = User::whereEmail('author@gmail.com')->first();
 
     actingAs($user);
     Storage::fake('public');
@@ -68,39 +68,12 @@ test('updated avatar success', function () {
         ->assertSet('diplay_avatar', false);
 });
 
-test('is lock form success', function () {
-    Storage::fake('public');
-
-    $this->seed(DatabaseSeeder::class);
-
-    $user = User::whereEmail('contributor@gmail.com')->first();
-
-    actingAs($user);
-
-    $component = profile();
-
-    expect(false)
-        ->toBe($component->instance()->isLockForm());
-
-
-    $user->author()->update([
-        'status' => 'approve'
-    ]);
-
-    actingAs($user);
-
-    $component = profile();
-
-    expect(true)
-        ->toBe($component->instance()->isLockForm());
-});
-
 test('reset input success', function () {
     Storage::fake('public');
 
     $this->seed(DatabaseSeeder::class);
 
-    $user = User::whereEmail('contributor@gmail.com')->first();
+    $user = User::whereEmail('author@gmail.com')->first();
 
     actingAs($user);
 
@@ -196,18 +169,18 @@ test('update admin failed validation', function () {
 });
 
 
-test('update contributor success', function () {
+test('update author success', function () {
     Storage::fake('public');
 
     $this->seed(DatabaseSeeder::class);
 
-    $user = User::whereEmail('contributor@gmail.com')->first();
+    $user = User::whereEmail('author@gmail.com')->first();
 
     actingAs($user);
 
     profile()
-        ->set('name', 'Contributor Update')
-        ->set('email', 'contributorupdate@gmail.com')
+        ->set('name', 'Author Update')
+        ->set('email', 'authorupdate@gmail.com')
         ->set('password', 'secret123')
         ->set('nim', 22040005)
         ->set('study_program_id', StudyProgram::first()->id)
@@ -219,8 +192,8 @@ test('update contributor success', function () {
         ->assertHasNoErrors();
 
     $this->assertDatabaseHas('users', [
-        'name' => 'Contributor Update',
-        'email' => 'contributorupdate@gmail.com',
+        'name' => 'Author Update',
+        'email' => 'authorupdate@gmail.com',
     ]);
 
     $this->assertDatabaseMissing('users', [
@@ -228,7 +201,7 @@ test('update contributor success', function () {
         'email' => $user->email,
     ]);
 
-    $new_user = User::whereEmail('contributorupdate@gmail.com')->first();
+    $new_user = User::whereEmail('authorupdate@gmail.com')->first();
 
     expect($user->avatar)->not()->toBe($new_user->avatar);
 
@@ -239,18 +212,18 @@ test('update contributor success', function () {
         ));
 });
 
-test('update contributor failed validation', function () {
+test('update author failed validation', function () {
     Storage::fake('public');
 
     $this->seed(DatabaseSeeder::class);
 
-    $user = User::whereEmail('contributor@gmail.com')->first();
+    $user = User::whereEmail('author@gmail.com')->first();
 
     actingAs($user);
 
     profile()
-        ->set('name', 'Contributor Update')
-        ->set('email', 'contributorupdate@gmail.com')
+        ->set('name', 'Author Update')
+        ->set('email', 'authorupdate@gmail.com')
         ->set('password', 'secret')
         ->set('nim', 22040005)
         ->set('study_program_id', StudyProgram::first()->id)
@@ -264,8 +237,8 @@ test('update contributor failed validation', function () {
         ]);
 
     $this->assertDatabaseMissing('users', [
-        'name' => 'Contributor Update',
-        'email' => 'contributorupdate@gmail.com',
+        'name' => 'Author Update',
+        'email' => 'authorupdate@gmail.com',
     ]);
 
     $this->assertDatabaseHas('users', [
@@ -273,7 +246,7 @@ test('update contributor failed validation', function () {
         'email' => $user->email,
     ]);
 
-    $new_user = User::whereEmail('contributorupdate@gmail.com')->first();
+    $new_user = User::whereEmail('authorupdate@gmail.com')->first();
 
     expect($new_user)->toBeNull();
 });

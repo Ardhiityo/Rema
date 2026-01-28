@@ -15,7 +15,7 @@ class RolePermissionSeeder extends Seeder
     public function run(): void
     {
         Role::create(['name' => 'admin']);
-        Role::create(['name' => 'contributor']);
+        Role::create(['name' => 'author']);
 
         $user = User::create([
             'name' => 'Admin',
@@ -29,13 +29,13 @@ class RolePermissionSeeder extends Seeder
 
         $user = User::create([
             'name' => 'John doe',
-            'email' => 'contributor@gmail.com',
+            'email' => 'author@gmail.com',
             'password' => 'rahasia',
             'avatar' => AvatarGenerator::generate(),
             'email_verified_at' => now()
         ]);
 
-        $user->assignRole('contributor');
+        $user->assignRole('author');
 
         $user->author()->create([
             'nim' => 22040004,

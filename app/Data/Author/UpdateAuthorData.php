@@ -10,7 +10,6 @@ class UpdateAuthorData extends Data
 {
     public function __construct(
         public int|string $nim,
-        public int|string $study_program_id,
-        public string $status
+        public int|string $study_program_id
     ) {}
 }

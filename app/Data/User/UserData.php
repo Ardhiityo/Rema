@@ -35,7 +35,7 @@ class UserData extends Data
             $user->name,
             $user->email,
             $user->password,
-            $user->avatar ? Storage::url($user->avatar) : null
+            $user->avatar ? Storage::url($user->avatar) : asset('assets/compiled/jpg/anonym.jpg')
         );
     }
 }

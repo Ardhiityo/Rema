@@ -12,13 +12,11 @@ use App\Repositories\Contratcs\MetaDataRepositoryInterface;
 use App\Repositories\Contratcs\MetaDataCategoryRepositoryInterface;
 use Illuminate\Support\Facades\Session;
 
-use function Pest\Laravel\session;
-
 class RepositoryForm extends Component
 {
     public bool $is_update = false;
-    public int|null $meta_data_id = null;
     public bool $is_approve = false;
+    public int|null $meta_data_id = null;
     public bool $is_categories_empty = false;
 
     public function mount($meta_data_slug = null)
@@ -84,7 +82,7 @@ class RepositoryForm extends Component
 
             return $this->showMetaDataCategoryForm;
         } catch (Throwable $th) {
-            session()->flash('repository-failed', $th->getMessage());
+            Session::flash('repository-failed', $th->getMessage());
         }
     }
 
@@ -93,7 +91,7 @@ class RepositoryForm extends Component
     public function showMetaDataCategoryForm()
     {
         if ($this->is_update) {
-            return $this->is_approve && Auth::user()->hasRole('contributor') ? false : true;
+            return $this->is_approve && Auth::user()->hasRole('author') ? false : true;
         }
 
         return $this->metaDataSession;
