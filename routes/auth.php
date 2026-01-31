@@ -10,31 +10,35 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 
-Route::middleware('guest')->group(function () {
-    Route::get('register', [RegisteredUserController::class, 'create'])
-        ->name('register');
+Route::middleware(['guest'])->group(function () {
+    Route::middleware(['throttle:5,1'])->group(function () {
+        Route::get('register', [RegisteredUserController::class, 'create'])
+            ->name('register');
 
-    Route::post('register', [RegisteredUserController::class, 'store']);
+        Route::post('register', [RegisteredUserController::class, 'store']);
 
-    Route::get('login', [AuthenticatedSessionController::class, 'create'])
-        ->name('login');
+        Route::get('login', [AuthenticatedSessionController::class, 'create'])
+            ->name('login');
 
-    Route::post('login', [AuthenticatedSessionController::class, 'store']);
+        Route::post('login', [AuthenticatedSessionController::class, 'store']);
+    });
 
-    Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
-        ->name('password.request');
+    Route::middleware(['throttle:3,1'])->group(function () {
+        Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
+            ->name('password.request');
 
-    Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])
-        ->name('password.email');
+        Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])
+            ->name('password.email');
 
-    Route::get('reset-password/{token}', [NewPasswordController::class, 'create'])
-        ->name('password.reset');
+        Route::get('reset-password/{token}', [NewPasswordController::class, 'create'])
+            ->name('password.reset');
 
-    Route::post('reset-password', [NewPasswordController::class, 'store'])
-        ->name('password.store');
+        Route::post('reset-password', [NewPasswordController::class, 'store'])
+            ->name('password.store');
+    });
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'throttle:3,1'])->group(function () {
     Route::get('verify-email', EmailVerificationPromptController::class)
         ->name('verification.notice');
 
@@ -50,9 +54,11 @@ Route::middleware('auth')->group(function () {
         ->name('logout');
 });
 
-Route::controller(GoogleController::class)->group(function () {
-    Route::get('/auth/google', 'redirect')
-        ->name('google.redirect');
-    Route::get('/auth/google/callback', 'callback')
-        ->name('google.callback');
+Route::middleware(['throttle:3,1'])->group(function () {
+    Route::controller(GoogleController::class)->group(function () {
+        Route::get('/auth/google', 'redirect')
+            ->name('google.redirect');
+        Route::get('/auth/google/callback', 'callback')
+            ->name('google.callback');
+    });
 });

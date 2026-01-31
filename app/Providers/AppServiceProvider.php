@@ -2,8 +2,6 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Events\QueryExecuted;
 use App\Models\Category;
 use App\Models\MetaData;
 use App\Models\Coordinator;

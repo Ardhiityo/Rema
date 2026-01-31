@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use RyanChandler\LaravelCloudflareTurnstile\Rules\Turnstile;
 
 class LoginRequest extends FormRequest
 {
@@ -29,6 +30,7 @@ class LoginRequest extends FormRequest
         return [
             'email' => ['required', 'string', 'email:dns'],
             'password' => ['required', 'string'],
+            'cf-turnstile-response' => [' required ', new Turnstile]
         ];
     }
 
