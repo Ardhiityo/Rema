@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Coordinator;
-use App\Repositories\Contratcs\AuthorRepositoryInterface;
-use App\Repositories\Contratcs\CoordinatorRepositoryInterface;
+use Mpdf\Mpdf;
 use Spatie\LaravelPdf\Enums\Format;
 use function Spatie\LaravelPdf\Support\pdf;
+use App\Repositories\Contratcs\AuthorRepositoryInterface;
 use App\Repositories\Contratcs\MetaDataRepositoryInterface;
+use App\Repositories\Contratcs\CoordinatorRepositoryInterface;
 
 class ReportController extends Controller
 {
@@ -15,11 +15,18 @@ class ReportController extends Controller
     {
         $meta_data = app(MetaDataRepositoryInterface::class)->reports($year);
 
-        return pdf()
-            ->format(Format::A4)
-            ->margins(top: 10, right: 20, left: 20, bottom: 20)
-            ->view('reports.activity', compact('meta_data', 'year'))
-            ->name("activity-report-" . $year . ".pdf");
+        /**
+         * Need : Node js
+        // return pdf()
+        //     ->format(Format::A4)
+        //     ->margins(top: 10, right: 20, left: 20, bottom: 20)
+        //     ->view('reports.activity', compact('meta_data', 'year'))
+        //     ->name("activity-report-" . $year . ".pdf");
+         */
+
+        $mpdf = new Mpdf();
+        $mpdf->WriteHTML(view('reports.activity',  compact('meta_data', 'year')));
+        return $mpdf->Output();
     }
 
     public function repository($nidn, $year, $includes)
