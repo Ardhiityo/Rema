@@ -49,10 +49,10 @@ Route::middleware(['auth', 'throttle:3,1'])->group(function () {
     Route::post('email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
         ->middleware('throttle:6,1')
         ->name('verification.send');
-
-    Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
-        ->name('logout');
 });
+
+Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
+    ->name('logout');
 
 Route::middleware(['throttle:3,1'])->group(function () {
     Route::controller(GoogleController::class)->group(function () {
