@@ -12,7 +12,7 @@ class AuthorObserver
      */
     public function created(Author $author): void
     {
-        Cache::forget('author.findByApprovals');
+        Cache::forget('author.count');
     }
 
     /**
@@ -20,7 +20,7 @@ class AuthorObserver
      */
     public function updated(Author $author): void
     {
-        Cache::forget('author.findByApprovals');
+        //
     }
 
     /**
@@ -28,7 +28,7 @@ class AuthorObserver
      */
     public function deleted(Author $author): void
     {
-        Cache::forget('author.findByApprovals');
+        Cache::forget('author.count');
     }
 
     /**
@@ -36,7 +36,7 @@ class AuthorObserver
      */
     public function restored(Author $author): void
     {
-        Cache::forget('author.findByApprovals');
+        Cache::forget('author.count');
     }
 
     /**
@@ -44,6 +44,6 @@ class AuthorObserver
      */
     public function forceDeleted(Author $author): void
     {
-        Cache::forget('author.findByApprovals');
+        Cache::forget('author.count');
     }
 }

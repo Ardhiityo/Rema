@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use App\Data\Author\CreateAuthorData;
 use App\Data\Author\UpdateAuthorData;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Repositories\Contratcs\AuthorRepositoryInterface;
 
@@ -137,6 +138,9 @@ class AuthorRepository implements AuthorRepositoryInterface
 
     public function authorCount(): int
     {
-        return Author::count();
+        return Cache::rememberForever(
+            'author.count',
+            fn() => Author::count()
+        );
     }
 }

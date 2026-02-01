@@ -2,10 +2,12 @@
 
 namespace App\Providers;
 
+use App\Models\Author;
 use App\Models\Category;
 use App\Models\Metadata;
 use App\Models\Coordinator;
 use App\Models\StudyProgram;
+use App\Observers\AuthorObserver;
 use App\Observers\CategoryObserver;
 use App\Observers\MetaDataObserver;
 use App\Observers\CoordinatorObserver;
@@ -67,5 +69,6 @@ class AppServiceProvider extends ServiceProvider
         StudyProgram::observe(StudyProgramObserver::class);
         Coordinator::observe(CoordinatorObserver::class);
         Metadata::observe(MetaDataObserver::class);
+        Author::observe(AuthorObserver::class);
     }
 }
