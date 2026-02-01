@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Data\Metadata;
 
-use App\Models\Metadata;
 use Spatie\LaravelData\Data;
 use App\Data\Activity\ActivityReportData;
 
@@ -19,7 +18,7 @@ class MetadataActivityReportData extends Data
         public string|int $total_views
     ) {}
 
-    public static function fromModel(Metadata $meta_data): self
+    public static function fromModel(\App\Models\Metadata $meta_data): self
     {
         return new self(
             $meta_data->title,

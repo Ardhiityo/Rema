@@ -71,10 +71,10 @@
                         <tr class="text-center text-nowrap">
                             <th class="text-start">No</th>
                             <th class="text-start">Title</th>
-                            @if (!$is_author)
+                            @if (! $is_author)
                                 <th>Author</th>
                             @endif
-                            @if (!$is_author)
+                            @if (! $is_author)
                                 <th>NIM</th>
                             @endif
                             <th>Action</th>
@@ -85,15 +85,16 @@
                             <tr class="text-center text-nowrap" wire:key='{{ $data->slug }}'>
                                 <td class="text-bold-500 text-start">{{ $loop->index + $meta_data->firstItem() }}</td>
                                 <td class="text-bold-500 text-start" title="{{ $data->title }}">
-                                    {{ $data->short_title }}</td>
-                                @if (!$is_author)
+                                    {{ $data->short_title }}
+                                </td>
+                                @if (! $is_author)
                                     <td>
                                         <span class="text-bold-500 ms-1" title="{{ $data->name }}">
                                             {{ $data->short_name }}
                                         </span>
                                     </td>
                                 @endif
-                                @if (!$is_author)
+                                @if (! $is_author)
                                     <td class="text-bold-500" title="{{ $data->nim }}">{{ $data->nim }}</td>
                                 @endif
                                 <td class="gap-3 d-flex justify-content-center align-items-center">

@@ -11,7 +11,7 @@ use App\Repositories\Contratcs\AuthorRepositoryInterface;
 use App\Repositories\Contratcs\CategoryRepositoryInterface;
 use App\Repositories\Contratcs\CoordinatorRepositoryInterface;
 
-class RepositoryReport extends Component
+class AuthorReport extends Component
 {
     public string|int $year = '';
     public array $includes = [];
@@ -75,7 +75,7 @@ class RepositoryReport extends Component
             return redirect()->route('reports.repositories.download', [
                 'nidn' => $validated['nidn'],
                 'year' => $validated['year'],
-                'includes' => json_encode($validated['includes'])
+                'includes' => json_encode(isset($validated['includes']) ? $validated['includes'] : [])
             ]);
         } catch (Throwable $th) {
             Log::info(json_encode([
@@ -85,7 +85,7 @@ class RepositoryReport extends Component
                 ],
                 'details' => [
                     'source' => [
-                        'class' => 'RepositoryReport',
+                        'class' => 'AuthorReport',
                         'method' => 'download',
                     ],
                     'data' => [

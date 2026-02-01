@@ -271,9 +271,16 @@ class MetaDataRepository implements MetaDataRepositoryInterface
         $meta_data = Metadata::with(['studyProgram', 'categories'])
             ->where('year', $year)
             ->where('study_program_id', $coordinator->study_program_id)
-            ->whereHas(
-                'categories',
-                fn($query) => $query->whereIn('slug', $includes)
+            ->when(
+                !empty($includes),
+                fn($query) => $query->whereHas(
+                    'categories',
+                    fn($query) => $query->whereIn('slug', $includes)
+                )
+            )
+            ->when(
+                empty($includes),
+                fn($query) => $query->whereDoesntHave('categories')
             )
             ->orderBy('author_nim', 'asc')
             ->get();

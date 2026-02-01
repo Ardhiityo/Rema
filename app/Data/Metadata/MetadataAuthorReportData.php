@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Data\Metadata;
 
-use App\Models\Metadata;
 use Spatie\LaravelData\Data;
 
 class MetadataAuthorReportData extends Data
@@ -18,7 +17,7 @@ class MetadataAuthorReportData extends Data
         public string|null $status
     ) {}
 
-    public static function fromModel(Metadata $metadata): self
+    public static function fromModel(\App\Models\Metadata $metadata): self
     {
         return new self(
             $metadata->author_name,

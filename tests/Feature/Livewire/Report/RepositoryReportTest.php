@@ -4,12 +4,12 @@ use Livewire\Livewire;
 use App\Models\Coordinator;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Support\Facades\Storage;
-use App\Livewire\Report\RepositoryReport;
+use App\Livewire\Report\AuthorReport;
 
 test('mount success', function () {
     Storage::fake('public');
 
-    Livewire::test(RepositoryReport::class)
+    Livewire::test(AuthorReport::class)
         ->assertSet('year', now()->year);
 });
 
@@ -20,7 +20,7 @@ test('reset input success', function () {
 
     $coordinator = Coordinator::first();
 
-    Livewire::test(RepositoryReport::class)
+    Livewire::test(AuthorReport::class)
         ->set('includes', ['skripsi', 'journal'])
         ->set('nidn', $coordinator->nidn)
         ->call('resetInput')
@@ -36,7 +36,7 @@ test('download success', function () {
 
     $coordinator = Coordinator::first();
 
-    Livewire::test(RepositoryReport::class)
+    Livewire::test(AuthorReport::class)
         ->set('year', 2025)
         ->set('includes', ['skripsi'])
         ->set('nidn', $coordinator->nidn)
@@ -61,7 +61,7 @@ test('download failed validation', function () {
 
     $coordinator = Coordinator::first();
 
-    Livewire::test(RepositoryReport::class)
+    Livewire::test(AuthorReport::class)
         ->set('year', 1995)
         ->set('includes', ['skripsi'])
         ->set('nidn', $coordinator->nidn)
@@ -78,6 +78,6 @@ test('render success', function () {
 
     $coordinator = Coordinator::first();
 
-    Livewire::test(RepositoryReport::class)
+    Livewire::test(AuthorReport::class)
         ->assertSeeText($coordinator->name);
 });
