@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Eloquent;
 
-use App\Models\MetaData;
+use App\Models\Metadata;
 use App\Data\User\UserData;
 use App\Models\StudyProgram;
 use App\Data\RecentlyAddData;
@@ -18,17 +18,16 @@ class DashboardRepository implements DashboardRepositoryInterface
     public function metricCards(): DataCollection
     {
         $metrics = Cache::rememberForever('metadata.metricCards', function () {
-            $meta_data = MetaData::query()
+            $meta_data = Metadata::with('studyProgram')
                 ->where('status', 'approve')
-                ->groupBy('author_study_program')
-                ->select('author_study_program', DB::raw('count(id) as total'))
+                ->groupBy('study_program_id')
+                ->select('study_program_id', DB::raw('count(id) as total'))
                 ->get();
 
-            // Pastikan semua study program muncul (termasuk yang 0): gabungkan dengan StudyProgram::get() bila perlu
             $studyPrograms = StudyProgram::get()->keyBy('id');
 
             return $studyPrograms->map(function ($study_program) use ($meta_data) {
-                $row = $meta_data->firstWhere('author_study_program', $study_program->name);
+                $row = $meta_data->firstWhere('study_program_id', $study_program->id);
                 return [
                     'study_program' => $study_program->name,
                     'total' => $row ? (int) $row->total : 0,
@@ -42,7 +41,7 @@ class DashboardRepository implements DashboardRepositoryInterface
     public function charts(): array
     {
         $repositories = Cache::rememberForever('metadata.repositories.charts', function () {
-            return MetaData::where('status', 'approve')
+            return Metadata::where('status', 'approve')
                 ->select('year', DB::raw('count(*) as total_repositories'))
                 ->groupBy('year')
                 ->orderBy('year', 'asc')
@@ -59,7 +58,7 @@ class DashboardRepository implements DashboardRepositoryInterface
         }
 
         $recently_adds = Cache::rememberForever('metadata.repositories.recently_adds', function () {
-            return RecentlyAddData::collect(MetaData::with(['author.user'])
+            return RecentlyAddData::collect(Metadata::with(['author.user'])
                 ->where('status', 'approve')
                 ->limit(4)
                 ->orderByDesc('id')

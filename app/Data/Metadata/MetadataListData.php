@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Data\Metadata;
 
-use App\Models\MetaData;
+use App\Models\Metadata;
 use Illuminate\Support\Str;
 use Spatie\LaravelData\Data;
 use Illuminate\Support\Facades\Auth;
@@ -31,7 +31,7 @@ class MetadataListData extends Data
         $this->short_name = Str::limit($name, 15, '...');
     }
 
-    public static function fromModel(MetaData $meta_data): self
+    public static function fromModel(Metadata $meta_data): self
     {
         return new self(
             $meta_data->title,
@@ -43,9 +43,9 @@ class MetadataListData extends Data
         );
     }
 
-    public function toModel(): MetaData
+    public function toModel(): Metadata
     {
-        $meta_data = new MetaData();
+        $meta_data = new Metadata();
 
         $meta_data->fill([
             'status' => $this->status,

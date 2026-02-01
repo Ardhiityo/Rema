@@ -19,7 +19,7 @@ class MetaDataForm extends Component
     public string $title = '';
     public string|null $author_name = '';
     public string|null $author_nim = '';
-    public string|null $author_study_program = '';
+    public string|null $study_program_id = '';
     public string $status = 'approve';
     public string $year = '';
     public string $visibility = 'public';
@@ -41,7 +41,7 @@ class MetaDataForm extends Component
             $this->title = $meta_data_data->title;
             $this->author_name = $meta_data_data->author_name;
             $this->author_nim = $meta_data_data->author_nim;
-            $this->author_study_program = $meta_data_data->author_study_program;
+            $this->study_program_id = $meta_data_data->study_program_id;
             $this->year = $meta_data_data->year;
             $this->status = $meta_data_data->status;
             $this->visibility = $meta_data_data->visibility;
@@ -55,7 +55,7 @@ class MetaDataForm extends Component
             $this->title = $meta_data_session->title;
             $this->author_name = $meta_data_session->author_name;
             $this->author_nim = $meta_data_session->author_nim;
-            $this->author_study_program = $meta_data_session->author_study_program;
+            $this->study_program_id = $meta_data_session->study_program_id;
             $this->status = $meta_data_session->status;
             $this->visibility = $meta_data_session->visibility;
         }
@@ -66,7 +66,7 @@ class MetaDataForm extends Component
             if ($user->hasRole('author')) {
                 $this->author_name = $user?->name;
                 $this->author_nim = $user?->author?->nim;
-                $this->author_study_program = $user?->author?->studyProgram?->name;
+                $this->study_program_id = $user?->author?->studyProgram?->id;
             }
         }
     }
@@ -129,7 +129,7 @@ class MetaDataForm extends Component
             ],
             'author_name' => ['required', 'min:1', 'max:100'],
             'author_nim' => ['required', 'min:8', 'max:15'],
-            'author_study_program' => ['required', 'exists:study_programs,name'],
+            'study_program_id' => ['required', 'exists:study_programs,id'],
             'year' => ['required', 'date_format:Y'],
             'status' => ['required', 'in:approve,process,reject,revision'],
             'visibility' => ['required', 'in:private,public']
@@ -207,7 +207,7 @@ class MetaDataForm extends Component
         $this->title = '';
         $this->author_name = '';
         $this->author_nim = '';
-        $this->author_study_program = '';
+        $this->study_program_id = '';
         $this->status = '';
         $this->visibility = '';
 

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Data\Metadata;
 
 use Carbon\Carbon;
-use App\Models\MetaData;
+use App\Models\Metadata;
 use Spatie\LaravelData\Data;
 use App\Data\Category\CategoryData;
 use Spatie\LaravelData\DataCollection;
@@ -38,7 +38,7 @@ class DetailMetadataData extends Data
         $this->badge_ucfirst = ucfirst($status);
     }
 
-    public static function fromModel(MetaData $meta_data): self
+    public static function fromModel(Metadata $meta_data): self
     {
         return new self(
             $meta_data->id,
@@ -52,7 +52,7 @@ class DetailMetadataData extends Data
             $meta_data->author_name,
             $meta_data->author_nim,
             $meta_data?->author?->user?->avatar ? Storage::url($meta_data->author->user->avatar) : asset('assets/compiled/jpg/anonym.jpg'),
-            $meta_data->author_study_program
+            $meta_data->studyProgram->name
         );
     }
 }

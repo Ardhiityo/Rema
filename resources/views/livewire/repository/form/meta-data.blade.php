@@ -78,21 +78,21 @@
                     {{-- Author Study Program --}}
                     <div class="mt-4">
                         <div class="input-group">
-                            <label class="input-group-text" for="author_study_program" class="form-label">
+                            <label class="input-group-text" for="study_program_id" class="form-label">
                                 Study Program <sup class="ms-1">*</sup>
                             </label>
-                            <select class="form-select" id="author_study_program" wire:model='author_study_program'>
+                            <select class="form-select" id="study_program_id" wire:model='study_program_id'>
                                 <option value="">
                                     Choose...
                                 </option>
                                 @foreach ($study_programs as $study_program)
-                                    <option value="{{ $study_program->name }}">
+                                    <option value="{{ $study_program->id }}">
                                         {{ $study_program->name }}
                                     </option>
                                 @endforeach
                             </select>
                         </div>
-                        @error('author_study_program')
+                        @error('study_program_id')
                             <span class="badge bg-danger text-wrap">
                                 <small>{{ $message }}</small>
                             </span>

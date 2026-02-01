@@ -3,11 +3,9 @@
 namespace App\Repositories\Contratcs;
 
 use Throwable;
-use App\Models\Author;
 use App\Data\Author\AuthorData;
 use App\Data\Author\CreateAuthorData;
 use App\Data\Author\UpdateAuthorData;
-use Spatie\LaravelData\DataCollection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 interface AuthorRepositoryInterface
@@ -22,8 +20,6 @@ interface AuthorRepositoryInterface
         string|null $keyword = null,
         string|null $study_program_slug = null
     ): LengthAwarePaginator;
-
-    public function reports(string|int $year, array $includes = [], int $nidn): DataCollection;
 
     public function authorCount(): int;
 }

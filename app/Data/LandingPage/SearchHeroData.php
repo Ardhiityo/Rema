@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Data\LandingPage;
 
-use App\Models\MetaData;
+use App\Models\Metadata;
 use Spatie\LaravelData\Data;
 
 class SearchHeroData extends Data
@@ -21,12 +21,12 @@ class SearchHeroData extends Data
         public int|string $views
     ) {}
 
-    public static function fromModel(MetaData $meta_data): self
+    public static function fromModel(Metadata $meta_data): self
     {
         return new self(
             $meta_data->author_name,
             $meta_data->author_nim,
-            $meta_data->author_study_program,
+            $meta_data->studyProgram->name,
             $meta_data->title,
             $meta_data->slug,
             $meta_data->categories->first()->slug,

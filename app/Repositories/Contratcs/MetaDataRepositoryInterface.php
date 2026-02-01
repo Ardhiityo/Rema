@@ -23,5 +23,7 @@ interface MetaDataRepositoryInterface
 
     public function delete(int $meta_data_id): bool|Throwable;
 
-    public function reports(string|int $year): DataCollection;
+    public function activityReports(string|int $year): DataCollection;
+
+    public function authorReports(int|string $year, array $includes = [], int $nidn): DataCollection;
 }

@@ -20,11 +20,13 @@ return new class extends Migration
             $table->enum('status', ['approve', 'reject', 'process', 'revision'])->default('process');
             $table->string('author_name');
             $table->string('author_nim');
-            $table->string('author_study_program');
+            $table->unsignedBigInteger('study_program_id');
             $table->unsignedBigInteger('author_id')->nullable();
             $table->timestamps();
 
             $table->foreign('author_id')->references('id')->on('authors')->cascadeOnDelete();
+            $table->foreign('study_program_id')->references('id')->on('study_programs')->cascadeOnDelete();
+
             // Composite index untuk filter tetap
             $table->index(['status', 'visibility']);
             // Composite index untuk pencarian utama

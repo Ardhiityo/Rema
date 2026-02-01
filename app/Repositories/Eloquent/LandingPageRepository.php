@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Eloquent;
 
-use App\Models\MetaData;
+use App\Models\Metadata;
 use App\Data\LandingPage\SearchHeroData;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Repositories\Contratcs\LandingPageRepositoryInterface;
@@ -11,9 +11,10 @@ class LandingPageRepository implements LandingPageRepositoryInterface
 {
     public function searchHero(string $title, string $year, string $author, string $category): LengthAwarePaginator
     {
-        $query = MetaData::query()
+        $query = Metadata::query()
             ->with([
-                'categories' => fn($query) => $query->where('slug', $category)
+                'categories' => fn($query) => $query->where('slug', $category),
+                'studyProgram'
             ])
             ->withCount([
                 'activities' => fn($query) => $query->whereHas(

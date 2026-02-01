@@ -19,7 +19,7 @@ class Category extends Model
     public function metadata()
     {
         return $this->belongsToMany(
-            MetaData::class,
+            Metadata::class,
             'meta_data_category',
             'category_id',
             'meta_data_id'
@@ -28,6 +28,6 @@ class Category extends Model
 
     public function activities(): HasMany
     {
-        return $this->hasMany(MetaData::class, 'category_id', 'id');
+        return $this->hasMany(Metadata::class, 'category_id', 'id');
     }
 }

@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Category;
-use App\Models\MetaData;
+use App\Models\Metadata;
 use App\Models\Coordinator;
 use App\Models\StudyProgram;
 use App\Observers\CategoryObserver;
@@ -66,6 +66,6 @@ class AppServiceProvider extends ServiceProvider
         Category::observe(CategoryObserver::class);
         StudyProgram::observe(StudyProgramObserver::class);
         Coordinator::observe(CoordinatorObserver::class);
-        MetaData::observe(MetaDataObserver::class);
+        Metadata::observe(MetaDataObserver::class);
     }
 }

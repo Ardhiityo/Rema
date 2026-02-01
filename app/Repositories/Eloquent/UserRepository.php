@@ -4,7 +4,7 @@ namespace App\Repositories\Eloquent;
 
 use Throwable;
 use App\Models\User;
-use App\Models\MetaData;
+use App\Models\Metadata;
 use App\Data\User\UserData;
 use App\Data\User\CreateUserData;
 use App\Data\User\UpdateUserData;
@@ -152,7 +152,7 @@ class UserRepository implements UserRepositoryInterface
 
             $author_id = $user->author->id;
 
-            $meta_data = MetaData::with('categories')->where('author_id', $author_id)->get();
+            $meta_data = Metadata::with('categories')->where('author_id', $author_id)->get();
 
             foreach ($meta_data as $data) {
                 if ($data->categories->isNotEmpty()) {

@@ -20,7 +20,7 @@ class CreateMetadataData extends Data
         public string $title,
         public int|string $author_name,
         public int|string $author_nim,
-        public int|string $author_study_program,
+        public int|string $study_program_id,
         public string $visibility,
         public int|string $year,
         public string $slug,

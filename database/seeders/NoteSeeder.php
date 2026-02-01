@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\MetaData;
+use App\Models\Metadata;
 use App\Models\Note;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -16,7 +16,7 @@ class NoteSeeder extends Seeder
     {
         Note::create([
             'message' => fake()->sentence(),
-            'meta_data_id' => MetaData::first()->id
+            'meta_data_id' => Metadata::first()->id
         ]);
     }
 }

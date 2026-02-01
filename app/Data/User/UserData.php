@@ -25,7 +25,7 @@ class UserData extends Data
         public string|null $avatar
     ) {
         $this->short_name = Str::limit($name, 12, 'xxx');
-        $this->short_email = Str::limit($email, '12', 'xxx');
+        $this->short_email = Str::limit($email, 12, 'xxx');
     }
 
     public static function fromModel(User $user)

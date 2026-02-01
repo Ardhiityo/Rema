@@ -3,9 +3,6 @@
 namespace App\Http\Controllers;
 
 use Mpdf\Mpdf;
-use Spatie\LaravelPdf\Enums\Format;
-use function Spatie\LaravelPdf\Support\pdf;
-use App\Repositories\Contratcs\AuthorRepositoryInterface;
 use App\Repositories\Contratcs\MetaDataRepositoryInterface;
 use App\Repositories\Contratcs\CoordinatorRepositoryInterface;
 
@@ -13,19 +10,16 @@ class ReportController extends Controller
 {
     public function activity($year)
     {
-        $meta_data = app(MetaDataRepositoryInterface::class)->reports($year);
-
-        /**
-         * Need : Node js
-        // return pdf()
-        //     ->format(Format::A4)
-        //     ->margins(top: 10, right: 20, left: 20, bottom: 20)
-        //     ->view('reports.activity', compact('meta_data', 'year'))
-        //     ->name("activity-report-" . $year . ".pdf");
-         */
+        $meta_data = app(MetaDataRepositoryInterface::class)
+            ->activityReports($year);
 
         $mpdf = new Mpdf();
-        $mpdf->WriteHTML(view('reports.activity',  compact('meta_data', 'year')));
+
+        $mpdf->WriteHTML(view(
+            'reports.activity',
+            compact('meta_data', 'year')
+        ));
+
         return $mpdf->Output();
     }
 
@@ -33,10 +27,11 @@ class ReportController extends Controller
     {
         $includes = json_decode($includes);
 
-        $authors = app(AuthorRepositoryInterface::class)
-            ->reports($year, $includes, $nidn);
+        $meta_data = app(MetaDataRepositoryInterface::class)
+            ->authorReports($year, $includes, $nidn);
 
-        $coordinator_data = app(CoordinatorRepositoryInterface::class)->findByNidn($nidn);
+        $coordinator_data = app(CoordinatorRepositoryInterface::class)
+            ->findByNidn($nidn);
 
         $sub_title = '';
 
@@ -52,10 +47,13 @@ class ReportController extends Controller
             $sub_title = "Author's Report In $year With The Category Of " . implode(', ', $includes);
         }
 
-        return pdf()
-            ->format(Format::A4)
-            ->margins(top: 10, right: 20, left: 20, bottom: 20)
-            ->view('reports.repository', compact('year', 'authors', 'sub_title', 'coordinator_data'))
-            ->name("repository-report-" . $year . ".pdf");
+        $mpdf = new Mpdf();
+
+        $mpdf->WriteHTML(view(
+            'reports.author',
+            compact('year', 'meta_data', 'sub_title', 'coordinator_data')
+        ));
+
+        return $mpdf->Output();
     }
 }

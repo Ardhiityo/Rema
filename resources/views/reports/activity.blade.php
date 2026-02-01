@@ -38,9 +38,9 @@
     <br>
 
     <main style="font-size: 15px">
-        <h3 style="text-align: center">
+        <h4 style="text-align: center">
             Repository Activities In {{ $year }}
-        </h3>
+        </h4>
         <br>
 
         <table style="text-align: center; border-collapse: collapse; margin: 0 auto;">

@@ -2,7 +2,7 @@
 
 namespace App\Observers;
 
-use App\Models\MetaData;
+use App\Models\Metadata;
 use Illuminate\Support\Facades\Cache;
 
 class MetaDataObserver
@@ -10,7 +10,7 @@ class MetaDataObserver
     /**
      * Handle the MetaData "created" event.
      */
-    public function created(MetaData $metaData): void
+    public function created(Metadata $metadata): void
     {
         Cache::forget('metadata.repositories.charts');
         Cache::forget('metadata.repositories.recently_adds');
@@ -20,7 +20,7 @@ class MetaDataObserver
     /**
      * Handle the MetaData "updated" event.
      */
-    public function updated(MetaData $metaData): void
+    public function updated(Metadata $metadata): void
     {
         Cache::forget('metadata.repositories.charts');
         Cache::forget('metadata.repositories.recently_adds');
@@ -30,7 +30,7 @@ class MetaDataObserver
     /**
      * Handle the MetaData "deleted" event.
      */
-    public function deleted(MetaData $metaData): void
+    public function deleted(Metadata $metadata): void
     {
         Cache::forget('metadata.repositories.charts');
         Cache::forget('metadata.repositories.recently_adds');
@@ -40,7 +40,7 @@ class MetaDataObserver
     /**
      * Handle the MetaData "restored" event.
      */
-    public function restored(MetaData $metaData): void
+    public function restored(Metadata $metadata): void
     {
         Cache::forget('metadata.repositories.charts');
         Cache::forget('metadata.repositories.recently_adds');
@@ -50,7 +50,7 @@ class MetaDataObserver
     /**
      * Handle the MetaData "force deleted" event.
      */
-    public function forceDeleted(MetaData $metaData): void
+    public function forceDeleted(Metadata $metadata): void
     {
         Cache::forget('metadata.repositories.charts');
         Cache::forget('metadata.repositories.recently_adds');

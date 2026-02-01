@@ -17,6 +17,6 @@ class Note extends Model
 
     public function repository()
     {
-        return $this->belongsTo(MetaData::class, 'meta_data_id', 'id');
+        return $this->belongsTo(Metadata::class, 'meta_data_id', 'id');
     }
 }

@@ -32,7 +32,7 @@ class Author extends Model
 
     public function metadata(): HasMany
     {
-        return $this->hasMany(MetaData::class, 'author_id', 'id');
+        return $this->hasMany(Metadata::class, 'author_id', 'id');
     }
 
     #[Scope]

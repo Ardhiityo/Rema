@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Author;
 use App\Models\Category;
-use App\Models\MetaData;
+use App\Models\Metadata;
 use App\Models\StudyProgram;
 use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
@@ -22,11 +22,11 @@ class MetaDataSeeder extends Seeder
         $title = fake()->sentence();
         $author = Author::where('nim', 22040004)->first();
 
-        MetaData::create([
+        Metadata::create([
             'title' => $title,
             'author_name' => $author->user->name,
             'author_nim' => $author->nim,
-            'author_study_program' => StudyProgram::first()->name,
+            'study_program_id' => StudyProgram::first()->id,
             'author_id' => $author->id,
             'visibility' => 'public',
             'year' => '2025',

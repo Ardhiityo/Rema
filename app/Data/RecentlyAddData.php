@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Data;
 
-use App\Models\MetaData;
+use App\Models\Metadata;
 use Illuminate\Support\Str;
 use Spatie\LaravelData\Data;
 use Illuminate\Support\Facades\Storage;
@@ -29,7 +29,7 @@ class RecentlyAddData extends Data
         $this->short_name = Str::limit($name, 30, '...');
     }
 
-    public static function fromModel(MetaData $meta_data)
+    public static function fromModel(Metadata $meta_data)
     {
         return new self(
             $meta_data->author_name,

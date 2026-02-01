@@ -26,7 +26,7 @@ class Activity extends Model
 
     public function metadata(): BelongsTo
     {
-        return $this->belongsTo(MetaData::class, 'meta_data_id', 'id');
+        return $this->belongsTo(Metadata::class, 'meta_data_id', 'id');
     }
 
     public function category(): BelongsTo

@@ -4,15 +4,12 @@ namespace App\Repositories\Eloquent;
 
 use Throwable;
 use App\Models\Author;
-use App\Models\Coordinator;
 use App\Data\Author\AuthorData;
 use App\Data\Author\AuthorListData;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
-use App\Data\Author\AuthorReportData;
 use App\Data\Author\CreateAuthorData;
 use App\Data\Author\UpdateAuthorData;
-use Spatie\LaravelData\DataCollection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Repositories\Contratcs\AuthorRepositoryInterface;
 
@@ -136,59 +133,6 @@ class AuthorRepository implements AuthorRepositoryInterface
         }
 
         return AuthorListData::collect($query->orderByDesc('id')->paginate(10));
-    }
-
-    public function reports(int|string $year, array $includes = [], int $nidn): DataCollection
-    {
-        $coordinator = Coordinator::where('nidn', $nidn)->first();
-
-        $authors = Author::query()->with([
-            'metadata.categories' => function ($query) use ($includes) {
-                if (!empty($includes)) {
-                    $query->whereIn('slug', $includes);
-                }
-            },
-            'studyProgram',
-            'user'
-        ])->whereHas(
-            'studyProgram',
-            fn($query) =>
-            $query->where('slug', $coordinator->studyProgram->slug)
-        );
-
-        if (empty($includes)) {
-            $authors = $authors
-                ->whereDoesntHave('metadata')
-                ->orWhereHas(
-                    'metadata',
-                    fn($query) => $query
-                        ->where('year', $year)
-                        ->where('status', '!=', 'approve')
-                        ->whereDoesntHave('categories')
-                        ->orWhereHas('categories')
-                );
-        }
-
-        if (!empty($includes)) {
-            $authors = $authors
-                ->whereDoesntHave('metadata')
-                ->OrwhereHas(
-                    'metadata',
-                    function ($query) use ($year, $includes) {
-                        $query
-                            ->where('year', $year)
-                            ->whereDoesntHave('categories')
-                            ->OrwhereHas(
-                                'categories',
-                                fn($query) => $query->whereIn('slug', $includes)
-                            );
-                    }
-                );
-        }
-
-        $authors = $authors->orderBy('nim', 'asc')->get();
-
-        return AuthorReportData::collect($authors, DataCollection::class);
     }
 
     public function authorCount(): int

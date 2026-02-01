@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Data\Metadata;
 
 use App\Models\Author;
-use App\Models\MetaData;
+use App\Models\Metadata;
 use Spatie\LaravelData\Data;
 use App\Data\Author\AuthorData;
 use App\Data\Category\CategoryData;
@@ -20,7 +20,7 @@ class MetadataData extends Data
         public int|string|null $author_id,
         public string|null $author_name,
         public int|string|null $author_nim,
-        public string|null $author_study_program,
+        public string|int $study_program_id,
         public string $visibility,
         public int|string $year,
         public string $slug,
@@ -29,7 +29,7 @@ class MetadataData extends Data
         public DataCollection|null $categories
     ) {}
 
-    public static function fromModel(MetaData $meta_data): self
+    public static function fromModel(Metadata $meta_data): self
     {
         return new self(
             $meta_data->id,
@@ -37,7 +37,7 @@ class MetadataData extends Data
             $meta_data->author_id,
             $meta_data->author_name,
             $meta_data->author_nim,
-            $meta_data->author_study_program,
+            $meta_data->study_program_id,
             $meta_data->visibility,
             $meta_data->year,
             $meta_data->slug,
@@ -46,9 +46,9 @@ class MetadataData extends Data
         );
     }
 
-    public function toModel(): MetaData
+    public function toModel(): Metadata
     {
-        $meta_data = new MetaData();
+        $meta_data = new Metadata();
 
         $meta_data->fill([
             'author_id' =>  $this->author_id,

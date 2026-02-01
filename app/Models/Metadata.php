@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class MetaData extends Model
+class Metadata extends Model
 {
     protected $table = 'meta_data';
 
@@ -18,7 +18,7 @@ class MetaData extends Model
         'author_id',
         'author_nim',
         'author_name',
-        'author_study_program',
+        'study_program_id',
         'visibility',
         'year',
         'slug',
@@ -43,5 +43,10 @@ class MetaData extends Model
     public function activities(): HasMany
     {
         return $this->hasMany(Activity::class, 'meta_data_id', 'id');
+    }
+
+    public function studyProgram(): BelongsTo
+    {
+        return $this->belongsTo(StudyProgram::class, 'study_program_id', 'id');
     }
 }
