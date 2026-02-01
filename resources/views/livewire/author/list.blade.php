@@ -67,9 +67,8 @@
                                         <i class="bi bi-pencil-square"></i>
                                     </button>
                                     <button type="button"
-                                        wire:click="$dispatch('author-delete-confirm', {author_id : '{{ $author->id }}'})"
-                                        class="block btn btn-danger" data-bs-toggle="modal"
-                                        data-bs-target="#border-less">
+                                        wire:click="$dispatch('author-delete-confirm', {author_id: '{{ $author->id }}'})"
+                                        class="block btn btn-danger" data-bs-toggle="modal" data-bs-target="#border-less">
                                         <i class="bi bi-trash3"></i>
                                     </button>
                                 </div>

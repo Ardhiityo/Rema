@@ -167,7 +167,6 @@ class AuthorForm extends Component
     {
         try {
             $author_data = $this->authorRepository->findById($author_id);
-
             $this->user_id = $author_data->user_id;
         } catch (Throwable $th) {
             session()->flash('author-failed', $th->getMessage());
