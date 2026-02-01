@@ -11,7 +11,7 @@ use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 
 Route::middleware(['guest'])->group(function () {
-    Route::middleware(['throttle:5,1'])->group(function () {
+    Route::middleware(['throttle:8,1'])->group(function () {
         Route::get('register', [RegisteredUserController::class, 'create'])
             ->name('register');
 
@@ -54,7 +54,7 @@ Route::middleware(['auth', 'throttle:3,1'])->group(function () {
 Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
     ->name('logout');
 
-Route::middleware(['throttle:3,1'])->group(function () {
+Route::middleware(['throttle:5,1'])->group(function () {
     Route::controller(GoogleController::class)->group(function () {
         Route::get('/auth/google', 'redirect')
             ->name('google.redirect');
