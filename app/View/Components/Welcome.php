@@ -8,12 +8,16 @@ use Illuminate\View\Component;
 
 class Welcome extends Component
 {
+    public string $home;
+    public string $repositories;
+
     /**
      * Create a new component instance.
      */
-    public function __construct()
+    public function __construct(string $home = '#home', string $repositories = '#repositories')
     {
-        //
+        $this->home = $home;
+        $this->repositories = $repositories;
     }
 
     /**

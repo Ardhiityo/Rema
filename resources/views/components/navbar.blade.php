@@ -1,3 +1,5 @@
+@props(['home' => '#home', 'repositories' => '#repositories'])
+
 <div class="px-0 container-fluid nav-bar px-lg-4 py-lg-0">
     <div class="container">
         <nav class="py-2 navbar navbar-expand-lg navbar-light">
@@ -21,8 +23,8 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav">
-                    <a href="#home" class="nav-item nav-link">Home</a>
-                    <a href="#repositories" class="nav-item nav-link">Repositories</a>
+                    <a href="{{ $home }}" class="nav-item nav-link">Home</a>
+                    <a href="{{ $repositories }}" class="nav-item nav-link">Repositories</a>
                     <a href="#contact" class="nav-item nav-link">Contact</a>
                     <a href="{{ route('login') }}" class="nav-item nav-link">Sign In</a>
                     <a href="{{ route('register') }}" class="nav-item nav-link">Sign Up</a>

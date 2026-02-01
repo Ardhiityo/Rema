@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Rema</title>
+    <title>Rema FIK</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -34,7 +34,7 @@
 
 <body>
     <x-spinner />
-    <x-navbar />
+    <x-navbar :home="$home" :repositories="$repositories" />
 
     {{ $slot }}
 

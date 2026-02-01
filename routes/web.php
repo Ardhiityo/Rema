@@ -26,6 +26,9 @@ Route::middleware(['throttle:50,1'])->group(function () {
         Route::get('/', 'index')->name('landing_page.index');
         Route::get('/repositories/{category_slug}/{meta_data_slug}/read', 'read')->name('repository.read');
     });
+
+    Route::get('/privacy-policy', fn() => view('privacy-policy'))->name('privacy-policy');
+    Route::get('/terms-of-service', fn() => view('terms-of-service'))->name('terms-of-service');
 });
 
 Route::middleware(['throttle:40,1'])->group(function () {
