@@ -3,6 +3,7 @@
 use App\Models\User;
 use App\Models\Author;
 use App\Models\MetaData;
+use App\Models\StudyProgram;
 use Illuminate\Support\Str;
 use function Pest\Laravel\actingAs;
 use Database\Seeders\DatabaseSeeder;
@@ -137,6 +138,7 @@ test('create meta data admin success', function () {
     $user = User::whereEmail('admin@gmail.com')->first();
 
     $author = Author::first();
+    $study_program_id = StudyProgram::first()->id;
 
     actingAs($user);
 
@@ -144,7 +146,7 @@ test('create meta data admin success', function () {
         ->set('title', 'tes admin 123')
         ->set('author_name', 'Arya Adhi Prasetyo')
         ->set('author_nim', 22040004)
-        ->set('author_study_program', 'Teknik Informatika')
+        ->set('study_program_id', $study_program_id)
         ->set('year', 2025)
         ->set('status', 'approve')
         ->set('visibility', 'public')
@@ -158,7 +160,7 @@ test('create meta data admin success', function () {
         'title' => 'tes admin 123',
         'author_name' => 'Arya Adhi Prasetyo',
         'author_nim' => 22040004,
-        'author_study_program' => 'Teknik Informatika',
+        'study_program_id' => $study_program_id,
         'visibility' => 'public',
         'year' => 2025,
         'slug' => Str::slug('tes admin 123'),
@@ -174,6 +176,7 @@ test('create meta data admin failed validation', function () {
     $user = User::whereEmail('admin@gmail.com')->first();
 
     $author = Author::first();
+    $study_program_id = StudyProgram::first()->id;
 
     actingAs($user);
 
@@ -181,7 +184,7 @@ test('create meta data admin failed validation', function () {
         ->set('title', 'tes admin 123')
         ->set('author_name', 'Arya Adhi Prasetyo')
         ->set('author_nim', 22040004)
-        ->set('author_study_program', 'Teknik Informatika')
+        ->set('study_program_id', $study_program_id)
         ->set('status', 'approve')
         ->set('year', '')
         ->set('visibility', 'public')
@@ -196,7 +199,7 @@ test('create meta data admin failed validation', function () {
     $this->assertDatabaseMissing('meta_data', [
         'title' => 'tes admin 123',
         'author_nim' => 22040004,
-        'author_study_program' => 'Teknik Informatika',
+        'study_program_id' => $study_program_id,
         'author_name' => 'Arya Adhi Prasetyo',
         'visibility' => 'public',
         'year' => '',
@@ -211,6 +214,7 @@ test('create meta data author success', function () {
     $this->seed(DatabaseSeeder::class);
 
     $user = User::whereEmail('author@gmail.com')->first();
+    $study_program_id = StudyProgram::first()->id;
 
     actingAs($user);
 
@@ -219,7 +223,7 @@ test('create meta data author success', function () {
         ->set('year', 2025)
         ->set('author_name', $user->name)
         ->set('author_nim', $user->author->nim)
-        ->set('author_study_program', 'Teknik Informatika')
+        ->set('study_program_id', $study_program_id)
         ->set('status', 'approve')
         ->set('visibility', 'public')
         ->call('create')
@@ -233,7 +237,7 @@ test('create meta data author success', function () {
         'title' => 'tes author 123',
         'author_name' => $user->name,
         'author_nim' => $user->author->nim,
-        'author_study_program' => 'Teknik Informatika',
+        'study_program_id' => $study_program_id,
         'visibility' => 'private',
         'status' => 'process',
         'year' => 2025,
@@ -247,6 +251,7 @@ test('create meta data author failed validation', function () {
     $this->seed(DatabaseSeeder::class);
 
     $user = User::whereEmail('author@gmail.com')->first();
+    $study_program_id = StudyProgram::first()->id;
 
     actingAs($user);
 
@@ -255,7 +260,7 @@ test('create meta data author failed validation', function () {
         ->set('year', '')
         ->set('author_name', $user->name)
         ->set('author_nim', $user->author->nim)
-        ->set('author_study_program', 'Teknik Informatika')
+        ->set('study_program_id', $study_program_id)
         ->call('create')
         ->assertHasErrors([
             'year' => 'required'
@@ -269,7 +274,7 @@ test('create meta data author failed validation', function () {
         'title' => 'tes author 123',
         'author_name' => $user->name,
         'author_nim' => $user->author->nim,
-        'author_study_program' => 'Teknik Informatika',
+        'study_program_id' => $study_program_id,
         'visibility' => 'private',
         'year' => 2025,
         'slug' => Str::slug('tes author 123'),
@@ -285,6 +290,7 @@ test('update meta data admin success', function () {
     $user = User::whereEmail('admin@gmail.com')->first();
 
     $author = Author::first();
+    $study_program_id = StudyProgram::first()->id;
 
     actingAs($user);
 
@@ -296,7 +302,7 @@ test('update meta data admin success', function () {
         ->set('year', 2026)
         ->set('author_name', $author->user->name)
         ->set('author_nim', $author->user->author->nim)
-        ->set('author_study_program', 'Manajemen Informatika')
+        ->set('study_program_id', $study_program_id)
         ->set('status', 'approve')
         ->set('visibility', 'public')
         ->call('update')
@@ -308,7 +314,7 @@ test('update meta data admin success', function () {
         'title' => 'tes update admin 123',
         'author_name' => $author->user->name,
         'author_nim' => $author->user->author->nim,
-        'author_study_program' => 'Manajemen Informatika',
+        'study_program_id' => $study_program_id,
         'visibility' => 'public',
         'year' => 2026,
         'slug' => Str::slug('tes update admin 123'),
@@ -324,6 +330,7 @@ test('update meta data admin failed validation', function () {
     $user = User::whereEmail('admin@gmail.com')->first();
 
     $author = Author::first();
+    $study_program_id = StudyProgram::first()->id;
 
     actingAs($user);
 
@@ -335,7 +342,7 @@ test('update meta data admin failed validation', function () {
         ->set('year', '')
         ->set('author_name', 'Budiyanto')
         ->set('author_nim', '22040004')
-        ->set('author_study_program', 'Manajemen Informatika')
+        ->set('study_program_id', $study_program_id)
         ->set('status', 'approve')
         ->set('visibility', 'public')
         ->call('update')
@@ -349,7 +356,7 @@ test('update meta data admin failed validation', function () {
         'title' => 'tes update admin 123',
         'author_name' => 'Budiyanto',
         'author_nim' => '22040004',
-        'author_study_program' => 'Manajemen Informatika',
+        'study_program_id' => $study_program_id,
         'visibility' => 'public',
         'year' => '',
         'slug' => Str::slug('tes update admin 123'),
@@ -382,7 +389,7 @@ test('update meta data author success', function () {
         'title' => 'tes update author 123',
         'author_name' => $meta_data->author_name,
         'author_nim' => $meta_data->author_nim,
-        'author_study_program' => $meta_data->author_study_program,
+        'study_program_id' => $meta_data->study_program_id,
         'visibility' => $meta_data->visibility,
         'year' => 2027,
         'slug' => Str::slug('tes update author 123'),

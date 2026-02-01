@@ -3,6 +3,7 @@
 use App\Models\User;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Support\Facades\Storage;
+use RyanChandler\LaravelCloudflareTurnstile\Facades\Turnstile;
 
 test('login screen can be rendered', function () {
     $response = $this->get('/login');
@@ -20,9 +21,12 @@ test('users can authenticate using the login screen', function () {
     expect($user->email)->not()->toBeNull();
     expect($user->password)->not()->toBeNull();
 
+    Turnstile::fake();
+
     $response = $this->post(route('login'), [
         'email' => $user->email,
         'password' => 'rahasia',
+        'cf-turnstile-response' => 'fake-token'
     ]);
 
     $this->assertAuthenticated();
@@ -40,9 +44,12 @@ test('users can not authenticate with invalid password', function () {
     expect($user->email)->not()->toBeNull();
     expect($user->password)->not()->toBeNull();
 
+    Turnstile::fake();
+
     $this->post('/login', [
         'email' => $user->email,
         'password' => 'wrong-password',
+        'cf-turnstile-response' => 'fake-token'
     ]);
 
     $this->assertGuest();

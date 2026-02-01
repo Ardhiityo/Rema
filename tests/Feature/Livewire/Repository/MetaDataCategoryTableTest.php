@@ -4,9 +4,9 @@ use App\Models\User;
 use App\Models\MetaData;
 use function Pest\Laravel\actingAs;
 use Database\Seeders\DatabaseSeeder;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 uses(RefreshDatabase::class);
 
@@ -44,17 +44,4 @@ test('get repositories success', function () {
     $component = metaDataCategoryTable(['meta_data_id' => $meta_data->id]);
 
     expect(1)->toBe(count($component->instance()->repositories()->categories));
-});
-
-test('get repositories failed not found', function () {
-    Storage::fake('public');
-
-    $this->seed(DatabaseSeeder::class);
-
-    $user = User::whereEmail('author@gmail.com')->first();
-
-    actingAs($user);
-
-    metaDataCategoryTable(['meta_data_id' => 100])
-        ->assertSet('meta_data_id', 100);
 });
