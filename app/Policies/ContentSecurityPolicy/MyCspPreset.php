@@ -26,6 +26,7 @@ class MyCspPreset implements Preset
             "'self'",
             'challenges.cloudflare.com',
             'unpkg.com',
+            'cdn.jsdelivr.net',
         ]);
 
         $policy->add(Directive::FRAME, [
@@ -49,6 +50,7 @@ class MyCspPreset implements Preset
             'cdn.jsdelivr.net',
             'fonts.googleapis.com',
             "'unsafe-inline'",
+            'use.fontawesome.com',
         ]);
 
         // IMG 🔥 WAJIB untuk Turnstile

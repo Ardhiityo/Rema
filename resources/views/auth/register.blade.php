@@ -19,8 +19,7 @@
                                     <div class="col-12">
                                         <div class="form-floating">
                                             <input type="text" class="form-control" name="name" id="name"
-                                                placeholder="ex: Arya Adhi Prasetyo" required
-                                                value="{{ old('name') }}">
+                                                placeholder="ex: Arya Adhi Prasetyo" required value="{{ old('name') }}">
                                             <label for="name" class="form-label">Name</label>
                                             @error('name')
                                                 <span class="badge text-bg-danger text-wrap">
@@ -77,11 +76,11 @@
                                         </div>
                                         <div class="mt-4 d-flex flex-column align-items-center">
                                             <x-turnstile data-theme="light" />
-                                            @error('cf-turnstile-response')
-                                                <span class="badge text-bg-danger text-wrap">
-                                                    <small>{{ $message }}</small>
-                                                </span>
-                                            @enderror
+                                            {{-- @error('cf-turnstile-response')
+                                            <span class="badge text-bg-danger text-wrap">
+                                                <small>{{ $message }}</small>
+                                            </span>
+                                            @enderror --}}
                                         </div>
                                     </div>
                                     <div class="col-12">

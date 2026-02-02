@@ -13,7 +13,7 @@
 </head>
 
 <body>
-    <script src="{{ asset('assets/static/js/initTheme.js') }}"></script>
+    <script src="{{ asset('assets/static/js/initTheme.js') }}" @cspNonce></script>
 
     <div id="app" style="min-height: 100dvh">
         <div id="sidebar">
@@ -28,9 +28,9 @@
         </div>
     </div>
 
-    <script src="{{ asset('assets/static/js/components/dark.js') }}"></script>
-    <script src="{{ asset('assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
-    <script src="{{ asset('assets/compiled/js/app.js') }}"></script>
+    <script src="{{ asset('assets/static/js/components/dark.js') }}" @cspNonce></script>
+    <script src="{{ asset('assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js') }}" @cspNonce></script>
+    <script src="{{ asset('assets/compiled/js/app.js') }}" @cspNonce></script>
 
     @stack('scripts')
 </body>

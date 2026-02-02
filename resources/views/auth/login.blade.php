@@ -46,11 +46,11 @@
                                 </div>
                                 <div class="mt-4 d-flex flex-column align-items-center">
                                     <x-turnstile data-theme="light" />
-                                    @error('cf-turnstile-response')
-                                        <span class="badge text-bg-danger text-wrap">
-                                            <small>{{ $message }}</small>
-                                        </span>
-                                    @enderror
+                                    {{-- @error('cf-turnstile-response')
+                                    <span class="badge text-bg-danger text-wrap">
+                                        <small>{{ $message }}</small>
+                                    </span>
+                                    @enderror --}}
                                 </div>
                             </div>
                             <div class="col-12">
