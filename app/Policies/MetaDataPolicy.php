@@ -5,7 +5,7 @@ namespace App\Policies;
 use App\Models\Metadata;
 use App\Models\User;
 
-class MetaDataPolicy
+class MetadataPolicy
 {
     /**
      * Determine whether the user can view any models.
