@@ -115,7 +115,7 @@ class MetaDataCategoryForm extends Component
         return false;
     }
 
-    public function createRepository()
+    public function create()
     {
         $validated = $this->validate($this->rulesCreate());
 
@@ -135,7 +135,7 @@ class MetaDataCategoryForm extends Component
     }
 
     #[On('edit-repository-category')]
-    public function editRepository($meta_data_slug, $category_slug)
+    public function edit($meta_data_slug, $category_slug)
     {
         try {
             $meta_data_category_data = $this->metaDataCategoryRepository
@@ -145,7 +145,6 @@ class MetaDataCategoryForm extends Component
             $this->category_id = $meta_data_category_data->category_id;
 
             $this->category_id_update = $meta_data_category_data->category_id;
-            $this->file_path_update = $meta_data_category_data->file_path;
 
             $this->is_update = true;
         } catch (Throwable $th) {
@@ -153,7 +152,7 @@ class MetaDataCategoryForm extends Component
         }
     }
 
-    public function updateRepository()
+    public function update()
     {
         $validated = $this->validate($this->rulesUpdate());
 

@@ -52,7 +52,7 @@
                 <div class="mt-4">
                     <label for="file_path" class="form-label">
                         File
-                        @if (!$is_update)
+                        @if (! $is_update)
                             <sup>*</sup>
                         @endif
                     </label>
@@ -70,14 +70,14 @@
 
         <div class="gap-3 d-flex">
             @if ($is_update)
-                <button wire:click='updateRepository' wire:loading.attr='disabled' class="btn btn-primary">
+                <button wire:click='update' wire:loading.attr='disabled' class="btn btn-primary">
                     <span wire:loading.class='d-none'>Update</span>
                     <span wire:loading>
                         <span class="spinner-border spinner-border-sm text-light" role="status"></span>
                     </span>
                 </button>
             @else
-                <button wire:click='createRepository' wire:loading.attr='disabled' class="btn btn-primary">
+                <button wire:click='create' wire:loading.attr='disabled' class="btn btn-primary">
                     <span wire:loading.class='d-none'>Add</span>
                     <span wire:loading>
                         <span class="spinner-border spinner-border-sm text-light" role="status"></span>

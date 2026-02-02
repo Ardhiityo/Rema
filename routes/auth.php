@@ -35,25 +35,26 @@ Route::middleware(['throttle:8,1'])->group(function () {
             ->name('password.store');
     });
 
-    Route::middleware(['auth'])->group(function () {
-        Route::get('verify-email', EmailVerificationPromptController::class)
-            ->name('verification.notice');
-
-        Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)
-            ->middleware(['signed', 'throttle:6,1'])
-            ->name('verification.verify');
-
-        Route::post('email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
-            ->name('verification.send');
-
-        Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
-            ->name('logout');
-    });
-
     Route::controller(GoogleController::class)->group(function () {
         Route::get('/auth/google', 'redirect')
             ->name('google.redirect');
         Route::get('/auth/google/callback', 'callback')
             ->name('google.callback');
     });
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('verify-email', EmailVerificationPromptController::class)
+        ->name('verification.notice');
+
+    Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)
+        ->middleware(['signed', 'throttle:6,1'])
+        ->name('verification.verify');
+
+    Route::post('email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
+        ->middleware('throttle:6,1')
+        ->name('verification.send');
+
+    Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
+        ->name('logout');
 });

@@ -13,7 +13,7 @@ class MyCspPreset implements Preset
         $policy->add(Directive::SCRIPT, [
             "'self'",
             'ajax.googleapis.com',
-            "'unsafe-eval'",   // Livewire 4
+            // "'unsafe-eval'",   // Livewire 4
             'cdn.jsdelivr.net',
             'unpkg.com',
             'challenges.cloudflare.com', // Turnstile
