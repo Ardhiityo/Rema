@@ -2,6 +2,8 @@
 <html lang="en">
 
 <head>
+    @cspMetaTag
+
     <meta charset="utf-8">
     <title>Rema FIK</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -55,7 +57,7 @@
     <!-- Template Javascript -->
     <script src="{{ asset('js/main.js') }}"></script>
 
-    <script>
+    <script @cspNonce>
         window.addEventListener('scroll-to-search', () => {
             const el = document.getElementById('search-hero');
             if (el) {

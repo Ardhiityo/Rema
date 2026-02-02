@@ -19,6 +19,7 @@
         "ryangjchandler/laravel-cloudflare-turnstile": "^3.0",
         "setasign/fpdf": "^1.8",
         "setasign/fpdi": "^2.6",
+        "spatie/laravel-csp": "^3.22",
         "spatie/laravel-data": "^4.17",
         "spatie/laravel-permission": "^6.21"
     },

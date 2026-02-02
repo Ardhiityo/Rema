@@ -66,8 +66,8 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('assets/extensions/apexcharts/apexcharts.min.js') }}"></script>
-    <script>
+    <script src="{{ asset('assets/extensions/apexcharts/apexcharts.min.js') }}" @cspNonce></script>
+    <script @cspNonce>
         var optionsProfileVisit = {
             annotations: {
                 position: "back",
@@ -86,7 +86,7 @@
             series: [{
                 name: "repository",
                 data: @json($repository_totals),
-            }, ],
+            },],
             colors: "#435ebe",
             xaxis: {
                 categories: @json($repository_years),

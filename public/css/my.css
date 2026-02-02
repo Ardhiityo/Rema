@@ -1,0 +1,6 @@
+/* di app.css / login.css */
+.auth-bg {
+    min-height: 100dvh;
+    background-image: url("/assets/background/6017669.jpg");
+    background-size: cover;
+}
