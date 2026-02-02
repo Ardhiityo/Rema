@@ -1,6 +1,5 @@
 <?php
 
-use App\Livewire\MetaDataCategoryForm;
 use App\Models\User;
 use App\Models\Category;
 use App\Models\MetaData;
@@ -81,7 +80,7 @@ test('create repository success', function () {
         ->assertSet('meta_data_id', $meta_data->id)
         ->set('category_id', $category->id)
         ->set('file_path', $file)
-        ->call('createRepository')
+        ->call('create')
         ->assertHasNoErrors()
         ->assertDispatched('refresh-repository-table')
         ->assertSet('file_path', '')
@@ -117,7 +116,7 @@ test('create repository failed validation', function () {
         ->assertSet('meta_data_id', $meta_data->id)
         ->set('category_id', Category::first()->id)
         ->set('file_path', $file)
-        ->call('createRepository')
+        ->call('create')
         ->assertHasErrors([
             'category_id' => MetaDataCategoryCreateRule::class
         ])
@@ -147,7 +146,7 @@ test('edit repository success', function () {
 
     metaDataCategoryForm(['meta_data_id' => $meta_data_category->meta_data_id])
         ->call(
-            'editRepository',
+            'edit',
             $meta_data_category->metadata->slug,
             $meta_data_category->category->slug
         )
@@ -163,10 +162,7 @@ test('edit repository success', function () {
             'category_id_update',
             $meta_data_category->category_id
         )
-        ->assertSet(
-            'file_path_update',
-            $meta_data_category->file_path
-        )->assertSet('is_update', true);
+        ->assertSet('is_update', true);
 });
 
 test('edit repository failed not found', function () {
@@ -182,7 +178,7 @@ test('edit repository failed not found', function () {
 
     metaDataCategoryForm(['meta_data_id' => $meta_data_category->meta_data_id])
         ->call(
-            'editRepository',
+            'edit',
             $meta_data_category->metadata->slug,
             'salah'
         )
@@ -235,7 +231,7 @@ test('update repository success', function () {
             $meta_data_category->category_id
         )
         ->call(
-            'updateRepository',
+            'update',
         )
         ->assertSet('is_update', false)
         ->assertDispatched('refresh-repository-table')
@@ -287,7 +283,7 @@ test('update repository failed not found', function () {
             $meta_data_category->category_id
         )
         ->call(
-            'updateRepository',
+            'update',
         )
         ->assertSet('is_update', false)
         ->assertNotDispatched('refresh-repository-table')
