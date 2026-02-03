@@ -66,7 +66,7 @@ class MetaDataRepository implements MetaDataRepositoryInterface
             $data = [
                 'title' => $update_meta_data->title_formatted,
                 'author_nim' => $update_meta_data->author_nim,
-                'author_name' => $update_meta_data->author_name,
+                'author_name' => $update_meta_data->author_name_formatted,
                 'study_program_id' => $update_meta_data->study_program_id,
                 'year' => $update_meta_data->year,
                 'slug' => $update_meta_data->slug,

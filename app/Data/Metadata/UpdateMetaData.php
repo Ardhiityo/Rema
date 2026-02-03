@@ -12,6 +12,9 @@ class UpdateMetaData extends Data
     #[Computed()]
     public string $title_formatted;
 
+    #[Computed()]
+    public string $author_name_formatted;
+
     public function __construct(
         public string $title,
         public int|string $author_name,
@@ -23,5 +26,6 @@ class UpdateMetaData extends Data
         public string $status
     ) {
         $this->title_formatted = ucfirst(strtolower($title));
+        $this->author_name_formatted = ucfirst(strtolower($author_name));
     }
 }
