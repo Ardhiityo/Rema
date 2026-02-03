@@ -15,6 +15,7 @@ use App\Data\MetadataCategory\UpdateMetadataCategoryData;
 use App\Repositories\Contratcs\CategoryRepositoryInterface;
 use App\Repositories\Contratcs\MetaDataRepositoryInterface;
 use App\Repositories\Contratcs\MetaDataCategoryRepositoryInterface;
+use Exception;
 
 class MetaDataCategoryForm extends Component
 {
@@ -129,8 +130,8 @@ class MetaDataCategoryForm extends Component
             $this->dispatch('refresh-repository-table');
 
             return session()->flash('repository-success', 'The repository was successfully created.');
-        } catch (Throwable $th) {
-            return session()->flash('repository-failed', $th->getMessage());
+        } catch (Exception $exception) {
+            return session()->flash('repository-failed', $exception->getMessage());
         }
     }
 

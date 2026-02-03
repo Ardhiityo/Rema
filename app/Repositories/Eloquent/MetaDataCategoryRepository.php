@@ -47,7 +47,7 @@ class MetaDataCategoryRepository implements MetaDataCategoryRepositoryInterface
             // 6. Terapkan watermark dan simpan ke storage publik
             $relativePath = PdfWatermarkService::apply(
                 $tempStoragePath,
-                basename($filename), // ✅ pastikan hanya nama file, bukan path
+                $filename // ✅ pastikan hanya nama file, bukan path
             );
 
             // 7. Hapus file temp
@@ -60,7 +60,7 @@ class MetaDataCategoryRepository implements MetaDataCategoryRepositoryInterface
             ]);
 
             return MetadataCategoryData::fromModel($meta_data_category);
-        } catch (Throwable $th) {
+        } catch (Exception $e) {
             Log::info(json_encode([
                 'user' => [
                     'id' => Auth::user()->id,
@@ -75,10 +75,10 @@ class MetaDataCategoryRepository implements MetaDataCategoryRepositoryInterface
                         'create_metadata_category_data' => $create_metadata_category_data,
                     ]
                 ],
-                'message' => $th->getMessage()
+                'message' => $e->getMessage()
             ], JSON_PRETTY_PRINT));
 
-            throw $th;
+            throw new Exception($e->getMessage());
         }
     }
 

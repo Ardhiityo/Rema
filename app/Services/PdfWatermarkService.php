@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Exception;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -14,37 +15,29 @@ class PdfWatermarkService
     public static function apply(string $sourcePath, string $filename): string
     {
         try {
-            $filename = basename($filename);
-            if (!str_ends_with(strtolower($filename), '.pdf')) {
-                $filename .= '.pdf';
-            }
-
             $tempDir = storage_path('app/temp');
+
             File::ensureDirectoryExists($tempDir);
+
             $tempOutput = $tempDir . '/output_' . $filename;
-
-            $watermarkImagePath = public_path('assets/watermark/unival.png');
-
-            if (!File::exists($watermarkImagePath)) {
-                throw new \Exception('File watermark tidak ditemukan: ' . $watermarkImagePath);
-            }
 
             try {
                 // Proses watermark (bagian yang bisa memicu FPDI error)
                 (new ImageWatermarker())
                     ->input($sourcePath)
-                    ->watermark($watermarkImagePath)
+                    ->watermark(public_path('assets/watermark/unival.png'))
                     ->position('MiddleCenter', 0, 0)
                     ->resolution(300)
                     ->asOverlay()
                     ->pageRange(1, null)
                     ->save($tempOutput);
-            } catch (\Exception $inner) {
+            } catch (Exception $exception) {
                 // Tangkap error dari FPDI
-                logger($inner->getMessage(), ['Pdf Watermark Service' => 'Apply']);
-                if (str_contains($inner->getMessage(), 'compression technique')) {
-                    throw new \Exception(
-                        "File PDF ini menggunakan kompresi yang tidak didukung FPDI. " .
+                logger($exception->getMessage(), ['Pdf Watermark Service' => 'Apply']);
+
+                if (str_contains($exception->getMessage(), 'compression technique')) {
+                    throw new Exception(
+                        "File PDF ini menggunakan kompresi yang tidak didukung sistem. " .
                             "Silakan ubah ke PDF versi 1.4 di situs seperti " .
                             "<a href='https://www.pdf2go.com/convert-from-pdf' style='text-decoration:underline' target='_blank'>PDF2Go</a> " .
                             "atau <a href='https://docupub.com/pdfconvert/' style='text-decoration:underline' target='_blank'>DocuPub</a>."
@@ -52,7 +45,7 @@ class PdfWatermarkService
                 }
 
                 // Kalau bukan error kompresi, lempar ulang
-                throw $inner;
+                throw new Exception($exception->getMessage());
             }
 
             // Pindahkan file hasil
@@ -67,7 +60,7 @@ class PdfWatermarkService
             File::delete($tempOutput);
 
             return $relativePath;
-        } catch (\Exception $e) {
+        } catch (Exception $exception) {
             Log::info(json_encode([
                 'user' => [
                     'id' => Auth::user()->id,
@@ -80,13 +73,13 @@ class PdfWatermarkService
                     ],
                     'data' => [
                         'sourcePath' => $sourcePath,
-                        'relativePath' => $relativePath
+                        'relativePath' => 'repositories/' . $filename
                     ]
                 ],
-                'message' => $e->getMessage()
+                'message' => $exception->getMessage()
             ], JSON_PRETTY_PRINT));
 
-            throw $e;
+            throw new Exception($exception->getMessage());
         }
     }
 }
