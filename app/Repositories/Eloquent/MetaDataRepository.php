@@ -27,7 +27,7 @@ class MetaDataRepository implements MetaDataRepositoryInterface
             $meta_data = Metadata::create([
                 'title' => $create_meta_data->title_formatted,
                 'author_id' => $create_meta_data->author_id,
-                'author_name' => $create_meta_data->author_name,
+                'author_name' => $create_meta_data->author_name_formatted,
                 'author_nim' => $create_meta_data->author_nim,
                 'study_program_id' => $create_meta_data->study_program_id,
                 'visibility' => $create_meta_data->visibility,

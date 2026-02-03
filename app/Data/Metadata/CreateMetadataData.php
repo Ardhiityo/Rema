@@ -14,6 +14,9 @@ class CreateMetadataData extends Data
     public string $title_formatted;
 
     #[Computed()]
+    public string $author_name_formatted;
+
+    #[Computed()]
     public int|null $author_id;
 
     public function __construct(
@@ -27,6 +30,7 @@ class CreateMetadataData extends Data
         public string $status
     ) {
         $this->title_formatted = ucfirst(strtolower($title));
+        $this->author_name_formatted = ucfirst(strtolower($author_name));
         $user = Auth::user();
         $this->author_id = $user->hasRole('author') ? $user?->author?->id : null;
     }
