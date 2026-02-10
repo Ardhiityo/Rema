@@ -23,7 +23,7 @@ class ActivityDetailData extends Data
     public static function fromModel(Activity $activity): self
     {
         return new self(
-            $activity?->user?->avatar ? asset('assets/compiled/jpg/anonym.jpg') : Storage::url($activity->user->avatar),
+            $activity?->user?->avatar ? Storage::url($activity->user->avatar) : asset('assets/compiled/jpg/anonym.jpg'),
             $activity?->user?->name ?? 'Anonym',
             $activity?->user->author?->nim ?? '-',
             $activity?->user?->author?->studyProgram?->name ?? '-',
