@@ -28,8 +28,7 @@ class ActivityRepository implements ActivityRepositoryInterface
         } catch (Throwable $th) {
             Log::info(json_encode([
                 'user' => [
-                    'id' => Auth::user()->id,
-                    'name' => Auth::user()->name,
+                    'id' => $create_activity_data->user_id,
                 ],
                 'details' => [
                     'source' => [

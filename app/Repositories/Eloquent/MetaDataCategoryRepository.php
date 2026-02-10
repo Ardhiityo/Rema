@@ -289,7 +289,7 @@ class MetaDataCategoryRepository implements MetaDataCategoryRepositoryInterface
         $create_activity_data = CreateActivityData::from([
             'ip' => $request->ip(),
             'user_agent' => $request->userAgent(),
-            'user_id' => $request->user()?->id ?? null,
+            'user_id' => $request->user()?->id,
             'meta_data_id' => $repository->metadata->id,
             'category_id' => $repository->category->id
         ]);

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('activities', function (Blueprint $table) {
             $table->id();
             $table->string('ip');
-            $table->string('user_agent');
+            $table->text('user_agent');
             $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedBigInteger('meta_data_id');
             $table->unsignedBigInteger('category_id');
