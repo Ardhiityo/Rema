@@ -5,21 +5,43 @@
 
     RewriteEngine On
 
-    # Handle Authorization Header
+    # Protect Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 
-    # Handle X-XSRF-Token Header
+    # Protect X-XSRF-Token Header
     RewriteCond %{HTTP:x-xsrf-token} .
     RewriteRule .* - [E=HTTP_X_XSRF_TOKEN:%{HTTP:X-XSRF-Token}]
 
-    # Redirect Trailing Slashes If Not A Folder...
+    # Redirect Trailing Slash
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_URI} (.+)/$
     RewriteRule ^ %1 [L,R=301]
 
-    # Send Requests To Front Controller...
+    # Laravel Front Controller
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 </IfModule>
+
+# 🔒 BLOCK FILE SENSITIF
+<Files .env>
+    Order allow,deny
+    Deny from all
+</Files>
+
+<FilesMatch "\.(env|log|ini|sh|sql)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# 🔒 BLOCK AKSES KE FILE PHP DI UPLOAD (opsional, sangat penting)
+<Directory "uploads">
+    php_flag engine off
+</Directory>
+
+# 🔒 CEGah EKSEKUSI FILE PHP DI PUBLIC (kecuali index.php)
+<FilesMatch "^(?!index\.php$).+\.php$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
