@@ -2,19 +2,22 @@
 
 namespace App\Livewire\Note;
 
-use Throwable;
-use Livewire\Component;
-use Livewire\Attributes\On;
 use App\Data\Note\CreateNoteData;
 use App\Data\Note\UpdateNoteData;
-use Livewire\Attributes\Computed;
 use App\Repositories\Contratcs\NoteRepositoryInterface;
+use Livewire\Attributes\Computed;
+use Livewire\Attributes\On;
+use Livewire\Component;
+use Throwable;
 
 class NoteForm extends Component
 {
     public string $message = '';
+
     public int $note_id;
+
     public bool $is_update = false;
+
     public int $meta_data_id;
 
     public function mount($meta_data_id)
@@ -31,7 +34,7 @@ class NoteForm extends Component
     protected function rules()
     {
         return [
-            'message' => ['required', 'min:3', 'max:500']
+            'message' => ['required', 'string', 'min:3', 'max:500'],
         ];
     }
 

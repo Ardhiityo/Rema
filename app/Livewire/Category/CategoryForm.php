@@ -2,24 +2,27 @@
 
 namespace App\Livewire\Category;
 
-use Throwable;
-use Livewire\Component;
-use Illuminate\Support\Str;
-use Livewire\Attributes\On;
-use Livewire\Attributes\Computed;
 use App\Data\Category\CreateCategoryData;
 use App\Data\Category\UpdateCategoryData;
 use App\Repositories\Contratcs\CategoryRepositoryInterface;
+use Illuminate\Support\Str;
+use Livewire\Attributes\Computed;
+use Livewire\Attributes\On;
+use Livewire\Component;
+use Throwable;
 
 class CategoryForm extends Component
 {
     // Start Form
     public string $keyword = '';
+
     public string $name = '';
+
     public string $slug = '';
     // End Form
 
     public int $category_id;
+
     public bool $is_update = false;
 
     #[Computed()]
@@ -37,15 +40,15 @@ class CategoryForm extends Component
     protected function rules()
     {
         return [
-            'name' => ['required'],
-            'slug' => ['required', 'min:3', 'max:50', $this->is_update ? 'unique:categories,slug,' . $this->category_id : 'unique:categories,slug']
+            'name' => ['required', 'string'],
+            'slug' => ['required', 'min:3', 'max:50', $this->is_update ? 'unique:categories,slug,'.$this->category_id : 'unique:categories,slug'],
         ];
     }
 
     protected function validationAttributes()
     {
         return [
-            'slug' => 'category'
+            'slug' => 'category',
         ];
     }
 

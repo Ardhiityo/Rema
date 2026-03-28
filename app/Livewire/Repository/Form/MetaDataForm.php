@@ -2,32 +2,41 @@
 
 namespace App\Livewire\Repository\Form;
 
-use Throwable;
-use Livewire\Component;
-use Illuminate\Support\Str;
-use Livewire\Attributes\Computed;
-use Illuminate\Support\Facades\Auth;
-use App\Data\Metadata\UpdateMetaData;
-use Illuminate\Support\Facades\Session;
 use App\Data\Metadata\CreateMetadataData;
+use App\Data\Metadata\UpdateMetaData;
 use App\Repositories\Contratcs\MetaDataRepositoryInterface;
 use App\Repositories\Contratcs\StudyProgramRepositoryInterface;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
+use Livewire\Attributes\Computed;
+use Livewire\Component;
+use Throwable;
 
 class MetaDataForm extends Component
 {
     // Start Form
     public string $title = '';
-    public string|null $author_name = '';
-    public string|null $author_nim = '';
-    public string|null $study_program_id = '';
+
+    public ?string $author_name = '';
+
+    public ?string $author_nim = '';
+
+    public ?string $study_program_id = '';
+
     public string $status = 'approve';
+
     public string $year = '';
+
     public string $visibility = 'public';
+
     public string $slug = '';
     // End Form
 
-    public int|null $meta_data_id = null;
+    public ?int $meta_data_id = null;
+
     public bool $is_update = false;
+
     public bool $is_approve = false;
 
     public function mount($meta_data_id = null)
@@ -36,7 +45,7 @@ class MetaDataForm extends Component
             $this->createNewForm();
             $this->is_update = true;
 
-            $meta_data_data =  $this->metaDataRepository->findById($meta_data_id);
+            $meta_data_data = $this->metaDataRepository->findById($meta_data_id);
             $this->meta_data_id = $meta_data_data->id;
             $this->title = $meta_data_data->title;
             $this->author_name = $meta_data_data->author_name;
@@ -102,6 +111,7 @@ class MetaDataForm extends Component
             }
         } catch (Throwable $th) {
             $this->createNewForm();
+
             return false;
         }
     }
@@ -119,20 +129,20 @@ class MetaDataForm extends Component
     protected function rules(): array
     {
         return [
-            'title' => ['required'],
-            'slug' =>
-            [
+            'title' => ['required', 'string'],
+            'slug' => [
                 'required',
+                'string',
                 'min:3',
-                'max:200',
-                $this->is_update ? 'unique:meta_data,slug,' . $this->meta_data_id : 'unique:meta_data,slug'
+                'max:255',
+                $this->is_update ? 'unique:meta_data,slug,'.$this->meta_data_id : 'unique:meta_data,slug',
             ],
-            'author_name' => ['required', 'min:1', 'max:100'],
-            'author_nim' => ['required', 'min:8', 'max:15'],
+            'author_name' => ['required', 'string', 'min:1', 'max:100'],
+            'author_nim' => ['required', 'numeric', 'min:8', 'max:15'],
             'study_program_id' => ['required', 'exists:study_programs,id'],
             'year' => ['required', 'date_format:Y'],
             'status' => ['required', 'in:approve,process,reject,revision'],
-            'visibility' => ['required', 'in:private,public']
+            'visibility' => ['required', 'in:private,public'],
         ];
     }
 
@@ -188,7 +198,7 @@ class MetaDataForm extends Component
                 $update_meta_data_data
             );
 
-            if (!$this->is_update) {
+            if (! $this->is_update) {
                 Session::put('meta_data', $meta_data_data);
             }
 

@@ -2,19 +2,19 @@
 
 namespace App\Livewire\Author;
 
-use Throwable;
-use Livewire\Component;
-use Livewire\Attributes\On;
-use Livewire\WithFileUploads;
-use App\Data\User\CreateUserData;
-use App\Data\User\UpdateUserData;
-use Livewire\Attributes\Computed;
-use App\Rules\UpdateUserAvatarRule;
 use App\Data\Author\CreateAuthorData;
 use App\Data\Author\UpdateAuthorData;
-use App\Repositories\Contratcs\UserRepositoryInterface;
+use App\Data\User\CreateUserData;
+use App\Data\User\UpdateUserData;
 use App\Repositories\Contratcs\AuthorRepositoryInterface;
 use App\Repositories\Contratcs\StudyProgramRepositoryInterface;
+use App\Repositories\Contratcs\UserRepositoryInterface;
+use App\Rules\UpdateUserAvatarRule;
+use Livewire\Attributes\Computed;
+use Livewire\Attributes\On;
+use Livewire\Component;
+use Livewire\WithFileUploads;
+use Throwable;
 
 class AuthorForm extends Component
 {
@@ -22,16 +22,24 @@ class AuthorForm extends Component
 
     // Form Start
     public int|string|null $nim = '';
+
     public string $email = '';
+
     public string $password = '';
+
     public string $name = '';
+
     public int|string|null $study_program_id = '';
+
     public $avatar = null;
     // Form End
 
     public string|bool $display_avatar = false;
-    public int|null $author_id = null;
-    public int|null $user_id = null;
+
+    public ?int $author_id = null;
+
+    public ?int $user_id = null;
+
     #[Computed()]
     public bool $is_update = false;
 
@@ -49,12 +57,12 @@ class AuthorForm extends Component
     protected function rulesCreate(): array
     {
         return [
-            'name' => ['required', 'min:3', 'max:50'],
+            'name' => ['required', 'string', 'min:3', 'max:255'],
             'nim' => ['required', 'numeric', 'digits_between:8,15', 'unique:authors,nim'],
             'study_program_id' => ['required', 'exists:study_programs,id'],
-            'avatar' => ['nullable', 'file', 'mimes:jpg,png', 'max:1000'],
+            'avatar' => ['nullable', 'file', 'mimes:jpg,png,jpeg', 'mimetypes:image/jpeg,image/png', 'max:1000'],
             'email' => ['nullable', 'email:dns', 'unique:users,email'],
-            'password' =>  ['nullable', 'min:8', 'max:50']
+            'password' => ['nullable', 'min:8', 'max:50'],
         ];
     }
 
@@ -62,18 +70,18 @@ class AuthorForm extends Component
     {
         return [
             'name' => ['required', 'min:3', 'max:50'],
-            'nim' => ['required', 'numeric', 'digits_between:8,15', 'unique:authors,nim,' . $this->author_id],
+            'nim' => ['required', 'numeric', 'digits_between:8,15', 'unique:authors,nim,'.$this->author_id],
             'study_program_id' => ['required', 'exists:study_programs,id'],
             'avatar' => [new UpdateUserAvatarRule(user_id: $this->user_id, max_KB: 1000, allowedMimes: ['jpg', 'png'])],
-            'email' => ['required', 'email:dns', 'unique:users,email,' . $this->user_id],
-            'password' => ['nullable', 'min:8', 'max:50']
+            'email' => ['required', 'email:dns', 'unique:users,email,'.$this->user_id],
+            'password' => ['nullable', 'min:8', 'max:50'],
         ];
     }
 
     protected function validationAttributes()
     {
         return [
-            'study_program_id' => 'study program'
+            'study_program_id' => 'study program',
         ];
     }
 

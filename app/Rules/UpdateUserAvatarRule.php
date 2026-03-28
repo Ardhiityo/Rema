@@ -2,9 +2,8 @@
 
 namespace App\Rules;
 
-use Closure;
 use App\Models\User;
-use App\Data\User\UserData;
+use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Http\UploadedFile;
 
@@ -15,7 +14,7 @@ class UpdateUserAvatarRule implements ValidationRule
     public function __construct(
         protected int $user_id,
         protected int $max_KB = 1000,
-        protected array $allowedMimes = ['jpg', 'png']
+        protected array $allowedMimes = ['jpg', 'png', 'jpeg']
     ) {}
 
     public function validate(string $attribute, mixed $value, Closure $fail): void
@@ -30,8 +29,8 @@ class UpdateUserAvatarRule implements ValidationRule
             $size = $value->getSize();
             $mime = $value->getClientOriginalExtension();
 
-            if (!in_array(strtolower($mime), $this->allowedMimes)) {
-                $fail("The file must be of type: " . implode(', ', $this->allowedMimes) . ".");
+            if (! in_array(strtolower($mime), $this->allowedMimes)) {
+                $fail('The file must be of type: '.implode(', ', $this->allowedMimes).'.');
             }
 
             if ($size > $this->max_KB * 1024) {

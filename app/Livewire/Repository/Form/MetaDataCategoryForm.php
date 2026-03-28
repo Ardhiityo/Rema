@@ -2,33 +2,37 @@
 
 namespace App\Livewire\Repository\Form;
 
-use Throwable;
-use Livewire\Component;
-use Livewire\Attributes\On;
-use Livewire\WithFileUploads;
-use Livewire\Attributes\Computed;
-use Illuminate\Support\Facades\Session;
-use App\Rules\MetaDataCategoryCreateRule;
-use App\Rules\MetaDataCategoryUpdateRule;
 use App\Data\MetadataCategory\CreateMetadataCategoryData;
 use App\Data\MetadataCategory\UpdateMetadataCategoryData;
 use App\Repositories\Contratcs\CategoryRepositoryInterface;
-use App\Repositories\Contratcs\MetaDataRepositoryInterface;
 use App\Repositories\Contratcs\MetaDataCategoryRepositoryInterface;
+use App\Repositories\Contratcs\MetaDataRepositoryInterface;
+use App\Rules\MetaDataCategoryCreateRule;
+use App\Rules\MetaDataCategoryUpdateRule;
 use Exception;
+use Illuminate\Support\Facades\Session;
+use Livewire\Attributes\Computed;
+use Livewire\Attributes\On;
+use Livewire\Component;
+use Livewire\WithFileUploads;
+use Throwable;
 
 class MetaDataCategoryForm extends Component
 {
     use WithFileUploads;
 
     // Start Form
-    public int|null $meta_data_id = null;
+    public ?int $meta_data_id = null;
+
     public int|string $category_id = '';
+
     public $file_path = null;
     // End Form
 
-    public int|null $category_id_update = null;
-    public int|null $category_id_delete = null;
+    public ?int $category_id_update = null;
+
+    public ?int $category_id_delete = null;
+
     public bool $is_update = false;
 
     public function mount($meta_data_id = null)
@@ -51,13 +55,13 @@ class MetaDataCategoryForm extends Component
     protected function rulesCreate(): array
     {
         return [
-            'file_path' => ['required', 'file', 'mimes:pdf', 'max:7000'],
+            'file_path' => ['required', 'file', 'mimes:pdf', 'mimetypes:application/pdf', 'max:7000'],
             'category_id' => [
                 'required',
                 'exists:categories,id',
-                new MetaDataCategoryCreateRule($this->meta_data_id)
+                new MetaDataCategoryCreateRule($this->meta_data_id),
             ],
-            'meta_data_id' => ['required', 'exists:meta_data,id']
+            'meta_data_id' => ['required', 'exists:meta_data,id'],
         ];
     }
 
@@ -68,9 +72,9 @@ class MetaDataCategoryForm extends Component
             'category_id' => [
                 'required',
                 'exists:categories,id',
-                new MetaDataCategoryUpdateRule($this->meta_data_id, $this->category_id_update)
+                new MetaDataCategoryUpdateRule($this->meta_data_id, $this->category_id_update),
             ],
-            'meta_data_id' => ['required', 'exists:meta_data,id']
+            'meta_data_id' => ['required', 'exists:meta_data,id'],
         ];
     }
 
@@ -79,7 +83,7 @@ class MetaDataCategoryForm extends Component
         return [
             'file_path' => 'file',
             'author_id' => 'author',
-            'category_id' => 'category'
+            'category_id' => 'category',
         ];
     }
 

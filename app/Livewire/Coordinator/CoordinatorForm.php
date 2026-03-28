@@ -34,8 +34,8 @@ class CoordinatorForm extends Component
     public function rules()
     {
         return [
-            'name' => ['required', 'min:3'],
-            'position' => ['required', 'min:3'],
+            'name' => ['required', 'min:3', 'string'],
+            'position' => ['required', 'string','min:3'],
             'nidn' => ['required', 'numeric', $this->is_update ? 'unique:coordinators,nidn,' . $this->coordinator_id : 'unique:coordinators,nidn'],
             'study_program_id' => ['required', 'exists:study_programs,id', $this->is_update ? 'unique:coordinators,study_program_id,' . $this->coordinator_id : 'unique:coordinators,study_program_id']
         ];

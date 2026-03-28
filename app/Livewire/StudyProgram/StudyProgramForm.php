@@ -2,23 +2,25 @@
 
 namespace App\Livewire\StudyProgram;
 
-use Throwable;
-use Livewire\Component;
-use Illuminate\Support\Str;
-use Livewire\Attributes\On;
-use Livewire\Attributes\Computed;
 use App\Data\StudyProgram\CreateStudyProgramData;
 use App\Data\StudyProgram\UpdateStudyProgramData;
 use App\Repositories\Contratcs\StudyProgramRepositoryInterface;
+use Illuminate\Support\Str;
+use Livewire\Attributes\Computed;
+use Livewire\Attributes\On;
+use Livewire\Component;
+use Throwable;
 
 class StudyProgramForm extends Component
 {
     // Start Form
     public string $name = '';
+
     public string $slug = '';
     // End Form
 
     public int $study_program_id;
+
     public bool $is_update = false;
 
     #[Computed()]
@@ -30,15 +32,15 @@ class StudyProgramForm extends Component
     protected function rules()
     {
         return [
-            'name' => ['required'],
-            'slug' => ['required', 'min:3', 'max:50', $this->is_update ? 'unique:study_programs,slug,' . $this->study_program_id : 'unique:study_programs,slug']
+            'name' => ['required', 'string'],
+            'slug' => ['required', 'string', 'min:3', 'max:50', $this->is_update ? 'unique:study_programs,slug,'.$this->study_program_id : 'unique:study_programs,slug'],
         ];
     }
 
     protected function validationAttributes()
     {
         return [
-            'slug' => 'study program'
+            'slug' => 'study program',
         ];
     }
 

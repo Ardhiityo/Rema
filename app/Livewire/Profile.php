@@ -2,24 +2,24 @@
 
 namespace App\Livewire;
 
-use Throwable;
-use App\Models\User;
-use App\Models\Author;
-use Livewire\Component;
-use App\Data\User\UserData;
-use App\Rules\ProfileNimRule;
-use Livewire\WithFileUploads;
 use App\Data\Author\AuthorData;
-use Illuminate\Validation\Rule;
-use App\Rules\ProfileAvatarRule;
-use App\Data\User\UpdateUserData;
-use Livewire\Attributes\Computed;
-use Illuminate\Support\Facades\Auth;
 use App\Data\Author\UpdateAuthorData;
-use App\Rules\ProfileStudyProgramRule;
-use App\Repositories\Contratcs\UserRepositoryInterface;
+use App\Data\User\UpdateUserData;
+use App\Data\User\UserData;
+use App\Models\Author;
+use App\Models\User;
 use App\Repositories\Contratcs\AuthorRepositoryInterface;
 use App\Repositories\Contratcs\StudyProgramRepositoryInterface;
+use App\Repositories\Contratcs\UserRepositoryInterface;
+use App\Rules\ProfileAvatarRule;
+use App\Rules\ProfileNimRule;
+use App\Rules\ProfileStudyProgramRule;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
+use Livewire\Attributes\Computed;
+use Livewire\Component;
+use Livewire\WithFileUploads;
+use Throwable;
 
 class Profile extends Component
 {
@@ -27,17 +27,24 @@ class Profile extends Component
 
     // Start Form
     public string $name = '';
+
     public int|null|string $nim = null;
+
     public int|null|string $study_program_id = null;
+
     public string $password = '';
+
     public $avatar;
+
     public string $email = '';
     // End Form
 
     public string|bool|null $display_avatar = '';
 
     public User $user;
+
     public Author $author;
+
     public string $role = '';
 
     public function mount()
@@ -64,19 +71,19 @@ class Profile extends Component
     protected function rules(): array
     {
         return [
-            'name' => ['required', 'min:3', 'max:50'],
-            'nim' => ['required_if:role,author', new ProfileNimRule()],
-            'study_program_id' => ['required_if:role,author', new ProfileStudyProgramRule()],
-            'avatar' => [Rule::requiredIf($this->user->avatar == null), new ProfileAvatarRule()],
-            'email' => ['required', 'email:dns', 'unique:users,email,' . $this->user->id],
-            'password' => ['nullable', 'min:8', 'max:100']
+            'name' => ['required', 'string', 'min:3', 'max:50'],
+            'nim' => ['required_if:role,author', 'numeric', new ProfileNimRule],
+            'study_program_id' => ['required_if:role,author', new ProfileStudyProgramRule],
+            'avatar' => [Rule::requiredIf($this->user->avatar == null), new ProfileAvatarRule],
+            'email' => ['required', 'email:dns', 'unique:users,email,'.$this->user->id],
+            'password' => ['nullable', 'min:8', 'max:100'],
         ];
     }
 
     protected function validationAttributes(): array
     {
         return [
-            'study_program_id' => 'study program'
+            'study_program_id' => 'study program',
         ];
     }
 

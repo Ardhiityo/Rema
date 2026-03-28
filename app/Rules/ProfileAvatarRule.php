@@ -3,8 +3,8 @@
 namespace App\Rules;
 
 use Closure;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class ProfileAvatarRule implements ValidationRule
@@ -19,17 +19,17 @@ class ProfileAvatarRule implements ValidationRule
         $user = Auth::user();
 
         $data = [
-            $attribute => $value
+            $attribute => $value,
         ];
 
         $rules = [
-            $attribute => []
+            $attribute => [],
         ];
 
         if (is_null($user->avatar)) {
-            $rules[$attribute] = ['file', 'mimes:jpg,png', 'max:1000'];
+            $rules[$attribute] = ['image', 'mimes:jpg,jpeg,png', 'mimetypes:image/jpeg,image/png', 'max:1000'];
         } else {
-            $rules[$attribute] = ['nullable', 'file', 'mimes:jpg,png', 'max:1000'];
+            $rules[$attribute] = ['nullable', 'image', 'mimes:jpg,jpeg,png', 'mimetypes:image/jpeg,image/png', 'max:1000'];
         }
 
         $validator = Validator::make($data, $rules);
