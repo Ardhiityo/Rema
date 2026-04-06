@@ -277,7 +277,10 @@ class MetaDataCategoryRepository implements MetaDataCategoryRepositoryInterface
 
     public function read(string $category_slug, string $meta_data_slug): BinaryFileResponse|RedirectResponse
     {     
+        $request = request();
+        
         if (Auth::guest()) {
+            session()->put('path_read_temporary', request()->fullUrl());
             return redirect()->route('login')->with('unauthenticated', 'Please log in to your account first');
         }
 
@@ -288,8 +291,6 @@ class MetaDataCategoryRepository implements MetaDataCategoryRepositoryInterface
             'metadata',
             fn ($query) => $query->where('slug', $meta_data_slug)
         )->firstOrFail();
-
-        $request = request();
         
         $create_activity_data = CreateActivityData::from([
             'ip' => $request->ip(),

@@ -28,6 +28,12 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        if(session()->has('path_read_temporary')) {
+            $url = session()->get('path_read_temporary');
+            session()->forget('path_read_temporary');
+            return redirect($url);
+        }
+
         return redirect()->intended(route('dashboard'));
     }
 
