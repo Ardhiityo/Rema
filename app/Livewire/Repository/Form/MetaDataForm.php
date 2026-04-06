@@ -20,13 +20,13 @@ class MetaDataForm extends Component
 
     public ?string $author_name = '';
 
-    public ?string $author_nim = '';
+    public string|int|null $author_nim = '';
 
     public ?string $study_program_id = '';
 
     public string $status = 'approve';
 
-    public string $year = '';
+    public string|int $year = '';
 
     public string $visibility = 'public';
 
@@ -138,7 +138,7 @@ class MetaDataForm extends Component
                 $this->is_update ? 'unique:meta_data,slug,'.$this->meta_data_id : 'unique:meta_data,slug',
             ],
             'author_name' => ['required', 'string', 'min:1', 'max:100'],
-            'author_nim' => ['required', 'numeric', 'min:8', 'max:15'],
+            'author_nim' => ['required', 'numeric', 'digits_between:8,15'],
             'study_program_id' => ['required', 'exists:study_programs,id'],
             'year' => ['required', 'date_format:Y'],
             'status' => ['required', 'in:approve,process,reject,revision'],

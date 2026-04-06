@@ -2,22 +2,23 @@
 
 namespace App\Repositories\Eloquent;
 
-use Exception;
-use Throwable;
+use App\Data\Activity\CreateActivityData;
+use App\Data\MetadataCategory\CreateMetadataCategoryData;
+use App\Data\MetadataCategory\MetadataCategoryData;
+use App\Data\MetadataCategory\UpdateMetadataCategoryData;
 use App\Models\MetaDataCategory;
-use Illuminate\Support\Facades\Log;
+use App\Repositories\Contratcs\ActivityRepositoryInterface;
+use App\Repositories\Contratcs\MetaDataCategoryRepositoryInterface;
+use App\Repositories\Contratcs\MetaDataRepositoryInterface;
+use App\Services\PdfWatermarkService;
+use Exception;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
-use App\Services\PdfWatermarkService;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use App\Data\Activity\CreateActivityData;
-use App\Data\MetadataCategory\MetadataCategoryData;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use App\Data\MetadataCategory\CreateMetadataCategoryData;
-use App\Data\MetadataCategory\UpdateMetadataCategoryData;
-use App\Repositories\Contratcs\ActivityRepositoryInterface;
-use App\Repositories\Contratcs\MetaDataRepositoryInterface;
-use App\Repositories\Contratcs\MetaDataCategoryRepositoryInterface;
+use Throwable;
 
 class MetaDataCategoryRepository implements MetaDataCategoryRepositoryInterface
 {
@@ -33,7 +34,7 @@ class MetaDataCategoryRepository implements MetaDataCategoryRepositoryInterface
             $tempPath = $create_metadata_category_data->file_path->getRealPath();
 
             // 2. Buat nama file unik
-            $filename = uniqid() . '.pdf';
+            $filename = uniqid().'.pdf';
 
             // 3. Tentukan path sementara untuk menyimpan file mentah
             $tempStoragePath = storage_path("app/temp/{$filename}");
@@ -56,7 +57,7 @@ class MetaDataCategoryRepository implements MetaDataCategoryRepositoryInterface
             $meta_data_category = MetaDataCategory::create([
                 'meta_data_id' => $create_metadata_category_data->meta_data_id,
                 'category_id' => $create_metadata_category_data->category_id,
-                'file_path' => $relativePath
+                'file_path' => $relativePath,
             ]);
 
             return MetadataCategoryData::fromModel($meta_data_category);
@@ -73,9 +74,9 @@ class MetaDataCategoryRepository implements MetaDataCategoryRepositoryInterface
                     ],
                     'data' => [
                         'create_metadata_category_data' => $create_metadata_category_data,
-                    ]
+                    ],
                 ],
-                'message' => $e->getMessage()
+                'message' => $e->getMessage(),
             ], JSON_PRETTY_PRINT));
 
             throw new Exception($e->getMessage());
@@ -92,12 +93,12 @@ class MetaDataCategoryRepository implements MetaDataCategoryRepositoryInterface
 
             $file_path = $update_metadata_category_data->file_path;
 
-            if (!empty($file_path)) {
+            if (! empty($file_path)) {
                 // 1. Ambil path file mentah dari hasil validasi
                 $tempPath = $update_metadata_category_data->file_path->getRealPath();
 
                 // 2. Buat nama file unik
-                $filename = uniqid() . '.pdf';
+                $filename = uniqid().'.pdf';
 
                 // 3. Tentukan path sementara untuk menyimpan file mentah
                 $tempStoragePath = storage_path("app/temp/{$filename}");
@@ -134,7 +135,7 @@ class MetaDataCategoryRepository implements MetaDataCategoryRepositoryInterface
 
             $meta_data_category->update([
                 'category_id' => $update_metadata_category_data->category_id,
-                'file_path' => $file_path
+                'file_path' => $file_path,
             ]);
 
             return $this->findByMetaDataIdAndCategoryId(
@@ -155,9 +156,9 @@ class MetaDataCategoryRepository implements MetaDataCategoryRepositoryInterface
                     'data' => [
                         'update_metadata_category_data' => $update_metadata_category_data,
                         'current_category_id' => $current_category_id,
-                    ]
+                    ],
                 ],
-                'message' => $th->getMessage()
+                'message' => $th->getMessage(),
             ], JSON_PRETTY_PRINT));
             throw $th;
         }
@@ -184,9 +185,9 @@ class MetaDataCategoryRepository implements MetaDataCategoryRepositoryInterface
                     'data' => [
                         'meta_data_id' => $meta_data_id,
                         'category_id' => $category_id,
-                    ]
+                    ],
                 ],
-                'message' => $th->getMessage()
+                'message' => $th->getMessage(),
             ], JSON_PRETTY_PRINT));
 
             throw $th;
@@ -198,7 +199,7 @@ class MetaDataCategoryRepository implements MetaDataCategoryRepositoryInterface
         try {
             $meta_data_category = MetaDataCategory::whereHas(
                 'category',
-                fn($query) => $query->where('slug', $category_slug)
+                fn ($query) => $query->where('slug', $category_slug)
             )
                 ->whereHas(
                     'metadata',
@@ -227,9 +228,9 @@ class MetaDataCategoryRepository implements MetaDataCategoryRepositoryInterface
                     'data' => [
                         'meta_data_slug' => $meta_data_slug,
                         'category_slug' => $category_slug,
-                    ]
+                    ],
                 ],
-                'message' => $th->getMessage()
+                'message' => $th->getMessage(),
             ], JSON_PRETTY_PRINT));
 
             throw new Exception('Sorry, repository not found.');
@@ -265,38 +266,42 @@ class MetaDataCategoryRepository implements MetaDataCategoryRepositoryInterface
                     'data' => [
                         'meta_data_id' => $meta_data_id,
                         'category_id' => $category_id,
-                    ]
+                    ],
                 ],
-                'message' => $th->getMessage()
+                'message' => $th->getMessage(),
             ], JSON_PRETTY_PRINT));
 
             throw $th;
         }
     }
 
-    public function read(string $category_slug, string $meta_data_slug): BinaryFileResponse
-    {
+    public function read(string $category_slug, string $meta_data_slug): BinaryFileResponse|RedirectResponse
+    {     
+        if (Auth::guest()) {
+            return redirect()->route('login')->with('unauthenticated', 'Please log in to your account first');
+        }
+
         $repository = MetaDataCategory::whereHas(
             'category',
-            fn($query) => $query->where('slug', $category_slug)
+            fn ($query) => $query->where('slug', $category_slug)
         )->whereHas(
             'metadata',
-            fn($query) => $query->where('slug', $meta_data_slug)
+            fn ($query) => $query->where('slug', $meta_data_slug)
         )->firstOrFail();
 
         $request = request();
-
+        
         $create_activity_data = CreateActivityData::from([
             'ip' => $request->ip(),
             'user_agent' => $request->userAgent(),
             'user_id' => $request->user()?->id,
             'meta_data_id' => $repository->metadata->id,
-            'category_id' => $repository->category->id
+            'category_id' => $repository->category->id,
         ]);
 
         $this->activityRepository->create($create_activity_data);
 
-        $path = storage_path('app/public/' . $repository->file_path);
+        $path = storage_path('app/public/'.$repository->file_path);
 
         return response()->file($path, [
             'Content-Type' => 'application/pdf',

@@ -1,15 +1,16 @@
 <?php
 
-use App\Models\User;
 use App\Models\Category;
 use App\Models\MetaData;
-use function Pest\Laravel\actingAs;
+use App\Models\User;
 use Database\Seeders\CategorySeeder;
 use Database\Seeders\DatabaseSeeder;
-use Illuminate\Support\Facades\Storage;
-
 use Database\Seeders\RolePermissionSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+
+use function Pest\Laravel\actingAs;
 
 uses(RefreshDatabase::class);
 
@@ -72,5 +73,5 @@ test('render success', function () {
     activity()
         ->assertSeeText($category1)
         ->assertSeeText($category2)
-        ->assertSeeText($meta_data);
+        ->assertSeeText(Str::limit($meta_data, 55, '...'));
 });

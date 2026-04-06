@@ -137,7 +137,6 @@ test('create meta data admin success', function () {
 
     $user = User::whereEmail('admin@gmail.com')->first();
 
-    $author = Author::first();
     $study_program_id = StudyProgram::first()->id;
 
     actingAs($user);

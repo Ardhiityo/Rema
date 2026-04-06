@@ -20,8 +20,8 @@ test('new users can register', function () {
     $response = $this->post(route('register'), [
         'name' => 'Arya Adhi Prasetyo',
         'email' => 'aryaadi229@gmail.com',
-        'password' => 'password',
-        'password_confirmation' => 'password',
+        'password' => '@Password123',
+        'password_confirmation' => '@Password123',
         'cf-turnstile-response' => 'fake-token',
     ]);
 

@@ -72,7 +72,7 @@ class Profile extends Component
     {
         return [
             'name' => ['required', 'string', 'min:3', 'max:50'],
-            'nim' => ['required_if:role,author', 'numeric', new ProfileNimRule],
+            'nim' => ['required_if:role,author', new ProfileNimRule],
             'study_program_id' => ['required_if:role,author', new ProfileStudyProgramRule],
             'avatar' => [Rule::requiredIf($this->user->avatar == null), new ProfileAvatarRule],
             'email' => ['required', 'email:dns', 'unique:users,email,'.$this->user->id],

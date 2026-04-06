@@ -7,6 +7,9 @@
                         <div class="col-12">
                             <div class="mb-5">
                                 <h3>Log in</h3>
+                                @session('unauthenticated')
+                                <h4 class="h4 badge text-bg-warning">{{ session('unauthenticated') }}</h4>
+                                @endsession
                             </div>
                             @if (session()->has('status'))
                                 <div class="alert alert-success" role="alert">

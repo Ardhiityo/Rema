@@ -2,9 +2,10 @@
 
 namespace App\Repositories\Contratcs;
 
-use App\Data\MetadataCategory\MetadataCategoryData;
 use App\Data\MetadataCategory\CreateMetadataCategoryData;
+use App\Data\MetadataCategory\MetadataCategoryData;
 use App\Data\MetadataCategory\UpdateMetadataCategoryData;
+use Illuminate\Http\RedirectResponse;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Throwable;
 
@@ -20,5 +21,5 @@ interface MetaDataCategoryRepositoryInterface
 
     public function delete(int $meta_data_id, int $category_id): bool|Throwable;
 
-    public function read(string $category_slug, string $meta_data_slug): BinaryFileResponse;
+    public function read(string $category_slug, string $meta_data_slug): BinaryFileResponse|RedirectResponse;
 }
