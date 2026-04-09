@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Services\AvatarGenerator;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
 
 class GoogleController extends Controller
@@ -27,7 +27,7 @@ class GoogleController extends Controller
                 'google_id' => $google_user->getId(),
                 'password' => Str::random(8),
                 'email_verified_at' => now(),
-                'avatar' => AvatarGenerator::generate()
+                'avatar' => AvatarGenerator::generate(),
             ]
         );
 
@@ -36,6 +36,13 @@ class GoogleController extends Controller
         if (is_null($user->author)) {
             $user->author()->create();
             $user->assignRole('author');
+        }
+
+        if (session()->has('path_read_temporary')) {
+            $url = session()->get('path_read_temporary');
+            session()->forget('path_read_temporary');
+
+            return redirect($url);
         }
 
         return redirect()->route('dashboard');

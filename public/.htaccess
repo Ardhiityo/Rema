@@ -35,13 +35,11 @@
     Deny from all
 </FilesMatch>
 
-# 🔒 BLOCK AKSES KE FILE PHP DI UPLOAD (opsional, sangat penting)
+# 🔒 BLOCK AKSES KE FILE PHP DI UPLOAD
 <Directory "uploads">
     php_flag engine off
 </Directory>
 
-# 🔒 CEGah EKSEKUSI FILE PHP DI PUBLIC (kecuali index.php)
-<FilesMatch "^(?!index\.php$).+\.php$">
-    Order allow,deny
-    Deny from all
-</FilesMatch>
+# DO NOT REMOVE THIS LINE AND THE LINES BELOW IPDENYID:rU85xpilov
+deny from 2001:448a:2050:1608:5175:d0d4:e5f0:4d61
+# DO NOT REMOVE THIS LINE AND THE LINES ABOVE rU85xpilov:IPDENYID
