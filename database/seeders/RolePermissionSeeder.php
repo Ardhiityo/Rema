@@ -3,8 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Illuminate\Database\Seeder;
 use App\Services\AvatarGenerator;
+use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 
 class RolePermissionSeeder extends Seeder
@@ -14,15 +14,26 @@ class RolePermissionSeeder extends Seeder
      */
     public function run(): void
     {
+        Role::create(['name' => 'leader']);
         Role::create(['name' => 'admin']);
         Role::create(['name' => 'author']);
 
         $user = User::create([
+            'name' => 'Leader',
+            'email' => 'leader@gmail.com',
+            'password' => '@Secret123',
+            'avatar' => AvatarGenerator::generate(),
+            'email_verified_at' => now(),
+        ]);
+
+        $user->assignRole('leader');
+
+        $user = User::create([
             'name' => 'Admin',
             'email' => 'admin@gmail.com',
-            'password' => 'rahasia',
+            'password' => '@Secret123',
             'avatar' => AvatarGenerator::generate(),
-            'email_verified_at' => now()
+            'email_verified_at' => now(),
         ]);
 
         $user->assignRole('admin');
@@ -30,9 +41,9 @@ class RolePermissionSeeder extends Seeder
         $user = User::create([
             'name' => 'John doe',
             'email' => 'author@gmail.com',
-            'password' => 'rahasia',
+            'password' => '@Secret123',
             'avatar' => AvatarGenerator::generate(),
-            'email_verified_at' => now()
+            'email_verified_at' => now(),
         ]);
 
         $user->assignRole('author');

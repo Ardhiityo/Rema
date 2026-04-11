@@ -104,9 +104,11 @@
                         </a>
                     </li>
                     @endhasrole
+                    @hasrole(['admin', 'author'])
                     <li class="submenu-item {{ request()->routeIs('repository.create') ? 'active' : '' }}">
                         <a href="{{ route('repository.create') }}" class="submenu-link">Create Data</a>
                     </li>
+                    @endhasrole
                 </ul>
             </li>
             {{-- Repositories --}}
@@ -129,7 +131,9 @@
                 </a>
             </li>
             {{-- Reports --}}
+            @endhasrole
 
+            @hasrole(['admin', 'leader'])
             {{-- Reports --}}
             <li class="sidebar-item {{ request()->is('report*') ? 'active' : '' }}">
                 <a href="{{ route('report.index') }}" class='sidebar-link'>

@@ -23,6 +23,7 @@ class MetadataPolicy
         if ($user->hasRole('author')) {
             return $user->author->id == $metadata->author_id;
         }
+
         return true;
     }
 
@@ -41,7 +42,10 @@ class MetadataPolicy
     {
         if ($user->hasRole('author')) {
             return $user->author->id == $metadata->author_id && $metadata->status != 'approve';
+        } elseif ($user->hasRole('leader')) {
+            return false;
         }
+
         return true;
     }
 
@@ -52,7 +56,10 @@ class MetadataPolicy
     {
         if ($user->hasRole('author')) {
             return $user->author->id == $metadata->author_id && $metadata->status != 'approve';
+        } elseif ($user->hasRole('leader')) {
+            return false;
         }
+
         return true;
     }
 
