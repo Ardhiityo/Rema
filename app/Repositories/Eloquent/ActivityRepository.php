@@ -2,16 +2,15 @@
 
 namespace App\Repositories\Eloquent;
 
-use Throwable;
-use App\Models\Activity;
-use Illuminate\Support\Facades\DB;
 use App\Data\Activity\ActivityData;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Auth;
 use App\Data\Activity\ActivityDetailData;
 use App\Data\Activity\CreateActivityData;
-use Illuminate\Pagination\LengthAwarePaginator;
+use App\Models\Activity;
 use App\Repositories\Contratcs\ActivityRepositoryInterface;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class ActivityRepository implements ActivityRepositoryInterface
 {
@@ -37,9 +36,9 @@ class ActivityRepository implements ActivityRepositoryInterface
                     ],
                     'data' => [
                         'create_activity_data' => $create_activity_data,
-                    ]
+                    ],
                 ],
-                'message' => $th->getMessage()
+                'message' => $th->getMessage(),
             ], JSON_PRETTY_PRINT));
 
             throw $th;
@@ -68,14 +67,14 @@ class ActivityRepository implements ActivityRepositoryInterface
         if ($meta_data_title) {
             $activities = $activities->whereHas(
                 'metadata',
-                fn($query) => $query->whereLike('title', "%$meta_data_title%")
+                fn ($query) => $query->whereLike('title', "%$meta_data_title%")
             );
         }
 
         if ($category_slug) {
             $activities = $activities->whereHas(
                 'category',
-                fn($query) => $query->where('slug', $category_slug)
+                fn ($query) => $query->where('slug', $category_slug)
             );
         }
 
@@ -87,7 +86,7 @@ class ActivityRepository implements ActivityRepositoryInterface
             $activities = $activities->orderBy('total', 'asc');
         }
 
-        $activities = $activities->paginate(10);
+        $activities = $activities->orderBy('id', 'desc')->paginate(10);
 
         return ActivityData::collect($activities);
     }
@@ -97,10 +96,10 @@ class ActivityRepository implements ActivityRepositoryInterface
         $activities = Activity::with(['user.author.studyProgram'])
             ->whereHas(
                 'metadata',
-                fn($query) => $query->where('slug', $meta_data_slug)
+                fn ($query) => $query->where('slug', $meta_data_slug)
             )->whereHas(
                 'category',
-                fn($query) => $query->where('slug', $category_slug)
+                fn ($query) => $query->where('slug', $category_slug)
             )
             ->paginate(10);
 
