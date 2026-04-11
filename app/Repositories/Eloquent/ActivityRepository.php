@@ -101,6 +101,7 @@ class ActivityRepository implements ActivityRepositoryInterface
                 'category',
                 fn ($query) => $query->where('slug', $category_slug)
             )
+            ->orderBy('id', 'desc')
             ->paginate(10);
 
         return ActivityDetailData::collect($activities);
