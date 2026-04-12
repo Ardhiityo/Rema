@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 use function Pest\Laravel\actingAs;
+use function PHPUnit\Framework\assertNotNull;
 
 uses(RefreshDatabase::class);
 
@@ -21,6 +22,8 @@ test('mount with value success', function () {
 
     $category = Category::first();
 
+    assertNotNull($category->slug);
+    
     activity()
         ->assertSet('category', $category->slug);
 });

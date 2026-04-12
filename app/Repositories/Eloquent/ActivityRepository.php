@@ -86,8 +86,8 @@ class ActivityRepository implements ActivityRepositoryInterface
             $activities = $activities->orderBy('total', 'asc');
         }
 
-        $activities = $activities->orderBy('id', 'desc')->paginate(10);
-
+        $activities = $activities->paginate(10);
+   
         return ActivityData::collect($activities);
     }
 

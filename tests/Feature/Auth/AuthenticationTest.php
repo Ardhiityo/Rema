@@ -25,7 +25,7 @@ test('users can authenticate using the login screen', function () {
 
     $response = $this->post(route('login'), [
         'email' => $user->email,
-        'password' => 'rahasia',
+        'password' => '@Secret123',
         'cf-turnstile-response' => 'fake-token'
     ]);
 

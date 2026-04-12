@@ -17,7 +17,7 @@ test('mount admin success', function () {
 
     $this->seed(DatabaseSeeder::class);
 
-    $user = User::first();
+    $user = User::whereEmail('admin@gmail.com')->first();
 
     actingAs($user);
 
@@ -81,12 +81,12 @@ test('reset input success', function () {
         ->set('name', 'Arya')
         ->set('nim', 22040004)
         ->set('study_program_id', 1)
-        ->set('password', 'rahasia')
+        ->set('password', '@Secret123')
         ->call('resetInput')
         ->assertNotSet('name', 'Arya')
         ->assertNotSet('nim', 22040004)
         ->assertNotSet('study_program_id', 1)
-        ->assertNotSet('password', 'rahasia');
+        ->assertNotSet('password', '@Secret123');
 });
 
 test('update admin success', function () {
