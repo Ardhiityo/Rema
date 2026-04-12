@@ -53,6 +53,6 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect()->intended(route('dashboard'));
+        return redirect()->route('verification.notice');
     }
 }

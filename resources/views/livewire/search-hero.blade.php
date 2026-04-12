@@ -83,6 +83,7 @@
                             <a href="{{ route('repository.read', [
                     'category_slug' => $repository->category_slug,
                     'meta_data_slug' => $repository->metadata_slug,
+                    'v' => uniqid(),
                 ]) }}" target="_blank" class="w-100">
                                 <div class="p-4 pt-0 border feature-item h-100 d-flex flex-column justify-content-between">
                                     <div>

@@ -1,11 +1,13 @@
 <?php
 
-use Spatie\Csp\AddCspHeaders;
+use App\Http\Middleware\Auth\ToReadMiddleware;
+use App\Http\Middleware\Guest\CanToReadMiddleware;
 use Illuminate\Foundation\Application;
-use Spatie\Permission\Middleware\RoleMiddleware;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Spatie\Csp\AddCspHeaders;
 use Spatie\Permission\Middleware\PermissionMiddleware;
+use Spatie\Permission\Middleware\RoleMiddleware;
 use Spatie\Permission\Middleware\RoleOrPermissionMiddleware;
 
 return Application::configure(basePath: dirname(__DIR__))
@@ -20,6 +22,8 @@ return Application::configure(basePath: dirname(__DIR__))
             'role' => RoleMiddleware::class,
             'permission' => PermissionMiddleware::class,
             'role_or_permission' => RoleOrPermissionMiddleware::class,
+            'can_to_read' => CanToReadMiddleware::class,
+            'to_read' => ToReadMiddleware::class
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

@@ -276,13 +276,8 @@ class MetaDataCategoryRepository implements MetaDataCategoryRepositoryInterface
     }
 
     public function read(string $category_slug, string $meta_data_slug): BinaryFileResponse|RedirectResponse
-    {     
+    {
         $request = request();
-        
-        if (Auth::guest()) {
-            session()->put('path_read_temporary', request()->fullUrl());
-            return redirect()->route('login')->with('unauthenticated', 'Please log in to your account first');
-        }
 
         $repository = MetaDataCategory::whereHas(
             'category',
@@ -291,7 +286,7 @@ class MetaDataCategoryRepository implements MetaDataCategoryRepositoryInterface
             'metadata',
             fn ($query) => $query->where('slug', $meta_data_slug)
         )->firstOrFail();
-        
+
         $create_activity_data = CreateActivityData::from([
             'ip' => $request->ip(),
             'user_agent' => $request->userAgent(),
@@ -306,6 +301,9 @@ class MetaDataCategoryRepository implements MetaDataCategoryRepositoryInterface
 
         return response()->file($path, [
             'Content-Type' => 'application/pdf',
+            'Cache-Control' => 'no-cache, no-store, must-revalidate',
+            'Pragma' => 'no-cache',
+            'Expires' => '0'
         ]);
     }
 }

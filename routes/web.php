@@ -24,7 +24,9 @@ Route::middleware(['throttle:50,1'])->group(function () {
 
     Route::controller(LandingPageController::class)->group(function () {
         Route::get('/', 'index')->name('landing_page.index');
-        Route::get('/repositories/{category_slug}/{meta_data_slug}/read', 'read')->name('repository.read');
+        Route::get('/repositories/{category_slug}/{meta_data_slug}/read', 'read')
+            ->name('repository.read')
+            ->middleware('can_to_read');
     });
 
     Route::get('/privacy-policy', fn () => view('privacy-policy'))->name('privacy-policy');
@@ -32,7 +34,7 @@ Route::middleware(['throttle:50,1'])->group(function () {
 });
 
 Route::middleware(['throttle:40,1'])->group(function () {
-    Route::middleware(['auth', 'verified'])->group(function () {
+    Route::middleware(['auth', 'verified', 'to_read'])->group(function () {
         Route::middleware(['role:admin'])->group(function () {
             Route::get('/categories', Category::class)->name('category.index');
             Route::get('/study-programs', StudyProgram::class)->name('study-program.index');

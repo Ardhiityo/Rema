@@ -38,13 +38,6 @@ class GoogleController extends Controller
             $user->assignRole('author');
         }
 
-        if (session()->has('path_read_temporary')) {
-            $url = session()->get('path_read_temporary');
-            session()->forget('path_read_temporary');
-
-            return redirect($url);
-        }
-
         return redirect()->route('dashboard');
     }
 }
