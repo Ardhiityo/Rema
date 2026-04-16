@@ -2,29 +2,35 @@
 
 namespace App\Livewire\Repository;
 
-use Throwable;
-use Livewire\Component;
-use Livewire\WithPagination;
-use Livewire\Attributes\Computed;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
 use App\Repositories\Contratcs\MetaDataRepositoryInterface;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+use Livewire\Attributes\Computed;
+use Livewire\Component;
+use Livewire\WithPagination;
+use Throwable;
 
 class RepositoryList extends Component
 {
-    use WithPagination, AuthorizesRequests;
+    use AuthorizesRequests, WithPagination;
 
     // Form Start
     public string $keyword = '';
+
     public string $year = '';
+
     public string $visibility = 'public';
+
     public string $status_filter = 'approve';
     // Form End
 
-    public int|null $meta_data_id = null;
+    public ?int $meta_data_id = null;
+
     public bool $is_author = false;
+
     public bool $is_admin = false;
+
     public bool $is_master_data = false;
 
     public function mount()
@@ -50,7 +56,7 @@ class RepositoryList extends Component
         return app(MetaDataRepositoryInterface::class);
     }
 
-    public function deleteConfirm($meta_data_slug)
+    public function destroyConfirm($meta_data_slug)
     {
         try {
             $meta_data = $this->metaDataRepository->findBySlug($meta_data_slug);
@@ -61,7 +67,7 @@ class RepositoryList extends Component
         }
     }
 
-    public function delete()
+    public function destroy()
     {
         try {
             $meta_data = $this->metaDataRepository->findById($this->meta_data_id);

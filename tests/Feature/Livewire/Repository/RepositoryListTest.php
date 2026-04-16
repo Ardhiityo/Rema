@@ -1,12 +1,13 @@
 <?php
 
-use App\Models\User;
 use App\Models\MetaData;
-use Illuminate\Support\Str;
-use function Pest\Laravel\actingAs;
+use App\Models\User;
 use Database\Seeders\DatabaseSeeder;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+
+use function Pest\Laravel\actingAs;
 
 uses(RefreshDatabase::class);
 
@@ -23,7 +24,7 @@ test('delete confirm success', function () {
 
     repositoryList()
         ->set('meta_data_id', $meta_data->id)
-        ->call('deleteConfirm', $meta_data->slug)
+        ->call('destroyConfirm', $meta_data->slug)
         ->assertSet('meta_data_id', $meta_data->id);
 });
 
@@ -40,7 +41,7 @@ test('delete confirm failed not found', function () {
 
     repositoryList()
         ->set('meta_data_id', 100)
-        ->call('deleteConfirm', $meta_data->slug)
+        ->call('destroyConfirm', $meta_data->slug)
         ->assertNotSet('meta_data_id', 100);
 });
 
@@ -57,13 +58,13 @@ test('delete success', function () {
 
     repositoryList()
         ->set('meta_data_id', $meta_data->id)
-        ->call('delete');
+        ->call('destroy');
 
     $this->assertDatabaseCount('meta_data', 0);
     $this->assertDatabaseMissing('meta_data', [
         'title' => $meta_data->title,
         'year' => $meta_data->year,
-        'slug' => $meta_data->slug
+        'slug' => $meta_data->slug,
     ]);
 });
 
@@ -80,13 +81,13 @@ test('delete failed not found', function () {
 
     repositoryList()
         ->set('meta_data_id', 100)
-        ->call('delete');
+        ->call('destroy');
 
     $this->assertDatabaseCount('meta_data', 1);
     $this->assertDatabaseHas('meta_data', [
         'title' => $meta_data->title,
         'year' => $meta_data->year,
-        'slug' => $meta_data->slug
+        'slug' => $meta_data->slug,
     ]);
 });
 

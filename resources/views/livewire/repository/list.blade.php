@@ -110,7 +110,7 @@
                                     @endcan
                                     @can('delete', $data->toModel())
                                         <button type="button" class="block btn btn-danger" data-bs-toggle="modal"
-                                            data-bs-target="#border-less" wire:click="deleteConfirm('{{ $data->slug }}')"
+                                            data-bs-target="#border-less" wire:click="destroyConfirm('{{ $data->slug }}')"
                                             title="delete">
                                             <i class="bi bi-trash3"></i>
                                         </button>
@@ -148,7 +148,7 @@
                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
                         <span>Close</span>
                     </button>
-                    <button type="button" class="btn btn-danger ms-1" wire:click='delete' data-bs-dismiss="modal">
+                    <button type="button" class="btn btn-danger ms-1" wire:click='destroy' data-bs-dismiss="modal">
                         <span>Accept</span>
                     </button>
                 </div>
