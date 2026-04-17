@@ -86,7 +86,6 @@
                             @endforeach
                             Total : {{ $data->total_views }}
                         </td>
-
                     </tr>
                 @endforeach
             </tbody>

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Data\Metadata;
 
-use Spatie\LaravelData\Data;
 use App\Data\Activity\ActivityReportData;
+use Spatie\LaravelData\Data;
 
 class MetadataActivityReportData extends Data
 {
@@ -20,13 +20,15 @@ class MetadataActivityReportData extends Data
 
     public static function fromModel(\App\Models\Metadata $meta_data): self
     {
+        $activities = ActivityReportData::fromActivities($meta_data->activities);
+
         return new self(
             $meta_data->title,
             $meta_data->author_name,
             $meta_data->author_nim,
             $meta_data->studyProgram->name,
-            ActivityReportData::fromActivities($meta_data->activities),
-            $meta_data->activities->count(),
+            $activities,
+            $activities->items->toCollection()->sum('total'),
         );
     }
 }
