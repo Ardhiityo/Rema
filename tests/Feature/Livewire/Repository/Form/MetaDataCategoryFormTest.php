@@ -44,7 +44,7 @@ test('mount update success', function () {
 test('title create success', function () {
     $component = metaDataCategoryForm();
 
-    expect('Create Repository')
+    expect('Create Category')
         ->toBe($component->instance()->title());
 });
 
@@ -53,11 +53,11 @@ test('title edit success', function () {
     $component = metaDataCategoryForm()
         ->set('is_update', true);
 
-    expect('Edit Repository')
+    expect('Edit Category')
         ->toBe($component->instance()->title());
 });
 
-test('create repository success', function () {
+test('create category success', function () {
     Storage::fake('public');
 
     $this->seed(DatabaseSeeder::class);
@@ -82,7 +82,7 @@ test('create repository success', function () {
         ->set('file_path', $file)
         ->call('create')
         ->assertHasNoErrors()
-        ->assertDispatched('refresh-repository-table')
+        ->assertDispatched('refresh-meta-data-category')
         ->assertSet('file_path', '')
         ->assertSet('category_id', '')
         ->assertSet('is_update', false);
@@ -95,7 +95,7 @@ test('create repository success', function () {
     ]);
 });
 
-test('create repository failed validation', function () {
+test('create category failed validation', function () {
     Storage::fake('public');
 
     $this->seed(DatabaseSeeder::class);
@@ -120,7 +120,7 @@ test('create repository failed validation', function () {
         ->assertHasErrors([
             'category_id' => MetaDataCategoryCreateRule::class
         ])
-        ->assertNotDispatched('refresh-repository-table')
+        ->assertNotDispatched('refresh-meta-data-category')
         ->assertNotSet('file_path', '')
         ->assertNotSet('category_id', '')
         ->assertSet('is_update', false);
@@ -133,7 +133,7 @@ test('create repository failed validation', function () {
     ]);
 });
 
-test('edit repository success', function () {
+test('edit category success', function () {
     Storage::fake('public');
 
     $this->seed(DatabaseSeeder::class);
@@ -165,7 +165,7 @@ test('edit repository success', function () {
         ->assertSet('is_update', true);
 });
 
-test('edit repository failed not found', function () {
+test('edit category failed not found', function () {
     Storage::fake('public');
 
     $this->seed(DatabaseSeeder::class);
@@ -200,7 +200,7 @@ test('edit repository failed not found', function () {
         )->assertNotSet('is_update', true);
 });
 
-test('update repository success', function () {
+test('update category success', function () {
     Storage::fake('public');
 
     $this->seed(DatabaseSeeder::class);
@@ -234,7 +234,7 @@ test('update repository success', function () {
             'update',
         )
         ->assertSet('is_update', false)
-        ->assertDispatched('refresh-repository-table')
+        ->assertDispatched('refresh-meta-data-category')
         ->assertSet('file_path', null)
         ->assertSet('category_id', '');
 
@@ -252,7 +252,7 @@ test('update repository success', function () {
     ]);
 });
 
-test('update repository failed not found', function () {
+test('update category failed not found', function () {
     Storage::fake('public');
 
     $this->seed(DatabaseSeeder::class);
@@ -286,7 +286,7 @@ test('update repository failed not found', function () {
             'update',
         )
         ->assertSet('is_update', false)
-        ->assertNotDispatched('refresh-repository-table')
+        ->assertNotDispatched('refresh-meta-data-category')
         ->assertNotSet('file_path', null)
         ->assertNotSet('category_id', '');
 
@@ -350,7 +350,7 @@ test('delete success', function () {
         ->assertSet('meta_data_id', $meta_data_category->meta_data_id)
         ->set('category_id_delete', $meta_data_category->category_id)
         ->call('delete')
-        ->assertDispatched('refresh-repository-table')
+        ->assertDispatched('refresh-meta-data-category')
         ->assertSet('category_id', '')
         ->assertSet('file_path', null)
         ->assertSet('is_update', false);
@@ -378,7 +378,7 @@ test('delete failed not found', function () {
         ->assertSet('meta_data_id', $meta_data_category->meta_data_id)
         ->set('category_id_delete', 100)
         ->call('delete')
-        ->assertNotDispatched('refresh-repository-table');
+        ->assertNotDispatched('refresh-meta-data-category');
 
     $this->assertDatabaseCount('meta_data_category', 1);
     $this->assertDatabaseHas('meta_data_category', [

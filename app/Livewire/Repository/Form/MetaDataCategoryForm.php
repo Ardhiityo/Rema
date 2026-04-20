@@ -49,13 +49,13 @@ class MetaDataCategoryForm extends Component
     #[Computed()]
     public function title()
     {
-        return $this->is_update ? 'Edit Repository' : 'Create Repository';
+        return $this->is_update ? 'Edit Category' : 'Create Category';
     }
 
     protected function rulesCreate(): array
     {
         return [
-            'file_path' => ['required', 'file', 'mimes:pdf', 'mimetypes:application/pdf', 'max:7000'],
+            'file_path' => ['required', 'file', 'mimes:pdf', 'mimetypes:application/pdf', 'max:5000'],
             'category_id' => [
                 'required',
                 'exists:categories,id',
@@ -131,15 +131,15 @@ class MetaDataCategoryForm extends Component
 
             $this->resetInput();
 
-            $this->dispatch('refresh-repository-table');
+            session()->flash('meta-data-category-success', 'The category was successfully created.');
 
-            return session()->flash('repository-success', 'The repository was successfully created.');
+            $this->dispatch('refresh-meta-data-category');
         } catch (Exception $exception) {
-            return session()->flash('repository-failed', $exception->getMessage());
+            session()->flash('meta-data-category-failed', $exception->getMessage());
         }
     }
 
-    #[On('edit-repository-category')]
+    #[On('edit-meta-data-category')]
     public function edit($meta_data_slug, $category_slug)
     {
         try {
@@ -153,7 +153,7 @@ class MetaDataCategoryForm extends Component
 
             $this->is_update = true;
         } catch (Throwable $th) {
-            return session()->flash('repository-failed', $th->getMessage());
+            return session()->flash('meta-data-category-failed', $th->getMessage());
         }
     }
 
@@ -173,15 +173,15 @@ class MetaDataCategoryForm extends Component
 
             $this->is_update = false;
 
-            $this->dispatch('refresh-repository-table');
+            $this->dispatch('refresh-meta-data-category');
 
-            session()->flash('repository-success', 'The repository was successfully updated.');
+            session()->flash('meta-data-category-success', 'The category was successfully updated.');
         } catch (Throwable $th) {
-            session()->flash('repository-failed', $th->getMessage());
+            session()->flash('meta-data-category-failed', $th->getMessage());
         }
     }
 
-    #[On('delete-confirm-repository-category')]
+    #[On('delete-confirm-meta-data-category')]
     public function deleteConfirm($meta_data_slug, $category_slug)
     {
         try {
@@ -191,11 +191,11 @@ class MetaDataCategoryForm extends Component
             $this->meta_data_id = $meta_data_category_data->meta_data_id;
             $this->category_id_delete = $meta_data_category_data->category_id;
         } catch (Throwable $th) {
-            session()->flash('repository-failed', $th->getMessage());
+            session()->flash('meta-data-category-failed', $th->getMessage());
         }
     }
 
-    #[On('delete-repository-category')]
+    #[On('delete-meta-data-category')]
     public function delete()
     {
         try {
@@ -207,11 +207,11 @@ class MetaDataCategoryForm extends Component
                 $this->resetInput();
             }
 
-            $this->dispatch('refresh-repository-table');
+            session()->flash('meta-data-category-success', 'The category was successfully deleted.');
 
-            session()->flash('repository-success', 'The repository was successfully deleted.');
+            $this->dispatch('refresh-meta-data-category');
         } catch (Throwable $th) {
-            session()->flash('repository-failed', $th->getMessage());
+            session()->flash('meta-data-category-failed', $th->getMessage());
         }
     }
 

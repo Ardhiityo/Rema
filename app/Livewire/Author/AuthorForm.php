@@ -10,6 +10,7 @@ use App\Repositories\Contratcs\AuthorRepositoryInterface;
 use App\Repositories\Contratcs\StudyProgramRepositoryInterface;
 use App\Repositories\Contratcs\UserRepositoryInterface;
 use App\Rules\UpdateUserAvatarRule;
+use Illuminate\Validation\Rules\Password;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -60,9 +61,9 @@ class AuthorForm extends Component
             'name' => ['required', 'string', 'min:3', 'max:255'],
             'nim' => ['required', 'numeric', 'digits_between:8,15', 'unique:authors,nim'],
             'study_program_id' => ['required', 'exists:study_programs,id'],
-            'avatar' => ['nullable', 'file', 'mimes:jpg,png,jpeg', 'mimetypes:image/jpeg,image/png', 'max:1000'],
+            'avatar' => ['nullable', 'image', 'mimes:jpg,png,jpeg', 'max:1000'],
             'email' => ['nullable', 'email:dns', 'unique:users,email'],
-            'password' => ['nullable', 'min:8', 'max:50'],
+            'password' => ['nullable', 'min:8', 'max:50', Password::min(8)->letters()->numbers()->mixedCase()->symbols()],
         ];
     }
 
@@ -74,7 +75,7 @@ class AuthorForm extends Component
             'study_program_id' => ['required', 'exists:study_programs,id'],
             'avatar' => [new UpdateUserAvatarRule(user_id: $this->user_id, max_KB: 1000, allowedMimes: ['jpg', 'png'])],
             'email' => ['required', 'email:dns', 'unique:users,email,'.$this->user_id],
-            'password' => ['nullable', 'min:8', 'max:50'],
+            'password' => ['nullable', 'min:8', 'max:50', Password::min(8)->letters()->numbers()->mixedCase()->symbols()],
         ];
     }
 

@@ -5,17 +5,17 @@
                 {{ $this->title }}
             </span>
             <span>
-                Step 2/2
+                <b>Step 3/3</b>
             </span>
         </h4>
-        @if (session()->has('repository-success'))
+        @if (session()->has('meta-data-category-success'))
             <div class="mt-4 alert alert-success" role="alert">
-                {{ session('repository-success') }}
+                {{ session('meta-data-category-success') }}
             </div>
         @endif
-        @if (session()->has('repository-failed'))
+        @if (session()->has('meta-data-category-failed'))
             <div class="mt-4 alert alert-danger" role="alert">
-                {!! session('repository-failed') !!}
+                {!! session('meta-data-category-failed') !!}
             </div>
         @endif
     </div>
@@ -24,21 +24,23 @@
             <div class="form-group">
                 {{-- Category --}}
                 <div>
-                    <div class="input-group">
-                        <label class="input-group-text" for="category_id" class="form-label">
-                            Category
-                            <sup class="ms-1">*</sup>
-                        </label>
-                        <select class="form-select" id="category_id" wire:model='category_id'>
-                            <option value="">
-                                Choose...
-                            </option>
-                            @foreach ($categories as $category)
-                                <option value="{{ $category->id }}">
-                                    {{ $category->name }}
+                    <div>
+                        <div class="input-group">
+                            <label class="input-group-text" for="category_id" class="form-label">
+                                Category
+                                <sup class="ms-1">*</sup>
+                            </label>
+                            <select class="form-select" id="category_id" wire:model='category_id'>
+                                <option value="">
+                                    Choose...
                                 </option>
-                            @endforeach
-                        </select>
+                                @foreach ($categories as $category)
+                                    <option value="{{ $category->id }}">
+                                        {{ $category->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
                     @error('category_id')
                         <span class="badge bg-danger">
@@ -63,6 +65,24 @@
                             <small>{{ $message }}</small>
                         </span>
                     @enderror
+                        <div class="text-sm mt-2">
+                            <p class="m-0">
+                                The file must be in <b>PDF format</b>, and the maximum file size is <b>5 MB</b>.
+                                <br>
+                                <b>Notes:</b> 
+                                If your PDF file isn't supported, it's usually because your <b>PDF version isn't
+                                supported by the system</b>. Please <b>convert your PDF to version 1.4</b> using the following
+                                website: 
+                            </p>
+                            <ul>
+                                <li>
+                                  <a href='https://www.pdf2go.com/convert-from-pdf' style='text-decoration:underline' target='_blank'>PDF2Go</a> 
+                                </li>
+                                <li>
+                                    <a href='https://docupub.com/pdfconvert/' style='text-decoration:underline' target='_blank'>DocuPub</a>.
+                                </li>
+                            </ul>
+                        </div>
                 </div>
                 {{-- File Path --}}
             </div>

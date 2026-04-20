@@ -16,6 +16,7 @@ use App\Rules\ProfileNimRule;
 use App\Rules\ProfileStudyProgramRule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Password;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -76,7 +77,7 @@ class Profile extends Component
             'study_program_id' => ['required_if:role,author', new ProfileStudyProgramRule],
             'avatar' => [Rule::requiredIf($this->user->avatar == null), new ProfileAvatarRule],
             'email' => ['required', 'email:dns', 'unique:users,email,'.$this->user->id],
-            'password' => ['nullable', 'min:8', 'max:100'],
+            'password' => ['nullable', 'min:8', 'max:100', Password::min(8)->letters()->numbers()->mixedCase()->symbols()]
         ];
     }
 

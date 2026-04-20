@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Metadata extends Model
 {
@@ -48,5 +48,10 @@ class Metadata extends Model
     public function studyProgram(): BelongsTo
     {
         return $this->belongsTo(StudyProgram::class, 'study_program_id', 'id');
+    }
+
+    public function keywords(): HasMany
+    {
+        return $this->hasMany(Keyword::class, 'meta_data_id', 'id');
     }
 }

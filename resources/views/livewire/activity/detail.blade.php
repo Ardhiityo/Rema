@@ -1,5 +1,7 @@
 <div>
-    <x-page-title :title="'Activities'" :content="'Detailed information about the activities.'" />
+    <x-page-title :title="'Activities'">
+        Detailed information about the activities.
+    </x-page-title>
 
     @foreach ($this->activities as $activity)
         <div class="mb-3 card">

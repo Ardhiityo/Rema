@@ -101,7 +101,7 @@ test('update admin success', function () {
     profile()
         ->set('name', 'Admin Update')
         ->set('email', 'adminupdate@gmail.com')
-        ->set('password', 'secret123')
+        ->set('password', '@Secret123')
         ->set(
             'avatar',
             UploadedFile::fake()->image('test.jpg')
@@ -125,7 +125,7 @@ test('update admin success', function () {
 
     expect(true)
         ->toBe(Hash::check(
-            'secret123',
+            '@Secret123',
             $new_user->password
         ));
 });
@@ -181,7 +181,7 @@ test('update author success', function () {
     profile()
         ->set('name', 'Author Update')
         ->set('email', 'authorupdate@gmail.com')
-        ->set('password', 'secret123')
+        ->set('password', '@Secret123')
         ->set('nim', 22040005)
         ->set('study_program_id', StudyProgram::first()->id)
         ->set(
@@ -207,7 +207,7 @@ test('update author success', function () {
 
     expect(true)
         ->toBe(Hash::check(
-            'secret123',
+            '@Secret123',
             $new_user->password
         ));
 });

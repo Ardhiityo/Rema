@@ -1,12 +1,12 @@
 <?php
 
-use App\Models\User;
 use App\Models\MetaData;
-use function Pest\Laravel\actingAs;
+use App\Models\User;
 use Database\Seeders\DatabaseSeeder;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Storage;
+
+use function Pest\Laravel\actingAs;
 
 uses(RefreshDatabase::class);
 
@@ -21,12 +21,7 @@ test('mount success', function () {
 
     $meta_data = MetaData::first();
 
-    metaDataCategoryTable([
-        'meta_data_id' => $meta_data->id
-    ])
-        ->assertSet('meta_data_id', $meta_data->id);
-
-    metaDataCategoryTable(['meta_data_id' => $meta_data->id])
+    metaDataCategoryList(['meta_data_id' => $meta_data->id])
         ->assertSet('meta_data_id', $meta_data->id);
 });
 
@@ -41,7 +36,7 @@ test('get repositories success', function () {
 
     $meta_data = MetaData::first();
 
-    $component = metaDataCategoryTable(['meta_data_id' => $meta_data->id]);
+    $component = metaDataCategoryList(['meta_data_id' => $meta_data->id]);
 
     expect(1)->toBe(count($component->instance()->repositories()->categories));
 });

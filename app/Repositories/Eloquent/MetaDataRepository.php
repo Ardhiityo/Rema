@@ -153,7 +153,7 @@ class MetaDataRepository implements MetaDataRepositoryInterface
         $user = Auth::user();
 
         $query = Metadata::query()
-            ->with(['categories', 'activities'])
+            ->with(['categories', 'activities', 'keywords'])
             ->when(
                 $year,
                 function ($query) use ($year) {
@@ -168,8 +168,11 @@ class MetaDataRepository implements MetaDataRepositoryInterface
                         $keyword,
                         function ($query) use ($keyword) {
                             $query
-                                ->whereLike('title', "%$keyword%")
-                                ->orWhereLike('author_name', "%$keyword%");
+                                ->whereLike('title', "$keyword%")
+                                ->orWhereLike('author_name', "$keyword%")
+                                ->orWhereHas('keywords',
+                                    fn($query) => $query->whereLike('name', "$keyword%")
+                                );
                         }
                     );
             } else {
@@ -181,7 +184,10 @@ class MetaDataRepository implements MetaDataRepositoryInterface
                         $keyword,
                         function ($query) use ($keyword) {
                             $query
-                                ->whereLike('title', "%$keyword%");
+                                ->whereLike('title', "$keyword%")
+                                ->orWhereHas('keywords',
+                                    fn($query) => $query->whereLike('name', "$keyword%")
+                                );
                         }
                     );
             }
@@ -194,8 +200,10 @@ class MetaDataRepository implements MetaDataRepositoryInterface
                         $keyword,
                         function ($query) use ($keyword) {
                             $query
-                                ->whereLike('title', "%$keyword%")
-                                ->orWhereLike('author_name', "%$keyword%");
+                                ->whereLike('title', "$keyword%")
+                                ->orWhereHas('keywords',
+                                    fn($query) => $query->whereLike('name', "$keyword%")
+                                );
                         }
                     );
             }

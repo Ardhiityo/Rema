@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Repository;
+namespace App\Livewire\Repository\List;
 
 use App\Repositories\Contratcs\MetaDataRepositoryInterface;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -11,7 +11,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use Throwable;
 
-class RepositoryList extends Component
+class MetaDataList extends Component
 {
     use AuthorizesRequests, WithPagination;
 
@@ -102,6 +102,6 @@ class RepositoryList extends Component
             $this->is_master_data
         );
 
-        return view('livewire.repository.list', compact('meta_data'));
+        return view('livewire.repository.list.meta-data', compact('meta_data'));
     }
 }

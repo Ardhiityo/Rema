@@ -120,6 +120,12 @@
                                                 Year of Graduation {{ $repository->year }}
                                             </small>
                                         </p>
+                                        <p>
+                                            <small>
+                                                <i class="me-1 fas fa-key"></i>
+                                                {{ $repository->keywords }}
+                                            </small>
+                                        </p>
                                         <span class="px-4 py-2 btn btn-primary rounded-pill">
                                             View <i class="fas fa-eye ms-2"></i>
                                         </span>

@@ -22,7 +22,7 @@ class MetaDataSeeder extends Seeder
         $title = fake()->sentence();
         $author = Author::where('nim', 22040004)->first();
 
-        Metadata::create([
+       $meta_data =  Metadata::create([
             'title' => $title,
             'author_name' => $author->user->name,
             'author_nim' => $author->nim,
@@ -33,13 +33,22 @@ class MetaDataSeeder extends Seeder
             'slug' => Str::slug($title),
             'status' => 'process',
             'created_at' => now()
-        ])->categories()->attach(Category::first()->id, [
+        ]);
+        
+        $meta_data->categories()->attach(Category::first()->id, [
             'file_path' => UploadedFile::fake()
                 ->create(
                     'testing.pdf',
                     200,
                     'application/pdf'
                 )->store('repositories', 'public')
+        ]);
+
+        $name = fake()->word();
+        
+        $meta_data->keywords()->create([
+            'name' => $name,
+            'slug' => Str::slug($name),
         ]);
     }
 }

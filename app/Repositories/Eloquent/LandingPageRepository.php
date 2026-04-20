@@ -14,7 +14,8 @@ class LandingPageRepository implements LandingPageRepositoryInterface
         $query = Metadata::query()
             ->with([
                 'categories' => fn($query) => $query->where('slug', $category),
-                'studyProgram'
+                'studyProgram',
+                'keywords'
             ])
             ->withCount([
                 'activities' => fn($query) => $query->whereHas(
@@ -28,7 +29,10 @@ class LandingPageRepository implements LandingPageRepositoryInterface
             ->where('visibility', 'public');
 
         if ($title) {
-            $query->whereLike('title', "$title%");
+            $query->whereLike('title', "$title%")
+                ->orWhereHas('keywords',
+                    fn($query) => $query->whereLike('name', "$title%")
+                );
         }
 
         $query->whereHas(

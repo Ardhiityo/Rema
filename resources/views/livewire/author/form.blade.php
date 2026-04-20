@@ -49,6 +49,9 @@
                                 <small>{{ $message }}</small>
                             </span>
                         @enderror
+                        <p class="text-sm mt-2">
+                             If you leave the email field empty, the email address will be the same as the NIM. For example: 22040004@gmail.com.
+                        </p>
                     </div>
                     {{-- Email --}}
 
@@ -62,6 +65,10 @@
                                 <small>{{ $message }}</small>
                             </span>
                         @enderror
+                        <p class="text-sm mt-2">
+                            If you leave the password field empty, a password will be generated automatically. For
+                            example, if the NIM field is <b>22040004</b>, the password will be <b>@Rema22040004</b>.
+                        </p>
                     </div>
                     {{-- Password --}}
                 </div>
@@ -89,14 +96,11 @@
                     {{-- Study Program --}}
                     <div>
                         <div class="input-group">
-                            <label class="input-group-text" for="inputGroupSelect01">
-                                Study Program
-                                <sup class="ms-1">
-                                    *
-                                </sup>
+                            <label class="input-group-text" for="study_program_id" class="form-label">
+                                Study Program <sup class="ms-1">*</sup>
                             </label>
-                            <select class="form-select" id="inputGroupSelect01" wire:model='study_program_id'>
-                                <option selected>Choose...</option>
+                            <select class="form-select" id="study_program_id" wire:model='study_program_id'>
+                                <option selected value="">Choose...</option>
                                 @foreach ($study_programs as $study_program)
                                     <option value="{{ $study_program->id }}">
                                         {{ $study_program->name }}
@@ -125,6 +129,10 @@
                                     <small> {{ $message }}</small>
                                 </span>
                             @enderror
+                            <p class="text-sm mt-2">
+                                The only allowed file extensions are <b>JPG, JPEG, and PNG</b>, the
+                                maximum file size is <b>1 MB</b>.
+                            </p>
                         </div>
                         @if ($display_avatar)
                             <div class="py-3">

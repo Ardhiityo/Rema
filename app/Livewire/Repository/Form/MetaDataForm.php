@@ -176,9 +176,9 @@ class MetaDataForm extends Component
 
             $this->is_update = true;
 
-            $this->dispatch('refresh-meta-data-session');
-
             Session::flash('meta-data-success', 'The meta data was successfully created.');
+
+            $this->dispatch('refresh-meta-data-session');
         } catch (Throwable $th) {
             Session::flash('meta-data-failed', $th->getMessage());
         }

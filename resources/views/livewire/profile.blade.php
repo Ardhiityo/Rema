@@ -1,5 +1,7 @@
 <div>
-    <x-page-title :title="'Profile'" :content="'All data about your account.'" />
+    <x-page-title :title="'Profile'">
+        All data about your account.
+    </x-page-title>
     <section id="multiple-column-form">
         <div class="row match-height">
             <div class="col-12">
@@ -113,6 +115,11 @@
                                                     <small>{{ $message }}</small>
                                                 </span>
                                             @enderror
+                                            <p class="text-sm mt-2">
+                                                Your password must be at least <b>8 characters</b> long and contain at least
+                                                one <b>uppercase letter</b>, one <b>lowercase letter</b>, one <b>number</b>,
+                                                and one <b>special character</b>.
+                                            </p>
                                         </div>
                                     </div>
                                     {{-- Password --}}
@@ -128,6 +135,10 @@
                                                     <small>{{ $message }}</small>
                                                 </span>
                                             @enderror
+                                            <p class="text-sm mt-2">
+                                                The only allowed file extensions are <b>JPG, JPEG, and PNG</b>, the
+                                                maximum file size is <b>1 MB</b>.
+                                            </p>
                                         </div>
                                         @if ($display_avatar)
                                             <div class="py-3">

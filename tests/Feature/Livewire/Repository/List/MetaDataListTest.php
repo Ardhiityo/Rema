@@ -22,7 +22,7 @@ test('delete confirm success', function () {
 
     actingAs($user);
 
-    repositoryList()
+    metaDataList()
         ->set('meta_data_id', $meta_data->id)
         ->call('destroyConfirm', $meta_data->slug)
         ->assertSet('meta_data_id', $meta_data->id);
@@ -39,7 +39,7 @@ test('delete confirm failed not found', function () {
 
     actingAs($user);
 
-    repositoryList()
+    metaDataList()
         ->set('meta_data_id', 100)
         ->call('destroyConfirm', $meta_data->slug)
         ->assertNotSet('meta_data_id', 100);
@@ -56,7 +56,7 @@ test('delete success', function () {
 
     actingAs($user);
 
-    repositoryList()
+    metaDataList()
         ->set('meta_data_id', $meta_data->id)
         ->call('destroy');
 
@@ -79,7 +79,7 @@ test('delete failed not found', function () {
 
     actingAs($user);
 
-    repositoryList()
+    metaDataList()
         ->set('meta_data_id', 100)
         ->call('destroy');
 
@@ -100,7 +100,7 @@ test('reset input success', function () {
 
     actingAs($user);
 
-    repositoryList()
+    metaDataList()
         ->set('keyword', 'tes 123')
         ->set('year', 2025)
         ->set('status_filter', 'approve')
@@ -123,7 +123,7 @@ test('render success', function () {
 
     $meta_data = MetaData::first();
 
-    repositoryList()
+    metaDataList()
         ->set('status_filter', 'process')
         ->assertSeeText(Str::limit($meta_data->title, 35, '...'))
         ->assertSeeText(Str::limit($meta_data->author->user->name, 15, '...'));

@@ -27,9 +27,9 @@ class ProfileAvatarRule implements ValidationRule
         ];
 
         if (is_null($user->avatar)) {
-            $rules[$attribute] = ['image', 'mimes:jpg,jpeg,png', 'mimetypes:image/jpeg,image/png', 'max:1000'];
+            $rules[$attribute] = ['image', 'mimes:jpg,jpeg,png', 'max:1000'];
         } else {
-            $rules[$attribute] = ['nullable', 'image', 'mimes:jpg,jpeg,png', 'mimetypes:image/jpeg,image/png', 'max:1000'];
+            $rules[$attribute] = ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:1000'];
         }
 
         $validator = Validator::make($data, $rules);

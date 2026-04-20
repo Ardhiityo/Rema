@@ -1,11 +1,12 @@
 <?php
 
-use App\Models\User;
 use App\Models\MetaData;
-use function Pest\Laravel\actingAs;
+use App\Models\User;
 use Database\Seeders\DatabaseSeeder;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Storage;
+
+use function Pest\Laravel\actingAs;
 
 uses(RefreshDatabase::class);
 
@@ -22,7 +23,7 @@ test('mount edit success', function () {
 
     expect($meta_data->slug)->not()->toBeNull($meta_data->slug);
 
-    repositoryForm(['meta_data_slug' => $meta_data->slug])
+    repository(['meta_data_slug' => $meta_data->slug])
         ->assertSet('is_approve', false)
         ->assertSet('is_categories_empty', false)
         ->assertSet('is_update', true)
@@ -40,7 +41,7 @@ test('mount edit failed not found', function () {
 
     $meta_data = MetaData::first();
 
-    repositoryForm(['meta_data_slug' => 'salah'])
+    repository(['meta_data_slug' => 'salah'])
         ->assertSet('is_approve', false)
         ->assertSet('is_categories_empty', false)
         ->assertNotSet('meta_data_id', $meta_data->id)
@@ -60,7 +61,7 @@ test('mount create success', function () {
 
     expect($meta_data->slug)->not()->toBeNull($meta_data->slug);
 
-    repositoryForm()
+    repository()
         ->assertSet('is_approve', false)
         ->assertSet('is_categories_empty', false)
         ->assertNotSet('is_update', true)
@@ -80,7 +81,7 @@ test('mount create failed not found', function () {
 
     expect($meta_data->slug)->not()->toBeNull($meta_data->slug);
 
-    repositoryForm(['meta_data_slug' => 'salah'])
+    repository(['meta_data_slug' => 'salah'])
         ->assertSet('is_approve', false)
         ->assertSet('is_categories_empty', false)
         ->assertNotSet('is_update', true)

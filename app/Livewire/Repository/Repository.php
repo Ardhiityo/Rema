@@ -1,28 +1,32 @@
 <?php
 
-namespace App\Livewire\Repository\Form;
+namespace App\Livewire\Repository;
 
-use Exception;
-use Throwable;
-use Livewire\Component;
-use Livewire\Attributes\On;
-use Livewire\Attributes\Computed;
-use Illuminate\Support\Facades\Auth;
-use App\Repositories\Contratcs\MetaDataRepositoryInterface;
+use App\Repositories\Contratcs\KeywordRepositoryInterface;
 use App\Repositories\Contratcs\MetaDataCategoryRepositoryInterface;
+use App\Repositories\Contratcs\MetaDataRepositoryInterface;
+use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Livewire\Attributes\Computed;
+use Livewire\Attributes\On;
+use Livewire\Component;
+use Throwable;
 
-class RepositoryForm extends Component
+class Repository extends Component
 {
     public bool $is_update = false;
+
     public bool $is_approve = false;
-    public int|null $meta_data_id = null;
+
+    public ?int $meta_data_id = null;
+
     public bool $is_categories_empty = false;
 
     public function mount($meta_data_slug = null)
     {
         try {
-            if (!empty($meta_data_slug)) {
+            if (! empty($meta_data_slug)) {
 
                 $meta_data_data = $this->metaDataRepository->findBySlug($meta_data_slug);
 
@@ -41,8 +45,14 @@ class RepositoryForm extends Component
                 }
             }
         } catch (Throwable $th) {
-            return empty($meta_data_slug) ? '' :  redirect()->route('repository.create');
+            return empty($meta_data_slug) ? '' : redirect()->route('repository.create');
         }
+    }
+
+    #[Computed()]
+    public function keywordRepository()
+    {
+        return app(KeywordRepositoryInterface::class);
     }
 
     #[Computed()]
@@ -66,7 +76,7 @@ class RepositoryForm extends Component
                     Session::get('meta_data')->id
                 );
             }
-            throw new Exception();
+            throw new Exception;
         } catch (Throwable $th) {
             return false;
         }
@@ -88,7 +98,7 @@ class RepositoryForm extends Component
 
     #[Computed()]
     #[On('refresh-meta-data-session')]
-    public function showMetaDataCategoryForm()
+    public function showMetaDataKeywordForm()
     {
         if ($this->is_update) {
             return $this->is_approve && Auth::user()->hasRole('author') ? false : true;
@@ -98,8 +108,40 @@ class RepositoryForm extends Component
     }
 
     #[Computed()]
-    #[On('refresh-repository-table')]
-    public function showMetaDataCategoryTable()
+    #[On('refresh-meta-data-session')]
+    public function showMetaDataKeywordList()
+    {
+        try {
+            $meta_data_id = $this->metaDataSession ? $this->metaDataSession->id : $this->meta_data_id;
+
+            $meta_data = $this->keywordRepository->findByMetaDataId($meta_data_id);
+
+            if ($meta_data->toCollection()->isNotEmpty()) {
+                return true;
+            }
+
+            throw new Exception;
+        } catch (Throwable $th) {
+            return false;
+        }
+    }
+
+    #[Computed()]
+    #[On('refresh-meta-data-keyword')]
+    public function showMetaDataCategoryForm()
+    {
+        if ($this->is_update) {
+            return $this->is_approve && Auth::user()->hasRole('author') ? false : true;
+        } elseif ($meta_data_id = $this->metaDataSession ? $this->metaDataSession->id : $this->meta_data_id) {
+            return $this->keywordRepository->findByMetaDataId($meta_data_id)->toCollection()->count() == 3 ? true : false;
+        }
+
+        return false;
+    }
+
+    #[Computed()]
+    #[On('refresh-meta-data-category')]
+    public function showMetaDataCategoryList()
     {
         try {
             $meta_data_id = $this->metaDataSession ? $this->metaDataSession->id : $this->meta_data_id;
@@ -110,7 +152,7 @@ class RepositoryForm extends Component
                 return true;
             }
 
-            throw new Exception();
+            throw new Exception;
         } catch (Throwable $th) {
             return false;
         }
@@ -118,6 +160,6 @@ class RepositoryForm extends Component
 
     public function render()
     {
-        return view('livewire.repository.form.index');
+        return view('livewire.repository.index');
     }
 }

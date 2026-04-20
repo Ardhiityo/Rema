@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-header">
-        <h4 class="card-title">List of repositories</h4>
+        <h4 class="card-title">List of categories</h4>
     </div>
     <div class="card-content">
         <div class="table-responsive">
@@ -22,26 +22,25 @@
                                 <a href="{{ route('repository.read', [
                                     'category_slug' => $category->slug,
                                     'meta_data_slug' => $this->repositories->slug,
-                                ]) }}"
-                                    class="btn btn-info" target="_blank">
+                                ]) }}" class="btn btn-info" target="_blank">
                                     <i class="bi bi-eye-fill"></i>
                                 </a>
                             </td>
                             <td>
                                 <div class="gap-3 d-flex justify-content-center align-items-center">
-                                    <button class="btn btn-warning"
-                                        wire:click="$dispatch('edit-repository-category', {
-                                                meta_data_slug: @js($this->repositories->slug),
-                                                category_slug: @js($category->slug)
-                                                })">
+                                    <button class="btn btn-warning" 
+                                        wire:click="$dispatch('edit-meta-data-category', {
+                                            meta_data_slug: @js($this->repositories->slug),
+                                            category_slug: @js($category->slug)
+                                        })">
                                         <i class="bi bi-pencil-square"></i>
                                     </button>
                                     <button type="button" class="block btn btn-danger"
-                                        wire:click="$dispatch('delete-confirm-repository-category', {
-                                                meta_data_slug: @js($this->repositories->slug),
-                                                category_slug: @js($category->slug)
-                                            })"
-                                        data-bs-toggle="modal" data-bs-target="#border-less">
+                                        wire:click="$dispatch('delete-confirm-meta-data-category', {
+                                            meta_data_slug: @js($this->repositories->slug),
+                                            category_slug: @js($category->slug)
+                                        })"
+                                        data-bs-toggle="modal" data-bs-target="#modal-delete-category">
                                         <i class="bi bi-trash3"></i>
                                     </button>
                                 </div>
@@ -58,7 +57,7 @@
     </div>
 
     <!--BorderLess Modal Modal -->
-    <div wire:ignore.self class="text-left modal fade modal-borderless" id="border-less" tabindex="-1" role="dialog"
+    <div wire:ignore.self class="text-left modal fade modal-borderless" id="modal-delete-category" tabindex="-1" role="dialog"
         aria-labelledby="myModalLabel1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable" role="document">
             <div class="modal-content">
@@ -73,7 +72,7 @@
                         <span>Close</span>
                     </button>
                     <button type="button" class="btn btn-danger ms-1"
-                        wire:click="$dispatch('delete-repository-category')" data-bs-dismiss="modal">
+                        wire:click="$dispatch('delete-meta-data-category')" data-bs-dismiss="modal">
                         <span>Accept</span>
                     </button>
                 </div>

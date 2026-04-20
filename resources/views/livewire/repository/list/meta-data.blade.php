@@ -1,5 +1,7 @@
 <div>
-    <x-page-title :title="'Repository Lists'" :content="'All Repositories Data Listed.'" />
+    <x-page-title :title="'Repository Lists'">
+        All Repositories Data Listed.
+    </x-page-title>
     @if (session()->has('repository-list-success'))
         <div class="alert-success alert">
             {{ session('repository-list-success') }}
@@ -110,7 +112,7 @@
                                     @endcan
                                     @can('delete', $data->toModel())
                                         <button type="button" class="block btn btn-danger" data-bs-toggle="modal"
-                                            data-bs-target="#border-less" wire:click="destroyConfirm('{{ $data->slug }}')"
+                                            data-bs-target="#modal-delete-meta-data" wire:click="destroyConfirm('{{ $data->slug }}')"
                                             title="delete">
                                             <i class="bi bi-trash3"></i>
                                         </button>
@@ -134,7 +136,7 @@
     </div>
 
     <!--BorderLess Modal Modal -->
-    <div wire:ignore.self class="text-left modal fade modal-borderless" id="border-less" tabindex="-1" role="dialog"
+    <div wire:ignore.self class="text-left modal fade modal-borderless" id="modal-delete-meta-data" tabindex="-1" role="dialog"
         aria-labelledby="myModalLabel1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable" role="document">
             <div class="modal-content">

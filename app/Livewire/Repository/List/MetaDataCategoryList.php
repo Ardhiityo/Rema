@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Livewire\Repository\Form;
+namespace App\Livewire\Repository\List;
 
-use Livewire\Component;
-use Livewire\Attributes\On;
-use Livewire\Attributes\Computed;
-use Illuminate\Support\Facades\Session;
 use App\Repositories\Contratcs\MetaDataRepositoryInterface;
+use Illuminate\Support\Facades\Session;
+use Livewire\Attributes\Computed;
+use Livewire\Attributes\On;
+use Livewire\Component;
 
-class MetaDataCategoryTable extends Component
+class MetaDataCategoryList extends Component
 {
-    public int|null $meta_data_id = null;
+    public ?int $meta_data_id = null;
 
     public function mount($meta_data_id = null)
     {
@@ -26,7 +26,7 @@ class MetaDataCategoryTable extends Component
     }
 
     #[Computed()]
-    #[On('refresh-repository-table')]
+    #[On('refresh-meta-data-category')]
     public function repositories()
     {
         if ($meta_data_id = $this->metaDataSession ? $this->metaDataSession->id : $this->meta_data_id) {
@@ -53,6 +53,6 @@ class MetaDataCategoryTable extends Component
 
     public function render()
     {
-        return view('livewire.repository.form.table');
+        return view('livewire.repository.list.meta-data-category');
     }
 }

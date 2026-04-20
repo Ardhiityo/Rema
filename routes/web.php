@@ -10,9 +10,9 @@ use App\Livewire\Category\Category;
 use App\Livewire\Coordinator\Coordinator;
 use App\Livewire\Profile;
 use App\Livewire\Report\Report;
-use App\Livewire\Repository\Form\RepositoryForm;
+use App\Livewire\Repository\List\MetaDataList;
+use App\Livewire\Repository\Repository;
 use App\Livewire\Repository\RepositoryDetail;
-use App\Livewire\Repository\RepositoryList;
 use App\Livewire\StudyProgram\StudyProgram;
 use Illuminate\Support\Facades\Route;
 
@@ -49,20 +49,20 @@ Route::middleware(['throttle:40,1'])->group(function () {
         });
 
         Route::middleware(['role:author'])->group(function () {
-            Route::get('/repositories/authors', RepositoryList::class)
+            Route::get('/repositories/authors', MetaDataList::class)
                 ->name('repository.author.index');
         });
 
         Route::get('/dashboard', [DashboardController::class, 'index'])
             ->name('dashboard');
-        Route::get('/repositories', RepositoryList::class)
+        Route::get('/repositories', MetaDataList::class)
             ->name('repository.index');
-        Route::get('/repositories/create', RepositoryForm::class)
+        Route::get('/repositories/create', Repository::class)
             ->name('repository.create');
         Route::get('/repositories/{meta_data:slug}/show', RepositoryDetail::class)
             ->name('repository.show');
 
-        Route::get('/repositories/{meta_data_slug}/edit', RepositoryForm::class)->name('repository.edit');
+        Route::get('/repositories/{meta_data_slug}/edit', Repository::class)->name('repository.edit');
         Route::get('/profile', Profile::class)->name('profile.index');
     });
 });

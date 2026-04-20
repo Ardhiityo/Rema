@@ -25,7 +25,7 @@ class UserRepository implements UserRepositoryInterface
                 'email' => empty($create_user_data->email)
                     ? $create_user_data->nim . '@gmail.com' : $create_user_data->email,
                 'password' => empty($create_user_data->password) ?
-                    intval($create_user_data->nim) * 2 : $create_user_data->password,
+                    '@Rema' . $create_user_data->nim : $create_user_data->password,
                 'avatar' => empty($create_user_data->avatar) ?
                     AvatarGenerator::generate() : $create_user_data->avatar->store('avatars', 'public'),
                 'email_verified_at' => now()

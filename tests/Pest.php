@@ -11,19 +11,21 @@
 |
 */
 
-use Livewire\Livewire;
-use App\Livewire\Profile;
-use App\Livewire\Note\NoteForm;
 use App\Livewire\Activity\Activity;
 use App\Livewire\Author\AuthorForm;
 use App\Livewire\Category\CategoryForm;
-use App\Livewire\Repository\RepositoryList;
 use App\Livewire\Coordinator\CoordinatorForm;
-use App\Livewire\Repository\Form\MetaDataForm;
-use App\Livewire\StudyProgram\StudyProgramForm;
-use App\Livewire\Repository\Form\RepositoryForm;
+use App\Livewire\Note\NoteForm;
+use App\Livewire\Profile;
 use App\Livewire\Repository\Form\MetaDataCategoryForm;
-use App\Livewire\Repository\Form\MetaDataCategoryTable;
+use App\Livewire\Repository\Form\MetaDataForm;
+use App\Livewire\Repository\Form\MetaDataKeywordForm;
+use App\Livewire\Repository\List\MetaDataCategoryList;
+use App\Livewire\Repository\List\MetaDataKeywordList;
+use App\Livewire\Repository\List\MetaDataList;
+use App\Livewire\Repository\Repository;
+use App\Livewire\StudyProgram\StudyProgramForm;
+use Livewire\Livewire;
 
 pest()->extend(Tests\TestCase::class)
     ->use(Illuminate\Foundation\Testing\RefreshDatabase::class)
@@ -70,14 +72,14 @@ function authorForm()
     return Livewire::test(AuthorForm::class);
 }
 
-function repositoryList()
+function metaDataList()
 {
-    return Livewire::test(RepositoryList::class);
+    return Livewire::test(MetaDataList::class);
 }
 
-function repositoryForm(array $param = [])
+function repository(array $param = [])
 {
-    return Livewire::test(RepositoryForm::class, $param);
+    return Livewire::test(Repository::class, $param);
 }
 
 function metaDataForm(array $param = [])
@@ -85,14 +87,24 @@ function metaDataForm(array $param = [])
     return Livewire::test(MetaDataForm::class, $param);
 }
 
+function metaDataKeywordForm(array $param = [])
+{
+    return Livewire::test(MetaDataKeywordForm::class, $param);
+}
+
+function metaDataKeywordList(array $param = [])
+{
+    return Livewire::test(MetaDataKeywordList::class, $param);
+}
+
 function metaDataCategoryForm(array $param = [])
 {
     return Livewire::test(MetaDataCategoryForm::class, $param);
 }
 
-function metaDataCategoryTable(array $param = [])
+function metaDataCategoryList(array $param = [])
 {
-    return Livewire::test(MetaDataCategoryTable::class, $param);
+    return Livewire::test(MetaDataCategoryList::class, $param);
 }
 
 function activity()
