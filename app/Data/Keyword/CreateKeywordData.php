@@ -17,6 +17,6 @@ class CreateKeywordData extends Data
         public string $name,
         public string $slug
     ) {
-        $this->name_formatted = ucfirst(strtolower($this->name));
+        $this->name_formatted = trim(ucfirst(strtolower($this->name)));
     }
 }

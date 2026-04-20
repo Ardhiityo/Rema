@@ -28,10 +28,10 @@ class MetaDataRepository implements MetaDataRepositoryInterface
                 'title' => $create_meta_data->title_formatted,
                 'author_id' => $create_meta_data->author_id,
                 'author_name' => $create_meta_data->author_name_formatted,
-                'author_nim' => $create_meta_data->author_nim,
+                'author_nim' => $create_meta_data->author_nim_formatted,
                 'study_program_id' => $create_meta_data->study_program_id,
                 'visibility' => $create_meta_data->visibility,
-                'year' => $create_meta_data->year,
+                'year' => $create_meta_data->year_formatted,
                 'slug' => $create_meta_data->slug,
                 'status' => $create_meta_data->status
             ]);

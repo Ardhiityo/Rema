@@ -17,7 +17,13 @@ class CreateMetadataData extends Data
     public string $author_name_formatted;
 
     #[Computed()]
+    public string $author_nim_formatted;
+
+    #[Computed()]
     public int|null $author_id;
+    
+    #[Computed()]
+    public int|null $year_formatted;
 
     public function __construct(
         public string $title,
@@ -29,8 +35,10 @@ class CreateMetadataData extends Data
         public string $slug,
         public string $status
     ) {
-        $this->title_formatted = ucfirst(strtolower($title));
-        $this->author_name_formatted = ucfirst(strtolower($author_name));
+        $this->title_formatted = trim(ucfirst(strtolower($title)));
+        $this->author_name_formatted = trim(ucfirst(strtolower($author_name)));
+        $this->author_nim_formatted = trim((string) $author_nim);
+        $this->year_formatted = (int) trim((string) $year);
         $user = Auth::user();
         $this->author_id = $user->hasRole('author') ? $user?->author?->id : null;
     }
