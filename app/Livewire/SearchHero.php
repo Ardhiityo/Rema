@@ -62,14 +62,21 @@ class SearchHero extends Component
         return app(CategoryRepositoryInterface::class);
     }
 
+    public function updated($property, $value)
+    {
+        if (trim($value)) {
+            $this->resetPage();
+        }
+    }
+
     #[Layout('layouts.welcome')]
     public function render(LandingPageRepositoryInterface $landingPageRepository)
     {
         $repositories = $landingPageRepository->searchHero(
-            $this->title,
-            $this->year,
-            $this->author,
-            $this->category
+            trim($this->title),
+            trim($this->year),
+            trim($this->author),
+            trim($this->category)
         );
 
         $categories = $this->categoryRepository->all();
