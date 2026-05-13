@@ -17,6 +17,7 @@ class RolePermissionSeeder extends Seeder
         Role::create(['name' => 'leader']);
         Role::create(['name' => 'admin']);
         Role::create(['name' => 'author']);
+        Role::create(['name' => 'staff']);
 
         $user = User::create([
             'name' => 'Leader',
@@ -37,6 +38,16 @@ class RolePermissionSeeder extends Seeder
         ]);
 
         $user->assignRole('admin');
+
+        $user = User::create([
+            'name' => 'Staff',
+            'email' => 'staff@gmail.com',
+            'password' => '@Secret123',
+            'avatar' => AvatarGenerator::generate(),
+            'email_verified_at' => now(),
+        ]);
+
+        $user->assignRole('staff');
 
         $user = User::create([
             'name' => 'John doe',

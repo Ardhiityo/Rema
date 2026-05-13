@@ -5,11 +5,13 @@ namespace App\Providers;
 use App\Models\Author;
 use App\Models\Category;
 use App\Models\Coordinator;
+use App\Models\Faculty;
 use App\Models\Metadata;
 use App\Models\StudyProgram;
 use App\Observers\AuthorObserver;
 use App\Observers\CategoryObserver;
 use App\Observers\CoordinatorObserver;
+use App\Observers\FacultyObserver;
 use App\Observers\MetaDataObserver;
 use App\Observers\StudyProgramObserver;
 use App\Repositories\Contratcs\ActivityRepositoryInterface;
@@ -17,11 +19,13 @@ use App\Repositories\Contratcs\AuthorRepositoryInterface;
 use App\Repositories\Contratcs\CategoryRepositoryInterface;
 use App\Repositories\Contratcs\CoordinatorRepositoryInterface;
 use App\Repositories\Contratcs\DashboardRepositoryInterface;
+use App\Repositories\Contratcs\FacultyRepositoryInterface;
 use App\Repositories\Contratcs\KeywordRepositoryInterface;
 use App\Repositories\Contratcs\LandingPageRepositoryInterface;
 use App\Repositories\Contratcs\MetaDataCategoryRepositoryInterface;
 use App\Repositories\Contratcs\MetaDataRepositoryInterface;
 use App\Repositories\Contratcs\NoteRepositoryInterface;
+use App\Repositories\Contratcs\StaffRepositoryInterface;
 use App\Repositories\Contratcs\StudyProgramRepositoryInterface;
 use App\Repositories\Contratcs\UserRepositoryInterface;
 use App\Repositories\Eloquent\ActivityRepository;
@@ -29,11 +33,13 @@ use App\Repositories\Eloquent\AuthorRepository;
 use App\Repositories\Eloquent\CategoryRepository;
 use App\Repositories\Eloquent\CoordinatorRepository;
 use App\Repositories\Eloquent\DashboardRepository;
+use App\Repositories\Eloquent\FacultyRepository;
 use App\Repositories\Eloquent\KeywordRepository;
 use App\Repositories\Eloquent\LandingPageRepository;
 use App\Repositories\Eloquent\MetaDataCategoryRepository;
 use App\Repositories\Eloquent\MetaDataRepository;
 use App\Repositories\Eloquent\NoteRepository;
+use App\Repositories\Eloquent\StaffRepository;
 use App\Repositories\Eloquent\StudyProgramRepository;
 use App\Repositories\Eloquent\UserRepository;
 use Illuminate\Support\ServiceProvider;
@@ -57,6 +63,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ActivityRepositoryInterface::class, ActivityRepository::class);
         $this->app->bind(CoordinatorRepositoryInterface::class, CoordinatorRepository::class);
         $this->app->bind(KeywordRepositoryInterface::class, KeywordRepository::class);
+        $this->app->bind(FacultyRepositoryInterface::class, FacultyRepository::class);
+        $this->app->bind(StaffRepositoryInterface::class, StaffRepository::class);
     }
 
     /**
@@ -73,5 +81,6 @@ class AppServiceProvider extends ServiceProvider
         Coordinator::observe(CoordinatorObserver::class);
         Metadata::observe(MetaDataObserver::class);
         Author::observe(AuthorObserver::class);
+        Faculty::observe(FacultyObserver::class);
     }
 }

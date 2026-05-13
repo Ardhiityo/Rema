@@ -15,6 +15,7 @@ use App\Repositories\Contratcs\DashboardRepositoryInterface;
 
 class DashboardRepository implements DashboardRepositoryInterface
 {
+    //Not used
     public function metricCards(): DataCollection
     {
         $metrics = Cache::rememberForever('metadata.metricCards', function () {

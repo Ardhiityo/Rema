@@ -26,4 +26,6 @@ interface MetaDataRepositoryInterface
     public function activityReports(string|int $year): DataCollection;
 
     public function authorReports(int|string $year, array $includes = [], int $nidn): DataCollection;
+
+    public function metaDataCount(): int;
 }

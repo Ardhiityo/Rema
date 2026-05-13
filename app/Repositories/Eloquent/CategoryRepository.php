@@ -182,4 +182,11 @@ class CategoryRepository implements CategoryRepositoryInterface
             return null;
         }
     }
+
+    public function categoryCount(): int
+    {
+        return Cache::rememberForever('category.count', function () {
+            return Category::count();
+        });
+    }
 }

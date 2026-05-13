@@ -2,8 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Database\Seeders\FacultySeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -20,6 +19,7 @@ class DatabaseSeeder extends Seeder
 
         // For Testing
         $this->call([
+            FacultySeeder::class,
             StudyProgramSeeder::class,
             RolePermissionSeeder::class,
             CategorySeeder::class,

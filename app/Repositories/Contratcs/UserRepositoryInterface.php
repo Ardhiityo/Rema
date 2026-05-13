@@ -9,7 +9,7 @@ use Throwable;
 
 interface UserRepositoryInterface
 {
-    public function create(CreateUserData $create_user_data): UserData|Throwable;
+    public function create(CreateUserData $create_user_data, string|int|null $nim = null): UserData|Throwable;
 
     public function findById(int $user_id): UserData|Throwable;
 

@@ -14,7 +14,8 @@ class MetaDataObserver
     {
         Cache::forget('metadata.repositories.charts');
         Cache::forget('metadata.repositories.recently_adds');
-        Cache::forget('metadata.metricCards');
+        //Cache::forget('metadata.metricCards');
+        Cache::forget('metadata.count');
     }
 
     /**
@@ -24,7 +25,8 @@ class MetaDataObserver
     {
         Cache::forget('metadata.repositories.charts');
         Cache::forget('metadata.repositories.recently_adds');
-        Cache::forget('metadata.metricCards');
+        //Cache::forget('metadata.metricCards');
+        Cache::forget('metadata.count');
     }
 
     /**
@@ -34,7 +36,8 @@ class MetaDataObserver
     {
         Cache::forget('metadata.repositories.charts');
         Cache::forget('metadata.repositories.recently_adds');
-        Cache::forget('metadata.metricCards');
+        //Cache::forget('metadata.metricCards');
+        Cache::forget('metadata.count');
     }
 
     /**
@@ -44,7 +47,8 @@ class MetaDataObserver
     {
         Cache::forget('metadata.repositories.charts');
         Cache::forget('metadata.repositories.recently_adds');
-        Cache::forget('metadata.metricCards');
+        //Cache::forget('metadata.metricCards');
+        Cache::forget('metadata.count');
     }
 
     /**
@@ -54,6 +58,7 @@ class MetaDataObserver
     {
         Cache::forget('metadata.repositories.charts');
         Cache::forget('metadata.repositories.recently_adds');
-        Cache::forget('metadata.metricCards');
+        //Cache::forget('metadata.metricCards');
+        Cache::forget('metadata.count');
     }
 }

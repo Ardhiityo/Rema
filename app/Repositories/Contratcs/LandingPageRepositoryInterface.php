@@ -6,5 +6,5 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 interface LandingPageRepositoryInterface
 {
-    public function searchHero(string $title, string $year, string $author, string $category): LengthAwarePaginator;
+    public function searchHero(string $title, string $year, string $author, string $category, string $study_program): LengthAwarePaginator;
 }

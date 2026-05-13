@@ -1,10 +1,13 @@
 <?php
 
-use Illuminate\Support\Str;
+use App\Models\Faculty;
 use App\Models\StudyProgram;
 use Database\Seeders\DatabaseSeeder;
-use Illuminate\Support\Facades\Storage;
+use Database\Seeders\FacultySeeder;
+use Database\Seeders\StudyProgramSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 uses(RefreshDatabase::class);
 
@@ -27,7 +30,8 @@ test('create failed validation', function () {
         ->call('create')
         ->assertHasErrors([
             'name' => 'required',
-            'slug' => 'required'
+            'slug' => 'required',
+            'faculty_id' => 'required'
         ]);
 
     $this->assertDatabaseCount('study_programs', 0);
@@ -43,7 +47,8 @@ test('create failed validation already exists', function () {
         ->assertSet('name', 'Teknik Informatika')
         ->call('create')
         ->assertHasErrors([
-            'slug' => 'unique'
+            'slug' => 'unique',
+            'faculty_id' => 'required'
         ]);
 
     $this->assertDatabaseCount('study_programs', 2);
@@ -64,6 +69,7 @@ test('edit success', function () {
     studyProgramForm()
         ->call('edit', $study_program->id)
         ->assertSet('name', $study_program->name)
+        ->assertSet('faculty_id', $study_program->faculty_id)
         ->assertSet('study_program_id', $study_program->id)
         ->assertSet('is_update', true);
 });
@@ -80,8 +86,11 @@ test('update success', function () {
 
     $study_program = StudyProgram::first();
 
+    $faculty = Faculty::first();
+
     studyProgramForm()
         ->set('study_program_id', $study_program->id)
+        ->set('faculty_id', $faculty->id)
         ->set('name', 'Cyber Security')
         ->call('update')
         ->assertDispatched('refresh-study-programs');
@@ -90,7 +99,8 @@ test('update success', function () {
 
     $this->assertDatabaseHas('study_programs', [
         'name' => 'Cyber Security',
-        'slug' => Str::slug('Cyber Security')
+        'slug' => Str::slug('Cyber Security'),
+        'faculty_id' => $faculty->id
     ]);
 });
 
@@ -152,15 +162,23 @@ test('delete failed not found', function () {
 });
 
 test('reset input success', function () {
+    $this->seed(FacultySeeder::class);
+    $this->seed(StudyProgramSeeder::class);
+
+    $faculty = Faculty::first();
+
     studyProgramForm()
         ->set('name', 'Cyber Security')
         ->set('slug', 'Cyber Security')
+        ->set('faculty_id', $faculty->id)
         ->set('is_update', true)
         ->call('resetInput')
         ->assertNotSet('name', 'Cyber Security')
         ->assertNotSet('slug', 'Cyber Security')
+        ->assertNotSet('faculty_id', $faculty->id)
         ->assertNotSet('is_update', true)
         ->assertSet('name', '')
         ->assertSet('slug', '')
+        ->assertSet('faculty_id', '')
         ->assertSet('is_update', false);
 });

@@ -4,6 +4,7 @@ namespace App\Livewire\StudyProgram;
 
 use App\Data\StudyProgram\CreateStudyProgramData;
 use App\Data\StudyProgram\UpdateStudyProgramData;
+use App\Repositories\Contratcs\FacultyRepositoryInterface;
 use App\Repositories\Contratcs\StudyProgramRepositoryInterface;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Computed;
@@ -17,6 +18,8 @@ class StudyProgramForm extends Component
     public string $name = '';
 
     public string $slug = '';
+
+    public int|null|string $faculty_id = null;
     // End Form
 
     public int $study_program_id;
@@ -34,6 +37,7 @@ class StudyProgramForm extends Component
         return [
             'name' => ['required', 'string'],
             'slug' => ['required', 'string', 'min:3', 'max:50', $this->is_update ? 'unique:study_programs,slug,'.$this->study_program_id : 'unique:study_programs,slug'],
+            'faculty_id' => ['required', 'exists:faculties,id'],
         ];
     }
 
@@ -81,6 +85,8 @@ class StudyProgramForm extends Component
 
             $this->name = $study_program_data->name;
 
+            $this->faculty_id = $study_program_data->faculty_id;
+
             $this->is_update = true;
         } catch (Throwable $th) {
             session()->flash('study-program-failed', $th->getMessage());
@@ -89,11 +95,11 @@ class StudyProgramForm extends Component
 
     public function update()
     {
+        $this->slug = Str::slug($this->name);
+
+        $validated = $this->validate();
+
         try {
-            $this->slug = Str::slug($this->name);
-
-            $validated = $this->validate();
-
             $update_study_program_data = UpdateStudyProgramData::from($validated);
 
             $this->studyProgramRepository->update(
@@ -118,8 +124,6 @@ class StudyProgramForm extends Component
             $study_program_data = $this->studyProgramRepository->findById($study_program_id);
 
             $this->study_program_id = $study_program_data->id;
-
-            $this->name = $study_program_data->name;
         } catch (Throwable $th) {
             session()->flash('study-program-failed', $th->getMessage());
         }
@@ -145,6 +149,7 @@ class StudyProgramForm extends Component
     {
         $this->name = '';
         $this->slug = '';
+        $this->faculty_id = '';
 
         if ($this->is_update) {
             $this->is_update = false;
@@ -153,8 +158,10 @@ class StudyProgramForm extends Component
         $this->resetErrorBag();
     }
 
-    public function render()
+    public function render(FacultyRepositoryInterface $facultyRepository)
     {
-        return view('livewire.study-program.form');
+        $faculties = $facultyRepository->all();
+
+        return view('livewire.study-program.form', compact('faculties'));
     }
 }

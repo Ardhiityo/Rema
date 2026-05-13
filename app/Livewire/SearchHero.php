@@ -2,12 +2,13 @@
 
 namespace App\Livewire;
 
-use Livewire\Component;
-use Livewire\WithPagination;
-use Livewire\Attributes\Layout;
-use Livewire\Attributes\Computed;
 use App\Repositories\Contratcs\CategoryRepositoryInterface;
 use App\Repositories\Contratcs\LandingPageRepositoryInterface;
+use App\Repositories\Contratcs\StudyProgramRepositoryInterface;
+use Livewire\Attributes\Computed;
+use Livewire\Attributes\Layout;
+use Livewire\Component;
+use Livewire\WithPagination;
 
 class SearchHero extends Component
 {
@@ -17,6 +18,7 @@ class SearchHero extends Component
     public string $category = '';
     public string $year = '';
     public string $author = '';
+    public string $study_program = '';
 
     protected function queryString()
     {
@@ -32,6 +34,9 @@ class SearchHero extends Component
             ],
             'author' => [
                 'except' => ''
+            ],
+            'study_program' => [
+                'except' => ''
             ]
         ];
     }
@@ -46,6 +51,7 @@ class SearchHero extends Component
         $this->title = '';
         $this->year = '';
         $this->author = '';
+        $this->study_program = '';
         $this->category = $this->categoryRepository->first()?->slug ?? '';
 
         $this->resetPage();
@@ -62,6 +68,12 @@ class SearchHero extends Component
         return app(CategoryRepositoryInterface::class);
     }
 
+    #[Computed()]
+    public function studyProgramRepository()
+    {
+        return app(StudyProgramRepositoryInterface::class);
+    }
+
     public function updated($property, $value)
     {
         if (trim($value)) {
@@ -76,11 +88,13 @@ class SearchHero extends Component
             trim($this->title),
             trim($this->year),
             trim($this->author),
-            trim($this->category)
+            trim($this->category),
+            trim($this->study_program)
         );
 
         $categories = $this->categoryRepository->all();
+        $study_programs = $this->studyProgramRepository->all();
 
-        return view('livewire.search-hero', compact('repositories', 'categories'));
+        return view('livewire.search-hero', compact('repositories', 'categories', 'study_programs'));
     }
 }

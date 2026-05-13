@@ -66,6 +66,15 @@
             </li>
             {{-- Categories --}}
 
+            {{-- Faculties --}}
+            <li class="sidebar-item {{ request()->is('faculties*') ? 'active' : '' }}">
+                <a href="{{ route('faculty.index') }}" class='sidebar-link'>
+                    <i class="bi bi-building"></i>
+                    <span>Faculties</span>
+                </a>
+            </li>
+            {{-- Faculties --}}
+
             {{-- Study Program --}}
             <li class="sidebar-item {{ request()->is('study-programs*') ? 'active' : '' }}">
                 <a href="{{ route('study-program.index') }}" class='sidebar-link'>
@@ -75,10 +84,19 @@
             </li>
             {{-- Study Program --}}
 
+            {{-- Staff --}}
+            <li class="sidebar-item {{ request()->is('staff*') ? 'active' : '' }}">
+                <a href="{{ route('staff.index') }}" class='sidebar-link'>
+                    <i class="bi bi-person-lines-fill"></i>
+                    <span>Staff</span>
+                </a>
+            </li>
+            {{-- Staff --}}
+
             {{-- Author --}}
             <li class="sidebar-item {{ request()->is('authors*') ? 'active' : '' }}">
                 <a href="{{ route('author.index') }}" class='sidebar-link'>
-                    <i class="bi bi-person-lines-fill"></i>
+                    <i class="bi bi-people"></i>
                     <span>Authors</span>
                 </a>
             </li>
@@ -104,7 +122,7 @@
                         </a>
                     </li>
                     @endhasrole
-                    @hasrole(['admin', 'author'])
+                    @hasrole(['admin', 'author', 'staff'])
                     <li class="submenu-item {{ request()->routeIs('repository.create') ? 'active' : '' }}">
                         <a href="{{ route('repository.create') }}" class="submenu-link">Create Data</a>
                     </li>

@@ -10,6 +10,7 @@ class CreateStudyProgramData extends Data
 {
     public function __construct(
         public string $name,
-        public string $slug
+        public string $slug,
+        public int $faculty_id,
     ) {}
 }

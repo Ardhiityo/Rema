@@ -8,11 +8,13 @@ use App\Livewire\Activity\ActivityDetail;
 use App\Livewire\Author\Author;
 use App\Livewire\Category\Category;
 use App\Livewire\Coordinator\Coordinator;
+use App\Livewire\Faculty\Faculty;
 use App\Livewire\Profile;
 use App\Livewire\Report\Report;
 use App\Livewire\Repository\List\MetaDataList;
 use App\Livewire\Repository\Repository;
 use App\Livewire\Repository\RepositoryDetail;
+use App\Livewire\Staff\Staff;
 use App\Livewire\StudyProgram\StudyProgram;
 use Illuminate\Support\Facades\Route;
 
@@ -37,7 +39,9 @@ Route::middleware(['throttle:40,1'])->group(function () {
     Route::middleware(['auth', 'verified', 'to_read'])->group(function () {
         Route::middleware(['role:admin'])->group(function () {
             Route::get('/categories', Category::class)->name('category.index');
+            Route::get('/faculties', Faculty::class)->name('faculty.index');
             Route::get('/study-programs', StudyProgram::class)->name('study-program.index');
+            Route::get('/staff', Staff::class)->name('staff.index');
             Route::get('/authors', Author::class)->name('author.index');
             Route::get('/activities', Activity::class)->name('activity.index');
             Route::get('/activities/{category_slug}/{meta_data_slug}', ActivityDetail::class)->name('activity.show');

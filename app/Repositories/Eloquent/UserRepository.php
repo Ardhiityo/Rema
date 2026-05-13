@@ -2,36 +2,41 @@
 
 namespace App\Repositories\Eloquent;
 
-use Throwable;
-use App\Models\User;
-use App\Models\Metadata;
-use App\Data\User\UserData;
 use App\Data\User\CreateUserData;
 use App\Data\User\UpdateUserData;
-use App\Services\AvatarGenerator;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
+use App\Data\User\UserData;
+use App\Models\Metadata;
+use App\Models\User;
 use App\Repositories\Contratcs\UserRepositoryInterface;
+use App\Services\AvatarGenerator;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use Throwable;
 
 class UserRepository implements UserRepositoryInterface
 {
-    public function create(CreateUserData $create_user_data): UserData|Throwable
+    public function create(CreateUserData $create_user_data, string|int|null $nim = null): UserData|Throwable
     {
         try {
             $user = User::create([
                 'name' => ucwords(strtolower($create_user_data->name)),
                 'email' => empty($create_user_data->email)
-                    ? $create_user_data->nim . '@gmail.com' : $create_user_data->email,
+                    ? $nim.'@gmail.com' : $create_user_data->email,
                 'password' => empty($create_user_data->password) ?
-                    '@Rema' . $create_user_data->nim : $create_user_data->password,
+                    '@Rema'.$nim : $create_user_data->password,
                 'avatar' => empty($create_user_data->avatar) ?
                     AvatarGenerator::generate() : $create_user_data->avatar->store('avatars', 'public'),
-                'email_verified_at' => now()
+                'email_verified_at' => now(),
             ]);
 
-            $user->assignRole('author');
+            if ($nim) {
+                $user->assignRole('author');
+            } else {
+                $user->assignRole('staff');
+            }
 
             return UserData::fromModel($user);
         } catch (Throwable $th) {
@@ -47,9 +52,9 @@ class UserRepository implements UserRepositoryInterface
                     ],
                     'data' => [
                         'create_user_data' => $create_user_data->except('password', 'avatar'),
-                    ]
+                    ],
                 ],
-                'message' => $th->getMessage()
+                'message' => $th->getMessage(),
             ], JSON_PRETTY_PRINT));
 
             throw $th;
@@ -75,9 +80,9 @@ class UserRepository implements UserRepositoryInterface
                     ],
                     'data' => [
                         'user_id' => $user_id,
-                    ]
+                    ],
                 ],
-                'message' => $th->getMessage()
+                'message' => $th->getMessage(),
             ], JSON_PRETTY_PRINT));
 
             throw $th;
@@ -110,7 +115,7 @@ class UserRepository implements UserRepositoryInterface
                 'name' => ucwords(strtolower($update_user_data->name)),
                 'avatar' => $new_avatar,
                 'email' => $update_user_data->email,
-                'password' => $password
+                'password' => $password,
             ]);
 
             return UserData::fromModel($user->refresh());
@@ -128,9 +133,9 @@ class UserRepository implements UserRepositoryInterface
                     'data' => [
                         'user_id' => $user_id,
                         'update_user_data' => $update_user_data->except('password', 'avatar'),
-                    ]
+                    ],
                 ],
-                'message' => $th->getMessage()
+                'message' => $th->getMessage(),
             ], JSON_PRETTY_PRINT));
 
             throw $th;
@@ -150,24 +155,25 @@ class UserRepository implements UserRepositoryInterface
                 }
             }
 
-            $author_id = $user->author->id;
+            if ($author_id = $user?->author?->id ?? false) {
+                $meta_data = Metadata::with('categories')->where('author_id', $author_id)->get();
 
-            $meta_data = Metadata::with('categories')->where('author_id', $author_id)->get();
+                foreach ($meta_data as $data) {
+                    if ($data->categories->isNotEmpty()) {
+                        foreach ($data->categories as $category) {
+                            $file_path = $category->pivot->file_path ?? null;
 
-            foreach ($meta_data as $data) {
-                if ($data->categories->isNotEmpty()) {
-                    foreach ($data->categories as $category) {
-                        $file_path = $category->pivot->file_path ?? null;
-
-                        if ($file_path) {
-                            if (Storage::disk('public')->exists($file_path)) {
-                                Storage::disk('public')->delete($file_path);
+                            if ($file_path) {
+                                if (Storage::disk('public')->exists($file_path)) {
+                                    Storage::disk('public')->delete($file_path);
+                                }
                             }
                         }
                     }
                 }
             }
-
+            Cache::forget('author.count');
+            Cache::forget('metadata.count');
             return $user->delete();
         } catch (Throwable $th) {
             Log::info(json_encode([
@@ -181,10 +187,10 @@ class UserRepository implements UserRepositoryInterface
                         'method' => 'delete',
                     ],
                     'data' => [
-                        'user_id' => $user_id
-                    ]
+                        'user_id' => $user_id,
+                    ],
                 ],
-                'message' => $th->getMessage()
+                'message' => $th->getMessage(),
             ], JSON_PRETTY_PRINT));
 
             throw $th;

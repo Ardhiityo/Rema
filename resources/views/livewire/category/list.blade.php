@@ -19,7 +19,6 @@
                      <tr class="text-nowrap">
                          <th>No</th>
                          <th>Category</th>
-                         <th>Created At</th>
                          <th>Action</th>
                      </tr>
                  </thead>
@@ -28,7 +27,6 @@
                          <tr class="text-nowrap" wire:key='{{ $category->slug }}'>
                              <td class="text-bold-500">{{ $loop->index + $this->categories->firstItem() }}</td>
                              <td class="text-bold-500">{{ $category->name }}</td>
-                             <td>{{ $category->created_at }}</td>
                              <td>
                                  <div class="gap-3 d-flex justify-content-center align-items-center">
                                      <button

@@ -13,7 +13,7 @@ class StudyProgramObserver
     public function created(StudyProgram $studyProgram): void
     {
         Cache::forget('study_program.all');
-        Cache::forget('metadata.metricCards');
+        //Cache::forget('metadata.metricCards');
     }
 
     /**
@@ -22,7 +22,7 @@ class StudyProgramObserver
     public function updated(StudyProgram $studyProgram): void
     {
         Cache::forget('study_program.all');
-        Cache::forget('metadata.metricCards');
+        //Cache::forget('metadata.metricCards');
     }
 
     /**
@@ -31,7 +31,7 @@ class StudyProgramObserver
     public function deleted(StudyProgram $studyProgram): void
     {
         Cache::forget('study_program.all');
-        Cache::forget('metadata.metricCards');
+        //Cache::forget('metadata.metricCards');
     }
 
     /**
@@ -40,7 +40,7 @@ class StudyProgramObserver
     public function restored(StudyProgram $studyProgram): void
     {
         Cache::forget('study_program.all');
-        Cache::forget('metadata.metricCards');
+        //Cache::forget('metadata.metricCards');
     }
 
     /**
@@ -49,6 +49,6 @@ class StudyProgramObserver
     public function forceDeleted(StudyProgram $studyProgram): void
     {
         Cache::forget('study_program.all');
-        Cache::forget('metadata.metricCards');
+        //Cache::forget('metadata.metricCards');
     }
 }

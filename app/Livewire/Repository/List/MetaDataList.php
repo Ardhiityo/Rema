@@ -31,6 +31,8 @@ class MetaDataList extends Component
 
     public bool $is_admin = false;
 
+    public bool $is_staff = false;
+
     public bool $is_master_data = false;
 
     public function mount()
@@ -47,6 +49,10 @@ class MetaDataList extends Component
 
         if ($user->hasRole('admin')) {
             $this->is_admin = true;
+        }
+
+        if ($user->hasRole('staff')) {
+            $this->is_staff = true;
         }
     }
 

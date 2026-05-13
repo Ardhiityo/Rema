@@ -26,6 +26,22 @@
                     @enderror
                 </div>
             </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="basicInput" class="form-label">Faculty <sup>*</sup></label>
+                    <select class="form-select" id="basicSelect" wire:model='faculty_id'>
+                        <option value="" selected>Select Faculty</option>
+                        @foreach ($faculties as $faculty)
+                            <option value="{{ $faculty->id }}">{{ $faculty->name }}</option>
+                        @endforeach
+                    </select>
+                    @error('faculty_id')
+                        <span class="badge bg-danger">
+                            <small>{{ $message }}</small>
+                        </span>
+                    @enderror
+                </div>
+            </div>
         </div>
         <div class="gap-3 d-flex">
             @if ($is_update)

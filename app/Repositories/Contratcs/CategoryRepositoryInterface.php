@@ -24,4 +24,6 @@ interface CategoryRepositoryInterface
     public function findByFilters(string|null $keyword = null): LengthAwarePaginator;
 
     public function first(): CategoryData|null;
+
+    public function categoryCount(): int;
 }

@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Models\Faculty;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class StudyProgram extends Model
 {
@@ -15,6 +17,7 @@ class StudyProgram extends Model
     protected $fillable = [
         'name',
         'slug',
+        'faculty_id',
     ];
 
     public function authors(): HasMany
@@ -30,5 +33,10 @@ class StudyProgram extends Model
     public function metadata(): HasMany
     {
         return $this->hasMany(Metadata::class, 'study_program_id', 'id');
+    }
+
+    public function faculty(): BelongsTo
+    {
+        return $this->belongsTo(Faculty::class, 'faculty_id', 'id');
     }
 }

@@ -52,7 +52,7 @@ test('create success', function () {
         ->assertSet('study_program_id', '')
         ->assertDispatched('refresh-authors');
 
-    $this->assertDatabaseCount('users', 4);
+    $this->assertDatabaseCount('users', 5);
     $this->assertDatabaseHas('users', [
         'name' => $name,
     ]);
@@ -84,7 +84,7 @@ test('create failed validation', function () {
         ->assertNotSet('study_program_id', '')
         ->assertNotDispatched('refresh-authors');
 
-    $this->assertDatabaseCount('users', 3);
+    $this->assertDatabaseCount('users', 4);
     $this->assertDatabaseMissing('users', [
         'name' => $name
     ]);
@@ -118,7 +118,7 @@ test('create failed validation already exists', function () {
         ->assertNotSet('study_program_id', '')
         ->assertNotDispatched('refresh-authors');
 
-    $this->assertDatabaseCount('users', 3);
+    $this->assertDatabaseCount('users', 4);
     $this->assertDatabaseMissing('users', [
         'name' => $name
     ]);
@@ -303,7 +303,7 @@ test('delete success', function () {
         ->assertSet('avatar', '')
         ->assertSet('is_update', false);
 
-    $this->assertDatabaseCount('users', 2);
+    $this->assertDatabaseCount('users', 3);
     $this->assertDatabaseMissing('users', [
         'name' => $author->user->name,
         'email' => $author->user->email

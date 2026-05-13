@@ -19,7 +19,7 @@
                     <tr class="text-nowrap">
                         <th>No</th>
                         <th>Study Program</th>
-                        <th>Created At</th>
+                        <th>Faculty</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -28,7 +28,7 @@
                         <tr class="text-nowrap">
                             <td class="text-bold-500">{{ $loop->index + $this->study_programs->firstItem() }}</td>
                             <td class="text-bold-500">{{ $study_program->name }}</td>
-                            <td>{{ $study_program->created_at }}</td>
+                            <td>{{ $study_program->faculty }}</td>
                             <td>
                                 <div class="gap-3 d-flex justify-content-center align-items-center">
                                     <button
@@ -49,7 +49,6 @@
                             <td colspan="4" class="text-center">Data Not Found</td>
                         </tr>
                     @endforelse
-                    <tr>
                 </tbody>
             </table>
         </div>

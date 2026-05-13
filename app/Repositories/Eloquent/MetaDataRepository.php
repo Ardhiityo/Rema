@@ -2,22 +2,23 @@
 
 namespace App\Repositories\Eloquent;
 
-use Throwable;
-use App\Models\Metadata;
-use App\Models\Coordinator;
-use Illuminate\Support\Facades\DB;
-use App\Data\Metadata\MetadataData;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Auth;
-use App\Data\MetaData\UpdateMetaData;
-use Spatie\LaravelData\DataCollection;
-use App\Data\Metadata\MetadataListData;
-use Illuminate\Support\Facades\Storage;
 use App\Data\Metadata\CreateMetadataData;
-use App\Data\Metadata\MetadataAuthorReportData;
-use Illuminate\Pagination\LengthAwarePaginator;
 use App\Data\Metadata\MetadataActivityReportData;
+use App\Data\Metadata\MetadataAuthorReportData;
+use App\Data\Metadata\MetadataData;
+use App\Data\Metadata\MetadataListData;
+use App\Data\MetaData\UpdateMetaData;
+use App\Models\Coordinator;
+use App\Models\Metadata;
 use App\Repositories\Contratcs\MetaDataRepositoryInterface;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use Spatie\LaravelData\DataCollection;
+use Throwable;
 
 class MetaDataRepository implements MetaDataRepositoryInterface
 {
@@ -33,7 +34,7 @@ class MetaDataRepository implements MetaDataRepositoryInterface
                 'visibility' => $create_meta_data->visibility,
                 'year' => $create_meta_data->year_formatted,
                 'slug' => $create_meta_data->slug,
-                'status' => $create_meta_data->status
+                'status' => $create_meta_data->status,
             ]);
 
             return MetadataData::fromModel($meta_data);
@@ -50,9 +51,9 @@ class MetaDataRepository implements MetaDataRepositoryInterface
                     ],
                     'data' => [
                         'create_meta_data' => $create_meta_data,
-                    ]
+                    ],
                 ],
-                'message' => $th->getMessage()
+                'message' => $th->getMessage(),
             ], JSON_PRETTY_PRINT));
             throw $th;
         }
@@ -71,7 +72,7 @@ class MetaDataRepository implements MetaDataRepositoryInterface
                 'year' => $update_meta_data->year,
                 'slug' => $update_meta_data->slug,
                 'visibility' => $update_meta_data->visibility,
-                'status' => $update_meta_data->status
+                'status' => $update_meta_data->status,
             ];
 
             if (Auth::user()->hasRole('author')) {
@@ -96,16 +97,16 @@ class MetaDataRepository implements MetaDataRepositoryInterface
                     'data' => [
                         'meta_data_id' => $meta_data_id,
                         'update_meta_data' => $update_meta_data,
-                    ]
+                    ],
                 ],
-                'message' => $th->getMessage()
+                'message' => $th->getMessage(),
             ], JSON_PRETTY_PRINT));
 
             throw $th;
         }
     }
 
-    public function findById(int $meta_data_id, array|null $relations = null): MetadataData|Throwable
+    public function findById(int $meta_data_id, ?array $relations = null): MetadataData|Throwable
     {
         try {
             $meta_data = Metadata::findOrFail($meta_data_id);
@@ -128,16 +129,16 @@ class MetaDataRepository implements MetaDataRepositoryInterface
                     ],
                     'data' => [
                         'meta_data_id' => $meta_data_id,
-                    ]
+                    ],
                 ],
-                'message' => $th->getMessage()
+                'message' => $th->getMessage(),
             ], JSON_PRETTY_PRINT));
 
             throw $th;
         }
     }
 
-    public function findBySlug(string $meta_data_slug, array|null $relations = null): MetadataData|Throwable
+    public function findBySlug(string $meta_data_slug, ?array $relations = null): MetadataData|Throwable
     {
         $meta_data = Metadata::where('slug', $meta_data_slug)->firstOrFail();
 
@@ -163,6 +164,7 @@ class MetaDataRepository implements MetaDataRepositoryInterface
 
         if ($user->hasRole('author')) {
             if ($is_master_data) {
+                //all repositories for author
                 $query = $query->where('visibility', '!=', 'private')
                     ->when(
                         $keyword,
@@ -171,11 +173,12 @@ class MetaDataRepository implements MetaDataRepositoryInterface
                                 ->whereLike('title', "$keyword%")
                                 ->orWhereLike('author_name', "$keyword%")
                                 ->orWhereHas('keywords',
-                                    fn($query) => $query->whereLike('name', "$keyword%")
+                                    fn ($query) => $query->whereLike('name', "$keyword%")
                                 );
                         }
                     );
             } else {
+                //my data repositories for author
                 $query = $query
                     ->where('author_id', $user->author->id)
                     ->where('status', $status)
@@ -186,26 +189,48 @@ class MetaDataRepository implements MetaDataRepositoryInterface
                             $query
                                 ->whereLike('title', "$keyword%")
                                 ->orWhereHas('keywords',
-                                    fn($query) => $query->whereLike('name', "$keyword%")
+                                    fn ($query) => $query->whereLike('name', "$keyword%")
                                 );
                         }
                     );
             }
         } else {
             if ($is_master_data) {
-                $query = $query
-                    ->where('status', $status)
-                    ->where('visibility', $visibility)
-                    ->when(
-                        $keyword,
-                        function ($query) use ($keyword) {
-                            $query
-                                ->whereLike('title', "$keyword%")
-                                ->orWhereHas('keywords',
-                                    fn($query) => $query->whereLike('name', "$keyword%")
-                                );
-                        }
-                    );
+                if ($user->hasRole('admin')) {
+                    //all repositories for admin
+                    $query = $query
+                        ->where('status', $status)
+                        ->where('visibility', $visibility)
+                        ->when(
+                            $keyword,
+                            function ($query) use ($keyword) {
+                                $query
+                                    ->whereLike('title', "$keyword%")
+                                    ->orWhereHas('keywords',
+                                        fn ($query) => $query->whereLike('name', "$keyword%")
+                                    );
+                            }
+                        );
+                } elseif ($user->hasRole('staff')) {
+                    //all repositories for staff
+                    $faculty = $user->staff->faculty;
+                    $study_programs = $faculty->studyPrograms->pluck('id')->toArray();
+
+                    $query = $query
+                        ->whereIn('study_program_id', $study_programs)
+                        ->where('status', $status)
+                        ->where('visibility', $visibility)
+                        ->when(
+                            $keyword,
+                            function ($query) use ($keyword) {
+                                $query
+                                    ->whereLike('title', "$keyword%")
+                                    ->orWhereHas('keywords',
+                                        fn ($query) => $query->whereLike('name', "$keyword%")
+                                    );
+                            }
+                        );
+                }
             }
         }
 
@@ -245,9 +270,9 @@ class MetaDataRepository implements MetaDataRepositoryInterface
                     ],
                     'data' => [
                         'meta_data_id' => $meta_data_id,
-                    ]
+                    ],
                 ],
-                'message' => $th->getMessage()
+                'message' => $th->getMessage(),
             ], JSON_PRETTY_PRINT));
 
             throw $th;
@@ -272,7 +297,7 @@ class MetaDataRepository implements MetaDataRepositoryInterface
         return MetadataActivityReportData::collect($meta_data, DataCollection::class);
     }
 
-    public function authorReports(int|string $year, array $includes = [], int $nidn): DataCollection
+    public function authorReports(int|string $year, array $includes, int $nidn): DataCollection
     {
         $coordinator = Coordinator::where('nidn', $nidn)->first();
 
@@ -280,19 +305,26 @@ class MetaDataRepository implements MetaDataRepositoryInterface
             ->where('year', $year)
             ->where('study_program_id', $coordinator->study_program_id)
             ->when(
-                !empty($includes),
-                fn($query) => $query->whereHas(
+                ! empty($includes),
+                fn ($query) => $query->whereHas(
                     'categories',
-                    fn($query) => $query->whereIn('slug', $includes)
+                    fn ($query) => $query->whereIn('slug', $includes)
                 )
             )
             ->when(
                 empty($includes),
-                fn($query) => $query->whereDoesntHave('categories')
+                fn ($query) => $query->whereDoesntHave('categories')
             )
             ->orderBy('author_nim', 'asc')
             ->get();
 
         return MetadataAuthorReportData::collect($meta_data, DataCollection::class);
+    }
+
+    public function metaDataCount(): int
+    {
+        return Cache::rememberForever('metadata.count', function () {
+            return Metadata::where('status', 'approve')->count();
+        });
     }
 }

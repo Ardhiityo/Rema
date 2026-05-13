@@ -13,7 +13,8 @@ class StudyProgramData extends Data
         public int|string $id,
         public string $name,
         public string $slug,
-        public string $created_at
+        public string $faculty,
+        public int|string|null $faculty_id
     ) {}
 
     public static function fromModel(StudyProgram $study_program)
@@ -22,7 +23,8 @@ class StudyProgramData extends Data
             $study_program->id,
             $study_program->name,
             $study_program->slug,
-            $study_program->created_at->format('d F Y')
+            $study_program->faculty?->name ?? '-',
+            $study_program->faculty_id
         );
     }
 }

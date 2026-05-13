@@ -14,6 +14,19 @@
     @endif
     <div class="card">
         <div class="card-header">
+            @hasrole('staff')
+            <div class="mb-4 alert alert-warning alert-dismissible show fade">
+                <h6 class="alert-heading">
+                    <i class="bi bi-exclamation-circle"></i>
+                    Attention
+                </h6>
+                <p class="text-sm">
+                    As a <b>staff of faculty's</b>, you can only <b>view repositories</b> for study programs that match
+                    your <b>faculty's data</b>.
+                </p>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            @endhasrole
             <div class="gap-3 row d-flex gap-md-0">
                 <div class="col-md-4">
                     <div class="input-group">
@@ -26,7 +39,7 @@
                             id="keyword" placeholder="Search...">
                     </div>
                 </div>
-                @if ($is_author || $is_admin)
+                @if ($is_author || $is_admin || $is_staff)
                     <div class="col-md-3">
                         <div class="input-group">
                             <label class="input-group-text" for="status">Status</label>
@@ -112,8 +125,8 @@
                                     @endcan
                                     @can('delete', $data->toModel())
                                         <button type="button" class="block btn btn-danger" data-bs-toggle="modal"
-                                            data-bs-target="#modal-delete-meta-data" wire:click="destroyConfirm('{{ $data->slug }}')"
-                                            title="delete">
+                                            data-bs-target="#modal-delete-meta-data"
+                                            wire:click="destroyConfirm('{{ $data->slug }}')" title="delete">
                                             <i class="bi bi-trash3"></i>
                                         </button>
                                     @endcan
@@ -136,8 +149,8 @@
     </div>
 
     <!--BorderLess Modal Modal -->
-    <div wire:ignore.self class="text-left modal fade modal-borderless" id="modal-delete-meta-data" tabindex="-1" role="dialog"
-        aria-labelledby="myModalLabel1" aria-hidden="true">
+    <div wire:ignore.self class="text-left modal fade modal-borderless" id="modal-delete-meta-data" tabindex="-1"
+        role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">

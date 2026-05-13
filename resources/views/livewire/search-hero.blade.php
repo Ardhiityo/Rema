@@ -11,13 +11,19 @@
             <div class="col-12">
                 {{-- Display Large Only --}}
                 <div class="mb-3 d-lg-flex d-none input-group input-group-lg">
-                    <input type="text" class="form-control" aria-label="Text input with dropdown button"
+                    <input type="text" class="form-control" aria-label="title"
                         placeholder="Title" wire:model.live.debounce.250ms='title'>
-                    <input type="text" class="form-control" aria-label="Text input with dropdown button"
+                    <input type="text" class="form-control" aria-label="author"
                         placeholder="Author" wire:model.live.debounce.250ms='author'>
-                    <input type="number" class="form-control" aria-label="Text input with dropdown button"
+                    <input type="number" class="form-control" aria-label="year"
                         placeholder="Year" wire:model.live.debounce.250ms='year'>
-                    <select class="form-select" id="inputGroupSelect01" wire:model.live='category'>
+                    <select class="form-select" wire:model.live='study_program'>
+                        <option selected value="">All Study Programs</option>
+                        @foreach ($study_programs as $study_program)
+                            <option value="{{ $study_program->slug }}">{{ $study_program->name }}</option>
+                        @endforeach
+                    </select>
+                    <select class="form-select" wire:model.live='category'>
                         @forelse ($categories as $category)
                             <option value="{{ $category->slug }}">{{ $category->name }}</option>
                         @empty
@@ -34,13 +40,19 @@
                 </div>
                 {{-- Display Medium Only --}}
                 <div class="mb-3 d-md-flex d-none d-lg-none input-group">
-                    <input type="text" class="form-control" aria-label="Text input with dropdown button"
+                    <input type="text" class="form-control" aria-label="title"
                         placeholder="Title" wire:model.live.debounce.250ms='title'>
-                    <input type="text" class="form-control" aria-label="Text input with dropdown button"
+                    <input type="text" class="form-control" aria-label="author"
                         placeholder="Author" wire:model.live.debounce.250ms='author'>
-                    <input type="number" class="form-control" aria-label="Text input with dropdown button"
+                    <input type="number" class="form-control" aria-label="year"
                         placeholder="Year" wire:model.live.debounce.250ms='year'>
-                    <select class="form-select" id="inputGroupSelect01" wire:model.live='category'>
+                    <select class="form-select" wire:model.live='study_program'>
+                        <option selected value="">All Study Programs</option>
+                        @foreach ($study_programs as $study_program)
+                            <option value="{{ $study_program->slug }}">{{ $study_program->name }}</option>
+                        @endforeach
+                    </select>
+                    <select class="form-select" wire:model.live='category'>
                         @foreach ($categories as $category)
                             <option value="{{ $category->slug }}">{{ $category->name }}</option>
                         @endforeach
@@ -54,13 +66,19 @@
                 </div>
                 {{-- Display Small Only --}}
                 <div class="flex-wrap gap-2 mb-3 d-md-none d-flex d-lg-none">
-                    <input type="text" class="form-control w-100" aria-label="Text input with dropdown button"
+                    <input type="text" class="form-control w-100" aria-label="title"
                         placeholder="Title" wire:model.live.debounce.250ms='title'>
-                    <input type="text" class="form-control w-100" aria-label="Text input with dropdown button"
+                    <input type="text" class="form-control w-100" aria-label="author"
                         placeholder="Author" wire:model.live.debounce.250ms='author'>
-                    <input type="number" class="form-control w-100" aria-label="Text input with dropdown button"
+                    <input type="number" class="form-control w-100" aria-label="year"
                         placeholder="Year" wire:model.live.debounce.250ms='year'>
-                    <select class="form-select" id="inputGroupSelect01" wire:model.live='category'>
+                    <select class="form-select" wire:model.live='study_program'>
+                        <option selected value="">All Study Programs</option>
+                        @foreach ($study_programs as $study_program)
+                            <option value="{{ $study_program->slug }}">{{ $study_program->name }}</option>
+                        @endforeach
+                    </select>
+                    <select class="form-select" wire:model.live='category'>
                         @foreach ($categories as $category)
                             <option value="{{ $category->slug }}">{{ $category->name }}</option>
                         @endforeach

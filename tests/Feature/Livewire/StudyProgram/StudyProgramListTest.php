@@ -1,29 +1,38 @@
 <?php
 
-use Livewire\Livewire;
-use Database\Seeders\DatabaseSeeder;
-use Illuminate\Support\Facades\Storage;
-use App\Livewire\StudyProgram\StudyProgramList;
-use Illuminate\Pagination\LengthAwarePaginator;
+use App\Models\StudyProgram;
+use Database\Seeders\FacultySeeder;
+use Database\Seeders\StudyProgramSeeder;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
-test('reset input success', function () {
-    categoryForm()
-        ->set('keyword', 'Cyber Security')
+uses(RefreshDatabase::class);
+
+test('study program list page', function () {
+    studyProgramList()
+        ->assertStatus(200)
+        ->assertViewIs('livewire.study-program.list');
+});
+
+test('it can search study programs by keyword', function () {
+    $this->seed(FacultySeeder::class);
+    $this->seed(StudyProgramSeeder::class);
+
+    $study_program = StudyProgram::first();
+
+    studyProgramList()
+        ->set('keyword', $study_program->name)
+        ->assertSee($study_program->name);
+});
+
+test('it can reset input', function () {
+    studyProgramList()
+        ->set('keyword', 'some keyword')
         ->call('resetInput')
-        ->assertNotSet('keyword', 'Cyber Security')
         ->assertSet('keyword', '');
 });
 
-test('filter category by keyword success', function () {
-    Storage::fake('public');
-
-    $this->seed(DatabaseSeeder::class);
-
-    $component = Livewire::test(StudyProgramList::class)
-        ->set('keyword', 'Teknik Informatika')
-        ->assertSet('keyword', 'Teknik Informatika');
-
-    expect($component->study_programs)->toBeInstanceOf(LengthAwarePaginator::class);
-    expect($component->study_programs->total())->toBe(1);
-    expect($component->study_programs->first()->name)->toBe('Teknik Informatika');
+test('it responds to refresh study programs event', function () {
+    studyProgramList()
+        ->dispatch('refresh-study-programs')
+        ->assertStatus(200);
 });

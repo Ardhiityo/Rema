@@ -73,7 +73,7 @@ class AuthorForm extends Component
             'name' => ['required', 'min:3', 'max:50'],
             'nim' => ['required', 'numeric', 'digits_between:8,15', 'unique:authors,nim,'.$this->author_id],
             'study_program_id' => ['required', 'exists:study_programs,id'],
-            'avatar' => [new UpdateUserAvatarRule(user_id: $this->user_id, max_KB: 1000, allowedMimes: ['jpg', 'png'])],
+            'avatar' => [new UpdateUserAvatarRule(user_id: $this->user_id, max_KB: 1000, allowedMimes: ['jpg', 'jpeg', 'png'])],
             'email' => ['required', 'email:dns', 'unique:users,email,'.$this->user_id],
             'password' => ['nullable', 'min:8', 'max:50', Password::min(8)->letters()->numbers()->mixedCase()->symbols()],
         ];
@@ -105,7 +105,7 @@ class AuthorForm extends Component
         try {
             $create_user_data = CreateUserData::from($validated);
 
-            $user_data = $this->userRepository->create($create_user_data);
+            $user_data = $this->userRepository->create($create_user_data, $this->nim);
 
             $validated['user_id'] = $user_data->id;
 

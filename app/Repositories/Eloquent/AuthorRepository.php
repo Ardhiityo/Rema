@@ -2,17 +2,17 @@
 
 namespace App\Repositories\Eloquent;
 
-use Throwable;
-use App\Models\Author;
 use App\Data\Author\AuthorData;
 use App\Data\Author\AuthorListData;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Auth;
 use App\Data\Author\CreateAuthorData;
 use App\Data\Author\UpdateAuthorData;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Pagination\LengthAwarePaginator;
+use App\Models\Author;
 use App\Repositories\Contratcs\AuthorRepositoryInterface;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class AuthorRepository implements AuthorRepositoryInterface
 {
@@ -39,9 +39,9 @@ class AuthorRepository implements AuthorRepositoryInterface
                     ],
                     'data' => [
                         'create_author_data' => $create_author_data,
-                    ]
+                    ],
                 ],
-                'message' => $th->getMessage()
+                'message' => $th->getMessage(),
             ], JSON_PRETTY_PRINT));
 
             throw $th;
@@ -53,7 +53,7 @@ class AuthorRepository implements AuthorRepositoryInterface
         try {
             $author = Author::findOrFail($author_id);
 
-            if (!empty($relations)) {
+            if (! empty($relations)) {
                 $author = $author->load($relations);
             }
 
@@ -72,9 +72,9 @@ class AuthorRepository implements AuthorRepositoryInterface
                     'data' => [
                         'author_id' => $author_id,
                         'relations' => $relations,
-                    ]
+                    ],
                 ],
-                'message' => $th->getMessage()
+                'message' => $th->getMessage(),
             ], JSON_PRETTY_PRINT));
 
             throw $th;
@@ -88,7 +88,7 @@ class AuthorRepository implements AuthorRepositoryInterface
 
             $author->update([
                 'nim' => $update_author_data->nim,
-                'study_program_id' => $update_author_data->study_program_id
+                'study_program_id' => $update_author_data->study_program_id,
             ]);
 
             return AuthorData::fromModel($author->refresh());
@@ -106,30 +106,30 @@ class AuthorRepository implements AuthorRepositoryInterface
                     'data' => [
                         'author_id' => $author_id,
                         'update_author_data' => $update_author_data,
-                    ]
+                    ],
                 ],
-                'message' => $th->getMessage()
+                'message' => $th->getMessage(),
             ], JSON_PRETTY_PRINT));
 
             throw $th;
         }
     }
 
-    public function findByFilters(string|null $keyword = null, string|null $study_program_slug = null): LengthAwarePaginator
+    public function findByFilters(?string $keyword = null, ?string $study_program_slug = null): LengthAwarePaginator
     {
         $query = Author::query();
 
         if ($keyword) {
             $query->whereHas(
                 'user',
-                fn($query) => $query->whereLike('name', "%$keyword%")
+                fn ($query) => $query->whereLike('name', "%$keyword%")
             )->orWhere('nim', $keyword);
         }
 
         if ($study_program_slug) {
             $query->whereHas(
                 'studyProgram',
-                fn($query) => $query->where('slug', $study_program_slug)
+                fn ($query) => $query->where('slug', $study_program_slug)
             );
         }
 
@@ -139,8 +139,11 @@ class AuthorRepository implements AuthorRepositoryInterface
     public function authorCount(): int
     {
         return Cache::rememberForever(
-            'author.count',
-            fn() => Author::count()
+            'author.count', function () {
+                return Author::whereHas('metadata',
+                    fn ($query) => $query->where('status', 'approve')
+                )->count();
+            }
         );
     }
 }

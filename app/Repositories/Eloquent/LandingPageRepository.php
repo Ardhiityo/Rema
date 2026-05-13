@@ -9,7 +9,7 @@ use App\Repositories\Contratcs\LandingPageRepositoryInterface;
 
 class LandingPageRepository implements LandingPageRepositoryInterface
 {
-    public function searchHero(string $title, string $year, string $author, string $category): LengthAwarePaginator
+    public function searchHero(string $title, string $year, string $author, string $category, string $study_program): LengthAwarePaginator
     {
         $query = Metadata::query()
             ->with([
@@ -39,6 +39,13 @@ class LandingPageRepository implements LandingPageRepositoryInterface
             'categories',
             fn($query) => $query->where('slug', $category)
         );
+
+        if ($study_program) {
+            $query->whereHas(
+                'studyProgram',
+                fn($query) => $query->where('slug', $study_program)
+            );
+        }
 
         if ($year) {
             $query->where('year', $year);

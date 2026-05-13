@@ -12,8 +12,7 @@ class CategoryData extends Data
     public function __construct(
         public int|string $id,
         public string $name,
-        public string $slug,
-        public string $created_at
+        public string $slug
     ) {}
 
     public static function fromModel(Category $category)
@@ -21,8 +20,7 @@ class CategoryData extends Data
         return new self(
             $category->id,
             $category->name,
-            $category->slug,
-            $category->created_at->format('d F Y')
+            $category->slug
         );
     }
 }

@@ -8,12 +8,12 @@
                 <b>Step 1/3</b>
             </span>
         </h4>
-        <div class="my-4 alert alert-primary alert-dismissible show fade">
-            <h4 class="alert-heading">
+        <div class="my-4 alert alert-warning alert-dismissible show fade">
+            <h6 class="alert-heading">
                 <i class="bi bi-exclamation-circle"></i>
                 Attention
-            </h4>
-            <p>
+            </h6>
+            <p class="text-sm">
                 By default, if a repository is successfully created, its status is "<b>process</b>" and its visibility
                 is "<b>private</b>".
                 Once the repository is approved, its status becomes "<b>approved</b>" and its visibility is
@@ -114,7 +114,7 @@
                 {{-- Author Study Program --}}
 
                 {{-- Status --}}
-                @hasrole('admin')
+                @hasrole(['admin', 'staff'])
                 <div class="mt-4">
                     <div class="input-group">
                         <label class="input-group-text" for="status" class="form-label">

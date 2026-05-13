@@ -23,7 +23,8 @@ class StudyProgramRepository implements StudyProgramRepositoryInterface
         try {
             $study_program = StudyProgram::create([
                 'name' => ucwords(strtolower($create_study_program_data->name)),
-                'slug' => $create_study_program_data->slug
+                'slug' => $create_study_program_data->slug,
+                'faculty_id' => $create_study_program_data->faculty_id,
             ]);
 
             return StudyProgramData::fromModel($study_program);
@@ -84,7 +85,8 @@ class StudyProgramRepository implements StudyProgramRepositoryInterface
 
             $study_program->update([
                 'name' => $update_study_program_data->name,
-                'slug' => $update_study_program_data->slug
+                'slug' => $update_study_program_data->slug,
+                'faculty_id' => $update_study_program_data->faculty_id,
             ]);
 
             return StudyProgramData::fromModel($study_program->refresh());

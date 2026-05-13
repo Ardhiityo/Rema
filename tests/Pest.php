@@ -15,6 +15,9 @@ use App\Livewire\Activity\Activity;
 use App\Livewire\Author\AuthorForm;
 use App\Livewire\Category\CategoryForm;
 use App\Livewire\Coordinator\CoordinatorForm;
+use App\Livewire\Faculty\Faculty;
+use App\Livewire\Faculty\FacultyForm;
+use App\Livewire\Faculty\FacultyList;
 use App\Livewire\Note\NoteForm;
 use App\Livewire\Profile;
 use App\Livewire\Repository\Form\MetaDataCategoryForm;
@@ -24,7 +27,11 @@ use App\Livewire\Repository\List\MetaDataCategoryList;
 use App\Livewire\Repository\List\MetaDataKeywordList;
 use App\Livewire\Repository\List\MetaDataList;
 use App\Livewire\Repository\Repository;
+use App\Livewire\Staff\Staff;
+use App\Livewire\Staff\StaffForm;
+use App\Livewire\Staff\StaffList;
 use App\Livewire\StudyProgram\StudyProgramForm;
+use App\Livewire\StudyProgram\StudyProgramList;
 use Livewire\Livewire;
 
 pest()->extend(Tests\TestCase::class)
@@ -62,9 +69,44 @@ function categoryForm()
     return Livewire::test(CategoryForm::class);
 }
 
+function faculty()
+{
+    return Livewire::test(Faculty::class);
+}
+
+function facultyForm()
+{
+    return Livewire::test(FacultyForm::class);
+}
+
+function facultyList()
+{
+    return Livewire::test(FacultyList::class);
+}
+
 function studyProgramForm()
 {
     return Livewire::test(StudyProgramForm::class);
+}
+
+function studyProgramList()
+{
+    return Livewire::test(StudyProgramList::class);
+}
+
+function staffForm()
+{
+    return Livewire::test(StaffForm::class);
+}
+
+function staffList()
+{
+    return Livewire::test(StaffList::class);
+}
+
+function staff()
+{
+    return Livewire::test(Staff::class);
 }
 
 function authorForm()
