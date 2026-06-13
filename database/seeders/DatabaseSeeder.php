@@ -13,20 +13,20 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // For Production
-        // $this->call([
-        //     RolePermissionSeeder::class
-        // ]);
+        $this->call([
+            RolePermissionSeeder::class
+        ]);
 
         // For Testing
-        $this->call([
-            FacultySeeder::class,
-            StudyProgramSeeder::class,
-            RolePermissionSeeder::class,
-            CategorySeeder::class,
-            MetaDataSeeder::class,
-            ActivitySeeder::class,
-            CoordinatorSeeder::class,
-            NoteSeeder::class
-        ]);
+        // $this->call([
+        //     FacultySeeder::class,
+        //     StudyProgramSeeder::class,
+        //     RolePermissionSeeder::class,
+        //     CategorySeeder::class,
+        //     MetaDataSeeder::class,
+        //     ActivitySeeder::class,
+        //     CoordinatorSeeder::class,
+        //     NoteSeeder::class
+        // ]);
     }
 }
