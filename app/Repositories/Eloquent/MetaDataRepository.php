@@ -164,7 +164,7 @@ class MetaDataRepository implements MetaDataRepositoryInterface
 
         if ($user->hasRole('author')) {
             if ($is_master_data) {
-                //all repositories for author
+                // all repositories for author
                 $query = $query->where('visibility', '!=', 'private')
                     ->when(
                         $keyword,
@@ -178,7 +178,7 @@ class MetaDataRepository implements MetaDataRepositoryInterface
                         }
                     );
             } else {
-                //my data repositories for author
+                // my data repositories for author
                 $query = $query
                     ->where('author_id', $user->author->id)
                     ->where('status', $status)
@@ -197,7 +197,7 @@ class MetaDataRepository implements MetaDataRepositoryInterface
         } else {
             if ($is_master_data) {
                 if ($user->hasRole('admin')) {
-                    //all repositories for admin
+                    // all repositories for admin
                     $query = $query
                         ->where('status', $status)
                         ->where('visibility', $visibility)
@@ -206,13 +206,14 @@ class MetaDataRepository implements MetaDataRepositoryInterface
                             function ($query) use ($keyword) {
                                 $query
                                     ->whereLike('title', "$keyword%")
+                                    ->orWhereLike('author_name', "$keyword%")
                                     ->orWhereHas('keywords',
                                         fn ($query) => $query->whereLike('name', "$keyword%")
                                     );
                             }
                         );
                 } elseif ($user->hasRole('staff')) {
-                    //all repositories for staff
+                    // all repositories for staff
                     $faculty = $user->staff->faculty;
                     $study_programs = $faculty->studyPrograms->pluck('id')->toArray();
 
@@ -225,6 +226,7 @@ class MetaDataRepository implements MetaDataRepositoryInterface
                             function ($query) use ($keyword) {
                                 $query
                                     ->whereLike('title', "$keyword%")
+                                    ->orWhereLike('author_name', "$keyword%")
                                     ->orWhereHas('keywords',
                                         fn ($query) => $query->whereLike('name', "$keyword%")
                                     );
