@@ -11,7 +11,7 @@
     <!--SEO-->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Rema FIK | Universitas Al-Khairiyah">
-    <meta property="og:description" content="Official repositori Fakultas Ilmu Komputer Universitas Al-Khairiyah.">
+    <meta property="og:description" content="Official Repositori Fakultas Ilmu Komputer Universitas Al-Khairiyah.">
     <meta property="og:url" content="https://remafik.unival-cilegon.ac.id/">
     <meta property="og:site_name" content="Rema FIK">
     <meta property="og:image" content="{{ asset('assets/logo/favicon.webp') }}">
@@ -20,7 +20,7 @@
     <meta property="og:locale" content="{{ app()->getLocale() }}">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Rema FIK | Universitas Al-Khairiyah">
-    <meta name="twitter:description" content="Official repositori Fakultas Ilmu Komputer Universitas Al-Khairiyah.">
+    <meta name="twitter:description" content="Official Repositori Fakultas Ilmu Komputer Universitas Al-Khairiyah.">
     <meta name="twitter:image" content="{{ asset('assets/logo/favicon.webp') }}">
     <!--SEO-->
 
