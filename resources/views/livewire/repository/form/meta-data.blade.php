@@ -14,9 +14,10 @@
                 Attention
             </h6>
             <p class="text-sm">
-                By default, if a repository is successfully created, its status is "<b>process</b>" and its visibility
-                is "<b>private</b>".
-                Once the repository is approved, its status becomes "<b>approved</b>" and its visibility is
+                By default, if a repository is <b>successfully created</b>, its status is "<b>process</b>" and its
+                visibility
+                is "<b>private</b>". <br>
+                Once the repository is <b>approved</b>, its status becomes "<b>approved</b>" and its visibility is
                 "<b>public</b>".
             </p>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -66,12 +67,18 @@
                 <div class="mt-4">
                     <label for="title" class="form-label">Title <sup>*</sup> </label>
                     <input type="text" required class="form-control" id="title" wire:model='title'
-                        placeholder="ex: Sistem Informasi Repository">
+                        placeholder="ex: Sistem Informasi Repositori">
                     @error('slug')
                         <span class="badge bg-danger text-wrap">
                             <small>{{ $message }}</small>
                         </span>
                     @enderror
+                    <p class="mt-2 text-sm">
+                        <b>Metadata title must be unique</b>. if you have already created metadata with the same
+                        title, the
+                        metadata title will be
+                        <b>rejected</b>.
+                    </p>
                 </div>
                 {{-- Title --}}
 
@@ -85,6 +92,9 @@
                             <small>{{ $message }}</small>
                         </span>
                     @enderror
+                    <p class="mt-2 text-sm">
+                        Fill in that field based on your graduation year
+                    </p>
                 </div>
                 {{-- Graduation Year --}}
 

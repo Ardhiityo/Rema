@@ -47,6 +47,12 @@
                             <small>{{ $message }}</small>
                         </span>
                     @enderror
+                    <p class="mt-2 text-sm">
+                        <b>Category file metadata must be unique</b>. If you have already created the same category file
+                        metadata,
+                        that category file metadata will be
+                        <b>rejected</b>
+                    </p>
                 </div>
                 {{-- Category --}}
 
@@ -54,7 +60,7 @@
                 <div class="mt-4">
                     <label for="file_path" class="form-label">
                         File
-                        @if (! $is_update)
+                        @if (!$is_update)
                             <sup>*</sup>
                         @endif
                     </label>
@@ -65,24 +71,27 @@
                             <small>{{ $message }}</small>
                         </span>
                     @enderror
-                        <div class="text-sm mt-2">
-                            <p class="m-0">
-                                The file must be in <b>PDF format</b>, and the maximum file size is <b>5 MB</b>.
-                                <br>
-                                <b>Notes:</b> 
-                                If your PDF file isn't supported, it's usually because your <b>PDF version isn't
-                                supported by the system</b>. Please <b>convert your PDF to version 1.4</b> using the following
-                                website: 
-                            </p>
-                            <ul>
-                                <li>
-                                  <a href='https://www.pdf2go.com/convert-from-pdf' style='text-decoration:underline' target='_blank'>PDF2Go</a> 
-                                </li>
-                                <li>
-                                    <a href='https://docupub.com/pdfconvert/' style='text-decoration:underline' target='_blank'>DocuPub</a>.
-                                </li>
-                            </ul>
-                        </div>
+                    <div class="mt-2 text-sm">
+                        <p class="m-0">
+                            The file must be in <b>PDF format</b>, and the maximum file size is <b>5 MB</b>.
+                            <br>
+                            <b>Notes:</b>
+                            If your PDF file isn't supported, it's usually because your <b>PDF version isn't
+                                supported by the system</b>. Please <b>convert your PDF to version 1.4</b> using the
+                            following
+                            website:
+                        </p>
+                        <ul>
+                            <li>
+                                <a href='https://www.pdf2go.com/convert-from-pdf' style='text-decoration:underline'
+                                    target='_blank'>PDF2Go</a>
+                            </li>
+                            <li>
+                                <a href='https://docupub.com/pdfconvert/' style='text-decoration:underline'
+                                    target='_blank'>DocuPub</a>.
+                            </li>
+                        </ul>
+                    </div>
                 </div>
                 {{-- File Path --}}
             </div>
