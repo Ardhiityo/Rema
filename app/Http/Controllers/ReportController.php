@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Repositories\Contratcs\CoordinatorRepositoryInterface;
 use App\Repositories\Contratcs\MetaDataRepositoryInterface;
 use Mpdf\Mpdf;
+use Mpdf\Output\Destination;
 
 class ReportController extends Controller
 {
@@ -15,12 +16,17 @@ class ReportController extends Controller
 
         $mpdf = new Mpdf;
 
-        $mpdf->WriteHTML(view(
+        $html = view(
             'reports.activity',
             compact('meta_data', 'year')
-        ));
+        )->render();
 
-        return $mpdf->Output();
+        $mpdf->WriteHTML($html);
+
+        return $mpdf->Output(
+            'Remafik_Activities_Reports_'.now()->year.'.pdf',
+            Destination::INLINE
+        );
     }
 
     public function repository($nidn, $year, $status, $includes)
@@ -51,8 +57,13 @@ class ReportController extends Controller
 
         $mpdf = new Mpdf;
 
-        $mpdf->WriteHTML(view('reports.author', $params));
+        $html = view('reports.author', $params)->render();
 
-        return $mpdf->Output();
+        $mpdf->WriteHTML($html);
+
+        return $mpdf->Output(
+            'Remafik_Latest_Reports_'.now()->format('Y-m-d').'.pdf',
+            Destination::INLINE
+        );
     }
 }
