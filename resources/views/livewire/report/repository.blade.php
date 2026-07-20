@@ -31,11 +31,8 @@
 
                     {{-- Coordinator --}}
                     <div>
-                        <label for="year" class="form-label">
+                        <label for="nidn" class="form-label">
                             Coordinator
-                            <sup>
-                                *
-                            </sup>
                         </label>
                         <select class="form-select" id="nidn" wire:model='nidn'>
                             <option selected value="">Choose...</option>
@@ -50,8 +47,37 @@
                                 <small>{{ $message }}</small>
                             </span>
                         @enderror
+                        <p class="text-sm mt-2">
+                            <span class="fw-bold">Coordinator</span> is used to filter data by
+                            program of study,
+                            leave it blank
+                            if you want to include all programs of study
+                        </p>
                     </div>
                     {{-- Coordinator --}}
+
+                    {{-- Status --}}
+                    <div>
+                        <label for="status" class="form-label">
+                            Status
+                            <sup>
+                                *
+                            </sup>
+                        </label>
+                        <select class="form-select" id="status" wire:model='status'>
+                            <option selected value="">Choose...</option>
+                            <option value="approve">Approve</option>
+                            <option value="reject">Reject</option>
+                            <option value="process">Process</option>
+                            <option value="revision">Revision</option>
+                        </select>
+                        @error('status')
+                            <span class="badge bg-danger">
+                                <small>{{ $message }}</small>
+                            </span>
+                        @enderror
+                    </div>
+                    {{-- Status --}}
 
                     {{-- Categories --}}
                     <div class="mt-2">
@@ -60,18 +86,21 @@
                             @foreach ($categories as $category)
                                 <div class="form-check">
                                     <div class="custom-control custom-checkbox">
-                                        <input type="checkbox"
-                                            class="form-check-input form-check-primary form-check-glow" name="includes"
-                                            wire:model='includes' value="{{ $category->slug }}"
+                                        <input type="checkbox" class="form-check-input form-check-primary form-check-glow"
+                                            name="includes" wire:model='includes' value="{{ $category->slug }}"
                                             id="{{ $category->slug }}">
-                                        <label class="form-check-label"
-                                            for="{{ $category->slug }}">{{ $category->name }}
+                                        <label class="form-check-label" for="{{ $category->slug }}">{{ $category->name }}
                                         </label>
                                     </div>
                                 </div>
                             @endforeach
                         </div>
                         @error('includes.*')
+                            <span class="mt-3 badge bg-danger">
+                                <small>{{ $message }}</small>
+                            </span>
+                        @enderror
+                        @error('includes')
                             <span class="mt-3 badge bg-danger">
                                 <small>{{ $message }}</small>
                             </span>

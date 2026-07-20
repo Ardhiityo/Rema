@@ -2,20 +2,24 @@
 
 namespace App\Livewire\Report;
 
-use Throwable;
-use Livewire\Component;
-use Livewire\Attributes\Computed;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Auth;
 use App\Repositories\Contratcs\AuthorRepositoryInterface;
 use App\Repositories\Contratcs\CategoryRepositoryInterface;
 use App\Repositories\Contratcs\CoordinatorRepositoryInterface;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Livewire\Attributes\Computed;
+use Livewire\Component;
+use Throwable;
 
 class AuthorReport extends Component
 {
     public string|int $year = '';
+
     public array $includes = [];
+
     public string|int $nidn = '';
+
+    public string $status = '';
 
     public function mount()
     {
@@ -26,8 +30,10 @@ class AuthorReport extends Component
     {
         return [
             'year' => ['required', 'date_format:Y', 'exists:meta_data,year'],
-            'includes.*' => ['nullable', 'exists:categories,slug'],
-            'nidn' => ['required', 'exists:coordinators,nidn']
+            'includes' => ['required'],
+            'includes.*' => ['required', 'exists:categories,slug'],
+            'nidn' => ['nullable', 'exists:coordinators,nidn'],
+            'status' => ['required', 'in:approve,reject,process,revision'],
         ];
     }
 
@@ -35,7 +41,7 @@ class AuthorReport extends Component
     {
         return [
             'includes.*' => 'includes',
-            'nidn' => 'coordinator'
+            'nidn' => 'coordinator',
         ];
     }
 
@@ -59,9 +65,10 @@ class AuthorReport extends Component
 
     public function resetInput()
     {
-        $this->year = '';
+        $this->year = now()->year;
         $this->includes = [];
         $this->nidn = '';
+        $this->status = '';
 
         $this->resetErrorBag();
     }
@@ -72,11 +79,14 @@ class AuthorReport extends Component
 
         try {
             $this->resetInput();
-            return redirect()->route('reports.repositories.download', [
-                'nidn' => $validated['nidn'],
+            $params = [
+                'nidn' => empty($validated['nidn']) ? 'empty' : $validated['nidn'],
                 'year' => $validated['year'],
-                'includes' => json_encode(isset($validated['includes']) ? $validated['includes'] : [])
-            ]);
+                'status' => $validated['status'],
+                'includes' => json_encode($validated['includes']),
+            ];
+
+            return redirect()->route('reports.repositories.download', $params);
         } catch (Throwable $th) {
             Log::info(json_encode([
                 'user' => [
@@ -92,9 +102,9 @@ class AuthorReport extends Component
                         'year' => $this->year,
                         'includes' => $this->includes,
                         'nidn' => $this->nidn,
-                    ]
+                    ],
                 ],
-                'message' => $th->getMessage()
+                'message' => $th->getMessage(),
             ], JSON_PRETTY_PRINT));
 
             session()->flash('repository-failed', $th->getMessage());

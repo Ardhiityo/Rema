@@ -104,27 +104,29 @@
         </p>
         <br>
 
-        <table>
-            <tr>
-                <td style="text-align: center">
-                    <p>{{ $coordinator_data->position }} <br>
-                        Universitas Al-Khairiyah
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td style="text-align: center">
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <p style="border-bottom: 1px solid black;">
-                        <b>{{ $coordinator_data->name }}</b>
-                    </p>
-                    <p style="font-weight: semi-bold"><b>NIDN : {{ $coordinator_data->nidn }}</b></p>
-                </td>
-            </tr>
-        </table>
+        @isset($coordinator_data)
+            <table>
+                <tr>
+                    <td style="text-align: center">
+                        <p>{{ $coordinator_data->position }} <br>
+                            Universitas Al-Khairiyah
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: center">
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <p style="border-bottom: 1px solid black;">
+                            <b>{{ $coordinator_data->name }}</b>
+                        </p>
+                        <p style="font-weight: semi-bold"><b>NIDN : {{ $coordinator_data->nidn }}</b></p>
+                    </td>
+                </tr>
+            </table>
+        @endisset
 
     </main>
 </body>

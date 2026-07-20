@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['throttle:50,1'])->group(function () {
     Route::get('/reports/activities/{year}', [ReportController::class, 'activity'])
         ->name('reports.activities.download');
-    Route::get('/reports/repositories/{nidn}/{year}/{includes}', [ReportController::class, 'repository'])
+    Route::get('/reports/repositories/{nidn}/{year}/{status}/{includes}', [ReportController::class, 'repository'])
         ->name('reports.repositories.download');
 
     Route::controller(LandingPageController::class)->group(function () {

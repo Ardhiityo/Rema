@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Mpdf\Mpdf;
-use App\Repositories\Contratcs\MetaDataRepositoryInterface;
 use App\Repositories\Contratcs\CoordinatorRepositoryInterface;
+use App\Repositories\Contratcs\MetaDataRepositoryInterface;
+use Mpdf\Mpdf;
 
 class ReportController extends Controller
 {
@@ -13,7 +13,7 @@ class ReportController extends Controller
         $meta_data = app(MetaDataRepositoryInterface::class)
             ->activityReports($year);
 
-        $mpdf = new Mpdf();
+        $mpdf = new Mpdf;
 
         $mpdf->WriteHTML(view(
             'reports.activity',
@@ -23,36 +23,35 @@ class ReportController extends Controller
         return $mpdf->Output();
     }
 
-    public function repository($nidn, $year, $includes)
+    public function repository($nidn, $year, $status, $includes)
     {
         $includes = json_decode($includes);
 
+        $nidn = $nidn === 'empty' ? false : $nidn;
+
         $meta_data = app(MetaDataRepositoryInterface::class)
-            ->authorReports($year, $includes, $nidn);
+            ->authorReports($year, $includes, $nidn, $status);
 
-        $coordinator_data = app(CoordinatorRepositoryInterface::class)
-            ->findByNidn($nidn);
+        $params = [];
+        $params['year'] = $year;
+        $params['meta_data'] = $meta_data;
 
-        $sub_title = '';
-
-        if (empty($includes)) {
-            $sub_title = "Author Reports In $year That Have Not Been Fully Completed In The Repository";
+        if ($nidn) {
+            $params['coordinator_data'] = app(CoordinatorRepositoryInterface::class)
+                ->findByNidn($nidn);
         }
 
-        if (!empty($includes)) {
-            $includes = array_map(function ($item) {
-                return ucwords(str_replace('-', ' ', $item));
-            }, $includes);
+        $includes = array_map(function ($item) {
+            return ucwords(str_replace('-', ' ', $item));
+        }, $includes);
 
-            $sub_title = "Author's Report In $year With The Category Of " . implode(', ', $includes);
-        }
+        $sub_title = "Author's Report In $year With The Category Of ".implode(', ', $includes);
 
-        $mpdf = new Mpdf();
+        $params['sub_title'] = $sub_title;
 
-        $mpdf->WriteHTML(view(
-            'reports.author',
-            compact('year', 'meta_data', 'sub_title', 'coordinator_data')
-        ));
+        $mpdf = new Mpdf;
+
+        $mpdf->WriteHTML(view('reports.author', $params));
 
         return $mpdf->Output();
     }

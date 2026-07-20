@@ -1,10 +1,10 @@
 <?php
 
-use Livewire\Livewire;
+use App\Livewire\Report\AuthorReport;
 use App\Models\Coordinator;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Support\Facades\Storage;
-use App\Livewire\Report\AuthorReport;
+use Livewire\Livewire;
 
 test('mount success', function () {
     Storage::fake('public');
@@ -26,7 +26,7 @@ test('reset input success', function () {
         ->call('resetInput')
         ->assertSet('includes', [])
         ->assertSet('nidn', '')
-        ->assertSet('year', '');
+        ->assertSet('year', now()->year);
 });
 
 test('download success', function () {
@@ -40,8 +40,9 @@ test('download success', function () {
         ->set('year', 2025)
         ->set('includes', ['skripsi'])
         ->set('nidn', $coordinator->nidn)
+        ->set('status', 'approve')
         ->call('download')
-        ->assertSet('year', '')
+        ->assertSet('year', now()->year)
         ->assertSet('includes', [])
         ->assertSet('nidn', '')
         ->assertRedirectToRoute(
@@ -49,7 +50,8 @@ test('download success', function () {
             [
                 'nidn' => $coordinator->nidn,
                 'year' => 2025,
-                'includes' => json_encode(['skripsi'])
+                'status' => 'approve',
+                'includes' => json_encode(['skripsi']),
             ]
         );
 });
@@ -67,7 +69,7 @@ test('download failed validation', function () {
         ->set('nidn', $coordinator->nidn)
         ->call('download')
         ->assertHasErrors([
-            'year' => 'exists'
+            'year' => 'exists',
         ]);
 });
 

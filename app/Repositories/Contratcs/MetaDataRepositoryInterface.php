@@ -2,9 +2,9 @@
 
 namespace App\Repositories\Contratcs;
 
+use App\Data\Metadata\CreateMetadataData;
 use App\Data\Metadata\MetadataData;
 use App\Data\MetaData\UpdateMetaData;
-use App\Data\Metadata\CreateMetadataData;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Spatie\LaravelData\DataCollection;
 use Throwable;
@@ -13,9 +13,9 @@ interface MetaDataRepositoryInterface
 {
     public function create(CreateMetadataData $create_meta_data): MetadataData|Throwable;
 
-    public function findById(int $meta_data_id, array|null $relations = null): MetadataData|Throwable;
+    public function findById(int $meta_data_id, ?array $relations = null): MetadataData|Throwable;
 
-    public function findBySlug(string $meta_data_slug, array|null $relations = null): MetadataData|Throwable;
+    public function findBySlug(string $meta_data_slug, ?array $relations = null): MetadataData|Throwable;
 
     public function update(int $meta_data_id, UpdateMetaData $update_meta_data): MetadataData|Throwable;
 
@@ -25,7 +25,7 @@ interface MetaDataRepositoryInterface
 
     public function activityReports(string|int $year): DataCollection;
 
-    public function authorReports(int|string $year, array $includes = [], int $nidn): DataCollection;
+    public function authorReports(int|string $year, array $includes, int|bool $nidn, string $status): DataCollection;
 
     public function metaDataCount(): int;
 }

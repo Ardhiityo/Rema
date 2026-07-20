@@ -11,6 +11,7 @@ use App\Data\MetaData\UpdateMetaData;
 use App\Models\Coordinator;
 use App\Models\Metadata;
 use App\Repositories\Contratcs\MetaDataRepositoryInterface;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -299,23 +300,23 @@ class MetaDataRepository implements MetaDataRepositoryInterface
         return MetadataActivityReportData::collect($meta_data, DataCollection::class);
     }
 
-    public function authorReports(int|string $year, array $includes, int $nidn): DataCollection
+    public function authorReports(int|string $year, array $includes, int|bool $nidn, string $status): DataCollection
     {
-        $coordinator = Coordinator::where('nidn', $nidn)->first();
+        $coordinator = false;
+
+        if ($nidn) {
+            $coordinator = Coordinator::where('nidn', $nidn)->first();
+        }
 
         $meta_data = Metadata::with(['studyProgram', 'categories'])
             ->where('year', $year)
-            ->where('study_program_id', $coordinator->study_program_id)
-            ->when(
-                ! empty($includes),
-                fn ($query) => $query->whereHas(
-                    'categories',
-                    fn ($query) => $query->whereIn('slug', $includes)
-                )
-            )
-            ->when(
-                empty($includes),
-                fn ($query) => $query->whereDoesntHave('categories')
+            ->where('status', $status)
+            ->when($coordinator, function (Builder $query) use ($coordinator) {
+                $query->where('study_program_id', $coordinator->study_program_id);
+            })
+            ->whereHas(
+                'categories',
+                fn ($query) => $query->whereIn('slug', $includes)
             )
             ->orderBy('author_nim', 'asc')
             ->get();
