@@ -42,6 +42,7 @@ use App\Repositories\Eloquent\NoteRepository;
 use App\Repositories\Eloquent\StaffRepository;
 use App\Repositories\Eloquent\StudyProgramRepository;
 use App\Repositories\Eloquent\UserRepository;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -75,6 +76,10 @@ class AppServiceProvider extends ServiceProvider
         // DB::listen(function (QueryExecuted $query) {
         //     logger(json_encode($query->sql, JSON_PRETTY_PRINT));
         // });
+
+        Gate::define('viewLogViewer', function ($user) {
+            return $user->hasRole('admin') && app()->environment('production');
+        });
 
         Category::observe(CategoryObserver::class);
         StudyProgram::observe(StudyProgramObserver::class);
