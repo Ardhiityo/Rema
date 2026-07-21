@@ -24,7 +24,7 @@ class ReportController extends Controller
         $mpdf->WriteHTML($html);
 
         return $mpdf->Output(
-            'Remafik_Activities_Reports_'.now()->year.'.pdf',
+            'Remafik_Activities_Report_'.now()->year.'.pdf',
             Destination::INLINE
         );
     }
@@ -51,7 +51,7 @@ class ReportController extends Controller
             return ucwords(str_replace('-', ' ', $item));
         }, $includes);
 
-        $sub_title = "Author's Report In $year With The Category Of ".implode(', ', $includes);
+        $sub_title = "Author's Report With The Category Of ".implode(', ', $includes);
 
         $params['sub_title'] = $sub_title;
 

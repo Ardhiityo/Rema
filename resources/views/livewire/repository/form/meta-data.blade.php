@@ -8,7 +8,7 @@
                 <b>Step 1/3</b>
             </span>
         </h4>
-        <div class="my-4 alert alert-warning alert-dismissible show fade">
+        <div class="mt-4 alert alert-primary alert-dismissible show fade">
             <h6 class="alert-heading">
                 <i class="bi bi-exclamation-circle"></i>
                 Attention
@@ -18,7 +18,18 @@
                 visibility
                 is "<b>private</b>". <br>
                 Once the repository is <b>approved</b>, its status becomes "<b>approved</b>" and its visibility is
-                "<b>public</b>".
+                "<b>public</b>". <br><br>
+                If you need further guidance, you can visit the following link:
+
+                <b>
+                    <u>
+                        <a href="https://www.notion.so/Panduan-Rema-FIK-37f06a1abca580a89aaec05af9caae2c?source=copy_link"
+                            target="_blank">
+                            click here
+                        </a>
+                    </u>
+                </b>
+
             </p>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>

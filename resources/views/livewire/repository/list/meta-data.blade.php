@@ -15,7 +15,7 @@
     <div class="card">
         <div class="card-header">
             @hasrole('staff')
-            <div class="mb-4 alert alert-warning alert-dismissible show fade">
+            <div class="mb-4 alert alert-primary alert-dismissible show fade">
                 <h6 class="alert-heading">
                     <i class="bi bi-exclamation-circle"></i>
                     Attention
@@ -44,6 +44,7 @@
                         <div class="input-group">
                             <label class="input-group-text" for="status">Status</label>
                             <select name="status" id="status" class="form-select" wire:model.live='status_filter'>
+                                <option value="">All</option>
                                 <option value="approve">Approve</option>
                                 <option value="process">Process</option>
                                 <option value="revision">Revision</option>
@@ -55,6 +56,7 @@
                         <div class="input-group">
                             <label class="input-group-text" for="visibility">Visibility</label>
                             <select name="visibility" id="visibility" class="form-select" wire:model.live='visibility'>
+                                <option value="">All</option>
                                 <option value="public">Public</option>
                                 <option value="private">Private</option>
                             </select>

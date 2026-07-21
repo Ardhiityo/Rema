@@ -41,8 +41,8 @@ class MetaDataList extends Component
 
         if (Route::is('repository.author.index')) {
             $this->is_author = true;
-            $this->visibility = 'private';
-            $this->status_filter = 'process';
+            $this->visibility = '';
+            $this->status_filter = '';
         }
 
         if (Route::is('repository.index')) {
@@ -97,9 +97,12 @@ class MetaDataList extends Component
         $this->keyword = '';
         $this->year = '';
 
-        if ($this->is_staff || $this->is_author) {
+        if ($this->is_staff) {
             $this->visibility = 'private';
             $this->status_filter = 'process';
+        } elseif ($this->is_author) {
+            $this->visibility = '';
+            $this->status_filter = '';
         } else {
             $this->status_filter = 'approve';
             $this->visibility = 'public';

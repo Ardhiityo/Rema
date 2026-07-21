@@ -182,8 +182,12 @@ class MetaDataRepository implements MetaDataRepositoryInterface
                 // my data repositories for author
                 $query = $query
                     ->where('author_id', $user->author->id)
-                    ->where('status', $status)
-                    ->where('visibility', $visibility)
+                    ->when(! empty($status), function (Builder $query) use ($status) {
+                        $query->where('status', $status);
+                    })
+                    ->when(! empty($visibility), function (Builder $query) use ($visibility) {
+                        $query->where('visibility', $visibility);
+                    })
                     ->when(
                         $keyword,
                         function ($query) use ($keyword) {
@@ -200,8 +204,12 @@ class MetaDataRepository implements MetaDataRepositoryInterface
                 if ($user->hasRole('admin')) {
                     // all repositories for admin
                     $query = $query
-                        ->where('status', $status)
-                        ->where('visibility', $visibility)
+                        ->when(! empty($status), function (Builder $query) use ($status) {
+                            $query->where('status', $status);
+                        })
+                        ->when(! empty($visibility), function (Builder $query) use ($visibility) {
+                            $query->where('visibility', $visibility);
+                        })
                         ->when(
                             $keyword,
                             function ($query) use ($keyword) {
@@ -220,8 +228,12 @@ class MetaDataRepository implements MetaDataRepositoryInterface
 
                     $query = $query
                         ->whereIn('study_program_id', $study_programs)
-                        ->where('status', $status)
-                        ->where('visibility', $visibility)
+                        ->when(! empty($status), function (Builder $query) use ($status) {
+                            $query->where('status', $status);
+                        })
+                        ->when(! empty($visibility), function (Builder $query) use ($visibility) {
+                            $query->where('visibility', $visibility);
+                        })
                         ->when(
                             $keyword,
                             function ($query) use ($keyword) {
