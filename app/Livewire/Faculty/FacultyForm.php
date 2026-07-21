@@ -67,7 +67,8 @@ class FacultyForm extends Component
 
             session()->flash('faculty-success', 'The faculty was successfully created.');
         } catch (Throwable $th) {
-            session()->flash('faculty-failed', $th->getMessage());
+            logger()->error($th->getMessage(), ['FacultyForm' => 'create']);
+            session()->flash('faculty-failed', 'Failed creating faculty');
         }
     }
 
@@ -83,7 +84,8 @@ class FacultyForm extends Component
 
             $this->is_update = true;
         } catch (Throwable $th) {
-            session()->flash('faculty-failed', $th->getMessage());
+            logger()->error($th->getMessage(), ['FacultyForm' => 'edit']);
+            session()->flash('faculty-failed', 'Failed editing faculty');
         }
     }
 
@@ -107,7 +109,8 @@ class FacultyForm extends Component
 
             session()->flash('faculty-success', 'The faculty was successfully updated.');
         } catch (Throwable $th) {
-            session()->flash('faculty-failed', $th->getMessage());
+            logger()->error($th->getMessage(), ['FacultyForm' => 'update']);
+            session()->flash('faculty-failed', 'Failed updating faculty');
         }
     }
 
@@ -119,7 +122,8 @@ class FacultyForm extends Component
 
             $this->faculty_id = $faculty_data->id;
         } catch (Throwable $th) {
-            session()->flash('faculty-failed', $th->getMessage());
+            logger()->error($th->getMessage(), ['FacultyForm' => 'deleteConfirm']);
+            session()->flash('faculty-failed', 'Failed deleting faculty');
         }
     }
 
@@ -135,7 +139,8 @@ class FacultyForm extends Component
 
             session()->flash('faculty-success', 'The faculty was successfully deleted.');
         } catch (Throwable $th) {
-            session()->flash('faculty-failed', $th->getMessage());
+            logger()->error($th->getMessage(), ['FacultyForm' => 'delete']);
+            session()->flash('faculty-failed', 'Failed deleting faculty');
         }
     }
 
@@ -150,7 +155,7 @@ class FacultyForm extends Component
 
         $this->resetErrorBag();
     }
-    
+
     public function render()
     {
         return view('livewire.faculty.form');

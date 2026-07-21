@@ -25,7 +25,7 @@ class ActivityRepository implements ActivityRepositoryInterface
                 'category_id' => $create_activity_data->category_id,
             ]);
         } catch (Throwable $th) {
-            Log::info(json_encode([
+            Log::error(json_encode([
                 'user' => [
                     'id' => $create_activity_data->user_id,
                 ],
@@ -87,7 +87,7 @@ class ActivityRepository implements ActivityRepositoryInterface
         }
 
         $activities = $activities->paginate(10);
-   
+
         return ActivityData::collect($activities);
     }
 

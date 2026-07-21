@@ -69,7 +69,8 @@ class CategoryForm extends Component
 
             session()->flash('category-success', 'The category was successfully created.');
         } catch (Throwable $th) {
-            session()->flash('category-failed', $th->getMessage());
+            logger()->error($th->getMessage(), ['CategoryForm' => 'create']);
+            session()->flash('category-failed', 'Failed creating category');
         }
     }
 
@@ -85,7 +86,8 @@ class CategoryForm extends Component
 
             $this->is_update = true;
         } catch (Throwable $th) {
-            session()->flash('category-failed', $th->getMessage());
+            logger()->error($th->getMessage(), ['CategoryForm' => 'edit']);
+            session()->flash('category-failed', 'Failed edit category');
         }
     }
 
@@ -107,7 +109,8 @@ class CategoryForm extends Component
 
             session()->flash('category-success', 'The category was successfully updated.');
         } catch (Throwable $th) {
-            session()->flash('category-failed', $th->getMessage());
+            logger()->error($th->getMessage(), ['CategoryForm' => 'update']);
+            session()->flash('category-failed', 'Failed updating category');
         }
     }
 
@@ -119,7 +122,8 @@ class CategoryForm extends Component
 
             $this->category_id = $category_data->id;
         } catch (Throwable $th) {
-            session()->flash('category-failed', $th->getMessage());
+            logger()->error($th->getMessage(), ['CategoryForm' => 'deleteConfirm']);
+            session()->flash('category-failed', 'Failed deleting category');
         }
     }
 
@@ -135,7 +139,8 @@ class CategoryForm extends Component
 
             session()->flash('category-success', 'The category was successfully deleted.');
         } catch (Throwable $th) {
-            session()->flash('category-failed', $th->getMessage());
+            logger()->error($th->getMessage(), ['CategoryForm' => 'delete']);
+            session()->flash('category-failed', 'Failed deleteing category');
         }
     }
 

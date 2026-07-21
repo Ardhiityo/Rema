@@ -40,7 +40,7 @@ class UserRepository implements UserRepositoryInterface
 
             return UserData::fromModel($user);
         } catch (Throwable $th) {
-            Log::info(json_encode([
+            Log::error(json_encode([
                 'user' => [
                     'id' => Auth::user()->id,
                     'name' => Auth::user()->name,
@@ -68,7 +68,7 @@ class UserRepository implements UserRepositoryInterface
 
             return UserData::fromModel($user);
         } catch (Throwable $th) {
-            Log::info(json_encode([
+            Log::error(json_encode([
                 'user' => [
                     'id' => Auth::user()->id,
                     'name' => Auth::user()->name,
@@ -120,7 +120,7 @@ class UserRepository implements UserRepositoryInterface
 
             return UserData::fromModel($user->refresh());
         } catch (Throwable $th) {
-            Log::info(json_encode([
+            Log::error(json_encode([
                 'user' => [
                     'id' => Auth::user()->id,
                     'name' => Auth::user()->name,
@@ -174,9 +174,10 @@ class UserRepository implements UserRepositoryInterface
             }
             Cache::forget('author.count');
             Cache::forget('metadata.count');
+
             return $user->delete();
         } catch (Throwable $th) {
-            Log::info(json_encode([
+            Log::error(json_encode([
                 'user' => [
                     'id' => Auth::user()->id,
                     'name' => Auth::user()->name,

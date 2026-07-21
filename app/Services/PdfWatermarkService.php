@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Exception\WatermarkException;
 use Exception;
 use Gutti3k\PdfWatermarker\Watermarkers\ImageWatermarker;
 use Illuminate\Support\Facades\Auth;
@@ -31,9 +32,8 @@ class PdfWatermarkService
                     ->pageRange(1, null)
                     ->save($tempOutput);
             } catch (Exception $exception) {
-
                 if (str_contains($exception->getMessage(), 'compression technique')) {
-                    throw new Exception(
+                    throw new WatermarkException(
                         'File PDF ini menggunakan kompresi yang tidak didukung sistem. '.
                             'Silakan ubah ke PDF versi 1.4 di situs seperti '.
                             "<a href='https://www.pdf2go.com/convert-from-pdf' style='text-decoration:underline' target='_blank'>PDF2Go</a> ".
@@ -42,7 +42,7 @@ class PdfWatermarkService
                 }
 
                 // Kalau bukan error kompresi, lempar ulang
-                throw new Exception($exception->getMessage());
+                throw $exception;
             }
 
             // Pindahkan file hasil
@@ -58,25 +58,26 @@ class PdfWatermarkService
 
             return $relativePath;
         } catch (Exception $exception) {
-            Log::info(json_encode([
-                'user' => [
-                    'id' => Auth::user()->id,
-                    'name' => Auth::user()->name,
-                ],
-                'details' => [
-                    'source' => [
-                        'class' => 'PdfWatermarkService',
-                        'method' => 'apply',
+            if (! $exception instanceof WatermarkException) {
+                Log::error(json_encode([
+                    'user' => [
+                        'id' => Auth::user()->id,
+                        'name' => Auth::user()->name,
                     ],
-                    'data' => [
-                        'sourcePath' => $sourcePath,
-                        'relativePath' => 'repositories/'.$filename,
+                    'details' => [
+                        'source' => [
+                            'class' => 'PdfWatermarkService',
+                            'method' => 'apply',
+                        ],
+                        'data' => [
+                            'sourcePath' => $sourcePath,
+                            'relativePath' => 'repositories/'.$filename,
+                        ],
                     ],
-                ],
-                'message' => $exception->getMessage(),
-            ], JSON_PRETTY_PRINT));
-
-            throw new Exception($exception->getMessage());
+                    'message' => $exception->getMessage(),
+                ], JSON_PRETTY_PRINT));
+            }
+            throw $exception;
         }
     }
 }

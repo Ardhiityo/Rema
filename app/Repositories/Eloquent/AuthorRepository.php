@@ -27,7 +27,7 @@ class AuthorRepository implements AuthorRepositoryInterface
 
             return AuthorData::fromModel($author);
         } catch (Throwable $th) {
-            Log::info(json_encode([
+            Log::error(json_encode([
                 'user' => [
                     'id' => Auth::user()->id,
                     'name' => Auth::user()->name,
@@ -59,7 +59,7 @@ class AuthorRepository implements AuthorRepositoryInterface
 
             return AuthorData::fromModel($author);
         } catch (Throwable $th) {
-            Log::info(json_encode([
+            Log::error(json_encode([
                 'user' => [
                     'id' => Auth::user()->id,
                     'name' => Auth::user()->name,
@@ -93,7 +93,7 @@ class AuthorRepository implements AuthorRepositoryInterface
 
             return AuthorData::fromModel($author->refresh());
         } catch (Throwable $th) {
-            Log::info(json_encode([
+            Log::error(json_encode([
                 'user' => [
                     'id' => Auth::user()->id,
                     'name' => Auth::user()->name,

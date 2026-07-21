@@ -2,18 +2,18 @@
 
 namespace App\Repositories\Eloquent;
 
-use Throwable;
-use App\Models\Category;
 use App\Data\Category\CategoryData;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
-use Spatie\LaravelData\DataCollection;
-use Illuminate\Support\Facades\Storage;
 use App\Data\Category\CreateCategoryData;
 use App\Data\Category\UpdateCategoryData;
-use Illuminate\Pagination\LengthAwarePaginator;
+use App\Models\Category;
 use App\Repositories\Contratcs\CategoryRepositoryInterface;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use Spatie\LaravelData\DataCollection;
+use Throwable;
 
 class CategoryRepository implements CategoryRepositoryInterface
 {
@@ -22,12 +22,12 @@ class CategoryRepository implements CategoryRepositoryInterface
         try {
             $category = Category::create([
                 'name' => ucwords(strtolower($category->name)),
-                'slug' => $category->slug
+                'slug' => $category->slug,
             ]);
 
             return CategoryData::fromModel($category);
         } catch (Throwable $th) {
-            Log::info(json_encode([
+            Log::error(json_encode([
                 'user' => [
                     'id' => Auth::user()->id,
                     'name' => Auth::user()->name,
@@ -39,9 +39,9 @@ class CategoryRepository implements CategoryRepositoryInterface
                     ],
                     'data' => [
                         'category' => $category,
-                    ]
+                    ],
                 ],
-                'message' => $th->getMessage()
+                'message' => $th->getMessage(),
             ], JSON_PRETTY_PRINT));
 
             throw $th;
@@ -55,7 +55,7 @@ class CategoryRepository implements CategoryRepositoryInterface
 
             return CategoryData::fromModel($category);
         } catch (Throwable $th) {
-            Log::info(json_encode([
+            Log::error(json_encode([
                 'user' => [
                     'id' => Auth::user()->id,
                     'name' => Auth::user()->name,
@@ -67,9 +67,9 @@ class CategoryRepository implements CategoryRepositoryInterface
                     ],
                     'data' => [
                         'category_id' => $category_id,
-                    ]
+                    ],
                 ],
-                'message' => $th->getMessage()
+                'message' => $th->getMessage(),
             ], JSON_PRETTY_PRINT));
 
             throw $th;
@@ -83,12 +83,12 @@ class CategoryRepository implements CategoryRepositoryInterface
 
             $category->update([
                 'name' => ucwords(strtolower($update_category_data->name)),
-                'slug' => $update_category_data->slug
+                'slug' => $update_category_data->slug,
             ]);
 
             return CategoryData::fromModel($category->refresh());
         } catch (Throwable $th) {
-            Log::info(json_encode([
+            Log::error(json_encode([
                 'user' => [
                     'id' => Auth::user()->id,
                     'name' => Auth::user()->name,
@@ -101,9 +101,9 @@ class CategoryRepository implements CategoryRepositoryInterface
                     'data' => [
                         'category_id' => $category_id,
                         'update_category_data' => $update_category_data,
-                    ]
+                    ],
                 ],
-                'message' => $th->getMessage()
+                'message' => $th->getMessage(),
             ], JSON_PRETTY_PRINT));
 
             throw $th;
@@ -128,7 +128,7 @@ class CategoryRepository implements CategoryRepositoryInterface
 
             return $category->delete();
         } catch (Throwable $th) {
-            Log::info(json_encode([
+            Log::error(json_encode([
                 'user' => [
                     'id' => Auth::user()->id,
                     'name' => Auth::user()->name,
@@ -140,9 +140,9 @@ class CategoryRepository implements CategoryRepositoryInterface
                     ],
                     'data' => [
                         'category_id' => $category_id,
-                    ]
+                    ],
                 ],
-                'message' => $th->getMessage()
+                'message' => $th->getMessage(),
             ], JSON_PRETTY_PRINT));
 
             throw $th;
@@ -159,7 +159,7 @@ class CategoryRepository implements CategoryRepositoryInterface
         });
     }
 
-    public function findByFilters(string|null $keyword = null): LengthAwarePaginator
+    public function findByFilters(?string $keyword = null): LengthAwarePaginator
     {
         $query = Category::query();
 
@@ -172,7 +172,7 @@ class CategoryRepository implements CategoryRepositoryInterface
         );
     }
 
-    public function first(): CategoryData|null
+    public function first(): ?CategoryData
     {
         try {
             $category = Category::firstOrFail();

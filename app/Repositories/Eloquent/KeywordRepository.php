@@ -30,7 +30,7 @@ class KeywordRepository implements KeywordRepositoryInterface
 
             return KeywordData::fromModel($keyword);
         } catch (Throwable $th) {
-            Log::info(json_encode([
+            Log::error(json_encode([
                 'user' => [
                     'id' => Auth::user()->id,
                     'name' => Auth::user()->name,
@@ -60,7 +60,7 @@ class KeywordRepository implements KeywordRepositoryInterface
 
             return KeywordData::fromModel($keyword);
         } catch (Throwable $th) {
-            Log::info(json_encode([
+            Log::error(json_encode([
                 'user' => [
                     'id' => Auth::user()->id,
                     'name' => Auth::user()->name,
@@ -94,7 +94,7 @@ class KeywordRepository implements KeywordRepositoryInterface
 
             return KeywordData::fromModel($keyword);
         } catch (Throwable $th) {
-            Log::info(json_encode([
+            Log::error(json_encode([
                 'user' => [
                     'id' => Auth::user()->id,
                     'name' => Auth::user()->name,
@@ -115,7 +115,7 @@ class KeywordRepository implements KeywordRepositoryInterface
             throw $th;
         }
     }
-    
+
     public function delete(int $keyword_id): bool|Throwable
     {
         try {
@@ -125,7 +125,7 @@ class KeywordRepository implements KeywordRepositoryInterface
 
             return true;
         } catch (Throwable $th) {
-            Log::info(json_encode([
+            Log::error(json_encode([
                 'user' => [
                     'id' => Auth::user()->id,
                     'name' => Auth::user()->name,

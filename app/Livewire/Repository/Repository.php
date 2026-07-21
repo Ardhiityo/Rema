@@ -92,7 +92,8 @@ class Repository extends Component
 
             return $this->showMetaDataCategoryForm;
         } catch (Throwable $th) {
-            Session::flash('repository-failed', $th->getMessage());
+            logger()->error($th->getMessage(), ['Repository' => 'isEditRepositoryCategoryForm']);
+            Session::flash('repository-failed', 'Failed getting meta data');
         }
     }
 

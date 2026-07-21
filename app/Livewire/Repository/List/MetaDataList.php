@@ -73,7 +73,8 @@ class MetaDataList extends Component
 
             $this->meta_data_id = $meta_data->id;
         } catch (Throwable $th) {
-            session()->flash('repository-list-failed', $th->getMessage());
+            logger()->error($th->getMessage(), ['MetaDataList' => 'destroyConfirm']);
+            session()->flash('repository-list-failed', 'Failed deleting meta data list');
         }
     }
 
@@ -88,7 +89,8 @@ class MetaDataList extends Component
 
             session()->flash('repository-list-success', 'The repository was successfully deleted.');
         } catch (Throwable $th) {
-            session()->flash('repository-list-failed', $th->getMessage());
+            logger()->error($th->getMessage(), ['MetaDataList' => 'destroy']);
+            session()->flash('repository-list-failed', 'Failed deleting meta data list');
         }
     }
 

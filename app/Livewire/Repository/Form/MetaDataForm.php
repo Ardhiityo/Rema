@@ -180,7 +180,8 @@ class MetaDataForm extends Component
 
             $this->dispatch('refresh-meta-data-session');
         } catch (Throwable $th) {
-            Session::flash('meta-data-failed', $th->getMessage());
+            logger()->error($th->getMessage(), ['MetaDataForm' => 'create']);
+            Session::flash('meta-data-failed', 'Failed creating meta data form');
         }
     }
 
@@ -208,7 +209,8 @@ class MetaDataForm extends Component
                 return redirect()->route('repository.edit', ['meta_data_slug' => $meta_data_data->slug]);
             }
         } catch (Throwable $th) {
-            Session::flash('meta-data-failed', $th->getMessage());
+            logger()->error($th->getMessage(), ['MetaDataForm' => 'update']);
+            Session::flash('meta-data-failed', 'Failed updating meta data form');
         }
     }
 

@@ -40,7 +40,7 @@ class MetaDataRepository implements MetaDataRepositoryInterface
 
             return MetadataData::fromModel($meta_data);
         } catch (Throwable $th) {
-            Log::info(json_encode([
+            Log::error(json_encode([
                 'user' => [
                     'id' => Auth::user()->id,
                     'name' => Auth::user()->name,
@@ -85,7 +85,7 @@ class MetaDataRepository implements MetaDataRepositoryInterface
 
             return MetadataData::fromModel($meta_data->refresh());
         } catch (Throwable $th) {
-            Log::info(json_encode([
+            Log::error(json_encode([
                 'user' => [
                     'id' => Auth::user()->id,
                     'name' => Auth::user()->name,
@@ -118,7 +118,7 @@ class MetaDataRepository implements MetaDataRepositoryInterface
 
             return MetadataData::fromModel($meta_data);
         } catch (Throwable $th) {
-            Log::info(json_encode([
+            Log::error(json_encode([
                 'user' => [
                     'id' => Auth::user()->id,
                     'name' => Auth::user()->name,
@@ -273,7 +273,7 @@ class MetaDataRepository implements MetaDataRepositoryInterface
 
             return $meta_data->delete();
         } catch (Throwable $th) {
-            Log::info(json_encode([
+            Log::error(json_encode([
                 'user' => [
                     'id' => Auth::user()->id,
                     'name' => Auth::user()->name,

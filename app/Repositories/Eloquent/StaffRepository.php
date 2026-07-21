@@ -2,16 +2,16 @@
 
 namespace App\Repositories\Eloquent;
 
-use Throwable;
-use App\Models\Staff;
+use App\Data\Staff\CreateStaffData;
 use App\Data\Staff\StaffData;
 use App\Data\Staff\StaffListData;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Auth;
-use App\Data\Staff\CreateStaffData;
 use App\Data\Staff\UpdateStaffData;
-use Illuminate\Pagination\LengthAwarePaginator;
+use App\Models\Staff;
 use App\Repositories\Contratcs\StaffRepositoryInterface;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class StaffRepository implements StaffRepositoryInterface
 {
@@ -25,7 +25,7 @@ class StaffRepository implements StaffRepositoryInterface
 
             return StaffData::fromModel($staff);
         } catch (Throwable $th) {
-            Log::info(json_encode([
+            Log::error(json_encode([
                 'user' => [
                     'id' => Auth::user()->id,
                     'name' => Auth::user()->name,
@@ -37,9 +37,9 @@ class StaffRepository implements StaffRepositoryInterface
                     ],
                     'data' => [
                         'create_staff_data' => $create_staff_data,
-                    ]
+                    ],
                 ],
-                'message' => $th->getMessage()
+                'message' => $th->getMessage(),
             ], JSON_PRETTY_PRINT));
 
             throw $th;
@@ -51,13 +51,13 @@ class StaffRepository implements StaffRepositoryInterface
         try {
             $staff = Staff::findOrFail($staff_id);
 
-            if (!empty($relations)) {
+            if (! empty($relations)) {
                 $staff = $staff->load($relations);
             }
 
             return StaffData::fromModel($staff);
         } catch (Throwable $th) {
-            Log::info(json_encode([
+            Log::error(json_encode([
                 'user' => [
                     'id' => Auth::user()->id,
                     'name' => Auth::user()->name,
@@ -70,9 +70,9 @@ class StaffRepository implements StaffRepositoryInterface
                     'data' => [
                         'staff_id' => $staff_id,
                         'relations' => $relations,
-                    ]
+                    ],
                 ],
-                'message' => $th->getMessage()
+                'message' => $th->getMessage(),
             ], JSON_PRETTY_PRINT));
 
             throw $th;
@@ -85,12 +85,12 @@ class StaffRepository implements StaffRepositoryInterface
             $staff = Staff::findOrFail($staff_id);
 
             $staff->update([
-                'faculty_id' => $update_staff_data->faculty_id
+                'faculty_id' => $update_staff_data->faculty_id,
             ]);
 
             return StaffData::fromModel($staff->refresh());
         } catch (Throwable $th) {
-            Log::info(json_encode([
+            Log::error(json_encode([
                 'user' => [
                     'id' => Auth::user()->id,
                     'name' => Auth::user()->name,
@@ -103,30 +103,30 @@ class StaffRepository implements StaffRepositoryInterface
                     'data' => [
                         'staff_id' => $staff_id,
                         'update_staff_data' => $update_staff_data,
-                    ]
+                    ],
                 ],
-                'message' => $th->getMessage()
+                'message' => $th->getMessage(),
             ], JSON_PRETTY_PRINT));
 
             throw $th;
         }
     }
 
-    public function findByFilters(string|null $keyword = null, string|null $faculty_slug = null): LengthAwarePaginator
+    public function findByFilters(?string $keyword = null, ?string $faculty_slug = null): LengthAwarePaginator
     {
         $query = Staff::query();
 
         if ($keyword) {
             $query->whereHas(
                 'user',
-                fn($query) => $query->whereLike('name', "%$keyword%")
+                fn ($query) => $query->whereLike('name', "%$keyword%")
             );
         }
 
         if ($faculty_slug) {
             $query->whereHas(
                 'faculty',
-                fn($query) => $query->where('slug', $faculty_slug)
+                fn ($query) => $query->where('slug', $faculty_slug)
             );
         }
 

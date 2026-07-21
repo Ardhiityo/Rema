@@ -4,6 +4,7 @@ namespace App\Livewire\Repository\Form;
 
 use App\Data\MetadataCategory\CreateMetadataCategoryData;
 use App\Data\MetadataCategory\UpdateMetadataCategoryData;
+use App\Exception\WatermarkException;
 use App\Repositories\Contratcs\CategoryRepositoryInterface;
 use App\Repositories\Contratcs\MetaDataCategoryRepositoryInterface;
 use App\Repositories\Contratcs\MetaDataRepositoryInterface;
@@ -135,7 +136,12 @@ class MetaDataCategoryForm extends Component
 
             $this->dispatch('refresh-meta-data-category');
         } catch (Exception $exception) {
-            session()->flash('meta-data-category-failed', $exception->getMessage());
+            if ($exception instanceof WatermarkException) {
+                session()->flash('meta-data-category-failed', $exception->getMessage());
+            } else {
+                logger()->error($exception->getMessage(), ['MetaDataCategoryForm' => 'create']);
+                session()->flash('meta-data-category-failed', 'Failed creating meta data');
+            }
         }
     }
 
@@ -153,7 +159,8 @@ class MetaDataCategoryForm extends Component
 
             $this->is_update = true;
         } catch (Throwable $th) {
-            return session()->flash('meta-data-category-failed', $th->getMessage());
+            logger()->error($th->getMessage(), ['MetaDataCategoryForm' => 'edit']);
+            session()->flash('meta-data-category-failed', 'Failed editing meta data');
         }
     }
 
@@ -176,8 +183,13 @@ class MetaDataCategoryForm extends Component
             $this->dispatch('refresh-meta-data-category');
 
             session()->flash('meta-data-category-success', 'The category was successfully updated.');
-        } catch (Throwable $th) {
-            session()->flash('meta-data-category-failed', $th->getMessage());
+        } catch (Exception $exception) {
+            if ($exception instanceof WatermarkException) {
+                session()->flash('meta-data-category-failed', $exception->getMessage());
+            } else {
+                logger()->error($exception->getMessage(), ['MetaDataCategoryForm' => 'create']);
+                session()->flash('meta-data-category-failed', 'Failed updating meta data');
+            }
         }
     }
 
@@ -191,7 +203,8 @@ class MetaDataCategoryForm extends Component
             $this->meta_data_id = $meta_data_category_data->meta_data_id;
             $this->category_id_delete = $meta_data_category_data->category_id;
         } catch (Throwable $th) {
-            session()->flash('meta-data-category-failed', $th->getMessage());
+            logger()->error($th->getMessage(), ['MetaDataCategoryForm' => 'deleteConfirm']);
+            session()->flash('meta-data-category-failed', 'Failed deleting meta data');
         }
     }
 
@@ -211,7 +224,8 @@ class MetaDataCategoryForm extends Component
 
             $this->dispatch('refresh-meta-data-category');
         } catch (Throwable $th) {
-            session()->flash('meta-data-category-failed', $th->getMessage());
+            logger()->error($th->getMessage(), ['MetaDataCategoryForm' => 'delete']);
+            session()->flash('meta-data-category-failed', 'Failed deleting meta data');
         }
     }
 

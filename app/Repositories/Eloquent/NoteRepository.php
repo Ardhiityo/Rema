@@ -2,15 +2,15 @@
 
 namespace App\Repositories\Eloquent;
 
-use Throwable;
-use App\Models\Note;
-use App\Data\Note\NoteData;
 use App\Data\Note\CreateNoteData;
+use App\Data\Note\NoteData;
 use App\Data\Note\UpdateNoteData;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Pagination\LengthAwarePaginator;
+use App\Models\Note;
 use App\Repositories\Contratcs\NoteRepositoryInterface;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class NoteRepository implements NoteRepositoryInterface
 {
@@ -18,7 +18,7 @@ class NoteRepository implements NoteRepositoryInterface
     {
         $note = Note::create([
             'meta_data_id' => $create_note_data->meta_data_id,
-            'message' => $create_note_data->message
+            'message' => $create_note_data->message,
         ]);
 
         return NoteData::fromModel($note);
@@ -30,12 +30,12 @@ class NoteRepository implements NoteRepositoryInterface
             $note = Note::findOrFail($note_id);
 
             $note->update([
-                'message' => $update_note_data->message
+                'message' => $update_note_data->message,
             ]);
 
             return NoteData::fromModel($note->refresh());
         } catch (Throwable $th) {
-            Log::info(json_encode([
+            Log::error(json_encode([
                 'user' => [
                     'id' => Auth::user()->id,
                     'name' => Auth::user()->name,
@@ -48,9 +48,9 @@ class NoteRepository implements NoteRepositoryInterface
                     'data' => [
                         'note_id' => $note_id,
                         'update_note_data' => $update_note_data,
-                    ]
+                    ],
                 ],
-                'message' => $th->getMessage()
+                'message' => $th->getMessage(),
             ], JSON_PRETTY_PRINT));
 
             throw $th;
@@ -61,9 +61,10 @@ class NoteRepository implements NoteRepositoryInterface
     {
         try {
             $note = Note::findOrFail($note_id);
+
             return $note->delete();
         } catch (Throwable $th) {
-            Log::info(json_encode([
+            Log::error(json_encode([
                 'user' => [
                     'id' => Auth::user()->id,
                     'name' => Auth::user()->name,
@@ -75,9 +76,9 @@ class NoteRepository implements NoteRepositoryInterface
                     ],
                     'data' => [
                         'note_id' => $note_id,
-                    ]
+                    ],
                 ],
-                'message' => $th->getMessage()
+                'message' => $th->getMessage(),
             ], JSON_PRETTY_PRINT));
 
             throw $th;
@@ -91,7 +92,7 @@ class NoteRepository implements NoteRepositoryInterface
 
             return NoteData::fromModel($note);
         } catch (Throwable $th) {
-            Log::info(json_encode([
+            Log::error(json_encode([
                 'user' => [
                     'id' => Auth::user()->id,
                     'name' => Auth::user()->name,
@@ -103,9 +104,9 @@ class NoteRepository implements NoteRepositoryInterface
                     ],
                     'data' => [
                         'note_id' => $note_id,
-                    ]
+                    ],
                 ],
-                'message' => $th->getMessage()
+                'message' => $th->getMessage(),
             ], JSON_PRETTY_PRINT));
 
             throw $th;

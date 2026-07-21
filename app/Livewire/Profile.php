@@ -77,7 +77,7 @@ class Profile extends Component
             'study_program_id' => ['required_if:role,author', new ProfileStudyProgramRule],
             'avatar' => [Rule::requiredIf($this->user->avatar == null), new ProfileAvatarRule],
             'email' => ['required', 'email:dns', 'unique:users,email,'.$this->user->id],
-            'password' => ['nullable', 'min:8', 'max:100', Password::min(8)->letters()->numbers()->mixedCase()->symbols()]
+            'password' => ['nullable', 'min:8', 'max:100', Password::min(8)->letters()->numbers()->mixedCase()->symbols()],
         ];
     }
 
@@ -138,7 +138,8 @@ class Profile extends Component
 
             session()->flash('profile-success', 'The profile was successfully updated.');
         } catch (Throwable $th) {
-            session()->flash('profile-failed', $th->getMessage());
+            logger()->error($th->getMessage(), ['Profile' => 'update']);
+            session()->flash('profile-failed', 'Failed updating profile');
         }
     }
 

@@ -28,7 +28,7 @@ class FacultyRepository implements FacultyRepositoryInterface
 
             return FacultyData::fromModel($faculty);
         } catch (Throwable $th) {
-            Log::info(json_encode([
+            Log::error(json_encode([
                 'user' => [
                     'id' => Auth::user()->id,
                     'name' => Auth::user()->name,
@@ -56,7 +56,7 @@ class FacultyRepository implements FacultyRepositoryInterface
 
             return FacultyData::fromModel($faculty);
         } catch (Throwable $th) {
-            Log::info(json_encode([
+            Log::error(json_encode([
                 'user' => [
                     'id' => Auth::user()->id,
                     'name' => Auth::user()->name,
@@ -89,7 +89,7 @@ class FacultyRepository implements FacultyRepositoryInterface
 
             return FacultyData::fromModel($faculty->refresh());
         } catch (Throwable $th) {
-            Log::info(json_encode([
+            Log::error(json_encode([
                 'user' => [
                     'id' => Auth::user()->id,
                     'name' => Auth::user()->name,
@@ -152,7 +152,7 @@ class FacultyRepository implements FacultyRepositoryInterface
 
             return $faculty->delete();
         } catch (Throwable $th) {
-            Log::info(json_encode([
+            Log::error(json_encode([
                 'user' => [
                     'id' => Auth::user()->id,
                     'name' => Auth::user()->name,

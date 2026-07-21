@@ -2,8 +2,8 @@
 
 namespace App\Livewire\Report;
 
-use Throwable;
 use Livewire\Component;
+use Throwable;
 
 class ActivityReport extends Component
 {
@@ -17,7 +17,7 @@ class ActivityReport extends Component
     public function rules()
     {
         return [
-            'year' => ['required', 'date_format:Y', 'exists:meta_data,year']
+            'year' => ['required', 'date_format:Y', 'exists:meta_data,year'],
         ];
     }
 
@@ -34,10 +34,11 @@ class ActivityReport extends Component
         try {
             $year = $this->year;
             $this->resetInput();
+
             return redirect()->route('reports.activities.download', ['year' => $year]);
         } catch (Throwable $th) {
-            logger($th->getMessage(), ['Activity Report' => 'download']);
-            session()->flash('activity-failed', $th->getMessage());
+            logger()->error($th->getMessage(), ['ActivityReport' => 'download']);
+            session()->flash('activity-failed', 'Failed generating report');
         }
     }
 

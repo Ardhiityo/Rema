@@ -2,17 +2,17 @@
 
 namespace App\Repositories\Eloquent;
 
-use Throwable;
-use App\Models\Coordinator;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
-use Spatie\LaravelData\DataCollection;
 use App\Data\Coordinator\CoordinatorData;
 use App\Data\Coordinator\CreateCoordinatorData;
 use App\Data\Coordinator\UpdateCoordinatorData;
-use Illuminate\Pagination\LengthAwarePaginator;
+use App\Models\Coordinator;
 use App\Repositories\Contratcs\CoordinatorRepositoryInterface;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
+use Spatie\LaravelData\DataCollection;
+use Throwable;
 
 class CoordinatorRepository implements CoordinatorRepositoryInterface
 {
@@ -33,7 +33,7 @@ class CoordinatorRepository implements CoordinatorRepositoryInterface
 
             return CoordinatorData::fromModel($coordinator);
         } catch (Throwable $th) {
-            Log::info(json_encode([
+            Log::error(json_encode([
                 'user' => [
                     'id' => Auth::user()->id,
                     'name' => Auth::user()->name,
@@ -45,9 +45,9 @@ class CoordinatorRepository implements CoordinatorRepositoryInterface
                     ],
                     'data' => [
                         'nidn' => $nidn,
-                    ]
+                    ],
                 ],
-                'message' => $th->getMessage()
+                'message' => $th->getMessage(),
             ], JSON_PRETTY_PRINT));
 
             throw $th;
@@ -61,7 +61,7 @@ class CoordinatorRepository implements CoordinatorRepositoryInterface
 
             return CoordinatorData::fromModel($coordinator);
         } catch (Throwable $th) {
-            Log::info(json_encode([
+            Log::error(json_encode([
                 'user' => [
                     'id' => Auth::user()->id,
                     'name' => Auth::user()->name,
@@ -73,9 +73,9 @@ class CoordinatorRepository implements CoordinatorRepositoryInterface
                     ],
                     'data' => [
                         'coordinator_id' => $coordinator_id,
-                    ]
+                    ],
                 ],
-                'message' => $th->getMessage()
+                'message' => $th->getMessage(),
             ], JSON_PRETTY_PRINT));
 
             throw $th;
@@ -103,12 +103,12 @@ class CoordinatorRepository implements CoordinatorRepositoryInterface
                 'name' => $create_coordinator_data->name,
                 'nidn' => $create_coordinator_data->nidn,
                 'position' => $create_coordinator_data->position,
-                'study_program_id' => $create_coordinator_data->study_program_id
+                'study_program_id' => $create_coordinator_data->study_program_id,
             ]);
 
             return CoordinatorData::fromModel($coordinator);
         } catch (Throwable $th) {
-            Log::info(json_encode([
+            Log::error(json_encode([
                 'user' => [
                     'id' => Auth::user()->id,
                     'name' => Auth::user()->name,
@@ -120,30 +120,30 @@ class CoordinatorRepository implements CoordinatorRepositoryInterface
                     ],
                     'data' => [
                         'create_coordinator_data' => $create_coordinator_data,
-                    ]
+                    ],
                 ],
-                'message' => $th->getMessage()
+                'message' => $th->getMessage(),
             ], JSON_PRETTY_PRINT));
 
             throw $th;
         }
     }
 
-    public function update(int $coordinator_id, UpdateCoordinatorData $updateCoordinatorData): CoordinatorData |Throwable
+    public function update(int $coordinator_id, UpdateCoordinatorData $updateCoordinatorData): CoordinatorData|Throwable
     {
         try {
             $coordinator = Coordinator::findOrFail($coordinator_id);
 
             $coordinator->update([
-                'name' =>  $updateCoordinatorData->name,
+                'name' => $updateCoordinatorData->name,
                 'nidn' => $updateCoordinatorData->nidn,
                 'position' => $updateCoordinatorData->position,
-                'study_program_id' => $updateCoordinatorData->study_program_id
+                'study_program_id' => $updateCoordinatorData->study_program_id,
             ]);
 
             return CoordinatorData::fromModel($coordinator->refresh());
         } catch (Throwable $th) {
-            Log::info(json_encode([
+            Log::error(json_encode([
                 'user' => [
                     'id' => Auth::user()->id,
                     'name' => Auth::user()->name,
@@ -155,9 +155,9 @@ class CoordinatorRepository implements CoordinatorRepositoryInterface
                     ],
                     'data' => [
                         'update_coordinator_data' => $updateCoordinatorData,
-                    ]
+                    ],
                 ],
-                'message' => $th->getMessage()
+                'message' => $th->getMessage(),
             ], JSON_PRETTY_PRINT));
 
             throw $th;
@@ -171,7 +171,7 @@ class CoordinatorRepository implements CoordinatorRepositoryInterface
 
             return $coordinator->delete();
         } catch (Throwable $th) {
-            Log::info(json_encode([
+            Log::error(json_encode([
                 'user' => [
                     'id' => Auth::user()->id,
                     'name' => Auth::user()->name,
@@ -183,9 +183,9 @@ class CoordinatorRepository implements CoordinatorRepositoryInterface
                     ],
                     'data' => [
                         'coordinator_id' => $coordinator_id,
-                    ]
+                    ],
                 ],
-                'message' => $th->getMessage()
+                'message' => $th->getMessage(),
             ], JSON_PRETTY_PRINT));
             throw $th;
         }

@@ -119,7 +119,8 @@ class AuthorForm extends Component
 
             session()->flash('author-success', 'The author was successfully created.');
         } catch (Throwable $th) {
-            session()->flash('author-failed', $th->getMessage());
+            logger()->error($th->getMessage(), ['AuthorForm' => 'create']);
+            session()->flash('author-failed', 'Failed creating author');
         }
     }
 
@@ -140,7 +141,8 @@ class AuthorForm extends Component
 
             $this->is_update = true;
         } catch (Throwable $th) {
-            session()->flash('author-failed', $th->getMessage());
+            logger()->error($th->getMessage(), ['AuthorForm' => 'edit']);
+            session()->flash('author-failed', 'Failed editing author');
         }
     }
 
@@ -167,7 +169,8 @@ class AuthorForm extends Component
 
             session()->flash('author-success', 'The author was successfully updated.');
         } catch (Throwable $th) {
-            session()->flash('author-failed', $th->getMessage());
+            logger()->error($th->getMessage(), ['AuthorForm' => 'update']);
+            session()->flash('author-failed', 'Failed updating author');
         }
     }
 
@@ -178,7 +181,8 @@ class AuthorForm extends Component
             $author_data = $this->authorRepository->findById($author_id);
             $this->user_id = $author_data->user_id;
         } catch (Throwable $th) {
-            session()->flash('author-failed', $th->getMessage());
+            logger()->error($th->getMessage(), ['AuthorForm' => 'deleteConfirm']);
+            session()->flash('author-failed', 'Failed deleting author');
         }
     }
 
@@ -196,7 +200,8 @@ class AuthorForm extends Component
 
             session()->flash('author-success', 'The author was successfully deleted.');
         } catch (Throwable $th) {
-            session()->flash('author-failed', $th->getMessage());
+            logger()->error($th->getMessage(), ['AuthorForm' => 'delete']);
+            session()->flash('author-failed', 'Failed deleting author');
         }
     }
 

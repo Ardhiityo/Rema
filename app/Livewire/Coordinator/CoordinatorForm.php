@@ -2,21 +2,24 @@
 
 namespace App\Livewire\Coordinator;
 
-use Throwable;
-use Livewire\Component;
-use Livewire\Attributes\Computed;
 use App\Data\Coordinator\CreateCoordinatorData;
 use App\Data\Coordinator\UpdateCoordinatorData;
 use App\Repositories\Contratcs\CoordinatorRepositoryInterface;
 use App\Repositories\Contratcs\StudyProgramRepositoryInterface;
+use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
+use Livewire\Component;
+use Throwable;
 
 class CoordinatorForm extends Component
 {
     // Form Start
     public string|int $nidn = '';
+
     public string|int $study_program_id = '';
+
     public string $name = '';
+
     public string $position = '';
     // Form End
 
@@ -35,9 +38,9 @@ class CoordinatorForm extends Component
     {
         return [
             'name' => ['required', 'min:3', 'string'],
-            'position' => ['required', 'string','min:3'],
-            'nidn' => ['required', 'numeric', $this->is_update ? 'unique:coordinators,nidn,' . $this->coordinator_id : 'unique:coordinators,nidn'],
-            'study_program_id' => ['required', 'exists:study_programs,id', $this->is_update ? 'unique:coordinators,study_program_id,' . $this->coordinator_id : 'unique:coordinators,study_program_id']
+            'position' => ['required', 'string', 'min:3'],
+            'nidn' => ['required', 'numeric', $this->is_update ? 'unique:coordinators,nidn,'.$this->coordinator_id : 'unique:coordinators,nidn'],
+            'study_program_id' => ['required', 'exists:study_programs,id', $this->is_update ? 'unique:coordinators,study_program_id,'.$this->coordinator_id : 'unique:coordinators,study_program_id'],
         ];
     }
 
@@ -56,7 +59,7 @@ class CoordinatorForm extends Component
     protected function validationAttributes()
     {
         return [
-            'study_program_id' => 'study program'
+            'study_program_id' => 'study program',
         ];
     }
 
@@ -75,7 +78,8 @@ class CoordinatorForm extends Component
 
             session()->flash('coordinator-success', 'The coordinator was successfully created.');
         } catch (Throwable $th) {
-            session()->flash('coordinator-failed', $th->getMessage());
+            logger()->error($th->getMessage(), ['CoordinatorForm' => 'create']);
+            session()->flash('coordinator-failed', 'Failed creating coordinator');
         }
     }
 
@@ -91,7 +95,8 @@ class CoordinatorForm extends Component
             $this->study_program_id = $coordinator_data->study_program_id;
             $this->is_update = true;
         } catch (Throwable $th) {
-            session()->flash('coordinator-failed', $th->getMessage());
+            logger()->error($th->getMessage(), ['CoordinatorForm' => 'edit']);
+            session()->flash('coordinator-failed', 'Failed editing coordinator');
         }
     }
 
@@ -113,7 +118,8 @@ class CoordinatorForm extends Component
 
             session()->flash('coordinator-success', 'The coordinator was successfully updated.');
         } catch (Throwable $th) {
-            session()->flash('coordinator-failed', $th->getMessage());
+            logger()->error($th->getMessage(), ['CoordinatorForm' => 'update']);
+            session()->flash('coordinator-failed', 'Failed updating coordinator');
         }
     }
 
@@ -125,7 +131,8 @@ class CoordinatorForm extends Component
 
             $this->coordinator_id = $coordinator_data->id;
         } catch (Throwable $th) {
-            session()->flash('coordinator-failed', $th->getMessage());
+            logger()->error($th->getMessage(), ['CoordinatorForm' => 'deleteConfirm']);
+            session()->flash('coordinator-failed', 'Failed deleting coordinator');
         }
     }
 
@@ -141,7 +148,8 @@ class CoordinatorForm extends Component
 
             session()->flash('coordinator-success', 'The coordinator was successfully deleted.');
         } catch (Throwable $th) {
-            session()->flash('coordinator-failed', $th->getMessage());
+            logger()->error($th->getMessage(), ['CoordinatorForm' => 'delete']);
+            session()->flash('coordinator-failed', 'Failed deleting coordinator');
         }
     }
 

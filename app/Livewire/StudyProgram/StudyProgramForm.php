@@ -71,7 +71,8 @@ class StudyProgramForm extends Component
 
             session()->flash('study-program-success', 'The study program was successfully created.');
         } catch (Throwable $th) {
-            session()->flash('study-program-failed', $th->getMessage());
+            logger()->error($th->getMessage(), ['StudyProgramForm' => 'create']);
+            session()->flash('study-program-failed', 'Failed creating study program');
         }
     }
 
@@ -89,7 +90,8 @@ class StudyProgramForm extends Component
 
             $this->is_update = true;
         } catch (Throwable $th) {
-            session()->flash('study-program-failed', $th->getMessage());
+            logger()->error($th->getMessage(), ['StudyProgramForm' => 'edit']);
+            session()->flash('study-program-failed', 'Failed editing study program');
         }
     }
 
@@ -113,7 +115,8 @@ class StudyProgramForm extends Component
 
             session()->flash('study-program-success', 'The study program was successfully updated.');
         } catch (Throwable $th) {
-            session()->flash('study-program-failed', $th->getMessage());
+            logger()->error($th->getMessage(), ['StudyProgramForm' => 'update']);
+            session()->flash('study-program-failed', 'Failed updating study program');
         }
     }
 
@@ -125,7 +128,8 @@ class StudyProgramForm extends Component
 
             $this->study_program_id = $study_program_data->id;
         } catch (Throwable $th) {
-            session()->flash('study-program-failed', $th->getMessage());
+            logger()->error($th->getMessage(), ['StudyProgramForm' => 'deleteConfirm']);
+            session()->flash('study-program-failed', 'Failed deleting study program');
         }
     }
 
@@ -141,7 +145,8 @@ class StudyProgramForm extends Component
 
             session()->flash('study-program-success', 'The study program was successfully deleted.');
         } catch (Throwable $th) {
-            session()->flash('study-program-failed', $th->getMessage());
+            logger()->error($th->getMessage(), ['StudyProgramForm' => 'delete']);
+            session()->flash('study-program-failed', 'Failed deleting study program');
         }
     }
 

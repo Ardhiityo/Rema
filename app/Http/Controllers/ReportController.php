@@ -62,7 +62,7 @@ class ReportController extends Controller
         $mpdf->WriteHTML($html);
 
         return $mpdf->Output(
-            'Remafik_Latest_Reports_'.now()->format('Y-m-d').'.pdf',
+            'Remafik_Latest_Reports_By_'.ucfirst($status).'_'.now()->format('Y-m-d').'.pdf',
             Destination::INLINE
         );
     }

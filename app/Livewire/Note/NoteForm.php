@@ -67,7 +67,8 @@ class NoteForm extends Component
 
             session()->flash('note-success', 'The note was successfully created.');
         } catch (Throwable $th) {
-            session()->flash('note-failed', $th->getMessage());
+            logger()->error($th->getMessage());
+            session()->flash('note-failed', 'Failed creating note');
         }
     }
 
@@ -82,7 +83,8 @@ class NoteForm extends Component
 
             $this->is_update = true;
         } catch (Throwable $th) {
-            session()->flash('note-failed', $th->getMessage());
+            logger()->error($th->getMessage());
+            session()->flash('note-failed', 'Failed editing note');
         }
     }
 
@@ -103,7 +105,8 @@ class NoteForm extends Component
 
             session()->flash('note-success', 'The note was successfully updated.');
         } catch (Throwable $th) {
-            session()->flash('note-failed', $th->getMessage());
+            logger()->error($th->getMessage());
+            session()->flash('note-failed', 'Failed updating note');
         }
     }
 
@@ -123,7 +126,8 @@ class NoteForm extends Component
 
             session()->flash('note-success', 'The note was successfully deleted.');
         } catch (Throwable $th) {
-            session()->flash('note-failed', $th->getMessage());
+            logger()->error($th->getMessage());
+            session()->flash('note-failed', 'Failed deleting note');
         }
     }
 

@@ -20,7 +20,7 @@ use Throwable;
 class StaffForm extends Component
 {
     use WithFileUploads;
-    
+
     // Form Start
     public string $email = '';
 
@@ -104,18 +104,19 @@ class StaffForm extends Component
             $user_data = $this->userRepository->create($create_user_data);
 
             $validated['user_id'] = $user_data->id;
-            
+
             $create_staff_data = CreateStaffData::from($validated);
-          
+
             $this->staffRepository->create($create_staff_data);
-         
+
             $this->resetInput();
 
             $this->dispatch('refresh-staff');
 
             session()->flash('staff-success', 'The staff was successfully created.');
         } catch (Throwable $th) {
-            session()->flash('staff-failed', $th->getMessage());
+            logger()->error($th->getMessage(), ['StaffForm' => 'create']);
+            session()->flash('staff-failed', 'Failed creating staff');
         }
     }
 
@@ -126,7 +127,7 @@ class StaffForm extends Component
             $staff_data = $this->staffRepository->findById($staff_id);
             $this->staff_id = $staff_data->id;
             $this->faculty_id = $staff_data->faculty_id;
-            
+
             $user_data = $this->userRepository->findById($staff_data->user_id);
             $this->user_id = $user_data->id;
             $this->name = $user_data->name;
@@ -135,7 +136,8 @@ class StaffForm extends Component
 
             $this->is_update = true;
         } catch (Throwable $th) {
-            session()->flash('staff-failed', $th->getMessage());
+            logger()->error($th->getMessage(), ['StaffForm' => 'edit']);
+            session()->flash('staff-failed', 'Failed editing staff');
         }
     }
 
@@ -162,7 +164,8 @@ class StaffForm extends Component
 
             session()->flash('staff-success', 'The staff was successfully updated.');
         } catch (Throwable $th) {
-            session()->flash('staff-failed', $th->getMessage());
+            logger()->error($th->getMessage(), ['StaffForm' => 'update']);
+            session()->flash('staff-failed', 'Failed updating staff');
         }
     }
 
@@ -174,7 +177,8 @@ class StaffForm extends Component
             $this->staff_id = $staff_data->id;
             $this->user_id = $staff_data->user_id;
         } catch (Throwable $th) {
-            session()->flash('staff-failed', $th->getMessage());
+            logger()->error($th->getMessage(), ['StaffForm' => 'deleteConfirm']);
+            session()->flash('staff-failed', 'Failed deleting staff');
         }
     }
 
@@ -192,7 +196,8 @@ class StaffForm extends Component
 
             session()->flash('staff-success', 'The staff was successfully deleted.');
         } catch (Throwable $th) {
-            session()->flash('staff-failed', $th->getMessage());
+            logger()->error($th->getMessage(), ['StaffForm' => 'delete']);
+            session()->flash('staff-failed', 'Failed deleting staff');
         }
     }
 
@@ -211,12 +216,11 @@ class StaffForm extends Component
 
         $this->resetErrorBag();
     }
-    
-    
+
     public function render(FacultyRepositoryInterface $facultyRepositoryInterface)
     {
         $faculties = $facultyRepositoryInterface->all();
-        
+
         return view('livewire.staff.form', compact('faculties'));
     }
 }
